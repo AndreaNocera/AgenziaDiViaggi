@@ -1,22 +1,21 @@
-package login;
+package gestioneutenti.test;
 
 import java.awt.*;
 import javax.swing.*;
 
-import login.view.BoundaryLogin;
+import gestioneutenti.view.BoundaryGestioneUtenti;
 
-public class TestLogin {
+public class Test {
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
-				BoundaryLogin frame = new BoundaryLogin();
+				BoundaryGestioneUtenti frame = new BoundaryGestioneUtenti();
 				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				frame.setVisible(true);				
 			}
 		});
 	}
 }
-

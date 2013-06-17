@@ -1,4 +1,4 @@
-package gestioneprofilo.view;
+package utils;
 
 import java.awt.*;
 
