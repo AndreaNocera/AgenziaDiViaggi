@@ -1,4 +1,4 @@
-package gestioneutenti;
+package gestioneutenti.test;
 
 import java.awt.*;
 import javax.swing.*;

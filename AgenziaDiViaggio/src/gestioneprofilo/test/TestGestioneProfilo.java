@@ -1,4 +1,4 @@
-package gestioneprofilo;
+package gestioneprofilo.test;
 
 import gestioneprofilo.model.Utente;
 import gestioneprofilo.view.BoundaryGestioneProfilo;

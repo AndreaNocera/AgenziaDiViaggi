@@ -1,4 +1,4 @@
-package login;
+package login.test;
 
 import java.awt.*;
 import javax.swing.*;
