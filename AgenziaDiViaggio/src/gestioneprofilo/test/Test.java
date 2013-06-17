@@ -5,7 +5,7 @@ import gestioneprofilo.view.BoundaryGestioneProfilo;
 
 import java.awt.*;
 
-public class TestGestioneProfilo {
+public class Test {
 	
 	private static final Utente SAMPLE_USER = new Utente("Giacomo", "Marciani", "Roma", "27 6 1990", "Uomo", "giacomo.marciani@gmail.com", "Amministratore", "giacomo.marciani", "password");
 	
