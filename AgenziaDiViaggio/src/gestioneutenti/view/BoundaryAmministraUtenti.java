@@ -1,7 +1,9 @@
 package gestioneutenti.view;
 
-import gestioneutenti.model.UserTable;
 import gestioneutenti.model.Utente;
+import gestioneutenti.view.utils.UserTable;
+import gestioneutenti.view.utils.UtenteDialog;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +12,9 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import utils.GBCHelper;
 
-public class BoundaryGestioneUtenti extends JFrame{
+public class BoundaryAmministraUtenti extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -51,7 +54,7 @@ public class BoundaryGestioneUtenti extends JFrame{
 	private JButton buttonDelete;
 	private UserTable userTable;
 	
-	public BoundaryGestioneUtenti() {
+	public BoundaryAmministraUtenti() {
 		buildFrame();		
 	}	
 	
