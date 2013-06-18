@@ -1,4 +1,4 @@
-package login.view;
+package gestioneutenti.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
+import utils.GBCHelper;
 
 public class BoundaryLogin extends JFrame{
 	

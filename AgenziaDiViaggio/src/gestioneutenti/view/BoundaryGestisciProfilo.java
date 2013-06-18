@@ -1,13 +1,16 @@
-package gestioneprofilo.view;
+package gestioneutenti.view;
 
-import gestioneprofilo.model.Utente;
+import gestioneutenti.model.Utente;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class BoundaryGestioneProfilo extends JDialog{
+import utils.DatePicker;
+import utils.GBCHelper;
+
+public class BoundaryGestisciProfilo extends JDialog{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +51,7 @@ public class BoundaryGestioneProfilo extends JDialog{
 	
 	private boolean modifiedPassword;
 		
-	public BoundaryGestioneProfilo(JFrame ownerFrame, Utente user) {
+	public BoundaryGestisciProfilo(JFrame ownerFrame, Utente user) {
 		super(ownerFrame, "Gestione Profilo", true);
 		this.user = user;
 		buildDialog();

@@ -1,4 +1,6 @@
-package gestioneutenti.model;
+package gestioneutenti.view.utils;
+
+import gestioneutenti.model.Utente;
 
 import javax.swing.table.AbstractTableModel;
 

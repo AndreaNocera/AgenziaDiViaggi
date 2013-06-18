@@ -1,11 +1,11 @@
-package gestioneprofilo;
+package gestioneutenti.test;
 
-import gestioneprofilo.model.Utente;
-import gestioneprofilo.view.BoundaryGestioneProfilo;
+import gestioneutenti.model.Utente;
+import gestioneutenti.view.BoundaryGestisciProfilo;
 
 import java.awt.*;
 
-public class TestGestioneProfilo {
+public class TestGestisciProfilo {
 	
 	private static final Utente SAMPLE_USER = new Utente("Giacomo", "Marciani", "Roma", "27 6 1990", "Uomo", "giacomo.marciani@gmail.com", "Amministratore", "giacomo.marciani", "password");
 	
@@ -14,7 +14,7 @@ public class TestGestioneProfilo {
 			
 			@Override
 			public void run() {
-				BoundaryGestioneProfilo dialog = new BoundaryGestioneProfilo(null, SAMPLE_USER);
+				BoundaryGestisciProfilo dialog = new BoundaryGestisciProfilo(null, SAMPLE_USER);
 				dialog.setVisible(true);				
 			}
 		});
