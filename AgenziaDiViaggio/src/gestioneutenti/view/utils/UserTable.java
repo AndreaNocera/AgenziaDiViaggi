@@ -1,4 +1,6 @@
-package gestioneutenti.model;
+package gestioneutenti.view.utils;
+
+import gestioneutenti.model.Utente;
 
 import javax.swing.*;
 
@@ -19,15 +21,15 @@ public class UserTable extends JTable{
 		Utente user = new Utente();
 		int viewRow = this.getSelectedRow();
 		int modelRow = this.convertRowIndexToModel(viewRow);
-		user.setFirstname((String) this.getModel().getValueAt(modelRow, 0));
-		user.setLastname((String) this.getModel().getValueAt(modelRow, 1));
-		user.setCity((String) this.getModel().getValueAt(modelRow, 2));
-		user.setBirth((String) this.getModel().getValueAt(modelRow, 3));
-		user.setGender((String) this.getModel().getValueAt(modelRow, 4));
+		user.setNome((String) this.getModel().getValueAt(modelRow, 0));
+		user.setCognome((String) this.getModel().getValueAt(modelRow, 1));
+		user.setCittà((String) this.getModel().getValueAt(modelRow, 2));
+		user.setNascita((String) this.getModel().getValueAt(modelRow, 3));
+		user.setSesso((String) this.getModel().getValueAt(modelRow, 4));
 		user.setMail((String) this.getModel().getValueAt(modelRow, 5));
-		user.setRole((String) this.getModel().getValueAt(modelRow, 6));
-		user.setUsername((String) this.getModel().getValueAt(modelRow, 7));
-		user.setPassword((String) this.getModel().getValueAt(modelRow, 8));
+		user.setRuolo((String) this.getModel().getValueAt(modelRow, 6));
+		user.getLogin().setUsername((String) this.getModel().getValueAt(modelRow, 7));
+		user.getLogin().setPassword((String) this.getModel().getValueAt(modelRow, 8));
 		return user;
 	}
 }

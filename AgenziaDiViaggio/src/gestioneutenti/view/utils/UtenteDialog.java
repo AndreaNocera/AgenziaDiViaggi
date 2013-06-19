@@ -1,6 +1,8 @@
-package gestioneutenti.view;
+package gestioneutenti.view.utils;
 
 import gestioneutenti.model.Utente;
+import utils.DatePicker;
+import utils.GBCHelper;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -203,15 +205,15 @@ public class UtenteDialog extends JDialog{
 	}
 	
 	public void setUserData(Utente user) {
-		this.textfieldFirstname.setText(user.getFirstname());
-		this.textfieldLastname.setText(user.getLastname());
-		this.textfieldCity.setText(user.getCity());
-		this.calendarBirth.setDateAsString(user.getBirth());
-		this.comboGender.setSelectedItem(user.getGender());
+		this.textfieldFirstname.setText(user.getNome());
+		this.textfieldLastname.setText(user.getCognome());
+		this.textfieldCity.setText(user.getCittà());
+		this.calendarBirth.setDateAsString(user.getNascita());
+		this.comboGender.setSelectedItem(user.getSesso());
 		this.textfieldMail.setText(user.getMail());
-		this.comboRole.setSelectedItem(user.getRole());
-		this.textfieldUsername.setText(user.getUsername());
-		this.textfieldPassword.setText(user.getPassword());
+		this.comboRole.setSelectedItem(user.getRuolo());
+		this.textfieldUsername.setText(user.getLogin().getUsername());
+		this.textfieldPassword.setText(user.getLogin().getPassword());
 	}
 	
 	public String[] getUserData() {

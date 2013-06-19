@@ -1,4 +1,6 @@
-package gestioneutenti.model;
+package gestioneutenti.view.utils;
+
+import gestioneutenti.model.Utente;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -26,23 +28,23 @@ public class UserTableModel extends AbstractTableModel{
 		
 		switch(column) {
 		case 0:
-			return currUser.getFirstname();
+			return currUser.getNome();
 		case 1:
-			return currUser.getLastname();
+			return currUser.getCognome();
 		case 2:
-			return currUser.getCity();
+			return currUser.getCittà();
 		case 3:
-			return currUser.getBirth();
+			return currUser.getNascita();
 		case 4:
-			return currUser.getGender();
+			return currUser.getSesso();
 		case 5:
 			return currUser.getMail();
 		case 6:
-			return currUser.getRole();
+			return currUser.getRuolo();
 		case 7:
-			return currUser.getUsername();
+			return currUser.getLogin().getUsername();
 		case 8:
-			return currUser.getPassword();
+			return currUser.getLogin().getPassword();
 		default:
 			return "";
 		}

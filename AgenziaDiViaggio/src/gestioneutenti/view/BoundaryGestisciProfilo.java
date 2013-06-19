@@ -1,13 +1,16 @@
-package gestioneprofilo.view;
+package gestioneutenti.view;
 
-import gestioneprofilo.model.Utente;
+import gestioneutenti.model.Utente;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class BoundaryGestioneProfilo extends JDialog{
+import utils.DatePicker;
+import utils.GBCHelper;
+
+public class BoundaryGestisciProfilo extends JDialog{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +51,7 @@ public class BoundaryGestioneProfilo extends JDialog{
 	
 	private boolean modifiedPassword;
 		
-	public BoundaryGestioneProfilo(JFrame ownerFrame, Utente user) {
+	public BoundaryGestisciProfilo(JFrame ownerFrame, Utente user) {
 		super(ownerFrame, "Gestione Profilo", true);
 		this.user = user;
 		buildDialog();
@@ -76,15 +79,15 @@ public class BoundaryGestioneProfilo extends JDialog{
 		labelCurrentPassword = new JLabel("Password");
 		labelNewPassword = new JLabel("Nuova Password");
 		labelConfirmNewPassword = new JLabel("Conferma");
-		textfieldFirstname = new JTextField(this.user.getFirstname(), 20);
-		textfieldLastname = new JTextField(this.user.getLastname(), 20);
-		textfieldCity = new JTextField(this.user.getCity(), 20);
-		calendarBirth = new DatePicker(this.user.getBirth());
+		textfieldFirstname = new JTextField(this.user.getNome(), 20);
+		textfieldLastname = new JTextField(this.user.getCognome(), 20);
+		textfieldCity = new JTextField(this.user.getCittà(), 20);
+		calendarBirth = new DatePicker(this.user.getNascita());
 		comboGender = new JComboBox<String>(SEX_CHOICES);
-		comboGender.setSelectedItem(this.user.getGender());
+		comboGender.setSelectedItem(this.user.getSesso());
 		textfieldMail = new JTextField(this.user.getMail(), 20);
-		labelContentRole = new JLabel(this.user.getRole());
-		labelContentUsername = new JLabel(this.user.getUsername());
+		labelContentRole = new JLabel(this.user.getRuolo());
+		labelContentUsername = new JLabel(this.user.getLogin().getUsername());
 		checkboxChangePassword = new JCheckBox("Cambia password", false);
 		checkboxChangePassword.addActionListener(new ChangePasswordListener());
 		passwordfieldCurrentPassword = new JPasswordField("", 20);
@@ -214,7 +217,7 @@ public class BoundaryGestioneProfilo extends JDialog{
 	}
 	
 	public boolean checkCurrentPassword() {
-		String currentPassword = this.user.getPassword();
+		String currentPassword = this.user.getLogin().getPassword();
 		String password = new String(passwordfieldCurrentPassword.getPassword());
 		
 		if (!password.equals(currentPassword)) {
@@ -241,7 +244,7 @@ public class BoundaryGestioneProfilo extends JDialog{
 			String[] data = {firstname, lastname, city, birth, sex, mail, role, username, currentPassword, newPassword, confirmNewPassword};
 			return data;			
 		} else {
-			String password = this.user.getPassword();
+			String password = this.user.getLogin().getPassword();
 			String[] data = {firstname, lastname, city, birth, sex, mail, role, username, password};	
 			return data;
 		}		

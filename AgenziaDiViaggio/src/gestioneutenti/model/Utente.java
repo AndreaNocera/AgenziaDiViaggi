@@ -2,72 +2,70 @@ package gestioneutenti.model;
 
 public class Utente {
 	
-	private String firstname;
-	private String lastname;
-	private String city;
-	private String birth;
-	private String gender;
+	private String nome;
+	private String cognome;
+	private String città;
+	private String nascita;
+	private String sesso;
 	private String mail;
-	private String role;
-	private String username;
-	private String password;
+	private String ruolo;
+	private Login login;
 	
 	public Utente() {
 		
 	}
 	
-	public Utente(String firstname, String lastname, String city, String birth, String gender, String mail, String role, String username, String password) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.city = city;
-		this.birth = birth;
-		this.setGender(gender);
+	public Utente(String nome, String cognome, String città, String nascita, String sesso, String mail, String ruolo, Login login) {
+		this.nome = nome;
+		this.cognome = cognome;
+		this.città = città;
+		this.nascita = nascita;
+		this.sesso = sesso;
 		this.mail = mail;
-		this.role = role;
-		this.username = username;
-		this.password = password;
+		this.ruolo = ruolo;
+		this.login = login;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getCognome() {
+		return cognome;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
 	}
 
-	public String getCity() {
-		return city;
+	public String getCittà() {
+		return città;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setCittà(String città) {
+		this.città = città;
 	}
 
-	public String getBirth() {
-		return birth;
+	public String getNascita() {
+		return nascita;
 	}
 
-	public void setBirth(String birth) {
-		this.birth = birth;
+	public void setNascita(String nascita) {
+		this.nascita = nascita;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getSesso() {
+		return sesso;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setSesso(String sesso) {
+		this.sesso = sesso;
 	}
-	
+
 	public String getMail() {
 		return mail;
 	}
@@ -76,27 +74,19 @@ public class Utente {
 		this.mail = mail;
 	}
 
-	public String getRole() {
-		return role;
+	public String getRuolo() {
+		return ruolo;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRuolo(String ruolo) {
+		this.ruolo = ruolo;
 	}
 
-	public String getUsername() {
-		return username;
+	public Login getLogin() {
+		return login;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 }

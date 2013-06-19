@@ -1,9 +1,10 @@
-package login;
+package gestioneutenti.test;
+
+import gestioneutenti.view.BoundaryLogin;
 
 import java.awt.*;
 import javax.swing.*;
 
-import login.view.BoundaryLogin;
 
 public class TestLogin {
 
