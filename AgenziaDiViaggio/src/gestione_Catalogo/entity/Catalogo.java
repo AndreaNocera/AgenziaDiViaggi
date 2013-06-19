@@ -1,3 +1,9 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
 package gestione_Catalogo.entity;
 
 import java.io.Serializable;
@@ -74,11 +80,11 @@ public class Catalogo implements Serializable{
 			Elemento e;
 			
 			//classe c di nome ambiente
-			Class<?> c = Class.forName("Entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
+			Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
 			
 			//preparo i parametri
-			Class<?> primoParametro	 = Class.forName("Entity.IDEsterno");
-			Class<?> secondoParametro	 = Class.forName("Entity.Info");
+			Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+			Class<?> secondoParametro	 = Class.forName("gestione_Catalogo.entity.Info");
 			
 			@SuppressWarnings("rawtypes")
 			Class[] parametri = {primoParametro, secondoParametro};

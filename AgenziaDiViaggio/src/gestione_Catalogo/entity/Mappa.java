@@ -1,3 +1,9 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
 package gestione_Catalogo.entity;
 
 

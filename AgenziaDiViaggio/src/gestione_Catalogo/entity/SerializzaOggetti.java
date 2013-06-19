@@ -1,4 +1,10 @@
-package gestione_Catalogo.control;
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
+package gestione_Catalogo.entity;
 import java.io.File;
 //import java.io.FileInputStream;
 import java.io.FileOutputStream;

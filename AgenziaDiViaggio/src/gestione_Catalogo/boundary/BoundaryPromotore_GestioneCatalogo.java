@@ -1,3 +1,10 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
+
 package gestione_Catalogo.boundary;
 import java.awt.Color;
 import java.awt.Font;
