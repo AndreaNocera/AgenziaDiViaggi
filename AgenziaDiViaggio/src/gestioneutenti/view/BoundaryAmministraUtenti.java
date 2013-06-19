@@ -1,5 +1,6 @@
 package gestioneutenti.view;
 
+import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
 import gestioneutenti.view.utils.UserTable;
 import gestioneutenti.view.utils.UtenteDialog;
@@ -22,9 +23,9 @@ public class BoundaryAmministraUtenti extends JFrame{
 	private static final int SCREEN_LOCATION_PROPORTION = 4;
 	public static final String FRAME_TITLE = "Voyager";	
 	
-	private static final Utente SAMPLE_USER_1 = new Utente("Giacomo", "Marciani", "Roma", "27 6 1990", "Uomo", "giacomo.marciani@gmail.com", "Amministratore", "giacomo.marciani", "password");
-	private static final Utente SAMPLE_USER_2 = new Utente("Jesus", "Cevallos", "Roma", "27 6 1990", "Uomo", "jesusfcevallos@gmail.com", "Amministratore", "jesus.cevallos", "password");
-	private static final Utente SAMPLE_USER_3 = new Utente("Ilyas", "Aboki", "Roma", "27 6 1990", "Uomo", "ilyas.aboki@gmail.com", "Amministratore", "ilyas.aboki", "password");
+	private static final Utente SAMPLE_USER_1 = new Utente("Giacomo", "Marciani", "Roma", "27 6 1990", "Uomo", "giacomo.marciani@gmail.com", "Amministratore", new Login("giacomo.marciani", "password"));
+	private static final Utente SAMPLE_USER_2 = new Utente("Jesus", "Cevallos", "Roma", "27 6 1990", "Uomo", "jesusfcevallos@gmail.com", "Amministratore", new Login("jesus.cevallos", "password"));
+	private static final Utente SAMPLE_USER_3 = new Utente("Ilyas", "Aboki", "Roma", "27 6 1990", "Uomo", "ilyas.aboki@gmail.com", "Amministratore", new Login("ilyas.aboki", "password"));
 	private static final Utente[] SAMPLE_USERS = {SAMPLE_USER_1, SAMPLE_USER_2, SAMPLE_USER_3};
 	
 	public JFrame frameMain;
@@ -127,9 +128,9 @@ public class BoundaryAmministraUtenti extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Utente user = userTable.getSelectedUser();
-			int choice = JOptionPane.showConfirmDialog(getParent(), "Sei sicuro di voler rimuovere " + user.getUsername() + "?", "Conferma Rimozione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int choice = JOptionPane.showConfirmDialog(getParent(), "Sei sicuro di voler rimuovere " + user.getLogin().getUsername() + "?", "Conferma Rimozione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (choice == JOptionPane.YES_OPTION) {
-				deleteUser(user.getUsername());
+				deleteUser(user.getLogin().getUsername());
 			}
 		}
 	}
