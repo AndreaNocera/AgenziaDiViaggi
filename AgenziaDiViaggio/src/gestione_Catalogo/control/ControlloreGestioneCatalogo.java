@@ -1,3 +1,8 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
 package gestione_Catalogo.control;
 
 import java.io.File;
@@ -6,7 +11,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 import gestione_Catalogo.entity.Catalogo;
+import gestione_Catalogo.entity.DeserializzaOggetti;
 import gestione_Catalogo.entity.Log;
+import gestione_Catalogo.entity.SerializzaOggetti;
 import gestione_Catalogo.exception.DeserializzazioneException;
 import gestione_Catalogo.exception.IDEsternoException;
 import gestione_Catalogo.exception.MappaException;
