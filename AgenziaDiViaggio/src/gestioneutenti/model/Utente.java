@@ -1,92 +1,56 @@
 package gestioneutenti.model;
 
-public class Utente {
+import gestioneutenti.model.ruoli.Ruolo;
+
+public class Utente implements Comparable<Utente> {
 	
-	private String nome;
-	private String cognome;
-	private String città;
-	private String nascita;
-	private String sesso;
+	private DatiUtente dati;
 	private String mail;
-	private String ruolo;
+	private Ruolo ruolo;
 	private Login login;
+
+	public Utente(DatiUtente dati, String mail, Ruolo ruolo, Login login) {
+		this.setDatiUtente(dati);
+		this.setMail(mail);
+		this.setRuolo(ruolo);
+		this.setLogin(login);
+	}
+
+	@Override
+	public int compareTo(Utente other) {
+		return getLogin().getUsername().compareTo(other.getLogin().getUsername());
+	}
+
+	public DatiUtente getDatiUtente() {
+		return this.dati;
+	}
 	
-	public Utente() {
-		
+	private void setDatiUtente(DatiUtente dati) {
+		this.dati = dati;
 	}
 	
-	public Utente(String nome, String cognome, String città, String nascita, String sesso, String mail, String ruolo, Login login) {
-		this.nome = nome;
-		this.cognome = cognome;
-		this.città = città;
-		this.nascita = nascita;
-		this.sesso = sesso;
-		this.mail = mail;
-		this.ruolo = ruolo;
-		this.login = login;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
-	}
-
-	public String getCittà() {
-		return città;
-	}
-
-	public void setCittà(String città) {
-		this.città = città;
-	}
-
-	public String getNascita() {
-		return nascita;
-	}
-
-	public void setNascita(String nascita) {
-		this.nascita = nascita;
-	}
-
-	public String getSesso() {
-		return sesso;
-	}
-
-	public void setSesso(String sesso) {
-		this.sesso = sesso;
-	}
-
 	public String getMail() {
-		return mail;
+		return this.mail;
 	}
-
-	public void setMail(String mail) {
+	
+	private void setMail(String mail) {
 		this.mail = mail;
 	}
-
-	public String getRuolo() {
-		return ruolo;
+	
+	private void setRuolo(Ruolo ruolo) {
+		this.ruolo = ruolo;
 	}
 
-	public void setRuolo(String ruolo) {
-		this.ruolo = ruolo;
+	public Ruolo getRuolo() {
+		return this.ruolo;
+	}
+	
+	private void setLogin(Login login) {
+		this.login = login;
 	}
 
 	public Login getLogin() {
-		return login;
-	}
+		return this.login;
+	}	
 
-	public void setLogin(Login login) {
-		this.login = login;
-	}
 }

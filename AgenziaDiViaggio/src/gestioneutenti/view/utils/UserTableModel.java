@@ -28,19 +28,19 @@ public class UserTableModel extends AbstractTableModel{
 		
 		switch(column) {
 		case 0:
-			return currUser.getNome();
+			return currUser.getDatiUtente().getNome();
 		case 1:
-			return currUser.getCognome();
+			return currUser.getDatiUtente().getCognome();
 		case 2:
-			return currUser.getCittà();
+			return currUser.getDatiUtente().getCittà();
 		case 3:
-			return currUser.getNascita();
+			return currUser.getDatiUtente().getNascita();
 		case 4:
-			return currUser.getSesso();
+			return currUser.getDatiUtente().getSesso();
 		case 5:
 			return currUser.getMail();
 		case 6:
-			return currUser.getRuolo();
+			return currUser.getRuolo().asString();
 		case 7:
 			return currUser.getLogin().getUsername();
 		case 8:
@@ -52,5 +52,9 @@ public class UserTableModel extends AbstractTableModel{
 	
 	public String getColumnName(int column) {
 		return COLUMNS[column];
+	}
+	
+	public Utente[] getUserList() {
+		return this.userList;
 	}
 }
