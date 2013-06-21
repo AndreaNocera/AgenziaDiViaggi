@@ -1,12 +1,27 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
 package gestione_Catalogo.control;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Set;
 
+import gestione_Catalogo.entity.Ambiente;
 import gestione_Catalogo.entity.Catalogo;
+import gestione_Catalogo.entity.DeserializzaOggetti;
+import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Log;
+import gestione_Catalogo.entity.MezzoTrasporto;
+import gestione_Catalogo.entity.SerializzaOggetti;
+import gestione_Catalogo.entity.StazioneArrivo;
+import gestione_Catalogo.entity.StazioneIntermedia;
+import gestione_Catalogo.entity.StazionePartenza;
 import gestione_Catalogo.exception.DeserializzazioneException;
 import gestione_Catalogo.exception.IDEsternoException;
 import gestione_Catalogo.exception.MappaException;
@@ -18,7 +33,7 @@ import gestione_Catalogo.exception.SerializzazioneException;
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
- * @author Sonia
+ * @authors Remo Sperlongano, Ivan Torre
  * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 
@@ -27,7 +42,7 @@ public class ControlloreGestioneCatalogo {
 	
 	
 	//attributi d'istanza
-	protected static Catalogo catalogo;   //quando ci sar� la gerarchia dei controllori, avr� un solo catalogo visibile a tutti questi.
+	protected static Catalogo catalogo;   //quando ci sara' la gerarchia dei controllori, avro' un solo catalogo visibile a tutti questi.
 	protected static Log log;
 
 
@@ -46,15 +61,42 @@ public class ControlloreGestioneCatalogo {
 	
 	
 	//Metodi
-	public void aggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void aggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia,  String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		/*
+		 * FASE 1 : creo l'oggetto Ambiente
+		 */
+			
+		//classe c di nome ambiente
+		Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
+		
+		//preparo i parametri
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		
+		@SuppressWarnings("rawtypes")
+		Class[] parametri = {primoParametro};
+		
+		//prendo il costruttore della classe con i parametri indicati
+		Constructor<?> costruttore = c.getConstructor(parametri);
+		
+		//creo l'oggetto
+		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsterno(ambiente));
+		
+		/*
+		 * FASE 2: creo gli altri oggetti
+		 */
+		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto));
+		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza));
+		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
+		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info(info));
 		
 		//verifico l'esistenza del viaggio nel catalogo
-		if (catalogo.verificaEsistenzaViaggio(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo)){
-			//System.out.println("Viaggio gi� presente");
-			throw new IDEsternoException("Il viaggio � gi� presente nel catalogo!");
+		if (catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
+			//System.out.println("Viaggio gia' presente");
+			throw new IDEsternoException("Il viaggio e' gia' presente nel catalogo!");
 		} else {
 			//aggiungo il viaggio
-			catalogo.aggiungiViaggioAlCatalogo(ambiente,mezzoTrasporto,stazionePartenza,stazioneArrivo, info);
+			catalogo.aggiungiViaggioAlCatalogo(a, mt, sp, sa, si, info);
 			log.aggiornaLogAggiungiViaggio(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo, info);
 		}
 	}
@@ -63,7 +105,7 @@ public class ControlloreGestioneCatalogo {
 	public void rimuoviViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException, OffertaException {
 		// verifico l'esistenza di offerte per il viaggio
 		if (catalogo.verificaEsistenzaOfferte(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo)){
-			throw new OffertaException("Ci sono offerte attive! Il viaggio non pu� essere rimosso.");
+			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
 		} else { //rimuovo il viaggio
 			String info = catalogo.getInfo(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo); //memorizzo info per il log
 			catalogo.rimuoviViaggioDalCatalogo(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo);
@@ -101,6 +143,10 @@ public class ControlloreGestioneCatalogo {
 		
 	}
 	
+	public Set<String> mostraStazioniIntermedieInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
+		return catalogo.getStazioniIntermedie(ambiente, mezzo, partenza, arrivo);
+	}
+	
 	public String mostraCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws MappaException, IDEsternoException{
 		
 		/*
@@ -109,7 +155,7 @@ public class ControlloreGestioneCatalogo {
 		 * Caso b) Mezzo = -----, devo mostrare tutti i viaggi aventi tutti lo stesso ambiente
 		 * Caso c) Partenza = -----, devo mostrare tutti i viaggio aventi tutti lo stesso mezzo
 		 * Caso d) Arrivo = -----, devo mostrare tutti i viaggi aventi stesso mezzo e stessa stazione di partenza
-		 * Caso e) Il viaggio � composto, verr� visualizzato solo un viaggio...
+		 * Caso e) Il viaggio e' composto, verra' visualizzato solo un viaggio...
 		 */
 		
 		Set<String> chiaviAmbiente;
@@ -295,10 +341,10 @@ public class ControlloreGestioneCatalogo {
 		
 		//Dopo l'ambiente, il mezzo
 		unViaggio += mezzo;
-		//Devo giocare con il tab: succede che se metto un elemento con pi� di 13 caratteri, mi zompa il tab!
+		//Devo giocare con il tab: succede che se metto un elemento con piu' di 13 caratteri, mi zompa il tab!
 		unViaggio += "\t";  //Metto un tab
 		
-		if (mezzo.length()<13){ //Se la lunghezza del mezzo � minore di 13, metto un altro tab
+		if (mezzo.length()<13){ //Se la lunghezza del mezzo e' minore di 13, metto un altro tab
 			unViaggio += "\t";
 		}
 		
@@ -306,7 +352,7 @@ public class ControlloreGestioneCatalogo {
 		unViaggio += partenza;
 		unViaggio += "\t";
 		
-		if (partenza.length()<13){ //Se la lunghezza della partenza � minore di 13, metto un altro tab
+		if (partenza.length()<13){ //Se la lunghezza della partenza e' minore di 13, metto un altro tab
 			unViaggio += "\t";
 		}
 	
@@ -314,7 +360,7 @@ public class ControlloreGestioneCatalogo {
 		unViaggio += arrivo;
 		unViaggio += "\t";
 		
-		if (arrivo.length()<13){ //Se la lunghezza dell'arrivo � minore di 13, metto un altro tab
+		if (arrivo.length()<13){ //Se la lunghezza dell'arrivo e' minore di 13, metto un altro tab
 			unViaggio += "\t";
 		}
 		

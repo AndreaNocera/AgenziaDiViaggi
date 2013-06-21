@@ -1,3 +1,10 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
+
 package gestione_Catalogo.exception;
 
 public class MappaException extends Exception {

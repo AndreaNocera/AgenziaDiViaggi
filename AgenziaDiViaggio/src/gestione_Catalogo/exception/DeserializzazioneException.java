@@ -1,3 +1,10 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
+
 package gestione_Catalogo.exception;
 
 public class DeserializzazioneException extends Exception {

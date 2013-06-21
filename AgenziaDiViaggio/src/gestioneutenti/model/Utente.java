@@ -1,102 +1,56 @@
 package gestioneutenti.model;
 
-public class Utente {
+import gestioneutenti.model.ruoli.Ruolo;
+
+public class Utente implements Comparable<Utente> {
 	
-	private String firstname;
-	private String lastname;
-	private String city;
-	private String birth;
-	private String gender;
+	private DatiUtente dati;
 	private String mail;
-	private String role;
-	private String username;
-	private String password;
+	private Ruolo ruolo;
+	private Login login;
+
+	public Utente(DatiUtente dati, String mail, Ruolo ruolo, Login login) {
+		this.setDatiUtente(dati);
+		this.setMail(mail);
+		this.setRuolo(ruolo);
+		this.setLogin(login);
+	}
+
+	@Override
+	public int compareTo(Utente other) {
+		return getLogin().getUsername().compareTo(other.getLogin().getUsername());
+	}
+
+	public DatiUtente getDatiUtente() {
+		return this.dati;
+	}
 	
-	public Utente() {
-		
-	}
-	
-	public Utente(String firstname, String lastname, String city, String birth, String gender, String mail, String role, String username, String password) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.city = city;
-		this.birth = birth;
-		this.setGender(gender);
-		this.mail = mail;
-		this.role = role;
-		this.username = username;
-		this.password = password;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getBirth() {
-		return birth;
-	}
-
-	public void setBirth(String birth) {
-		this.birth = birth;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
+	private void setDatiUtente(DatiUtente dati) {
+		this.dati = dati;
 	}
 	
 	public String getMail() {
-		return mail;
+		return this.mail;
 	}
-
-	public void setMail(String mail) {
+	
+	private void setMail(String mail) {
 		this.mail = mail;
 	}
-
-	public String getRole() {
-		return role;
+	
+	private void setRuolo(Ruolo ruolo) {
+		this.ruolo = ruolo;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public Ruolo getRuolo() {
+		return this.ruolo;
+	}
+	
+	private void setLogin(Login login) {
+		this.login = login;
 	}
 
-	public String getUsername() {
-		return username;
-	}
+	public Login getLogin() {
+		return this.login;
+	}	
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 }

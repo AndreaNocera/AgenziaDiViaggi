@@ -1,3 +1,10 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
+
 package gestione_Catalogo.boundary;
 import java.awt.Color;
 import java.awt.Font;
@@ -38,7 +45,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	 * Attributi di istanza
 	 */
 	
-	//Entit�
+	//Entita'
 	private ControlloreGestioneCatalogo controllore;
 	private String ambienteScelto;
 	private String mezzoScelto;
@@ -83,14 +90,15 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private ButtonGroup gruppoAmbientePannello3;
 
 	private JLabel labelMezziPannello3;
-	private JComboBox tendinaMezziPannello3;
+	private JComboBox<String> tendinaMezziPannello3;
 	private JTextField campoMezziPannello3;
 
 	private JLabel labelStazionePartenzaPannello3;
-	private JComboBox tendinaStazionePartenzaPannello3;
+	private JComboBox<String> tendinaStazionePartenzaPannello3;
 	private JTextField campoStazionePartenzaPannello3;
 
 	private JLabel labelStazioneArrivoPannello3;
+	private JComboBox<String> tendinaStazioneArrivoPannello3;
 	private JTextField campoStazioneArrivoPannello3;
 	
 	private JLabel labelStazioniIntermediePannello3;
@@ -108,6 +116,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private AggiungiAA ascoltatoreBottoneAggiungi;
 	private TendinaMezziPannello3AA ascoltatoreTendinaMezziPannello3;
 	private TendinaStazionePartenzaPannello3AA ascoltatoreTendinaStazionePartenzaPannello3;
+	private TendinaStazioneArrivoPannello3AA ascoltatoreTendinaStazioneArrivoPannello3;
 	private SvuotaPannello3AA ascoltatoreBottoneSvuotaPannello3;
 
 	
@@ -116,19 +125,19 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private JLabel	labelTitoloPannello4;
 
 	private JLabel labelAmbientePannello4;
-	private JComboBox tendinaAmbientePannello4;
+	private JComboBox<String> tendinaAmbientePannello4;
 
 	private JTextArea areaTestoPannello4;
 	private JScrollPane scrollAreaTestoPannello4;
 	
 	private JLabel labelMezziPannello4;
-	private JComboBox tendinaMezziPannello4;
+	private JComboBox<String> tendinaMezziPannello4;
 
 	private JLabel labelStazionePartenzaPannello4;
-	private JComboBox tendinaStazionePartenzaPannello4;
+	private JComboBox<String> tendinaStazionePartenzaPannello4;
 
 	private JLabel labelStazioneArrivoPannello4;
-	private JComboBox tendinaStazioneArrivoPannello4;
+	private JComboBox<String> tendinaStazioneArrivoPannello4;
 
 	private JButton bottoneRimuovi;
 	private JButton bottoneSvuotaPannello4;
@@ -144,6 +153,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private SvuotaPannello4AA ascoltatoreBottoneSvuotaPannello4;
 	private JLabel labelInfoPannello3;
 	private JTextField campoInfoPannello3;
+	
 
 
 		
@@ -169,7 +179,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		superPanel = new JPanel();
 		superPanel.setSize(BoundaryAAAprimaria.confinePrincipale.getWidth(), BoundaryAAAprimaria.confinePrincipale.getHeight());
 		superPanel.setBackground(Color.BLACK); 					//provo a mettere il sottopannellonero...si vedono i contorni?
-		superPanel.setLayout(null); 							//ora il pannello pu� contenere altri pannelli
+		superPanel.setLayout(null); 							//ora il pannello puo' contenere altri pannelli
 		BoundaryAAAprimaria.confinePrincipale.add(superPanel); 	//aggiungo il pannello al confine (chiamato staticamente)
 	//	BoundaryAAAprimaria.confinePrincipale.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
@@ -184,7 +194,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel1 = new JPanel();
 		panel1.setSize(superPanel.getWidth(), superPanel.getHeight()/8-10);  //Il meno 10 serve per far vedere il contorno 
 		panel1.setLocation(0, 0);			//x=0 e y=0 rispetto al superPanel
-		panel1.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel1.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel1);				//aggiungo il primo pannello al superPannello
 		
 		labelTitolo = new JLabel();  		//Etichetta per il titolo
@@ -226,7 +236,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel2 = new JPanel();
 		panel2.setSize(superPanel.getWidth(), superPanel.getHeight()/8-10); //Il meno 10 serve a far vedere il contorno
 		panel2.setLocation(0, superPanel.getHeight()/8);			//x=0 e y=0 rispetto al superPanel
-		panel2.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel2.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel2);				//aggiungo il primo pannello al superPannello
 		
 		
@@ -259,7 +269,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel3 = new JPanel();
 		panel3.setSize(superPanel.getWidth(), superPanel.getHeight()/8*6);
 		panel3.setLocation(0, superPanel.getHeight()/8*2);	
-		panel3.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel3.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel3);
 		panel3.setVisible(false); 			//deve essere invisibile all'inizio, attivato solo dal bottone
 		
@@ -287,7 +297,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		gruppoAmbientePannello3 = new ButtonGroup();
 		gruppoAmbientePannello3.add(radioAriaPannello3);
 		gruppoAmbientePannello3.add(radioMarePannello3);
-		gruppoAmbientePannello3.add(radioTerraPannello3);   //Ora solo uno di questi 3 � selezionabile
+		gruppoAmbientePannello3.add(radioTerraPannello3);   //Ora solo uno di questi 3 e' selezionabile
 		
 		
 		
@@ -298,7 +308,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel3.add(labelMezziPannello3);
 		
 		
-		tendinaMezziPannello3 = new JComboBox();	  //Tendina per i mezzi
+		tendinaMezziPannello3 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaMezziPannello3.setBackground(Color.WHITE);
 		tendinaMezziPannello3.setBounds(panel3.getWidth()/7-10, panel3.getHeight()/7*2+20, panel3.getWidth()/6, 20);
 		tendinaMezziPannello3.setEnabled(false);
@@ -307,7 +317,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		campoMezziPannello3 = new JTextField(panel3.getWidth()/7);	  //campo per aggiungere dei nuovi mezzi
 		campoMezziPannello3.setFont(new Font("Arial", 0, 18));
 		campoMezziPannello3.setBounds(panel3.getWidth()/7-10, panel3.getHeight()/7*2+45, panel3.getWidth()/6, 20);
-		campoMezziPannello3.setEditable(false);   				// all'inizio � disattivato, si attiva solo con new...
+		campoMezziPannello3.setEditable(false);   				// all'inizio e' disattivato, si attiva solo con new...
 		panel3.add(campoMezziPannello3);
 		
 		
@@ -318,9 +328,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel3.add(labelStazionePartenzaPannello3);
 		
 		
-		tendinaStazionePartenzaPannello3 = new JComboBox();	  //Tendina per i mezzi
-		tendinaStazionePartenzaPannello3.addItem("new...");    //da rimuovere al pi� presto
-		tendinaStazionePartenzaPannello3.setSelectedIndex(-1);  //da rimuovare al pi� presto
+		tendinaStazionePartenzaPannello3 = new JComboBox<String>();	  //Tendina per le partenze
 		tendinaStazionePartenzaPannello3.setBackground(Color.WHITE);
 		tendinaStazionePartenzaPannello3.setEnabled(false);
 		tendinaStazionePartenzaPannello3.setBounds(panel3.getWidth()/7*3-10, panel3.getHeight()/7*2+20, panel3.getWidth()/6, 20);
@@ -340,10 +348,16 @@ public class BoundaryPromotore_GestioneCatalogo {
 		labelStazioneArrivoPannello3.setText("Stazione di Arrivo*");
 		panel3.add(labelStazioneArrivoPannello3);
 		
+		tendinaStazioneArrivoPannello3 = new JComboBox<String>();     // Tendina per gli arrivi
+		tendinaStazioneArrivoPannello3.setBackground(Color.WHITE);
+		tendinaStazioneArrivoPannello3.setEnabled(false);
+		tendinaStazioneArrivoPannello3.setBounds(panel3.getWidth()/7*5-10, panel3.getHeight()/7*2+20, panel3.getWidth()/6, 20);
+		panel3.add(tendinaStazioneArrivoPannello3);
+		
 		
 		campoStazioneArrivoPannello3 = new JTextField (panel3.getWidth()/7);	 //Campo per stazione di arrivo
 		campoStazioneArrivoPannello3.setFont(new Font("Arial",0,18));
-		campoStazioneArrivoPannello3.setBounds(panel3.getWidth()/7*5-10, panel3.getHeight()/7*2+20, panel3.getWidth()/6, 20);
+		campoStazioneArrivoPannello3.setBounds(panel3.getWidth()/7*5-10, panel3.getHeight()/7*2+45, panel3.getWidth()/6, 20);
 		campoStazioneArrivoPannello3.setEditable(false);
 		panel3.add(campoStazioneArrivoPannello3);
 		
@@ -406,7 +420,9 @@ public class BoundaryPromotore_GestioneCatalogo {
 		ascoltatoreBottoneAggiungi			 		= new AggiungiAA();
 		ascoltatoreTendinaMezziPannello3	 		= new TendinaMezziPannello3AA();
 		ascoltatoreTendinaStazionePartenzaPannello3 = new TendinaStazionePartenzaPannello3AA();
+		ascoltatoreTendinaStazioneArrivoPannello3    = new TendinaStazioneArrivoPannello3AA();
 		ascoltatoreBottoneSvuotaPannello3			= new SvuotaPannello3AA();
+		
 		
 		
 		radioAriaPannello3.addActionListener(ascoltatoreRadioButtonAriaPannello3);
@@ -416,6 +432,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		bottoneChiudiPannello3.addActionListener(ascoltatoreBottoneChiudiPannello3);
 		tendinaMezziPannello3.addActionListener(ascoltatoreTendinaMezziPannello3);
 		tendinaStazionePartenzaPannello3.addActionListener(ascoltatoreTendinaStazionePartenzaPannello3);
+		tendinaStazioneArrivoPannello3.addActionListener(ascoltatoreTendinaStazioneArrivoPannello3);
 		bottoneSvuotaPannello3.addActionListener(ascoltatoreBottoneSvuotaPannello3);
 		
 		
@@ -428,7 +445,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4 = new JPanel();
 		panel4.setSize(superPanel.getWidth(), superPanel.getHeight()/8*6);
 		panel4.setLocation(0, superPanel.getHeight()/8*2);	
-		panel4.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel4.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel4);
 		panel4.setVisible(false); 			//deve essere invisibile all'inizio, attivato solo dal bottone
 		
@@ -459,7 +476,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelAmbientePannello4);
 		
 		
-		tendinaAmbientePannello4 = new JComboBox();	  //Tendina per i mezzi
+		tendinaAmbientePannello4 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaAmbientePannello4.setBackground(Color.WHITE);
 		tendinaAmbientePannello4.setEnabled(false);
 		tendinaAmbientePannello4.setBounds(panel4.getWidth()/9-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
@@ -475,7 +492,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelMezziPannello4);
 		
 		
-		tendinaMezziPannello4 = new JComboBox();	  //Tendina per i mezzi
+		tendinaMezziPannello4 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaMezziPannello4.setBackground(Color.WHITE);
 		tendinaMezziPannello4.setEnabled(false);
 		tendinaMezziPannello4.setBounds(panel4.getWidth()/9*3-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
@@ -489,7 +506,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelStazionePartenzaPannello4);
 		
 		
-		tendinaStazionePartenzaPannello4 = new JComboBox();	 //Tendina per stazioni di partenza
+		tendinaStazionePartenzaPannello4 = new JComboBox<String>();	 //Tendina per stazioni di partenza
 		tendinaStazionePartenzaPannello4.setBackground(Color.WHITE);
 		tendinaStazionePartenzaPannello4.setBounds(panel4.getWidth()/9*5-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		tendinaStazionePartenzaPannello4.setEnabled(false);
@@ -503,7 +520,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelStazioneArrivoPannello4);
 		
 		
-		tendinaStazioneArrivoPannello4 = new JComboBox();	 //Tendina per stazioni di arrivo
+		tendinaStazioneArrivoPannello4 = new JComboBox<String>();	 //Tendina per stazioni di arrivo
 		tendinaStazioneArrivoPannello4.setBackground(Color.WHITE);
 		tendinaStazioneArrivoPannello4.setBounds(panel4.getWidth()/9*7-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		tendinaStazioneArrivoPannello4.setEnabled(false);
@@ -557,6 +574,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		tendinaMezziPannello3.removeAllItems();    //rimuove tutti gli elementi dalla tendina
 		tendinaStazionePartenzaPannello3.removeAllItems();
+		tendinaStazioneArrivoPannello3.removeAllItems();
 
 		
 		try { //cerca nella mappa tutte le chiavi da aggiungere in tendina
@@ -577,8 +595,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		campoInfoPannello3.setText("");
 		
 		tendinaMezziPannello3.setEnabled(true);
-		campoStazioneArrivoPannello3.setEditable(true); // attiva il campo "stazione di arrivo"
-		campoStazioniIntermediePannello3.setEditable(true);
+		campoStazioniIntermediePannello3.setEditable(true);  // attiva il campo "stazione intermedia"
 		campoInfoPannello3.setEditable(true);
 	}
 	
@@ -594,7 +611,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		try { //cerca nella mappa tutte le chiavi da aggiungere in tendina
 			Set<String> s = controllore.mostraAmbientiInCatalogo();
 			Iterator<String> it = s.iterator();
-			if (s.size() > 1){ //se c'� pi� di un elemento visualizzo l'elemento neutro
+			if (s.size() > 1){ //se c'e' piu' di un elemento visualizzo l'elemento neutro
 				//devo aggiungere l'elemento vuoto
 				tendinaAmbientePannello4.addItem("-----");
 			}
@@ -619,9 +636,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	}
 	
 	private void controlloSintatticoDati(String mezzo, String partenza, String arrivo) throws IDEsternoException{
-		/*
-		 * DA IMPLEMENTARE con eccezioni
-		 */
+
 		
 		if (mezzo.equals("")||partenza.equals("")||arrivo.equals(""))
 			throw new IDEsternoException("I campi con * sono obbligatori.");
@@ -660,7 +675,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		try {
 			controllore.carica();
 		} catch (DeserializzazioneException e) {
-			JOptionPane.showMessageDialog(null, "Non � stato ancora salvato un catalogo.  Faccio partire il thread.");
+			JOptionPane.showMessageDialog(null, "Non e' stato ancora salvato un catalogo.  Faccio partire il thread.");
 			avviaThread();
 			b = false;
 		}
@@ -841,13 +856,19 @@ public class BoundaryPromotore_GestioneCatalogo {
 				if (tendinaMezziPannello3.getSelectedItem().toString().equals("new...")){
 					campoMezziPannello3.setEditable(true); //attiva il campo sotto per inserire un mezzo non ancora usato
 					campoStazionePartenzaPannello3.setEditable(true);
+					campoStazioneArrivoPannello3.setEditable(true);
 					tendinaStazionePartenzaPannello3.removeAllItems();
-					tendinaStazionePartenzaPannello3.setEnabled(false); //se il mezzo � nuovo, anche la stazione di partenza sar� nuova, la tendina non serve!
+					tendinaStazioneArrivoPannello3.removeAllItems();
+					tendinaStazionePartenzaPannello3.setEnabled(false); //se il mezzo e' nuovo, anche la stazione di partenza sara' nuova, la tendina non serve!
+					tendinaStazioneArrivoPannello3.setEnabled(false); //se il mezzo e' nuovo, anche la stazione di arrivo sara' nuova, la tendina non serve!
 				} else {
 					campoMezziPannello3.setText("");
 					campoMezziPannello3.setEditable(false);
 					campoStazionePartenzaPannello3.setText("");
 					campoStazionePartenzaPannello3.setEditable(false);
+					campoStazioneArrivoPannello3.setText("");
+					campoStazioneArrivoPannello3.setEditable(false);
+					
 
 		
 					String mezzo = (String)tendinaMezziPannello3.getSelectedItem();
@@ -885,10 +906,39 @@ public class BoundaryPromotore_GestioneCatalogo {
 			if (tendinaStazionePartenzaPannello3.getItemCount() != 0) {//ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
 				
 				if (tendinaStazionePartenzaPannello3.getSelectedItem().toString().equals("new...")){
-					campoStazionePartenzaPannello3.setEditable(true); //attiva il campo sotto per inserire un mezzo non ancora usato
+					campoStazionePartenzaPannello3.setEditable(true); //attiva il campo sotto per inserire un stazione di partenza non ancora usata
+					campoStazioneArrivoPannello3.setEditable(true);
+					tendinaStazioneArrivoPannello3.removeAllItems();
+					tendinaStazioneArrivoPannello3.setEnabled(false); //se il mezzo e' nuovo, anche la stazione di arrivo sara' nuova, la tendina non serve!
 				} else {
 					campoStazionePartenzaPannello3.setText("");
 					campoStazionePartenzaPannello3.setEditable(false);
+					campoStazioneArrivoPannello3.setText("");
+					campoStazioneArrivoPannello3.setEditable(false);
+					
+					String mezzo = (String) tendinaMezziPannello3.getSelectedItem();
+					String partenza = (String) tendinaStazionePartenzaPannello3.getSelectedItem();
+					
+					tendinaStazioneArrivoPannello3.setEnabled(true);
+					tendinaStazioneArrivoPannello3.removeAllItems();
+					
+					
+		
+					try {
+						
+						Set<String> set = controllore.mostraStazioniDiArrivoInCatalogo(ambienteScelto, mezzo, partenza);
+						Iterator<String> it = set.iterator();
+						while (it.hasNext()){
+								tendinaStazioneArrivoPannello3.addItem(it.next());
+						}
+						
+					} catch (IDEsternoException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+					}
+					
+					tendinaStazioneArrivoPannello3.addItem("new...");
+					tendinaStazioneArrivoPannello3.setSelectedIndex(0);
+					
 				}	
 				
 			}
@@ -896,6 +946,29 @@ public class BoundaryPromotore_GestioneCatalogo {
 			
 		}
 		
+		
+	}
+	
+	
+	private class TendinaStazioneArrivoPannello3AA implements ActionListener{
+
+		/*
+		 * Quando seleziono un elemento dalla tendina...
+		 */
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			if (tendinaStazioneArrivoPannello3.getItemCount() != 0) {//ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
+				
+				if (tendinaStazioneArrivoPannello3.getSelectedItem().toString().equals("new...")){
+					campoStazioneArrivoPannello3.setEditable(true); //Attiva il campo sotto per inserire una stazione di arrivo non ancora usata
+				} else {
+					campoStazioneArrivoPannello3.setText("");
+					campoStazioneArrivoPannello3.setEditable(false);
+				}
+			}
+			
+		}
 		
 	}
 	
@@ -909,6 +982,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 				String mezzoTrasporto;
 				String stazionePartenza;
 				String stazioneArrivo;
+				String stazioneIntermedia;
 				String info;
 			
 				//le informazioni possono essere prese o da tendina o da campo testo...
@@ -923,32 +997,26 @@ public class BoundaryPromotore_GestioneCatalogo {
 				} else {
 					stazionePartenza = (String) tendinaStazionePartenzaPannello3.getSelectedItem();
 				}
-			
-				//nessun problema per il campo stazioneArrivo
-				stazioneArrivo = uppercaseFirstLetters(campoStazioneArrivoPannello3.getText());
 				
-				
-				//le info sono unione di stazioni intermedie e informazioni
-				if (campoStazioniIntermediePannello3.getText().equals("")){
-					 if (campoInfoPannello3.getText().equals(""))
-						 info = "Diretto";
-					 else 
-						 info = "Diretto" + " --- " + uppercaseFirstLetters(campoInfoPannello3.getText()); 
+				if (tendinaStazioneArrivoPannello3.getSelectedItem().toString().equals("new...")){
+					stazioneArrivo = uppercaseFirstLetters(campoStazioneArrivoPannello3.getText());
 				} else {
-					if (campoInfoPannello3.getText().equals(""))
-						info = "Ferma a " + uppercaseFirstLetters(campoStazioniIntermediePannello3.getText());
-					else 
-						info = "Ferma a " + uppercaseFirstLetters(campoStazioniIntermediePannello3.getText()) + " --- " + uppercaseFirstLetters(campoInfoPannello3.getText());
+					stazioneArrivo = (String) tendinaStazioneArrivoPannello3.getSelectedItem();
 				}
+			
+				//nessun problema per la stazione Intermedia
+				if (campoStazioniIntermediePannello3.getText().equals("")){
+					stazioneIntermedia = "Diretto";
+				} else stazioneIntermedia = uppercaseFirstLetters(campoStazioniIntermediePannello3.getText());
 				
+				//per le info
 				
-			/*	if (mezzoTrasporto.equals("")||stazionePartenza.equals("")||stazioneArrivo.equals("")){
-					JOptionPane.showMessageDialog(null, "Attenzione! I campi con * sono obbligatori.", "Campi Obbligatori", JOptionPane.WARNING_MESSAGE);
-				} else {
-					chiedo conferma 
-					int conferma = JOptionPane.showConfirmDialog(null, "Aggiungere il viaggio nel catalogo?", "Conferma Nuovo Viaggio in Catalogo", JOptionPane.YES_NO_OPTION);
-					if (conferma == JOptionPane.YES_OPTION){
-			*/			
+				if (campoInfoPannello3.getText().equals(""))
+					info = "No Info"; 
+				else 
+					info = uppercaseFirstLetters(campoInfoPannello3.getText()); 
+				
+						
 				//aggiungo il viaggio
 				try {
 					controlloSintatticoDati(mezzoTrasporto, stazionePartenza, stazioneArrivo);
@@ -956,8 +1024,8 @@ public class BoundaryPromotore_GestioneCatalogo {
 					int conferma = JOptionPane.showConfirmDialog(null, "Aggiungere il viaggio nel catalogo?", "Conferma Nuovo Viaggio in Catalogo", JOptionPane.YES_NO_OPTION);
 					
 					if (conferma == JOptionPane.YES_OPTION){	
-						controllore.aggiungiViaggio(ambienteScelto, mezzoTrasporto, stazionePartenza, stazioneArrivo, info);
-						JOptionPane.showMessageDialog(null, "Il nuovo viaggio � stato aggiunto correttamente nel catalogo.", "Viaggio Aggiunto", JOptionPane.INFORMATION_MESSAGE);
+						controllore.aggiungiViaggio(ambienteScelto, mezzoTrasporto, stazionePartenza, stazioneArrivo, stazioneIntermedia, info);
+						JOptionPane.showMessageDialog(null, "Il nuovo viaggio e' stato aggiunto correttamente nel catalogo.", "Viaggio Aggiunto", JOptionPane.INFORMATION_MESSAGE);
 						aggiornaTendinePannello3(); //aggiorno le tendine
 					}
 					
@@ -986,31 +1054,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					e1.printStackTrace();
 				}
 				
-					/*	//svuota tutti i campi dopo aver aggiunto il viaggio
-				
-						ambienteScelto = null;
-				
-				
-						gruppoAmbientePannello3.clearSelection();   //toglie la spunta ai radio bottoni
-						
-						tendinaMezziPannello3.removeAllItems();  //svuota le tendine
-						tendinaStazionePartenzaPannello3.removeAllItems();
-				
-						campoMezziPannello3.setText("");		//svuota tutti i campi testo
-						campoStazionePartenzaPannello3.setText("");
-						campoStazioneArrivoPannello3.setText("");
-				
-						campoMezziPannello3.setEditable(false);
-						campoStazionePartenzaPannello3.setEditable(false);
-						tendinaMezziPannello3.setEnabled(false);
-						tendinaStazionePartenzaPannello3.setEnabled(false);
-						campoStazioneArrivoPannello3.setEditable(false);
-				*/
-					//}
-					
-						
-					//}
-
+	
 			
 			} else {
 				JOptionPane.showMessageDialog(null, "Selezionare un ambiente...");			
@@ -1019,6 +1063,8 @@ public class BoundaryPromotore_GestioneCatalogo {
 		}
 		
 	}
+	
+	
 	
 	private class SvuotaPannello3AA implements ActionListener{
 		/*
@@ -1034,6 +1080,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			
 			tendinaMezziPannello3.removeAllItems();  //svuota le tendine
 			tendinaStazionePartenzaPannello3.removeAllItems();
+			tendinaStazioneArrivoPannello3.removeAllItems();
 			
 			campoMezziPannello3.setText("");		//svuota tutti i campi testo
 			campoStazionePartenzaPannello3.setText("");
@@ -1045,6 +1092,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			campoStazionePartenzaPannello3.setEditable(false);
 			tendinaMezziPannello3.setEnabled(false);
 			tendinaStazionePartenzaPannello3.setEnabled(false);
+			tendinaStazioneArrivoPannello3.setEnabled(false);
 			campoStazioneArrivoPannello3.setEditable(false);
 			campoStazioniIntermediePannello3.setEditable(false);
 			campoInfoPannello3.setEditable(false);
@@ -1109,7 +1157,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			if (tendinaAmbientePannello4.getItemCount() != 0) { //ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
 			
 					
-					if(!ambienteScelto.equals("-----")){ //Solo se non � l'elemento neutro
+					if(!ambienteScelto.equals("-----")){ //Solo se non e' l'elemento neutro
 							
 						try {  //cerca nella mappa tutte le chiavi da aggiungere in tendina
 							Set<String> s = controllore.mostraMezziDiTrasportoInCatalogo(ambienteScelto);
@@ -1168,7 +1216,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			
 			if (tendinaMezziPannello4.getItemCount() != 0) { //ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
 	
-				if(!mezzoScelto.equals("-----")){ //Solo se non � l'elemento neutro
+				if(!mezzoScelto.equals("-----")){ //Solo se non e' l'elemento neutro
 					
 					try { //cerca nella mappa tutte le chiavi da aggiungere in tendina
 						Set<String> s = controllore.mostraStazioniDiPartenzaInCatalogo(ambienteScelto, mezzoScelto);
@@ -1227,7 +1275,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			
 			if (tendinaStazionePartenzaPannello4.getItemCount() != 0) { //ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
 				
-				if(!partenzaScelta.equals("-----")){ //Solo se non � l'elemento neutro
+				if(!partenzaScelta.equals("-----")){ //Solo se non e' l'elemento neutro
 					
 					try { //cerca nella mappa tutte le chiavi da aggiungere in tendina
 						Set<String> s = controllore.mostraStazioniDiArrivoInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta);
@@ -1320,7 +1368,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					// rimuovo il viaggio
 					try {
 						controllore.rimuoviViaggio(ambienteScelto, mezzoScelto, partenzaScelta, stazioneArrivo);
-						JOptionPane.showMessageDialog(null, "Il viaggio � stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
 						//aggiorno tutti i campi dopo aver rimosso il viaggio
 						aggiornaTendinePannello4();
 						

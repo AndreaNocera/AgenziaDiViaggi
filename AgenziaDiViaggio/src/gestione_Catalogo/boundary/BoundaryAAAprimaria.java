@@ -1,3 +1,9 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
 package gestione_Catalogo.boundary;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,7 +18,7 @@ import javax.swing.WindowConstants;
 
 
 /* 
- * Questa Boundary � primaria perch� definisce Il Frame
+ * Questa Boundary e' primaria perche' definisce Il Frame
  * 
  */
 
@@ -25,7 +31,7 @@ public class BoundaryAAAprimaria extends JFrame{
 	
 	//attributi istanza
 	
-	public static JFrame confinePrincipale; //� statico:il frame � unico per tutta l'applicazione
+	public static JFrame confinePrincipale; //E' statico:il frame e' unico per tutta l'applicazione
 	
 	public static JPanel superPanel;
 	
@@ -72,7 +78,7 @@ public class BoundaryAAAprimaria extends JFrame{
 		
 		superPanel = new JPanel();
 		superPanel.setSize(confinePrincipale.getWidth(), confinePrincipale.getHeight());
-		superPanel.setLayout(null); 		//ora il pannello pu� contenere altri pannelli
+		superPanel.setLayout(null); 		//ora il pannello puo' contenere altri pannelli
 		confinePrincipale.add(superPanel); 	//aggiungo il pannello al confine
 		
 		
@@ -80,7 +86,7 @@ public class BoundaryAAAprimaria extends JFrame{
 		panel1 = new JPanel();
 		panel1.setSize(superPanel.getWidth(), superPanel.getHeight()/4);
 		panel1.setLocation(0, 0);			//x=0 e y=0 rispetto al superPanel
-		panel1.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel1.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel1);				//aggiungo il primo pannello al superPannello
 		
 		labelTitolo = new JLabel();  		//Etichetta per il titolo
@@ -97,7 +103,7 @@ public class BoundaryAAAprimaria extends JFrame{
 		panel2 = new JPanel();
 		panel2.setSize(superPanel.getWidth(), superPanel.getHeight()/4);
 		panel2.setLocation(0, superPanel.getHeight()/4);
-		panel2.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel2.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel2);				//aggiungo il secondo pannello al superPannello
 		
 		labelProprietari = new JLabel();	//Etichetta dei proprietari
@@ -115,7 +121,7 @@ public class BoundaryAAAprimaria extends JFrame{
 		panel3 = new JPanel();
 		panel3.setSize(superPanel.getWidth(), superPanel.getHeight()/4);
 		panel3.setLocation(0, superPanel.getHeight()/4*2);
-		panel3.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel3.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel3);				//aggiungo il terzo pannello al superPannello
 		
 		
@@ -134,7 +140,7 @@ public class BoundaryAAAprimaria extends JFrame{
 		panel4 = new JPanel();
 		panel4.setSize(superPanel.getWidth(), superPanel.getHeight()/4);
 		panel4.setLocation(0, superPanel.getHeight()/4*3);
-		panel4.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel4.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel4);				//aggiungo il quarto pannello al superPannello
 		
 		

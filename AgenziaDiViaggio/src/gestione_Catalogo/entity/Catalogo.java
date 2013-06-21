@@ -1,3 +1,9 @@
+/*
+ * Autori:
+ * Remo Sperlongano
+ * Ivan Torre
+ */
+
 package gestione_Catalogo.entity;
 
 import java.io.Serializable;
@@ -13,7 +19,7 @@ import gestione_Catalogo.exception.MappaException;
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
- * @author Sonia
+ * @authors Remo Sperlongano e Ivan Torre
  * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 
@@ -36,82 +42,80 @@ public class Catalogo implements Serializable{
 		
 	}
 	
-	public boolean verificaEsistenzaViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException {
+	public boolean verificaEsistenzaViaggio(Ambiente ambiente, MezzoTrasporto mezzoTrasporto, StazionePartenza stazionePartenza, StazioneArrivo stazioneArrivo, StazioneIntermedia stazioneIntermedia) throws IDEsternoException {
 		
 		/*
-		 * Non va in exception: prima di prendere un elemento, verifica la sua esistenza...se c'�, lo prende, se non c'�, ritorna con false
+		 * Non va in exception: prima di prendere un elemento, verifica la sua esistenza...se c'e', lo prende, se non c'e', ritorna con false
 		 */
 		
-		if (!mappaAmbiente.esistenzaElemento(ambiente)) return false;	//Se non c'� l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
-		Elemento amb = mappaAmbiente.getElemento(ambiente);
-		if (!amb.esistenzaElemento(mezzoTrasporto)) return false;  //se nn c'� il mezzo ritorna con false, altrimenti continua
-		Elemento mez = amb.getElemento(mezzoTrasporto);
+		/*
+		 * DA far vedere a MM: meglio usare equals???
+		 */
+		
+		if (!mappaAmbiente.esistenzaElemento(ambiente)) return false;	//Se non c'e' l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
+		
+		Elemento amb = mappaAmbiente.getElemento(ambiente.getIDEsterno());		
+		if (!amb.esistenzaElemento(mezzoTrasporto)) return false;  //se nn c'e' il mezzo ritorna con false, altrimenti continua
+		
+		Elemento mez = amb.getElemento(mezzoTrasporto.getIDEsterno());
 		if (!mez.esistenzaElemento(stazionePartenza)) return false;
-		Elemento part = mez.getElemento(stazionePartenza);
+		
+		Elemento part = mez.getElemento(stazionePartenza.getIDEsterno());
 		if (!part.esistenzaElemento(stazioneArrivo)) return false;
 		
-		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio � gi� presente
+		Elemento arr = part.getElemento(stazioneArrivo.getIDEsterno());
+		if (!arr.esistenzaElemento(stazioneIntermedia)) return false;
+		
+		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio e' gia' presente
 		return true;
 	}
 	
 	public boolean verificaEsistenzaOfferte(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException {
 		
-		//se la tabella della stazione di arrivo � vuota (non ha offerte) ritorna con false, altrimenti con true
+		//se la tabella della stazione di arrivo e' vuota (non ha offerte) ritorna con false, altrimenti con true
 		return !mappaAmbiente.getElemento(ambiente).getElemento(mezzoTrasporto).getElemento(stazionePartenza).getElemento(stazioneArrivo).listaChiaviElementi().isEmpty();
 		
 	}
 
 	
 	
-	public void aggiungiViaggioAlCatalogo(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void aggiungiViaggioAlCatalogo(Ambiente ambiente, MezzoTrasporto mezzoTrasporto, StazionePartenza stazionePartenza, StazioneArrivo stazioneArrivo, StazioneIntermedia stazioneIntermedia, String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		/*
-		 * Bisogna sempre verificare, prima di aggiungere un elemento alla tabella, se questo elemento � gi� presente!
+		 * Bisogna sempre verificare, prima di aggiungere un elemento alla tabella, se questo elemento e' gia' presente!
 		 */
 		
 		//FASE 1:Aggiungo l'ambiente in mappaAmbienti
 		if (!mappaAmbiente.esistenzaElemento(ambiente)){
 			
-			Elemento e;
-			
-			//classe c di nome ambiente
-			Class<?> c = Class.forName("Entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
-			
-			//preparo i parametri
-			Class<?> primoParametro	 = Class.forName("Entity.IDEsterno");
-			Class<?> secondoParametro	 = Class.forName("Entity.Info");
-			
-			@SuppressWarnings("rawtypes")
-			Class[] parametri = {primoParametro, secondoParametro};
-			
-			//prendo il costruttore della classe con i parametri indicati
-			Constructor<?> costruttore = c.getConstructor(parametri);
-			
-			//creo l'oggetto
-			e = (Elemento) costruttore.newInstance(new IDEsterno(ambiente), new Info(""));
-			
-			//e lo aggiungo alla mappa
-			mappaAmbiente.addElemento(ambiente, e);
+			//Se non c'e', lo aggiungo
+			mappaAmbiente.addElemento(ambiente.getIDEsterno(), ambiente);
 		}
 		
 		//FASE 2: Aggiungo mezzodiTrasporto nella mappa dell'ambiente prima aggiunto
-		if (!mappaAmbiente.getElemento(ambiente).esistenzaElemento(mezzoTrasporto)){
-			Elemento mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto), new Info(""));
-			mappaAmbiente.getElemento(ambiente).aggiungiElemento(mezzoTrasporto, mt);
+		if (!mappaAmbiente.getElemento(ambiente.getIDEsterno()).esistenzaElemento(mezzoTrasporto)){
+	
+			//se non c'e' lo aggiungo
+			mappaAmbiente.getElemento(ambiente.getIDEsterno()).aggiungiElemento(mezzoTrasporto.getIDEsterno(), mezzoTrasporto);
 		}
 		
 		//FASE 3: Aggiungo stazionePartenza nella mappa del mezzo prima aggiunto
-		if (!mappaAmbiente.getElemento(ambiente).getElemento(mezzoTrasporto).esistenzaElemento(stazionePartenza)){
+		if (!mappaAmbiente.getElemento(ambiente.getIDEsterno()).getElemento(mezzoTrasporto.getIDEsterno()).esistenzaElemento(stazionePartenza)){
 			
-			Elemento sp = new StazionePartenza(new IDEsterno(stazionePartenza), new Info(""));
-			mappaAmbiente.getElemento(ambiente).getElemento(mezzoTrasporto).aggiungiElemento(stazionePartenza, sp);
+			//se non c'e' lo aggiungo
+			mappaAmbiente.getElemento(ambiente.getIDEsterno()).getElemento(mezzoTrasporto.getIDEsterno()).aggiungiElemento(stazionePartenza.getIDEsterno(), stazionePartenza);
 			
 		}
 		
 		//FASE 4: Aggiungo stazioneArrivo nella mappa della stazionePartenza prima aggiunta
-		//non c'� bisogno di controllo, so gi� che non c'� (verificaEsistenzaViaggio());
+		if (!mappaAmbiente.getElemento(ambiente.getIDEsterno()).getElemento(mezzoTrasporto.getIDEsterno()).getElemento(stazionePartenza.getIDEsterno()).esistenzaElemento(stazioneArrivo)){
+			//se non c'e' lo aggiungo
+			mappaAmbiente.getElemento(ambiente.getIDEsterno()).getElemento(mezzoTrasporto.getIDEsterno()).getElemento(stazionePartenza.getIDEsterno()).aggiungiElemento(stazioneArrivo.getIDEsterno(), stazioneArrivo);
+		}
 		
-		Elemento sa = new StazioneArrivo(new IDEsterno(stazioneArrivo), new Info(info));
-		mappaAmbiente.getElemento(ambiente).getElemento(mezzoTrasporto).getElemento(stazionePartenza).aggiungiElemento(stazioneArrivo, sa);
+		
+		//FASE 5: Aggiungo stazione intermedia nella mappa delle stazioni di Arrivo
+		//non c'e' bisogno di controllo, so gia' che non c'e' (verificaEsistenzaViaggio());
+		mappaAmbiente.getElemento(ambiente.getIDEsterno()).getElemento(mezzoTrasporto.getIDEsterno()).getElemento(stazionePartenza.getIDEsterno()).getElemento(stazioneArrivo.getIDEsterno()).aggiungiElemento(stazioneIntermedia.getIDEsterno(), stazioneIntermedia);
 		//System.out.println("Viaggio Aggiunto");
 	}
 	
@@ -184,11 +188,18 @@ public class Catalogo implements Serializable{
 	
 	}
 	
-	public String getInfo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
-		
+	public Set<String> getStazioniIntermedie(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
 		Elemento elementoPartenza = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza);
 		if (elementoPartenza.esistenzaElemento(arrivo)){
-			return elementoPartenza.getElemento(arrivo).getInfo();
+			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
+		} else throw new IDEsternoException("Stazione di arrivo "+arrivo+" non presente in catalogo");
+	}
+	
+	public String getInfo(String ambiente, String mezzo, String partenza, String arrivo, String intermedia) throws IDEsternoException{
+		
+		Elemento elementoArrivo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo);
+		if (elementoArrivo.esistenzaElemento(arrivo)){
+			return elementoArrivo.getElemento(intermedia).getInfo();
 			
 		} else {
 			throw new IDEsternoException("Stazione di arrivo "+arrivo+" non presente in catalogo");
