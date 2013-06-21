@@ -25,7 +25,7 @@ import gestione_Catalogo.exception.FileInesistenteException;
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
- * @author Sonia
+ * @authors Remo Sperlongano e Ivan Torre
  * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class Log implements Serializable{
