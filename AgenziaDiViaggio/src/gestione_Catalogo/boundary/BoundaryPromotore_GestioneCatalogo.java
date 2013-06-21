@@ -90,11 +90,11 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private ButtonGroup gruppoAmbientePannello3;
 
 	private JLabel labelMezziPannello3;
-	private JComboBox tendinaMezziPannello3;
+	private JComboBox<String> tendinaMezziPannello3;
 	private JTextField campoMezziPannello3;
 
 	private JLabel labelStazionePartenzaPannello3;
-	private JComboBox tendinaStazionePartenzaPannello3;
+	private JComboBox<String> tendinaStazionePartenzaPannello3;
 	private JTextField campoStazionePartenzaPannello3;
 
 	private JLabel labelStazioneArrivoPannello3;
@@ -123,19 +123,19 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private JLabel	labelTitoloPannello4;
 
 	private JLabel labelAmbientePannello4;
-	private JComboBox tendinaAmbientePannello4;
+	private JComboBox<String> tendinaAmbientePannello4;
 
 	private JTextArea areaTestoPannello4;
 	private JScrollPane scrollAreaTestoPannello4;
 	
 	private JLabel labelMezziPannello4;
-	private JComboBox tendinaMezziPannello4;
+	private JComboBox<String> tendinaMezziPannello4;
 
 	private JLabel labelStazionePartenzaPannello4;
-	private JComboBox tendinaStazionePartenzaPannello4;
+	private JComboBox<String> tendinaStazionePartenzaPannello4;
 
 	private JLabel labelStazioneArrivoPannello4;
-	private JComboBox tendinaStazioneArrivoPannello4;
+	private JComboBox<String> tendinaStazioneArrivoPannello4;
 
 	private JButton bottoneRimuovi;
 	private JButton bottoneSvuotaPannello4;
@@ -305,7 +305,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel3.add(labelMezziPannello3);
 		
 		
-		tendinaMezziPannello3 = new JComboBox();	  //Tendina per i mezzi
+		tendinaMezziPannello3 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaMezziPannello3.setBackground(Color.WHITE);
 		tendinaMezziPannello3.setBounds(panel3.getWidth()/7-10, panel3.getHeight()/7*2+20, panel3.getWidth()/6, 20);
 		tendinaMezziPannello3.setEnabled(false);
@@ -325,7 +325,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel3.add(labelStazionePartenzaPannello3);
 		
 		
-		tendinaStazionePartenzaPannello3 = new JComboBox();	  //Tendina per i mezzi
+		tendinaStazionePartenzaPannello3 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaStazionePartenzaPannello3.setBackground(Color.WHITE);
 		tendinaStazionePartenzaPannello3.setEnabled(false);
 		tendinaStazionePartenzaPannello3.setBounds(panel3.getWidth()/7*3-10, panel3.getHeight()/7*2+20, panel3.getWidth()/6, 20);
@@ -464,7 +464,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelAmbientePannello4);
 		
 		
-		tendinaAmbientePannello4 = new JComboBox();	  //Tendina per i mezzi
+		tendinaAmbientePannello4 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaAmbientePannello4.setBackground(Color.WHITE);
 		tendinaAmbientePannello4.setEnabled(false);
 		tendinaAmbientePannello4.setBounds(panel4.getWidth()/9-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
@@ -480,7 +480,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelMezziPannello4);
 		
 		
-		tendinaMezziPannello4 = new JComboBox();	  //Tendina per i mezzi
+		tendinaMezziPannello4 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaMezziPannello4.setBackground(Color.WHITE);
 		tendinaMezziPannello4.setEnabled(false);
 		tendinaMezziPannello4.setBounds(panel4.getWidth()/9*3-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
@@ -494,7 +494,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelStazionePartenzaPannello4);
 		
 		
-		tendinaStazionePartenzaPannello4 = new JComboBox();	 //Tendina per stazioni di partenza
+		tendinaStazionePartenzaPannello4 = new JComboBox<String>();	 //Tendina per stazioni di partenza
 		tendinaStazionePartenzaPannello4.setBackground(Color.WHITE);
 		tendinaStazionePartenzaPannello4.setBounds(panel4.getWidth()/9*5-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		tendinaStazionePartenzaPannello4.setEnabled(false);
@@ -508,7 +508,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4.add(labelStazioneArrivoPannello4);
 		
 		
-		tendinaStazioneArrivoPannello4 = new JComboBox();	 //Tendina per stazioni di arrivo
+		tendinaStazioneArrivoPannello4 = new JComboBox<String>();	 //Tendina per stazioni di arrivo
 		tendinaStazioneArrivoPannello4.setBackground(Color.WHITE);
 		tendinaStazioneArrivoPannello4.setBounds(panel4.getWidth()/9*7-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		tendinaStazioneArrivoPannello4.setEnabled(false);
