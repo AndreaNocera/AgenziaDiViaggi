@@ -1,12 +1,12 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreProgettista;
+import ordinaViaggi.exception.ControllerException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ordinaViaggi.control.ControlloreProgettista;
-import ordinaViaggi.exception.MapDAOException;
-
 /**
  * 
- * @author Gambella Riccardo
- * Boundary Progettista Gestione Offerta.
+ * @author Gambella Riccardo Boundary Progettista Gestione Offerta.
  */
 
 public class BoundaryProgettistaGestioneOfferta extends JFrame {
@@ -63,9 +59,8 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryProgettistaGestioneOfferta(
-			ControlloreProgettista controlloreProgettista) {
-		this.controlloreProgettista = controlloreProgettista;
+	public BoundaryProgettistaGestioneOfferta() {
+		this.controlloreProgettista = ControlloreProgettista.getIstance();
 
 		/*
 		 * Comparsa del pannello Ordina viaggio Aggiunge al frame il pannello
@@ -230,9 +225,9 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 				// Estrazione della mappa successiva
 				selectedList.add(selected);
 				try {
-					ControlloreProgettista.estrazioneMappa(selectedList,
+					controlloreProgettista.estrazioneLista(selectedList,
 							mapList);
-				} catch (MapDAOException e1) {
+				} catch (ControllerException e1) {
 					// TODO Blocco catch generato automaticamente
 					e1.printStackTrace();
 				}
@@ -259,9 +254,9 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					selectedList.add(mezzo);
 
 					try {
-						ControlloreProgettista.estrazioneMappa(selectedList,
+						controlloreProgettista.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -289,9 +284,9 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					selectedList.add(cittaPartenza);
 
 					try {
-						ControlloreProgettista.estrazioneMappa(selectedList,
+						controlloreProgettista.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -323,9 +318,9 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					selectedList.add(cittaArrivo);
 
 					try {
-						ControlloreProgettista.estrazioneMappa(selectedList,
+						controlloreProgettista.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -352,12 +347,12 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 
 				List<String> listaCatalogo = prelevaComboBoxCatalogo();
 				// Controllo sull'inserimento corretto dei dati
-				if (!ControlloreProgettista.verificaDati(listaCatalogo))
+				if (!controlloreProgettista.verificaDati(listaCatalogo))
 					System.out.println("Dati non inseriti totalmente");
 				else {
 					try {
-						ControlloreProgettista.printOfferta();
-					} catch (MapDAOException e1) {
+						controlloreProgettista.printOfferta();
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -367,49 +362,16 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 			// Inserimento nell'offerta
 			else if (event.getSource() == inserisciOfferta) {
 
-				String data = null;
-				String ora = null;
-				String posti = null;
-
 				List<String> listaCatalogo = prelevaComboBoxCatalogo();
 
 				// Controllo sull'inserimento corretto dei dati
-				if (!ControlloreProgettista.verificaDati(listaCatalogo))
+				if (!controlloreProgettista.verificaDati(listaCatalogo))
 					System.out.println("Dati non inseriti totalmente");
 				else {
 					try {
-						BufferedReader input = new BufferedReader(
-								new InputStreamReader(System.in));
-						System.out.print("Inserire la data.\r\n");
-						data = input.readLine();
-						System.out.print("Inserire l'ora.\r\n");
-						ora = input.readLine();
-						System.out.println("Inserire i posti disponibili iniziali.");
-						posti = input.readLine();
-						
-						/* Mockup. Data per inserite le chiavi e le info dei subElements */
-						listaCatalogo.add(data);
-						listaCatalogo.add(ora);
-						
-						/* Info dei subElements */
-						List<String> subElementsInfo = new ArrayList<String>();
-						//Nei primi 7 mette niente
-						for(int i=0;i<6;i++)
-							subElementsInfo.add("");
-						//Nel SubElement riferito a posti mette il valore inserito
-						subElementsInfo.add(posti);
-						
-						ControlloreProgettista.inserimentoInOfferta(
-								listaCatalogo, subElementsInfo);
-					} catch (IOException | MapDAOException e) {
-						e.printStackTrace();
-					}
-
-					System.out.println("Stampa mappa Finale");
-					try {
-						ControlloreProgettista.printOfferta();
-					} catch (MapDAOException e) {
-						// TODO Blocco catch generato automaticamente
+						controlloreProgettista
+								.inserimentoInOfferta(listaCatalogo);
+					} catch (IOException | ControllerException e) {
 						e.printStackTrace();
 					}
 
@@ -419,30 +381,21 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 
 				List<String> listaCatalogo = prelevaComboBoxCatalogo();
 
-				String data = null;
-				String ora = null;
-
 				// Controllo sull'inserimento corretto dei dati
-				if (!ControlloreProgettista.verificaDati(listaCatalogo))
+				if (!controlloreProgettista.verificaDati(listaCatalogo))
 					System.out.println("Dati non inseriti totalmente");
 				else {
 					try {
-						BufferedReader input = new BufferedReader(
-								new InputStreamReader(System.in));
-						System.out.print("Inserire la data.\r\n");
-						data = input.readLine();
-						System.out.print("Inserire l'ora.\r\n");
-						ora = input.readLine();
-						ControlloreProgettista.rimozioneInOfferta(
-								listaCatalogo, data, ora);
-					} catch (IOException | MapDAOException e) {
+						controlloreProgettista
+								.rimozioneInOfferta(listaCatalogo);
+					} catch (IOException | ControllerException e) {
 						e.printStackTrace();
 					}
 
 					System.out.println("Stampa mappa Finale");
 					try {
-						ControlloreProgettista.printOfferta();
-					} catch (MapDAOException e) {
+						controlloreProgettista.printOfferta();
+					} catch (ControllerException e) {
 						// TODO Blocco catch generato automaticamente
 						e.printStackTrace();
 					}
@@ -470,8 +423,8 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 
 		// Estrae la mappa iniziale
 		try {
-			ControlloreProgettista.estrazioneMappa(selectedList, mapList);
-		} catch (MapDAOException e) {
+			controlloreProgettista.estrazioneLista(selectedList, mapList);
+		} catch (ControllerException e) {
 			// TODO Blocco catch generato automaticamente
 			e.printStackTrace();
 		}

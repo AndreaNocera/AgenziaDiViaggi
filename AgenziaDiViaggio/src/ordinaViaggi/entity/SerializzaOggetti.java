@@ -1,4 +1,5 @@
 package ordinaViaggi.entity;
+import ordinaViaggi.exception.SerializzazioneException;
 
 import java.io.File;
 //import java.io.FileInputStream;
@@ -6,8 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import ordinaViaggi.exception.SerializzazioneException;
 
 public class SerializzaOggetti
 {

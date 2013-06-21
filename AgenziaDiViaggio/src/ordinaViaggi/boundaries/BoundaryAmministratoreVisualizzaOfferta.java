@@ -1,5 +1,8 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreAmministratore;
+import ordinaViaggi.exception.ControllerException;
+import ordinaViaggi.exception.MapDAOException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,9 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import ordinaViaggi.control.ControlloreAmministratore;
-import ordinaViaggi.exception.MapDAOException;
 
 /**
  * 
@@ -58,9 +58,8 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryAmministratoreVisualizzaOfferta(
-			ControlloreAmministratore controlloreAmministratore) {
-		this.controlloreAmministratore = controlloreAmministratore;
+	public BoundaryAmministratoreVisualizzaOfferta() {
+		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
 
 		/*
 		 * Comparsa del pannello Ordina viaggio Aggiunge al frame il pannello
@@ -230,9 +229,9 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 				// Estrazione della mappa successiva
 				selectedList.add(selected);
 				try {
-					ControlloreAmministratore.estrazioneMappa(selectedList,
+					controlloreAmministratore.estrazioneLista(selectedList,
 							mapList);
-				} catch (MapDAOException e1) {
+				} catch (ControllerException e1) {
 					// TODO Blocco catch generato automaticamente
 					e1.printStackTrace();
 				}
@@ -257,9 +256,9 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 					selectedList.add(mezzo);
 
 					try {
-						ControlloreAmministratore.estrazioneMappa(selectedList,
+						controlloreAmministratore.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -287,9 +286,9 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 					selectedList.add(cittaPartenza);
 
 					try {
-						ControlloreAmministratore.estrazioneMappa(selectedList,
+						controlloreAmministratore.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -320,9 +319,9 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 					selectedList.add(cittaArrivo);
 
 					try {
-						ControlloreAmministratore.estrazioneMappa(selectedList,
+						controlloreAmministratore.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -356,9 +355,9 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 					selectedList.add(via);
 
 					try {
-						ControlloreAmministratore.estrazioneMappa(selectedList,
+						controlloreAmministratore.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -393,9 +392,9 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 					selectedList.add(data);
 
 					try {
-						ControlloreAmministratore.estrazioneMappa(selectedList,
+						controlloreAmministratore.estrazioneLista(selectedList,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -426,7 +425,6 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 				 * BoundaryClienteOrdinaViaggi a ogni passaggio back->Ritorno.
 				 */
 				new BoundaryAmministratoreVisualizzaPrenotazioni(
-						controlloreAmministratore,
 						boundaryAmministratoreVisualizzaOfferta);
 
 			}
@@ -453,8 +451,8 @@ public class BoundaryAmministratoreVisualizzaOfferta extends JFrame {
 
 		// Estrae la mappa iniziale
 		try {
-			ControlloreAmministratore.estrazioneMappa(selectedList, mapList);
-		} catch (MapDAOException e) {
+			controlloreAmministratore.estrazioneLista(selectedList, mapList);
+		} catch (ControllerException e) {
 			// TODO Blocco catch generato automaticamente
 			e.printStackTrace();
 		}

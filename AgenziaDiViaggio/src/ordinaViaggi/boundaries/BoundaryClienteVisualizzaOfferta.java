@@ -1,5 +1,8 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreCliente;
+import ordinaViaggi.exception.ControllerException;
+import ordinaViaggi.exception.MapDAOException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,9 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import ordinaViaggi.control.ControlloreCliente;
-import ordinaViaggi.exception.MapDAOException;
 
 /**
  * @author Gambella Riccardo
@@ -210,9 +210,9 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 					// Estrazione della mappa successiva
 					listaCatalogo.add(data);
 					try {
-						ControlloreCliente.estrazioneMappa(listaCatalogo,
+						controlloreCliente.estrazioneLista(listaCatalogo,
 								mapList);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -234,9 +234,9 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 					listaCatalogo.add((String)comboBoxData.getSelectedItem());
 					
 					try {
-						String posti = ControlloreCliente.getInfo(listaCatalogo, ora);
+						String posti = controlloreCliente.getInfo(listaCatalogo, ora);
 						postiDisponibili.setText(posti);
-					} catch (MapDAOException e1) {
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -251,10 +251,10 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == prenotazioneViaggio) {
 				List<String> listaCatalogo = boundaryClienteOrdinaViaggi.prelevaComboBoxCatalogo();
-				if(ControlloreCliente.verificaDati(listaCatalogo)){
+				if(controlloreCliente.verificaDati(listaCatalogo)){
 					pannelloVisualizzaOfferta.setVisible(false);
 					new BoundaryClientePrenotazioneViaggio
-					(controlloreCliente, boundaryClienteOrdinaViaggi, boundaryClienteVisualizzaOfferta);
+					(boundaryClienteOrdinaViaggi, boundaryClienteVisualizzaOfferta);
 				}
 				else
 					System.out.println("Dati non inseriti. Impossibile visualizzare offerta.");
@@ -278,7 +278,7 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 	private void addComboBox(JComboBox<String> comboBox) {
 		List<String> listaCatalogo = boundaryClienteOrdinaViaggi
 				.prelevaComboBoxCatalogo();
-		if (!ControlloreCliente.verificaDati(listaCatalogo))
+		if (!controlloreCliente.verificaDati(listaCatalogo))
 			System.out.println("Dati non inseriti totalmente");
 		else {
 			// Richiama il metodo estrazione Mappa da ControlloreCliente
@@ -286,8 +286,8 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 
 			// Estrae la mappa iniziale
 			try {
-				ControlloreCliente.estrazioneMappa(listaCatalogo, mapList);
-			} catch (MapDAOException e) {
+				controlloreCliente.estrazioneLista(listaCatalogo, mapList);
+			} catch (ControllerException e) {
 				// TODO Blocco catch generato automaticamente
 				e.printStackTrace();
 			}

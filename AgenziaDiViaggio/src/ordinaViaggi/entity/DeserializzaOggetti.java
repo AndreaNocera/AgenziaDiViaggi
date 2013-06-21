@@ -1,10 +1,9 @@
 package ordinaViaggi.entity;
+import ordinaViaggi.exception.DeserializzazioneException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-
-import ordinaViaggi.exception.DeserializzazioneException;
 
 
 public class DeserializzaOggetti 

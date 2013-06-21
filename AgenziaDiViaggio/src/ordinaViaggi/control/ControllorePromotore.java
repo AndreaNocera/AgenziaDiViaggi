@@ -1,14 +1,14 @@
 package ordinaViaggi.control;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ordinaViaggi.boundaries.BoundaryPromotore;
-import ordinaViaggi.entity.Map;
-import ordinaViaggi.entity.SubElement;
-import ordinaViaggi.entity.SubElementCatalogo;
+import ordinaViaggi.entity.Catalogo;
+import ordinaViaggi.exception.ControllerException;
 import ordinaViaggi.exception.MapDAOException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Gambella Riccardo
@@ -17,75 +17,117 @@ import ordinaViaggi.exception.MapDAOException;
 
 public class ControllorePromotore extends Controllore
 {
-	//Temporanea per il test
-	private static Controllore k;
-	private static ControllorePromotore h;   
-	private static BoundaryPromotore c;
+	private static ControllorePromotore istance = null;   
 
-	public ControllorePromotore(String dummy)
+	public ControllorePromotore()
 	{
-		//System.out.println("Entra con CambiaUtente!");
+		super();
 	}
 	
-	//Costruttore
-	private ControllorePromotore() 
-	{
-		//System.out.println("Qui entra all'inizio!");
-		super(); //Chiama subito il Controllore, cos√¨ crea subito la MappaProdotti
+	public static ControllorePromotore getIstance(){
+		if(istance == null)
+			istance = new ControllorePromotore();
+		return istance;
+	}
+	
+	public void inserimentoCatalogo() throws ControllerException, IOException{
+		//Richiesta inserimento di Ambiente, Mezzo, CittaPartenza, CittaArrivo da StdIn
+		String ambiente = null;
+		String mezzo = null;
+		String cittaPartenza = null;
+		String cittaArrivo = null;
+		String via = null;
 		
-		//Per prima cosa il Costruttore crea un oggetto Vector e chiama "inizializzazionePerVersioneMemoriaCentrale()"		
-	}
-	
-	/* Avvia la Boundary del Promotore.
-	 * 
-	 */
-	public static void gestionePromotore()
-	{                             
-		h=new ControllorePromotore(); 	
-		c= new BoundaryPromotore(h);    
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		System.out.print("Inserire l'ambiente.\r\n");
+		ambiente = input.readLine();
+		System.out.print("Inserire il mezzo.\r\n");
+		mezzo = input.readLine();
+		System.out.print("Inserire la citt‡ di partenza.\r\n");
+		cittaPartenza = input.readLine();
+		System.out.print("Inserire la citt‡ di arrivo.\r\n");
+		cittaArrivo = input.readLine();
+		System.out.println("Inserire la via (Tratte intermedie)");
+		via = input.readLine();
+
+		/* Mockup. Data per inserite le chiavi e le info dei subElements */
+		List<String> listaCatalogo = new ArrayList<String>();
+		listaCatalogo.add(ambiente);
+		listaCatalogo.add(mezzo);
+		listaCatalogo.add(cittaPartenza);
+		listaCatalogo.add(cittaArrivo);
+		listaCatalogo.add(via);
 		
-	}
-	
-	
-	/* Inserimento di un elemento nel catalogo. Sono necessari mappa iniziale,
-	 * ambiente, mezzo, cittaPartenza, cittaArrivo e via.
-	 * 
-	 */
-	public static void inserimentoInCatalogo(List<String> listaCatalogo, List<String> subElementsInfo)
-			throws MapDAOException{
-		if(listaCatalogo.size() != subElementsInfo.size())
-			throw new MapDAOException("Errore in Inserimento Catalogo");
-		Map map = readMap();
-		// Crea la lista di SubElements di tipo SubElementCatalogo
-		List<SubElement> listaSubElements = new ArrayList<SubElement>();
-		for(String info : subElementsInfo){
-			SubElement subElement = new SubElementCatalogo(new Map(),info);
-			listaSubElements.add(subElement);
+		/* Info dei subElements */
+		List<String> subElementsInfo = new ArrayList<String>();
+		for(int i=0;i<5;i++)
+			subElementsInfo.add("");
+		
+		Catalogo catalogo = Catalogo.getIstance();
+		try {
+			catalogo.inserimentoInCatalogo(listaCatalogo, subElementsInfo);
+			System.out.println("Catalogo presente dopo l'inserimento\n");
+			catalogo.printCatalogo();
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in inserimento catalogo!!");
 		}
-			
-		inserimentoInMapRecursive(map,listaCatalogo,listaSubElements);
 		
-		// Al termine dell'inserimento salva la mappa (NB Metodo del Controllore)
-		saveMap(map);
 	}
+
+	public void rimozioneInCatalogo() throws ControllerException, IOException{
+		// TODO Auto-generated method stub
+		System.out.println("Rimozione nel catalogo");
+		
+		//Richiesta rimozione di Ambiente, Mezzo, CittaPartenza, CittaArrivo da StdIn
+		String ambiente = null;
+		String mezzo = null;
+		String cittaPartenza = null;
+		String cittaArrivo = null;
+		String via = null;
+		
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		System.out.print("Inserire l'ambiente.\r\n");
+		ambiente = input.readLine();
+		System.out.print("Inserire il mezzo.\r\n");
+		mezzo = input.readLine();
+		System.out.print("Inserire la citt‡ di partenza.\r\n");
+		cittaPartenza = input.readLine();
+		System.out.print("Inserire la citt‡ di arrivo.\r\n");
+		cittaArrivo = input.readLine();
+		System.out.println("Inserire la via (Tratte intermedie)");
+		via = input.readLine();
 	
-	/* Metodo di rimozione di un elemento nel catalogo
-	 * Sono necessari mappa iniziale, ambiente, mezzo, cittaPartenza, cittaArrivo e via.
-	 */
-	
-	public static void rimozioneInCatalogo(List<String> listaCatalogo) throws MapDAOException{
-		Map map = readMap();
-		rimozioneInMapRecursive(map,listaCatalogo,"Catalogo");
-		// Al termine della rimozione salva la mappa (NB Metodo del Controllore)
-		saveMap(map);
+		/* Mockup. Data per inserite le chiavi e le info dei subElements */
+		List<String> listaCatalogo = new ArrayList<String>();
+		listaCatalogo.add(ambiente);
+		listaCatalogo.add(mezzo);
+		listaCatalogo.add(cittaPartenza);
+		listaCatalogo.add(cittaArrivo);
+		listaCatalogo.add(via);
+		
+		Catalogo catalogo = Catalogo.getIstance();
+		try{
+			catalogo.rimozioneInCatalogo(listaCatalogo);
+			System.out.println("Catalogo presente dopo l'inserimento\n");
+			catalogo.printCatalogo();
+		}
+		catch (MapDAOException e) {
+			// TODO Blocco catch generato automaticamente
+			throw new ControllerException("Errore in rimozione Catalogo!!");
+		}
+		
 	}
-	
-	/* Metodo di stampa del catalogo. 
-	 * Si basa sul wrapper ricorsivo di printMapRecursive.
-	 */
-	public static void printCatalogo() throws MapDAOException{
-		Map map = readMap();
-		printMapRecursive(map, 0, 5);
+
+	public void printCatalogo() throws ControllerException {
+		// TODO Auto-generated method stub
+		Catalogo catalogo = Catalogo.getIstance();
+		try {
+			catalogo.printCatalogo();
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in printCatalogo");
+		}
 	}
 	
 }

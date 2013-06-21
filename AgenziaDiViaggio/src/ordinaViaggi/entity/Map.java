@@ -6,11 +6,10 @@ package ordinaViaggi.entity;
  */
 
 
+import ordinaViaggi.exception.MapDAOException;
 
 import java.io.Serializable;
 import java.util.*;
-
-import ordinaViaggi.exception.MapDAOException;
 
 
 public class Map extends TreeMap <String,SubElement> implements Serializable{

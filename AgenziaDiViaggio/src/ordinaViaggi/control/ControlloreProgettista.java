@@ -1,13 +1,14 @@
 package ordinaViaggi.control;
 
+import ordinaViaggi.entity.Offerta;
+import ordinaViaggi.exception.ControllerException;
+import ordinaViaggi.exception.MapDAOException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import ordinaViaggi.boundaries.BoundaryProgettista;
-import ordinaViaggi.entity.Map;
-import ordinaViaggi.entity.SubElement;
-import ordinaViaggi.entity.SubElementOfferta;
-import ordinaViaggi.exception.MapDAOException;
 
 /**
  * @author Gambella Riccardo
@@ -15,78 +16,105 @@ import ordinaViaggi.exception.MapDAOException;
  */
 public class ControlloreProgettista extends Controllore
 {
-	//Temporanea per il test
-	private static Controllore k;
-	private static ControlloreProgettista h;   
-	private static BoundaryProgettista c;
+	private static ControlloreProgettista istance = null;   
 
-	public ControlloreProgettista(String dummy)
+	public ControlloreProgettista()
 	{
-		//System.out.println("Entra con CambiaUtente!");
+		super();
 	}
 	
-	//Costruttore
-	private ControlloreProgettista() 
-	{
-		super(); 	
+	public static ControlloreProgettista getIstance(){
+		if(istance == null)
+			istance = new ControlloreProgettista();
+		return istance;
 	}
-	
-	/* Avvia la Boundary del Progettista.
-	 * 
-	 */
-	public static void gestioneProgettista()
-	{  
-		
-		h=new ControlloreProgettista(); 	
-		c= new BoundaryProgettista(h);   
-		
-	}
-	
-	/* Inserimento di un elemento nel catalogo. Sono necessari mappa iniziale,
-	 * ambiente, mezzo, cittaPartenza e cittaArrivo inseriti in una lista.
-	 * 
-	 */
-	public static void inserimentoInOfferta(List<String> listaCatalogo, List<String> subElementsInfo)
-			throws MapDAOException{
-		if(listaCatalogo.size() != subElementsInfo.size())
-			throw new MapDAOException("Errore in Inserimento Offerta");
-		Map map = readMap();
-		
-		// Crea la lista di SubElements di tipo SubElementCatalogo
-		List<SubElement> listaSubElements = new ArrayList<SubElement>();
-		for(String info : subElementsInfo){
-			SubElement subElement = new SubElementOfferta(new Map(),info);
-			listaSubElements.add(subElement);
+
+	public void estrazioneLista(List<String> selectedList, List<String> mapList) throws ControllerException {
+		// TODO Auto-generated method stub
+		Offerta offerta = Offerta.getIstance();
+		try {
+			offerta.estrazioneMappa(selectedList, mapList);
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in estrazione lista!!");
 		}
-		
-		inserimentoInMapRecursive(map,listaCatalogo,listaSubElements);
-		// Al termine dell'inserimento salva la mappa (NB Metodo del Controllore)
-		saveMap(map);
 	}
+
 	
-	/* Metodo di rimozione di un elemento nell'offerta
-	 * Sono necessari mappa iniziale, ambiente, mezzo, cittaPartenza, cittaArrivo, via,
-	 * data, ora.
-	 */
-	
-	public static void rimozioneInOfferta(List<String> listaCatalogo,
-			String data, String ora) throws MapDAOException{
-		Map map = readMap();
+
+	public void inserimentoInOfferta(List<String> listaCatalogo) throws ControllerException, IOException {
+		// TODO Auto-generated method stub
+
+		String data = null;
+		String ora = null;
+		String posti = null;
+
+		BufferedReader input = new BufferedReader(
+				new InputStreamReader(System.in));
+		System.out.print("Inserire la data.\r\n");
+		data = input.readLine();
+		System.out.print("Inserire l'ora.\r\n");
+		ora = input.readLine();
+		System.out.println("Inserire i posti disponibili iniziali.");
+		posti = input.readLine();
+		
+		/* Mockup. Data per inserite le chiavi e le info dei subElements */
 		listaCatalogo.add(data);
 		listaCatalogo.add(ora);
-		rimozioneInMapRecursive(map,listaCatalogo,"Offerta");
-		// Al termine della rimozione salva la mappa (NB Metodo del Controllore)
-		saveMap(map);
+		
+		/* Info dei subElements */
+		List<String> subElementsInfo = new ArrayList<String>();
+		//Nei primi 7 mette niente
+		for(int i=0;i<6;i++)
+			subElementsInfo.add("");
+		//Nel SubElement riferito a posti mette il valore inserito
+		subElementsInfo.add(posti);
+		
+		Offerta offerta = Offerta.getIstance();
+		try {
+			offerta.inserimentoInOfferta(listaCatalogo, subElementsInfo);
+			System.out.println("Stampa mappa dopo inserimento in offerta.");
+			offerta.printOfferta();
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in inserimento offerta!!");
+		}
+		
 	}
-	
-	/* Metodo di stampa dell'Offerta. 
-	 * Si basa sul wrapper ricorsivo di printMapRecursive.
-	 */
-	public static void printOfferta() throws MapDAOException{
-		Map map = readMap();
-		printMapRecursive(map, 0, 8);
+
+	public void rimozioneInOfferta(List<String> listaCatalogo) throws IOException, ControllerException {
+		// TODO Auto-generated method stub
+		String data = null;
+		String ora = null;
+		
+		BufferedReader input = new BufferedReader(
+				new InputStreamReader(System.in));
+		System.out.print("Inserire la data.\r\n");
+		data = input.readLine();
+		System.out.print("Inserire l'ora.\r\n");
+		ora = input.readLine();
+		Offerta offerta = Offerta.getIstance();
+		try {
+			offerta.rimozioneInOfferta(listaCatalogo, data, ora);
+			System.out.println("Stampa mappa dopo inserimento in offerta.");
+			offerta.printOfferta();
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in rimozione offerta!!");
+		}
+		
 	}
-	
+
+	public void printOfferta() throws ControllerException {
+		// TODO Auto-generated method stub
+		Offerta offerta = Offerta.getIstance();
+		try {
+			offerta.printOfferta();
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in print offerta!!");
+		}
+	}
 }
 
 

@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import bean.CatalogoBean;
+import ordinaViaggi.bean.CatalogoBean;
 
-import exception.ConnectionException;
-import factory.ConnectionFactoryHSQL;
+import ordinaViaggi.exception.ConnectionException;
+import ordinaViaggi.factory.ConnectionFactoryHSQL;
 
 public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
 

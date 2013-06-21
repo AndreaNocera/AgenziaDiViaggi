@@ -12,11 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import ordinaViaggi.control.ControlloreAmministratore;
-import ordinaViaggi.control.ControlloreCliente;
-import ordinaViaggi.control.ControlloreProgettista;
-import ordinaViaggi.control.ControllorePromotore;
-
 /**
  * 
  * @author Gambella Riccardo
@@ -134,19 +129,19 @@ import ordinaViaggi.control.ControllorePromotore;
 			public void actionPerformed(ActionEvent e){
 				if(e.getSource() == promotore){
 					pannello.setVisible(false);
-					ControllorePromotore.gestionePromotore();	
+					new BoundaryPromotore();	
 				}
 				else if(e.getSource() == cliente){
 					pannello.setVisible(false);
-					ControlloreCliente.gestioneCliente();
+					new BoundaryCliente();
 				}
 				else if(e.getSource() == progettista){
 					pannello.setVisible(false);
-					ControlloreProgettista.gestioneProgettista();
+					new BoundaryProgettista();
 				}
 				else if(e.getSource() == amministratore){
 					pannello.setVisible(false);
-					ControlloreAmministratore.gestioneAmministratore();
+					new BoundaryAmministratore();
 				}
 			}
 		}	

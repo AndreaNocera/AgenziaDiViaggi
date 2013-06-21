@@ -1,5 +1,6 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreProgettista;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -9,8 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import ordinaViaggi.control.ControlloreProgettista;
 
 /**
  * @author Gambella Riccardo
@@ -46,10 +45,10 @@ public class BoundaryProgettista extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryProgettista(ControlloreProgettista controlloreProgettista) 
+	public BoundaryProgettista() 
 	{
 
-		this.controlloreProgettista = controlloreProgettista;
+		this.controlloreProgettista = ControlloreProgettista.getIstance();
 
 		pannelloProgettista = new JPanel();
 
@@ -115,7 +114,7 @@ public class BoundaryProgettista extends JFrame {
 				 * mettere singleton. Altrimenti crea una nuova
 				 * BoundaryClienteOrdinaViaggi a ogni passaggio back->Ritorno.
 				 */
-				new BoundaryProgettistaGestioneOfferta(controlloreProgettista);
+				new BoundaryProgettistaGestioneOfferta();
 
 			}
 

@@ -1,5 +1,6 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreCliente;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -8,8 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import ordinaViaggi.control.ControlloreCliente;
 
 /**
  * 
@@ -42,9 +41,9 @@ public class BoundaryCliente extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryCliente(ControlloreCliente controlloreCliente) {
+	public BoundaryCliente() {
 
-		this.controlloreCliente = controlloreCliente;
+		this.controlloreCliente = ControlloreCliente.getIstance();
 
 		pannelloCliente = new JPanel();
 
@@ -107,7 +106,7 @@ public class BoundaryCliente extends JFrame {
 				 * mettere singleton. Altrimenti crea una nuova
 				 * BoundaryClienteOrdinaViaggi a ogni passaggio back->Ritorno.
 				 */
-				new BoundaryClienteOrdinaViaggi(controlloreCliente);
+				new BoundaryClienteOrdinaViaggi();
 			}
 		}
 	}

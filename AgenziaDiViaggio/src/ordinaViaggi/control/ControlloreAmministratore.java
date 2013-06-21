@@ -1,119 +1,54 @@
 package ordinaViaggi.control;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ordinaViaggi.boundaries.BoundaryAmministratore;
-import ordinaViaggi.entity.Biglietto;
-import ordinaViaggi.entity.Map;
-import ordinaViaggi.entity.SubElement;
-import ordinaViaggi.entity.SubElementBiglietto;
-import ordinaViaggi.entity.Traveler;
+import ordinaViaggi.entity.Prenotazioni;
+import ordinaViaggi.exception.ControllerException;
 import ordinaViaggi.exception.MapDAOException;
 
+import java.util.List;
+
 /**
- * 
  * @author Gambella Riccardo
  * Boundary Controllore Cliente.
  */
+
+
 public class ControlloreAmministratore extends Controllore
 {
-	//Temporanea per il test
-	private static Controllore k;
-	private static ControlloreAmministratore h;   
-	private static BoundaryAmministratore c;
-
-	public ControlloreAmministratore(String dummy)
+	private static ControlloreAmministratore istance = null;   
+	
+	private ControlloreAmministratore()
 	{
-		//System.out.println("Entra con CambiaUtente!");
+		super();
 	}
 	
-	//Costruttore
-	private ControlloreAmministratore() 
-	{
-		//System.out.println("Qui entra all'inizio!");
-		super(); //Chiama subito il Controllore, cos√¨ crea subito la MappaProdotti
-		
-		//Per prima cosa il Costruttore crea un oggetto Vector e chiama "inizializzazionePerVersioneMemoriaCentrale()"		
+	public static ControlloreAmministratore getIstance(){
+		if(istance == null)
+			istance = new ControlloreAmministratore();
+		return istance;
 	}
 	
-	/* Avvia la Boundary del Cliente.
-	 * 
-	 */
-	public static void gestioneAmministratore()
-	{  
-		
-		h= new ControlloreAmministratore(); 	
-		c= new BoundaryAmministratore(h);   
-		
-	}
-	
-	public static boolean verificaDatiTraveler(List<String> dati){
-		for(String dato : dati){
-			if(dato == null || dato.equals(""))
-				return false;
+	public void estrazioneLista(List<String> selectedList, List<String> mapList) throws ControllerException {
+		// TODO Auto-generated method stub
+		Prenotazioni prenotazioni = Prenotazioni.getIstance();
+		try {
+			prenotazioni.estrazioneMappa(selectedList, mapList);
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in estrazione lista!!");
 		}
-		return true;
 	}
-	
-	/* Inserimento di un biglietto nel catalogo. Sono necessari mappa iniziale,
-	 * ambiente, mezzo, cittaPartenza e cittaArrivo inseriti in una lista.
-	 * 
-	 */
-	public static void inserimentoBiglietto(List<String> listaOfferta,
-			String idPrenotazione, List<String> dati) throws MapDAOException{
+
+	public List<String> getTicket(List<String> listaOfferta, String key) throws ControllerException {
+		// TODO Auto-generated method stub
+		Prenotazioni prenotazioni = Prenotazioni.getIstance();
+		try {
+			return prenotazioni.getTicket(listaOfferta, key);
+		} catch (MapDAOException e) {
+			// TODO Auto-generated catch block
+			throw new ControllerException("Errore in get ticket!!");
+		}
 		
-		Map map = readMap();
-		
-		String nome = dati.remove(0);
-		String cognome = dati.remove(0);
-		listaOfferta.add(idPrenotazione);
-		System.out.println("Inserisco il biglietto:");
-		for(String key : listaOfferta)
-			System.out.println("Id Prenotazione: " + key);
-		System.out.println("Nome: " + nome);
-		System.out.println("Cognome: " + cognome);
-		
-		
-		/* Devo arrivare in fondo alla mappa, creare una nuova mappa con chiave id DellaPrenotazione
-		 * e un SubElement che contiene il biglietto, che Ë formato da una lista di travelers.
-		 * listaOfferta contiene l'offerta specifica rispetto a cui voglio prenotare
-		 */
-		
-		
-		//Crea il biglietto per un traveler solo per prova.
-		Traveler traveler = new Traveler(nome, cognome);
-		List<Traveler> listTravelers = new ArrayList<Traveler>();
-		listTravelers.add(traveler);
-		Biglietto biglietto = new Biglietto(listTravelers);
-		
-		//Crea il subElement di tipo SubElementBiglietto da inserire
-		SubElement subElement = new SubElementBiglietto(new Map(), biglietto);
-		// Crea la lista di SubElements di tipo SubElementCatalogo
-		List<SubElement> listaSubElements = new ArrayList<SubElement>();
-		/*for(String info : subElementsInfo){
-			SubElement subElement = new SubElementOfferta(new Map(),info);
-			listaSubElements.add(subElement);
-		}*/
-		for(int i=0;i<8;i++)
-			listaSubElements.add(new SubElementBiglietto(new Map(), ""));
-		listaSubElements.add(subElement);
-		
-		inserimentoInMapRecursive(map,listaOfferta,listaSubElements);
-		
-		
-		// Al termine dell'inserimento salva la mappa (NB Metodo del Controllore)
-		saveMap(map);
 	}
-	
-	/* Metodo di stampa dell'Offerta. 
-	 * Si basa sul wrapper ricorsivo di printMapRecursive.
-	 */
-	public static void printPrenotazioni() throws MapDAOException{
-		Map map = readMap();
-		printMapRecursive(map, 0, 9);
-	}
-	
 }
 
 

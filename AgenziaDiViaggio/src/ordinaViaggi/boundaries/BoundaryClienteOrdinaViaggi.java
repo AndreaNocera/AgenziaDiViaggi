@@ -1,5 +1,7 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreCliente;
+import ordinaViaggi.exception.ControllerException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,9 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import ordinaViaggi.control.ControlloreCliente;
-import ordinaViaggi.exception.MapDAOException;
 
 /**
  * 
@@ -63,9 +62,9 @@ public class BoundaryClienteOrdinaViaggi extends JFrame{
 	int altezzaTitolo = 30;
 	
 	
-	public BoundaryClienteOrdinaViaggi(ControlloreCliente controlloreCliente)
+	public BoundaryClienteOrdinaViaggi()
 	{
-		this.controlloreCliente = controlloreCliente;
+		this.controlloreCliente = ControlloreCliente.getIstance();
 		
 		
 		/* Comparsa del pannello Ordina viaggio
@@ -219,8 +218,8 @@ public class BoundaryClienteOrdinaViaggi extends JFrame{
 				//Estrazione della mappa successiva
 				selectedList.add(selected);
 				try {
-					ControlloreCliente.estrazioneMappa(selectedList, mapList);
-				} catch (MapDAOException e1) {
+					controlloreCliente.estrazioneLista(selectedList, mapList);
+				} catch (ControllerException e1) {
 					// TODO Blocco catch generato automaticamente
 					e1.printStackTrace();
 				}
@@ -246,8 +245,8 @@ public class BoundaryClienteOrdinaViaggi extends JFrame{
 					selectedList.add(mezzo);
 					
 					try {
-						ControlloreCliente.estrazioneMappa(selectedList, mapList);
-					} catch (MapDAOException e1) {
+						controlloreCliente.estrazioneLista(selectedList, mapList);
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -275,8 +274,8 @@ public class BoundaryClienteOrdinaViaggi extends JFrame{
 					selectedList.add(cittaPartenza);
 					
 					try {
-						ControlloreCliente.estrazioneMappa(selectedList, mapList);
-					} catch (MapDAOException e1) {
+						controlloreCliente.estrazioneLista(selectedList, mapList);
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -306,8 +305,8 @@ public class BoundaryClienteOrdinaViaggi extends JFrame{
 					selectedList.add(cittaArrivo);
 					
 					try {
-						ControlloreCliente.estrazioneMappa(selectedList, mapList);
-					} catch (MapDAOException e1) {
+						controlloreCliente.estrazioneLista(selectedList, mapList);
+					} catch (ControllerException e1) {
 						// TODO Blocco catch generato automaticamente
 						e1.printStackTrace();
 					}
@@ -333,7 +332,7 @@ public class BoundaryClienteOrdinaViaggi extends JFrame{
 			 */
 			if(event.getSource() == visualizzazioneOfferta){
 				List<String> listaCatalogo = prelevaComboBoxCatalogo();
-				if(ControlloreCliente.verificaDati(listaCatalogo)){
+				if(controlloreCliente.verificaDati(listaCatalogo)){
 					pannelloOrdinaViaggio.setVisible(false);
 					new BoundaryClienteVisualizzaOfferta
 					(controlloreCliente,boundaryClienteOrdinaViaggi);
@@ -368,8 +367,8 @@ public class BoundaryClienteOrdinaViaggi extends JFrame{
 		
 		//Estrae la mappa iniziale
 		try {
-			ControlloreCliente.estrazioneMappa(selectedList, mapList);
-		} catch (MapDAOException e) {
+			controlloreCliente.estrazioneLista(selectedList, mapList);
+		} catch (ControllerException e) {
 			// TODO Blocco catch generato automaticamente
 			e.printStackTrace();
 		}

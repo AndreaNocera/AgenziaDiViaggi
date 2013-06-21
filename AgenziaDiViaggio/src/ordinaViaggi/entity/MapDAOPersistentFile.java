@@ -1,11 +1,10 @@
 package ordinaViaggi.entity;
 
-
-import java.io.File;
-
 import ordinaViaggi.exception.DeserializzazioneException;
 import ordinaViaggi.exception.MapDAOException;
 import ordinaViaggi.exception.SerializzazioneException;
+
+import java.io.File;
 
 /**
  * @author Gambella Riccardo

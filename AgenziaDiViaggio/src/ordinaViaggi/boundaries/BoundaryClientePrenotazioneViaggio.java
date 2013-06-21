@@ -1,5 +1,8 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreCliente;
+import ordinaViaggi.exception.ControllerException;
+import ordinaViaggi.exception.MapDAOException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,9 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import ordinaViaggi.control.ControlloreCliente;
-import ordinaViaggi.exception.MapDAOException;
 
 /**
  * @author Gambella Riccardo
@@ -60,10 +60,9 @@ public class BoundaryClientePrenotazioneViaggio extends JFrame {
 	int altezzaTitolo = 30;
 
 	public BoundaryClientePrenotazioneViaggio(
-			ControlloreCliente controlloreCliente,
 			BoundaryClienteOrdinaViaggi boundaryClienteOrdinaViaggi,
 			BoundaryClienteVisualizzaOfferta boundaryClienteVisualizzaOfferta) {
-		this.controlloreCliente = controlloreCliente;
+		this.controlloreCliente = ControlloreCliente.getIstance();
 		this.boundaryClienteOrdinaViaggi = boundaryClienteOrdinaViaggi;
 		this.boundaryClienteVisualizzaOfferta = boundaryClienteVisualizzaOfferta;
 
@@ -193,7 +192,7 @@ public class BoundaryClientePrenotazioneViaggio extends JFrame {
 				List<String> dati = new ArrayList<String>();
 				dati.add(nome.getText());
 				dati.add(cognome.getText());
-				if(!ControlloreCliente.verificaDatiTraveler(dati))
+				if(!controlloreCliente.verificaDatiTraveler(dati))
 					System.out.println("Dati non inseriti correttamente.");
 				else{
 					List<String> listaCatalogo = boundaryClienteOrdinaViaggi.prelevaComboBoxCatalogo();
@@ -205,9 +204,9 @@ public class BoundaryClientePrenotazioneViaggio extends JFrame {
 					String id = idPrenotazione.getText();
 					
 					try {
-						ControlloreCliente.inserimentoBiglietto(listaCatalogo, id,
+						controlloreCliente.inserimentoBiglietto(listaCatalogo, id,
 								dati);
-					} catch (MapDAOException e) {
+					} catch (ControllerException e) {
 						// TODO Blocco catch generato automaticamente
 						e.printStackTrace();
 					}

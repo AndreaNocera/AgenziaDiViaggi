@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import exception.ConnectionException;
+import ordinaViaggi.exception.ConnectionException;
 
 public class ConnectionFactoryHSQL implements IConnectionFactory{
 	private static final String driverName = "org.hsqldb.jdbcDriver";

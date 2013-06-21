@@ -1,5 +1,7 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControlloreAmministratore;
+import ordinaViaggi.exception.ControllerException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,9 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-import ordinaViaggi.control.ControlloreAmministratore;
-import ordinaViaggi.exception.MapDAOException;
 
 /**
  * 
@@ -53,10 +52,8 @@ public class BoundaryAmministratoreVisualizzaPrenotazioni extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryAmministratoreVisualizzaPrenotazioni(
-			ControlloreAmministratore controlloreAmministratore,
-			BoundaryAmministratoreVisualizzaOfferta boundaryAmministratoreVisualizzaOfferta) {
-		this.controlloreAmministratore = controlloreAmministratore;
+	public BoundaryAmministratoreVisualizzaPrenotazioni(BoundaryAmministratoreVisualizzaOfferta boundaryAmministratoreVisualizzaOfferta) {
+		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
 		this.boundaryAmministratoreVisualizzaOfferta = boundaryAmministratoreVisualizzaOfferta;
 
 		/*
@@ -148,7 +145,7 @@ public class BoundaryAmministratoreVisualizzaPrenotazioni extends JFrame {
 				List<String> listaOfferta = boundaryAmministratoreVisualizzaOfferta
 						.prelevaComboBox();
 				try {
-					ControlloreAmministratore.estrazioneMappa(listaOfferta,
+					controlloreAmministratore.estrazioneLista(listaOfferta,
 							mapList);
 					/*
 					 * Scendo nella mappa successiva in quanto non mi
@@ -157,15 +154,15 @@ public class BoundaryAmministratoreVisualizzaPrenotazioni extends JFrame {
 					 */
 					System.out.println("Insieme di prenotazioni: ");
 					for (String key : mapList){
-						List<String> datiTraveler = new ArrayList<String>();
-						datiTraveler = ControlloreAmministratore
+						List<String> datiTraveler;
+						datiTraveler = controlloreAmministratore
 								.getTicket(listaOfferta, key);
 						System.out.println("Id Prenotazione: " + key);
 						for(String dato: datiTraveler)
 							System.out.println(dato);
 					}
 					
-				} catch (MapDAOException e) {
+				} catch (ControllerException e) {
 					// TODO Blocco catch generato automaticamente
 					e.printStackTrace();
 				}

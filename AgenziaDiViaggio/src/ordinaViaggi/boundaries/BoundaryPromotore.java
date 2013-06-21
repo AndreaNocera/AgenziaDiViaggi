@@ -1,22 +1,17 @@
 package ordinaViaggi.boundaries;
 
+import ordinaViaggi.control.ControllorePromotore;
+import ordinaViaggi.exception.ControllerException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import ordinaViaggi.control.ControllorePromotore;
-import ordinaViaggi.exception.MapDAOException;
 
 /**
  * @author Gambella Riccardo
@@ -29,7 +24,7 @@ public class BoundaryPromotore extends JFrame
 	 */
 	private static final long serialVersionUID = -7497687086928751350L;
 
-	private ControllorePromotore controllorePromotore =null;
+	private ControllorePromotore controllorePromotore = null;
 	
 	public static JPanel  pannelloPromotore;
 
@@ -54,11 +49,11 @@ public class BoundaryPromotore extends JFrame
 	int border = 5;
 	int altezzaTitolo = 30;
 	
-	public BoundaryPromotore(ControllorePromotore controllorePromotore)   //Qui parte la Deserializzazione
+	public BoundaryPromotore()   //Qui parte la Deserializzazione
 	{
 		
 		
-		this.controllorePromotore = controllorePromotore;
+		this.controllorePromotore = ControllorePromotore.getIstance();
 				
 		pannelloPromotore = new JPanel();
 		
@@ -139,116 +134,29 @@ public class BoundaryPromotore extends JFrame
 			if(event.getSource() == visualizzaCatalogo){
 				System.out.println("Catalogo presente.");
 					try {
-						ControllorePromotore.printCatalogo();
-					} catch (MapDAOException e) {
+						controllorePromotore.printCatalogo();
+					} catch (ControllerException e) {
 						// TODO Blocco catch generato automaticamente
 						e.printStackTrace();
 					}
 			}
 			else if(event.getSource() == inserisciCatalogo){
 					
-					//Richiesta inserimento di Ambiente, Mezzo, CittaPartenza, CittaArrivo da StdIn
-					String ambiente = null;
-					String mezzo = null;
-					String cittaPartenza = null;
-					String cittaArrivo = null;
-					String via = null;
-					
-					try {
-						BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-						System.out.print("Inserire l'ambiente.\r\n");
-						ambiente = input.readLine();
-						System.out.print("Inserire il mezzo.\r\n");
-						mezzo = input.readLine();
-						System.out.print("Inserire la città di partenza.\r\n");
-						cittaPartenza = input.readLine();
-						System.out.print("Inserire la città di arrivo.\r\n");
-						cittaArrivo = input.readLine();
-						System.out.println("Inserire la via (Tratte intermedie)");
-						via = input.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					
-					try {
-						/* Mockup. Data per inserite le chiavi e le info dei subElements */
-						List<String> listaCatalogo = new ArrayList<String>();
-						listaCatalogo.add(ambiente);
-						listaCatalogo.add(mezzo);
-						listaCatalogo.add(cittaPartenza);
-						listaCatalogo.add(cittaArrivo);
-						listaCatalogo.add(via);
-						
-						/* Info dei subElements */
-						List<String> subElementsInfo = new ArrayList<String>();
-						subElementsInfo.add("");
-						subElementsInfo.add("");
-						subElementsInfo.add("");
-						subElementsInfo.add("");
-						subElementsInfo.add("");
-						
-						
-						ControllorePromotore.inserimentoInCatalogo(listaCatalogo, subElementsInfo);
-					} catch (MapDAOException e) {
-						// TODO Blocco catch generato automaticamente
-						e.printStackTrace();
-					}
-					
-					System.out.println("Stampa mappa Finale\n");
-					
 						try {
-							ControllorePromotore.printCatalogo();
-						} catch (MapDAOException e) {
-							// TODO Blocco catch generato automaticamente
+							controllorePromotore.inserimentoCatalogo();
+						} catch (ControllerException | IOException e) {
+							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+					
 				}
 			
 			else if(event.getSource() == rimuoviCatalogo){
-					System.out.println("Rimozione nel catalogo");
-					
-					//Richiesta rimozione di Ambiente, Mezzo, CittaPartenza, CittaArrivo da StdIn
-					String ambiente = null;
-					String mezzo = null;
-					String cittaPartenza = null;
-					String cittaArrivo = null;
-					String via = null;
-					
-					try {
-						BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-						System.out.print("Inserire l'ambiente.\r\n");
-						ambiente = input.readLine();
-						System.out.print("Inserire il mezzo.\r\n");
-						mezzo = input.readLine();
-						System.out.print("Inserire la città di partenza.\r\n");
-						cittaPartenza = input.readLine();
-						System.out.print("Inserire la città di arrivo.\r\n");
-						cittaArrivo = input.readLine();
-						System.out.println("Inserire la via (Tratte intermedie)");
-						via = input.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					
-					try {
-						/* Mockup. Data per inserite le chiavi e le info dei subElements */
-						List<String> listaCatalogo = new ArrayList<String>();
-						listaCatalogo.add(ambiente);
-						listaCatalogo.add(mezzo);
-						listaCatalogo.add(cittaPartenza);
-						listaCatalogo.add(cittaArrivo);
-						listaCatalogo.add(via);
 						
-						ControllorePromotore.rimozioneInCatalogo(listaCatalogo);
-					} catch (MapDAOException e) {
-						// TODO Blocco catch generato automaticamente
-						e.printStackTrace();
-					}
-					
 					try {
-						ControllorePromotore.printCatalogo();
-					} catch (MapDAOException e) {
-						// TODO Blocco catch generato automaticamente
+						controllorePromotore.rimozioneInCatalogo();
+					} catch (ControllerException | IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
