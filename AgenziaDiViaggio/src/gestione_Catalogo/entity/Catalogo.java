@@ -19,7 +19,7 @@ import gestione_Catalogo.exception.MappaException;
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
- * @author Sonia
+ * @authors Remo Sperlongano e Ivan Torre
  * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 
@@ -45,24 +45,24 @@ public class Catalogo implements Serializable{
 	public boolean verificaEsistenzaViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException {
 		
 		/*
-		 * Non va in exception: prima di prendere un elemento, verifica la sua esistenza...se c'�, lo prende, se non c'�, ritorna con false
+		 * Non va in exception: prima di prendere un elemento, verifica la sua esistenza...se c'e', lo prende, se non c'e', ritorna con false
 		 */
 		
-		if (!mappaAmbiente.esistenzaElemento(ambiente)) return false;	//Se non c'� l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
+		if (!mappaAmbiente.esistenzaElemento(ambiente)) return false;	//Se non c'e' l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
 		Elemento amb = mappaAmbiente.getElemento(ambiente);
-		if (!amb.esistenzaElemento(mezzoTrasporto)) return false;  //se nn c'� il mezzo ritorna con false, altrimenti continua
+		if (!amb.esistenzaElemento(mezzoTrasporto)) return false;  //se nn c'e' il mezzo ritorna con false, altrimenti continua
 		Elemento mez = amb.getElemento(mezzoTrasporto);
 		if (!mez.esistenzaElemento(stazionePartenza)) return false;
 		Elemento part = mez.getElemento(stazionePartenza);
 		if (!part.esistenzaElemento(stazioneArrivo)) return false;
 		
-		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio � gi� presente
+		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio e' gia' presente
 		return true;
 	}
 	
 	public boolean verificaEsistenzaOfferte(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException {
 		
-		//se la tabella della stazione di arrivo � vuota (non ha offerte) ritorna con false, altrimenti con true
+		//se la tabella della stazione di arrivo e' vuota (non ha offerte) ritorna con false, altrimenti con true
 		return !mappaAmbiente.getElemento(ambiente).getElemento(mezzoTrasporto).getElemento(stazionePartenza).getElemento(stazioneArrivo).listaChiaviElementi().isEmpty();
 		
 	}
@@ -71,7 +71,7 @@ public class Catalogo implements Serializable{
 	
 	public void aggiungiViaggioAlCatalogo(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		/*
-		 * Bisogna sempre verificare, prima di aggiungere un elemento alla tabella, se questo elemento � gi� presente!
+		 * Bisogna sempre verificare, prima di aggiungere un elemento alla tabella, se questo elemento e' gia' presente!
 		 */
 		
 		//FASE 1:Aggiungo l'ambiente in mappaAmbienti
@@ -114,7 +114,7 @@ public class Catalogo implements Serializable{
 		}
 		
 		//FASE 4: Aggiungo stazioneArrivo nella mappa della stazionePartenza prima aggiunta
-		//non c'� bisogno di controllo, so gi� che non c'� (verificaEsistenzaViaggio());
+		//non c'e' bisogno di controllo, so gia' che non c'e' (verificaEsistenzaViaggio());
 		
 		Elemento sa = new StazioneArrivo(new IDEsterno(stazioneArrivo), new Info(info));
 		mappaAmbiente.getElemento(ambiente).getElemento(mezzoTrasporto).getElemento(stazionePartenza).aggiungiElemento(stazioneArrivo, sa);

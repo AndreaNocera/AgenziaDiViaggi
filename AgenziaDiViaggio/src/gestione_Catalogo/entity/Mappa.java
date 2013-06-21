@@ -17,9 +17,7 @@ import gestione_Catalogo.exception.IDEsternoException;
 public class Mappa extends TreeMap<String,Elemento> implements Serializable{
 	
 	
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	//costruttore

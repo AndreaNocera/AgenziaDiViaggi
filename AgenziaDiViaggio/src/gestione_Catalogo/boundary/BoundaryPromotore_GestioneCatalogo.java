@@ -45,7 +45,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	 * Attributi di istanza
 	 */
 	
-	//Entit�
+	//Entita'
 	private ControlloreGestioneCatalogo controllore;
 	private String ambienteScelto;
 	private String mezzoScelto;
@@ -176,7 +176,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		superPanel = new JPanel();
 		superPanel.setSize(BoundaryAAAprimaria.confinePrincipale.getWidth(), BoundaryAAAprimaria.confinePrincipale.getHeight());
 		superPanel.setBackground(Color.BLACK); 					//provo a mettere il sottopannellonero...si vedono i contorni?
-		superPanel.setLayout(null); 							//ora il pannello pu� contenere altri pannelli
+		superPanel.setLayout(null); 							//ora il pannello puo' contenere altri pannelli
 		BoundaryAAAprimaria.confinePrincipale.add(superPanel); 	//aggiungo il pannello al confine (chiamato staticamente)
 	//	BoundaryAAAprimaria.confinePrincipale.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
@@ -191,7 +191,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel1 = new JPanel();
 		panel1.setSize(superPanel.getWidth(), superPanel.getHeight()/8-10);  //Il meno 10 serve per far vedere il contorno 
 		panel1.setLocation(0, 0);			//x=0 e y=0 rispetto al superPanel
-		panel1.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel1.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel1);				//aggiungo il primo pannello al superPannello
 		
 		labelTitolo = new JLabel();  		//Etichetta per il titolo
@@ -233,7 +233,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel2 = new JPanel();
 		panel2.setSize(superPanel.getWidth(), superPanel.getHeight()/8-10); //Il meno 10 serve a far vedere il contorno
 		panel2.setLocation(0, superPanel.getHeight()/8);			//x=0 e y=0 rispetto al superPanel
-		panel2.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel2.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel2);				//aggiungo il primo pannello al superPannello
 		
 		
@@ -266,7 +266,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel3 = new JPanel();
 		panel3.setSize(superPanel.getWidth(), superPanel.getHeight()/8*6);
 		panel3.setLocation(0, superPanel.getHeight()/8*2);	
-		panel3.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel3.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel3);
 		panel3.setVisible(false); 			//deve essere invisibile all'inizio, attivato solo dal bottone
 		
@@ -294,7 +294,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		gruppoAmbientePannello3 = new ButtonGroup();
 		gruppoAmbientePannello3.add(radioAriaPannello3);
 		gruppoAmbientePannello3.add(radioMarePannello3);
-		gruppoAmbientePannello3.add(radioTerraPannello3);   //Ora solo uno di questi 3 � selezionabile
+		gruppoAmbientePannello3.add(radioTerraPannello3);   //Ora solo uno di questi 3 e' selezionabile
 		
 		
 		
@@ -314,7 +314,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		campoMezziPannello3 = new JTextField(panel3.getWidth()/7);	  //campo per aggiungere dei nuovi mezzi
 		campoMezziPannello3.setFont(new Font("Arial", 0, 18));
 		campoMezziPannello3.setBounds(panel3.getWidth()/7-10, panel3.getHeight()/7*2+45, panel3.getWidth()/6, 20);
-		campoMezziPannello3.setEditable(false);   				// all'inizio � disattivato, si attiva solo con new...
+		campoMezziPannello3.setEditable(false);   				// all'inizio e' disattivato, si attiva solo con new...
 		panel3.add(campoMezziPannello3);
 		
 		
@@ -326,8 +326,6 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		
 		tendinaStazionePartenzaPannello3 = new JComboBox();	  //Tendina per i mezzi
-		tendinaStazionePartenzaPannello3.addItem("new...");    //da rimuovere al pi� presto
-		tendinaStazionePartenzaPannello3.setSelectedIndex(-1);  //da rimuovare al pi� presto
 		tendinaStazionePartenzaPannello3.setBackground(Color.WHITE);
 		tendinaStazionePartenzaPannello3.setEnabled(false);
 		tendinaStazionePartenzaPannello3.setBounds(panel3.getWidth()/7*3-10, panel3.getHeight()/7*2+20, panel3.getWidth()/6, 20);
@@ -435,7 +433,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		panel4 = new JPanel();
 		panel4.setSize(superPanel.getWidth(), superPanel.getHeight()/8*6);
 		panel4.setLocation(0, superPanel.getHeight()/8*2);	
-		panel4.setLayout(null); 			//ora il pannello pu� contenere oggetti
+		panel4.setLayout(null); 			//ora il pannello puo' contenere oggetti
 		superPanel.add(panel4);
 		panel4.setVisible(false); 			//deve essere invisibile all'inizio, attivato solo dal bottone
 		
@@ -601,7 +599,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		try { //cerca nella mappa tutte le chiavi da aggiungere in tendina
 			Set<String> s = controllore.mostraAmbientiInCatalogo();
 			Iterator<String> it = s.iterator();
-			if (s.size() > 1){ //se c'� pi� di un elemento visualizzo l'elemento neutro
+			if (s.size() > 1){ //se c'e' piu' di un elemento visualizzo l'elemento neutro
 				//devo aggiungere l'elemento vuoto
 				tendinaAmbientePannello4.addItem("-----");
 			}
@@ -667,7 +665,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		try {
 			controllore.carica();
 		} catch (DeserializzazioneException e) {
-			JOptionPane.showMessageDialog(null, "Non � stato ancora salvato un catalogo.  Faccio partire il thread.");
+			JOptionPane.showMessageDialog(null, "Non e' stato ancora salvato un catalogo.  Faccio partire il thread.");
 			avviaThread();
 			b = false;
 		}
@@ -849,7 +847,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					campoMezziPannello3.setEditable(true); //attiva il campo sotto per inserire un mezzo non ancora usato
 					campoStazionePartenzaPannello3.setEditable(true);
 					tendinaStazionePartenzaPannello3.removeAllItems();
-					tendinaStazionePartenzaPannello3.setEnabled(false); //se il mezzo � nuovo, anche la stazione di partenza sar� nuova, la tendina non serve!
+					tendinaStazionePartenzaPannello3.setEnabled(false); //se il mezzo e' nuovo, anche la stazione di partenza sara' nuova, la tendina non serve!
 				} else {
 					campoMezziPannello3.setText("");
 					campoMezziPannello3.setEditable(false);
@@ -964,7 +962,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					
 					if (conferma == JOptionPane.YES_OPTION){	
 						controllore.aggiungiViaggio(ambienteScelto, mezzoTrasporto, stazionePartenza, stazioneArrivo, info);
-						JOptionPane.showMessageDialog(null, "Il nuovo viaggio � stato aggiunto correttamente nel catalogo.", "Viaggio Aggiunto", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Il nuovo viaggio e' stato aggiunto correttamente nel catalogo.", "Viaggio Aggiunto", JOptionPane.INFORMATION_MESSAGE);
 						aggiornaTendinePannello3(); //aggiorno le tendine
 					}
 					
@@ -1116,7 +1114,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			if (tendinaAmbientePannello4.getItemCount() != 0) { //ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
 			
 					
-					if(!ambienteScelto.equals("-----")){ //Solo se non � l'elemento neutro
+					if(!ambienteScelto.equals("-----")){ //Solo se non e' l'elemento neutro
 							
 						try {  //cerca nella mappa tutte le chiavi da aggiungere in tendina
 							Set<String> s = controllore.mostraMezziDiTrasportoInCatalogo(ambienteScelto);
@@ -1175,7 +1173,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			
 			if (tendinaMezziPannello4.getItemCount() != 0) { //ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
 	
-				if(!mezzoScelto.equals("-----")){ //Solo se non � l'elemento neutro
+				if(!mezzoScelto.equals("-----")){ //Solo se non e' l'elemento neutro
 					
 					try { //cerca nella mappa tutte le chiavi da aggiungere in tendina
 						Set<String> s = controllore.mostraStazioniDiPartenzaInCatalogo(ambienteScelto, mezzoScelto);
@@ -1234,7 +1232,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			
 			if (tendinaStazionePartenzaPannello4.getItemCount() != 0) { //ci deve essere almeno un elemento, se ho la tendina vuota mi va in null pointer exception.
 				
-				if(!partenzaScelta.equals("-----")){ //Solo se non � l'elemento neutro
+				if(!partenzaScelta.equals("-----")){ //Solo se non e' l'elemento neutro
 					
 					try { //cerca nella mappa tutte le chiavi da aggiungere in tendina
 						Set<String> s = controllore.mostraStazioniDiArrivoInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta);
@@ -1327,7 +1325,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					// rimuovo il viaggio
 					try {
 						controllore.rimuoviViaggio(ambienteScelto, mezzoScelto, partenzaScelta, stazioneArrivo);
-						JOptionPane.showMessageDialog(null, "Il viaggio � stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
 						//aggiorno tutti i campi dopo aver rimosso il viaggio
 						aggiornaTendinePannello4();
 						
