@@ -2,6 +2,8 @@ package utils;
 
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import javax.swing.*;
 
 public class DatePicker extends JPanel{
@@ -38,10 +40,35 @@ public class DatePicker extends JPanel{
 		this.setDateAsString(date);
 	}
 	
+	public DatePicker(GregorianCalendar date) {
+		super();
+		buildPanel();
+		this.setDateAsGregorianCalendar(date);
+	}
+	
 	public void addActionListener(ActionListener listener) {
 		this.comboDay.addActionListener(listener);
 		this.comboMonth.addActionListener(listener);
 		this.comboYear.addActionListener(listener);
+	}
+	
+	public GregorianCalendar getDateAsGregorianCalendar() {
+		if (hasValidData()) {
+			int day = (int) comboDay.getSelectedItem();
+			int month = (int) comboMonth.getSelectedItem();
+			int year = (int) comboYear.getSelectedItem();
+			
+			return new GregorianCalendar(year, month, day);
+		}
+		
+		return null;		
+	}
+	
+	@SuppressWarnings("static-access")
+	public void setDateAsGregorianCalendar(GregorianCalendar date) {
+		comboDay.setSelectedItem(String.valueOf(date.DAY_OF_MONTH));
+		comboMonth.setSelectedItem(String.valueOf(date.MONTH));
+		comboYear.setSelectedItem(String.valueOf(date.YEAR));
 	}
 	
 	public String getDateAsString() {
