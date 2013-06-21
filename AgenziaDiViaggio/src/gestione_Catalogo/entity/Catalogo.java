@@ -198,8 +198,8 @@ public class Catalogo implements Serializable{
 	public String getInfo(String ambiente, String mezzo, String partenza, String arrivo, String intermedia) throws IDEsternoException{
 		
 		Elemento elementoArrivo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo);
-		if (elementoArrivo.esistenzaElemento(intermedia)){
-			return elementoArrivo.getElemento(intermedia).getInfo();
+		if (elementoArrivo.esistenzaElemento("Diretto")){
+			return elementoArrivo.getElemento("Diretto").getInfo();
 			
 		} else {
 			throw new IDEsternoException("Stazione di arrivo "+arrivo+" non presente in catalogo");

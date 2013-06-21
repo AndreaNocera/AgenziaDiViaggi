@@ -138,6 +138,9 @@ public class BoundaryPromotore_GestioneCatalogo {
 
 	private JLabel labelStazioneArrivoPannello4;
 	private JComboBox<String> tendinaStazioneArrivoPannello4;
+	
+	private JLabel labelStazioneIntermediaPannello4;
+	private JComboBox<String> tendinaStazioneIntermediaPannello4;
 
 	private JButton bottoneRimuovi;
 	private JButton bottoneSvuotaPannello4;
@@ -471,7 +474,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		labelAmbientePannello4 = new JLabel();        //Etichetta per i mezzi
 		labelAmbientePannello4.setFont(new Font("Arial", 0, 15));
-		labelAmbientePannello4.setBounds(panel3.getWidth()/9-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
+		labelAmbientePannello4.setBounds(panel3.getWidth()/11-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
 		labelAmbientePannello4.setText("Ambiente");
 		panel4.add(labelAmbientePannello4);
 		
@@ -479,7 +482,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		tendinaAmbientePannello4 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaAmbientePannello4.setBackground(Color.WHITE);
 		tendinaAmbientePannello4.setEnabled(false);
-		tendinaAmbientePannello4.setBounds(panel4.getWidth()/9-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
+		tendinaAmbientePannello4.setBounds(panel4.getWidth()/11-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		panel4.add(tendinaAmbientePannello4);
 
 		
@@ -487,7 +490,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		labelMezziPannello4 = new JLabel();        //Etichetta per i mezzi
 		labelMezziPannello4.setFont(new Font("Arial", 0, 15));
-		labelMezziPannello4.setBounds(panel3.getWidth()/9*3-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
+		labelMezziPannello4.setBounds(panel3.getWidth()/11*3-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
 		labelMezziPannello4.setText("Mezzi");
 		panel4.add(labelMezziPannello4);
 		
@@ -495,37 +498,50 @@ public class BoundaryPromotore_GestioneCatalogo {
 		tendinaMezziPannello4 = new JComboBox<String>();	  //Tendina per i mezzi
 		tendinaMezziPannello4.setBackground(Color.WHITE);
 		tendinaMezziPannello4.setEnabled(false);
-		tendinaMezziPannello4.setBounds(panel4.getWidth()/9*3-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
+		tendinaMezziPannello4.setBounds(panel4.getWidth()/11*3-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		panel4.add(tendinaMezziPannello4);
 		
 		
 		labelStazionePartenzaPannello4 = new JLabel();        //Etichetta per Stazioni di partenza
 		labelStazionePartenzaPannello4.setFont(new Font("Arial", 0, 15));
-		labelStazionePartenzaPannello4.setBounds(panel4.getWidth()/9*5-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
+		labelStazionePartenzaPannello4.setBounds(panel4.getWidth()/11*5-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
 		labelStazionePartenzaPannello4.setText("Stazione di Partenza");
 		panel4.add(labelStazionePartenzaPannello4);
 		
 		
 		tendinaStazionePartenzaPannello4 = new JComboBox<String>();	 //Tendina per stazioni di partenza
 		tendinaStazionePartenzaPannello4.setBackground(Color.WHITE);
-		tendinaStazionePartenzaPannello4.setBounds(panel4.getWidth()/9*5-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
+		tendinaStazionePartenzaPannello4.setBounds(panel4.getWidth()/11*5-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		tendinaStazionePartenzaPannello4.setEnabled(false);
 		panel4.add(tendinaStazionePartenzaPannello4);
 		
 		
 		labelStazioneArrivoPannello4 = new JLabel();        //Etichetta per Stazione di arrivo
 		labelStazioneArrivoPannello4.setFont(new Font("Arial", 0, 15));
-		labelStazioneArrivoPannello4.setBounds(panel4.getWidth()/9*7-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
+		labelStazioneArrivoPannello4.setBounds(panel4.getWidth()/11*7-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
 		labelStazioneArrivoPannello4.setText("Stazione di Arrivo");
 		panel4.add(labelStazioneArrivoPannello4);
 		
 		
 		tendinaStazioneArrivoPannello4 = new JComboBox<String>();	 //Tendina per stazioni di arrivo
 		tendinaStazioneArrivoPannello4.setBackground(Color.WHITE);
-		tendinaStazioneArrivoPannello4.setBounds(panel4.getWidth()/9*7-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
+		tendinaStazioneArrivoPannello4.setBounds(panel4.getWidth()/11*7-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
 		tendinaStazioneArrivoPannello4.setEnabled(false);
 		panel4.add(tendinaStazioneArrivoPannello4);
 		
+		
+		labelStazioneIntermediaPannello4 = new JLabel();	//Etichetta per Stazione intermedia
+		labelStazioneIntermediaPannello4.setFont(new Font("Arial", 0, 15));
+		labelStazioneIntermediaPannello4.setBounds(panel4.getWidth()/11*9-25, panel4.getHeight()/6*4, panel4.getWidth()/6, 20);
+		labelStazioneIntermediaPannello4.setText("Stazione Intermedia");
+		panel4.add(labelStazioneIntermediaPannello4);
+		
+		
+		tendinaStazioneIntermediaPannello4 = new JComboBox<String>(); //Tendina per stazioni intermedie
+		tendinaStazioneIntermediaPannello4.setBackground(Color.WHITE);
+		tendinaStazioneIntermediaPannello4.setBounds(panel4.getWidth()/11*9-25, panel4.getHeight()/6*4+20, panel4.getWidth()/6, 20);
+		tendinaStazioneIntermediaPannello4.setEnabled(false);
+		panel4.add(tendinaStazioneIntermediaPannello4);
 		
 		bottoneSvuotaPannello4 = new JButton("AZZERA CAMPI");
 		bottoneSvuotaPannello4.setBackground(Color.YELLOW);
