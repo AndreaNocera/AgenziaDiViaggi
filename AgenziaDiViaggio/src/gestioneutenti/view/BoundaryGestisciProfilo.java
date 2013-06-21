@@ -1,6 +1,8 @@
 package gestioneutenti.view;
-
+import gestioneutenti.model.DatiUtente;
+import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
+import gestioneutenti.model.ruoli.Ruolo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -65,6 +67,13 @@ public class BoundaryGestisciProfilo extends JDialog{
 		this.setResizable(false);
 		this.setLayout(new GridBagLayout());
 		
+		//Utente
+		DatiUtente dati = user.getDatiUtente();
+		String mail = user.getMail();
+		Ruolo ruolo = user.getRuolo();
+		Login login = user.getLogin();
+		
+		
 		//Panel Main
 		panelMain = new JPanel();
 		panelMain.setLayout(new GridBagLayout());
@@ -74,20 +83,20 @@ public class BoundaryGestisciProfilo extends JDialog{
 		labelBirth = new JLabel("Data di nascita");
 		labelSex = new JLabel("Sesso");
 		labelMail = new JLabel("Mail");
-		labelRole = new JLabel("Ruolo");		
+		labelRole = new JLabel("RuoloOld");		
 		labelUsername = new JLabel("Username");
 		labelCurrentPassword = new JLabel("Password");
 		labelNewPassword = new JLabel("Nuova Password");
 		labelConfirmNewPassword = new JLabel("Conferma");
-		textfieldFirstname = new JTextField(this.user.getNome(), 20);
-		textfieldLastname = new JTextField(this.user.getCognome(), 20);
-		textfieldCity = new JTextField(this.user.getCittà(), 20);
-		calendarBirth = new DatePicker(this.user.getNascita());
+		textfieldFirstname = new JTextField(dati.getNome(), 20);
+		textfieldLastname = new JTextField(dati.getCognome(), 20);
+		textfieldCity = new JTextField(dati.getCittà(), 20);
+		calendarBirth = new DatePicker(dati.getNascita());
 		comboGender = new JComboBox<String>(SEX_CHOICES);
-		comboGender.setSelectedItem(this.user.getSesso());
-		textfieldMail = new JTextField(this.user.getMail(), 20);
-		labelContentRole = new JLabel(this.user.getRuolo());
-		labelContentUsername = new JLabel(this.user.getLogin().getUsername());
+		comboGender.setSelectedItem(dati.getSesso());
+		textfieldMail = new JTextField(mail, 20);
+		labelContentRole = new JLabel(ruolo.asString());
+		labelContentUsername = new JLabel(login.getUsername());
 		checkboxChangePassword = new JCheckBox("Cambia password", false);
 		checkboxChangePassword.addActionListener(new ChangePasswordListener());
 		passwordfieldCurrentPassword = new JPasswordField("", 20);
@@ -96,6 +105,7 @@ public class BoundaryGestisciProfilo extends JDialog{
 		passwordfieldNewPassword.setEditable(false);
 		passwordfieldConfirmNewPassword = new JPasswordField("", 20);
 		passwordfieldConfirmNewPassword.setEditable(false);
+		
 		panelMain.add(labelFirstname, new GBCHelper(0, 0).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(15, 15, 10, 15));
 		panelMain.add(labelLastname, new GBCHelper(0, 1).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		panelMain.add(labelCity, new GBCHelper(0, 2).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));

@@ -1,8 +1,11 @@
 package gestioneutenti.view.utils;
 
-import gestioneutenti.model.Utente;
 import utils.DatePicker;
 import utils.GBCHelper;
+import gestioneutenti.model.DatiUtente;
+import gestioneutenti.model.Login;
+import gestioneutenti.model.Utente;
+import gestioneutenti.model.ruoli.Ruolo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -47,13 +50,13 @@ public class UtenteDialog extends JDialog{
 	private boolean modifiedData;
 	
 	public UtenteDialog(JFrame ownerFrame) {
-		super(ownerFrame, "Nuovo Utente", true);
+		super(ownerFrame, "Nuovo UtenteOld", true);
 		buildDialog();
 		validData = false;
 	}
 	
 	public UtenteDialog(JFrame ownerFrame, Utente user) {
-		super(ownerFrame, "Modifica Utente", true);
+		super(ownerFrame, "Modifica UtenteOld", true);
 		buildDialog();
 		setUserData(user);
 		modifiedData = false;
@@ -76,7 +79,7 @@ public class UtenteDialog extends JDialog{
 		labelBirth = new JLabel("Data di nascita");
 		labelSex = new JLabel("Sesso");
 		labelMail = new JLabel("Mail");
-		labelRole = new JLabel("Ruolo");		
+		labelRole = new JLabel("RuoloOld");		
 		labelUsername = new JLabel("Username");
 		labelPassword = new JLabel("Password");
 		textfieldFirstname = new JTextField("", 20);
@@ -205,15 +208,21 @@ public class UtenteDialog extends JDialog{
 	}
 	
 	public void setUserData(Utente user) {
-		this.textfieldFirstname.setText(user.getNome());
-		this.textfieldLastname.setText(user.getCognome());
-		this.textfieldCity.setText(user.getCittà());
-		this.calendarBirth.setDateAsString(user.getNascita());
-		this.comboGender.setSelectedItem(user.getSesso());
-		this.textfieldMail.setText(user.getMail());
-		this.comboRole.setSelectedItem(user.getRuolo());
-		this.textfieldUsername.setText(user.getLogin().getUsername());
-		this.textfieldPassword.setText(user.getLogin().getPassword());
+		DatiUtente dati = user.getDatiUtente();
+		String mail = user.getMail();
+		Ruolo ruolo = user.getRuolo();
+		Login login = user.getLogin();
+		
+		
+		this.textfieldFirstname.setText(dati.getNome());
+		this.textfieldLastname.setText(dati.getCognome());
+		this.textfieldCity.setText(dati.getCittà());
+		this.calendarBirth.setDateAsGregorianCalendar(dati.getNascita());
+		this.comboGender.setSelectedItem(dati.getSesso());
+		this.textfieldMail.setText(mail);
+		this.comboRole.setSelectedItem(ruolo.asString());
+		this.textfieldUsername.setText(login.getUsername());
+		this.textfieldPassword.setText(login.getPassword());
 	}
 	
 	public String[] getUserData() {

@@ -1,14 +1,17 @@
 package gestioneutenti.test;
 
+import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
+import gestioneutenti.model.ruoli.Amministratore;
 import gestioneutenti.view.BoundaryGestisciProfilo;
 
 import java.awt.*;
+import java.util.GregorianCalendar;
 
 public class TestGestisciProfilo {
 	
-	private static final Utente SAMPLE_USER = new Utente("Giacomo", "Marciani", "Roma", "27 6 1990", "Uomo", "giacomo.marciani@gmail.com", "Amministratore", new Login("giacomo.marciani", "password"));
+	private static final Utente SAMPLE_USER = new Utente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "M"), "giacomo.marciani@gmail.com", Amministratore.getInstance(), new Login("giacomo.marciani", "password"));
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

@@ -1,7 +1,11 @@
 package gestioneutenti.view;
 
+import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
+import gestioneutenti.model.ruoli.Amministratore;
+import gestioneutenti.model.ruoli.Progettista;
+import gestioneutenti.model.ruoli.Promotore;
 import gestioneutenti.view.utils.UserTable;
 import gestioneutenti.view.utils.UtenteDialog;
 
@@ -10,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.GregorianCalendar;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -23,9 +29,9 @@ public class BoundaryAmministraUtenti extends JFrame{
 	private static final int SCREEN_LOCATION_PROPORTION = 4;
 	public static final String FRAME_TITLE = "Voyager";	
 	
-	private static final Utente SAMPLE_USER_1 = new Utente("Giacomo", "Marciani", "Roma", "27 6 1990", "Uomo", "giacomo.marciani@gmail.com", "Amministratore", new Login("giacomo.marciani", "password"));
-	private static final Utente SAMPLE_USER_2 = new Utente("Jesus", "Cevallos", "Roma", "27 6 1990", "Uomo", "jesusfcevallos@gmail.com", "Amministratore", new Login("jesus.cevallos", "password"));
-	private static final Utente SAMPLE_USER_3 = new Utente("Ilyas", "Aboki", "Roma", "27 6 1990", "Uomo", "ilyas.aboki@gmail.com", "Amministratore", new Login("ilyas.aboki", "password"));
+	private static final Utente SAMPLE_USER_1 = new Utente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "M"), "giacomo.marciani@gmail.com", Amministratore.getInstance(), new Login("giacomo.marciani", "password"));
+	private static final Utente SAMPLE_USER_2 = new Utente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "M"), "giacomo.marciani@gmail.com", Promotore.getInstance(), new Login("giacomo.marciani", "password"));
+	private static final Utente SAMPLE_USER_3 = new Utente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "M"), "giacomo.marciani@gmail.com", Progettista.getInstance(), new Login("giacomo.marciani", "password"));
 	private static final Utente[] SAMPLE_USERS = {SAMPLE_USER_1, SAMPLE_USER_2, SAMPLE_USER_3};
 	
 	public JFrame frameMain;
@@ -67,13 +73,13 @@ public class BoundaryAmministraUtenti extends JFrame{
 	
 	public void editUser(String[] data) {		
 		//if (controller.performUserUpdate(data)) {
-		JOptionPane.showMessageDialog(getParent(), "Utente aggiornato!", data[7], JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(getParent(), "UtenteOld aggiornato!", data[7], JOptionPane.INFORMATION_MESSAGE);
 		//}
 	}
 	
 	public void deleteUser(String username) {
 		//if (controller.performUserDelete(username) {
-		JOptionPane.showMessageDialog(getParent(), "Utente rimosso!", username, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(getParent(), "UtenteOld rimosso!", username, JOptionPane.INFORMATION_MESSAGE);
 		//
 	}
 	
