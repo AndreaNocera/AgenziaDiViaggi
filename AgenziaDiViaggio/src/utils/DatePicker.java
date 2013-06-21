@@ -64,8 +64,10 @@ public class DatePicker extends JPanel{
 		return null;		
 	}
 	
-	@SuppressWarnings("static-access")
+	
 	public void setDateAsGregorianCalendar(GregorianCalendar date) {
+		// Il campI statici DAY_OF_MONTH, MONTH, YEAR, vanno presi in maniera statica
+		// Sostutuire con GregorianCalendar.DAY_OF_MONTH....ecc ecc
 		comboDay.setSelectedItem(String.valueOf(date.DAY_OF_MONTH));
 		comboMonth.setSelectedItem(String.valueOf(date.MONTH));
 		comboYear.setSelectedItem(String.valueOf(date.YEAR));

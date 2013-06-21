@@ -47,6 +47,7 @@ public class Mappa extends TreeMap<String,Elemento> implements Serializable{
 		
 	}
 	
+	
 	public void removeElemento(String k) throws IDEsternoException {
 		
 		Elemento e = super.get(k);		
@@ -65,6 +66,10 @@ public class Mappa extends TreeMap<String,Elemento> implements Serializable{
 	public boolean esistenzaElemento(String k){
 		
 		return super.containsKey(k);
+	}
+	
+	public boolean esistenzaElemento(Elemento e){
+		return super.containsKey(e.getIDEsterno());
 	}
 
 }

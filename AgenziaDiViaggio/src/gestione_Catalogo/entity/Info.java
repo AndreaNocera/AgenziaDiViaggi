@@ -21,7 +21,7 @@ public class Info implements Serializable{
 	
 	//construttore
 	public Info(){
-		this.info = "Non ci sono informazioni";
+		this.info = "No info";
 	}
 	
 	public Info(String info){

@@ -6,14 +6,22 @@
 package gestione_Catalogo.control;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Set;
 
+import gestione_Catalogo.entity.Ambiente;
 import gestione_Catalogo.entity.Catalogo;
 import gestione_Catalogo.entity.DeserializzaOggetti;
+import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Log;
+import gestione_Catalogo.entity.MezzoTrasporto;
 import gestione_Catalogo.entity.SerializzaOggetti;
+import gestione_Catalogo.entity.StazioneArrivo;
+import gestione_Catalogo.entity.StazioneIntermedia;
+import gestione_Catalogo.entity.StazionePartenza;
 import gestione_Catalogo.exception.DeserializzazioneException;
 import gestione_Catalogo.exception.IDEsternoException;
 import gestione_Catalogo.exception.MappaException;
@@ -53,15 +61,42 @@ public class ControlloreGestioneCatalogo {
 	
 	
 	//Metodi
-	public void aggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void aggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia,  String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		/*
+		 * FASE 1 : creo l'oggetto Ambiente
+		 */
+			
+		//classe c di nome ambiente
+		Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
+		
+		//preparo i parametri
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		
+		@SuppressWarnings("rawtypes")
+		Class[] parametri = {primoParametro};
+		
+		//prendo il costruttore della classe con i parametri indicati
+		Constructor<?> costruttore = c.getConstructor(parametri);
+		
+		//creo l'oggetto
+		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsterno(ambiente));
+		
+		/*
+		 * FASE 2: creo gli altri oggetti
+		 */
+		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto));
+		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza));
+		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
+		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info(info));
 		
 		//verifico l'esistenza del viaggio nel catalogo
-		if (catalogo.verificaEsistenzaViaggio(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo)){
+		if (catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
 			//System.out.println("Viaggio gia' presente");
 			throw new IDEsternoException("Il viaggio e' gia' presente nel catalogo!");
 		} else {
 			//aggiungo il viaggio
-			catalogo.aggiungiViaggioAlCatalogo(ambiente,mezzoTrasporto,stazionePartenza,stazioneArrivo, info);
+			catalogo.aggiungiViaggioAlCatalogo(a, mt, sp, sa, si, info);
 			log.aggiornaLogAggiungiViaggio(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo, info);
 		}
 	}
@@ -106,6 +141,10 @@ public class ControlloreGestioneCatalogo {
 
 		return catalogo.getStazioniDiArrivo(ambiente, mezzo, partenza);
 		
+	}
+	
+	public Set<String> mostraStazioniIntermedieInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
+		return catalogo.getStazioniIntermedie(ambiente, mezzo, partenza, arrivo);
 	}
 	
 	public String mostraCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws MappaException, IDEsternoException{
