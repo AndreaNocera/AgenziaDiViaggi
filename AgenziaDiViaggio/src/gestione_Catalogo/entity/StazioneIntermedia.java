@@ -1,22 +1,19 @@
-/*
- * Autori:
- * Remo Sperlongano
- * Ivan Torre
- */
-
-
 package gestione_Catalogo.entity;
 
-import java.io.Serializable;
-
-public class StazioneArrivo extends Elemento implements Serializable{
-
+public class StazioneIntermedia extends Elemento{
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
-	//Costruttore
-	public StazioneArrivo (IDEsterno idEsterno){
-		super(idEsterno);
+	private Orologio data;
+
+	public StazioneIntermedia(IDEsterno idEsterno, Info info) {
+		super(idEsterno, info);
+		
+		data = new Orologio();
+		//aggiorno le info mettendoci la data di inserimento
+		info.updateInfo("--- Inserito il " + data.stampaDataAttuale()); 
 	}
 	
 	
@@ -35,7 +32,7 @@ public class StazioneArrivo extends Elemento implements Serializable{
 						
 				//ok, ora so che altroOggetto è un elemento non nullo, per cui faccio i confronti tra attributi
 						
-				StazioneArrivo nuovoElemento = (StazioneArrivo) altroObject;
+				StazioneIntermedia nuovoElemento = (StazioneIntermedia) altroObject;
 						
 						return (this.idEsterno.equals(nuovoElemento.idEsterno));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
 			}

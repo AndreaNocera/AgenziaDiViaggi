@@ -49,7 +49,7 @@ public class Catalogo implements Serializable{
 		 */
 		
 		/*
-		 * DA far vedere a MM: meglio usare equals???
+		 * E' stato modifica: invoca il metodo esistenzaElemento(Elemento e) che invoca Equals!
 		 */
 		
 		if (!mappaAmbiente.esistenzaElemento(ambiente)) return false;	//Se non c'e' l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
@@ -145,7 +145,7 @@ public class Catalogo implements Serializable{
 
 	
 	
-	public Set<String> getAmbienti() throws MappaException {
+	public Set<String> getChiaviAmbienti() throws MappaException {
 
 		Set<String> ambienti = mappaAmbiente.listaChiaviElementi();
 		if (ambienti.isEmpty())
@@ -157,7 +157,7 @@ public class Catalogo implements Serializable{
 
 	
 	
-	public Set<String> getMezziDiTrasporto(String ambiente) throws IDEsternoException {
+	public Set<String> getChiaviMezziDiTrasporto(String ambiente) throws IDEsternoException {
 
 		if (mappaAmbiente.esistenzaElemento(ambiente))
 			return mappaAmbiente.getElemento(ambiente).listaChiaviElementi();
@@ -167,7 +167,7 @@ public class Catalogo implements Serializable{
 
 	
 	
-	public Set<String> getStazioniDiPartenza(String ambiente, String mezzo) throws IDEsternoException {
+	public Set<String> getChiaviStazioniDiPartenza(String ambiente, String mezzo) throws IDEsternoException {
 		
 		Elemento elementoAmbiente = mappaAmbiente.getElemento(ambiente);
 		if (elementoAmbiente.esistenzaElemento(mezzo))
@@ -178,7 +178,7 @@ public class Catalogo implements Serializable{
 	}
 	
 	
-	public Set<String> getStazioniDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoException {
+	public Set<String> getChiaviStazioniDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoException {
 		
 		Elemento elementoMezzo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo);
 		if (elementoMezzo.esistenzaElemento(partenza))
@@ -188,7 +188,7 @@ public class Catalogo implements Serializable{
 	
 	}
 	
-	public Set<String> getStazioniIntermedie(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
+	public Set<String> getChiaviStazioniIntermedie(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
 		Elemento elementoPartenza = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza);
 		if (elementoPartenza.esistenzaElemento(arrivo)){
 			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
@@ -198,7 +198,7 @@ public class Catalogo implements Serializable{
 	public String getInfo(String ambiente, String mezzo, String partenza, String arrivo, String intermedia) throws IDEsternoException{
 		
 		Elemento elementoArrivo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo);
-		if (elementoArrivo.esistenzaElemento(arrivo)){
+		if (elementoArrivo.esistenzaElemento(intermedia)){
 			return elementoArrivo.getElemento(intermedia).getInfo();
 			
 		} else {

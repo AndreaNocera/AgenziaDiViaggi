@@ -107,7 +107,7 @@ public class ControlloreGestioneCatalogo {
 		if (catalogo.verificaEsistenzaOfferte(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo)){
 			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
 		} else { //rimuovo il viaggio
-			String info = catalogo.getInfo(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo); //memorizzo info per il log
+			String info = catalogo.getInfo(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo, ""); //memorizzo info per il log
 			catalogo.rimuoviViaggioDalCatalogo(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo);
 			log.aggiornaLogRimuoviViaggio(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo, info);
 			
@@ -118,33 +118,33 @@ public class ControlloreGestioneCatalogo {
 	
 	public Set<String> mostraAmbientiInCatalogo() throws MappaException {
 		
-		return catalogo.getAmbienti();
+		return catalogo.getChiaviAmbienti();
 		
 	}
 
 	
 	public Set<String> mostraMezziDiTrasportoInCatalogo(String ambiente) throws IDEsternoException {
 		
-		return catalogo.getMezziDiTrasporto(ambiente);
+		return catalogo.getChiaviMezziDiTrasporto(ambiente);
 		
 	}
 	
 
 	public Set<String> mostraStazioniDiPartenzaInCatalogo(String ambiente, String mezzo) throws IDEsternoException {
 		
-		return catalogo.getStazioniDiPartenza(ambiente, mezzo);
+		return catalogo.getChiaviStazioniDiPartenza(ambiente, mezzo);
 				
 	}
 
 
 	public Set<String> mostraStazioniDiArrivoInCatalogo(String ambiente, String mezzo, String partenza) throws IDEsternoException {
 
-		return catalogo.getStazioniDiArrivo(ambiente, mezzo, partenza);
+		return catalogo.getChiaviStazioniDiArrivo(ambiente, mezzo, partenza);
 		
 	}
 	
 	public Set<String> mostraStazioniIntermedieInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
-		return catalogo.getStazioniIntermedie(ambiente, mezzo, partenza, arrivo);
+		return catalogo.getChiaviStazioniIntermedie(ambiente, mezzo, partenza, arrivo);
 	}
 	
 	public String mostraCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws MappaException, IDEsternoException{
@@ -181,35 +181,35 @@ public class ControlloreGestioneCatalogo {
 		if (ambiente.equals("-----")){
 			
 			//Prendo tutte le chiavi di ambiente
-			chiaviAmbiente = catalogo.getAmbienti();
+			chiaviAmbiente = catalogo.getChiaviAmbienti();
 			itAmbiente = chiaviAmbiente.iterator();
 			
 			while(itAmbiente.hasNext()){  //itero le chiavi ambiente
 				
 				amb = itAmbiente.next();
 				//Prendo tutte le chiavi di Mezzo
-				chiaviMezzo = catalogo.getMezziDiTrasporto(amb);
+				chiaviMezzo = catalogo.getChiaviMezziDiTrasporto(amb);
 				itMezzo = chiaviMezzo.iterator();
 				
 				while(itMezzo.hasNext()){	//itero tutte le chiavi mezzo
 					
 					mez = itMezzo.next();
 					//Prendo tutte le chiavi di stazionePartenza
-					chiaviPartenza = catalogo.getStazioniDiPartenza(amb, mez);
+					chiaviPartenza = catalogo.getChiaviStazioniDiPartenza(amb, mez);
 					itPartenza = chiaviPartenza.iterator();
 					
 					while(itPartenza.hasNext()){   //itero tutte le chiavi partenza
 						
 						sp = itPartenza.next();
 						//Prendo tute le chiavi di stazioneArrivo
-						chiaviArrivo = catalogo.getStazioniDiArrivo(amb, mez, sp);
+						chiaviArrivo = catalogo.getChiaviStazioniDiArrivo(amb, mez, sp);
 						itArrivo = chiaviArrivo.iterator();
 						
 						while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 							
 							sa = itArrivo.next();
 							//Prendo le info memorizzate in stazione arrivo
-							info = catalogo.getInfo(amb, mez, sp, sa);
+							info = catalogo.getInfo(amb, mez, sp, sa, "");
 							//Metto in stringa le informazioni di questo viaggio;
 							unViaggio = componiCatalogo(amb,mez,sp,sa,info);
 							//Lo aggiungo alla lista
@@ -231,28 +231,28 @@ public class ControlloreGestioneCatalogo {
 		if (mezzo.equals("-----")){
 			
 			// non serve iterare le chiavi di ambiente, ho gia da parametro quello giusto
-			chiaviMezzo = catalogo.getMezziDiTrasporto(ambiente);
+			chiaviMezzo = catalogo.getChiaviMezziDiTrasporto(ambiente);
 			itMezzo = chiaviMezzo.iterator();
 			
 			while(itMezzo.hasNext()){	//itero tutte le chiavi mezzo
 				
 				mez = itMezzo.next();
 				//Prendo tutte le chiavi di stazionePartenza
-				chiaviPartenza = catalogo.getStazioniDiPartenza(ambiente, mez);
+				chiaviPartenza = catalogo.getChiaviStazioniDiPartenza(ambiente, mez);
 				itPartenza = chiaviPartenza.iterator();
 				
 				while(itPartenza.hasNext()){   //itero tutte le chiavi partenza
 					
 					sp = itPartenza.next();
 					//Prendo tute le chiavi di stazioneArrivo
-					chiaviArrivo = catalogo.getStazioniDiArrivo(ambiente, mez, sp);
+					chiaviArrivo = catalogo.getChiaviStazioniDiArrivo(ambiente, mez, sp);
 					itArrivo = chiaviArrivo.iterator();
 					
 					while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 						
 						sa = itArrivo.next();
 						//Prendo le info memorizzate in stazione arrivo
-						info = catalogo.getInfo(ambiente, mez, sp, sa);
+						info = catalogo.getInfo(ambiente, mez, sp, sa, "");
 						//Metto in stringa le informazioni di questo viaggio;
 						unViaggio = componiCatalogo(ambiente,mez,sp,sa,info);
 						//Lo aggiungo alla lista
@@ -271,21 +271,21 @@ public class ControlloreGestioneCatalogo {
 		if (partenza.equals("-----")){
 			
 			//non serve iterare le chiavi ambiente e mezzo, li ho gia da parametro
-			chiaviPartenza = catalogo.getStazioniDiPartenza(ambiente, mezzo);
+			chiaviPartenza = catalogo.getChiaviStazioniDiPartenza(ambiente, mezzo);
 			itPartenza = chiaviPartenza.iterator();
 			
 			while(itPartenza.hasNext()){   //itero tutte le chiavi partenza
 				
 				sp = itPartenza.next();
 				//Prendo tute le chiavi di stazioneArrivo
-				chiaviArrivo = catalogo.getStazioniDiArrivo(ambiente, mezzo, sp);
+				chiaviArrivo = catalogo.getChiaviStazioniDiArrivo(ambiente, mezzo, sp);
 				itArrivo = chiaviArrivo.iterator();
 				
 				while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 					
 					sa = itArrivo.next();
 					//Prendo le info memorizzate in stazione arrivo
-					info = catalogo.getInfo(ambiente, mezzo, sp, sa);
+					info = catalogo.getInfo(ambiente, mezzo, sp, sa, "");
 					//Metto in stringa le informazioni di questo viaggio;
 					unViaggio = componiCatalogo(ambiente,mezzo,sp,sa,info);
 					//Lo aggiungo alla lista
@@ -302,14 +302,14 @@ public class ControlloreGestioneCatalogo {
 		//caso d)
 		if (arrivo.equals("-----")){
 			//non serve iterare le chiavi di ambiente, mezzo e partenza, li ho gia da parametro
-			chiaviArrivo = catalogo.getStazioniDiArrivo(ambiente, mezzo, partenza);
+			chiaviArrivo = catalogo.getChiaviStazioniDiArrivo(ambiente, mezzo, partenza);
 			itArrivo = chiaviArrivo.iterator();
 			
 			while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 				
 				sa = itArrivo.next();
 				//Prendo le info memorizzate in stazione arrivo
-				info = catalogo.getInfo(ambiente, mezzo, partenza, sa);
+				info = catalogo.getInfo(ambiente, mezzo, partenza, sa, "");
 				//Metto in stringa le informazioni di questo viaggio;
 				unViaggio = componiCatalogo(ambiente,mezzo,partenza,sa, info);
 				//Lo aggiungo alla lista
@@ -326,7 +326,7 @@ public class ControlloreGestioneCatalogo {
 		//caso e) non serve alcuna iterazione
 		
 		//Prendo le info memorizzate in stazione arrivo
-		info = catalogo.getInfo(ambiente, mezzo, partenza, arrivo);
+		info = catalogo.getInfo(ambiente, mezzo, partenza, arrivo, "");
 		return (componiCatalogo(ambiente,mezzo,partenza,arrivo,info));
 		
 	}

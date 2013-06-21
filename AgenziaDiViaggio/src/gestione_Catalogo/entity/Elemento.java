@@ -18,10 +18,10 @@ public abstract class Elemento implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//Variabili istanza
-	private IDEsterno 		idEsterno;
-	private Indice	  		indice;
-	private Mappa			mappa;
-	private Info            info;
+	protected IDEsterno 	idEsterno;
+	private   Indice	  	indice;
+	private   Mappa			mappa;
+	private   Info          info;
 	
 	
 	//costruttore
@@ -72,25 +72,6 @@ public abstract class Elemento implements Serializable{
 		return idEsterno.toString();
 	}
 	
-	
-	//ridefinisco il metodo equals
-	public boolean equals(Object altroObject){
-		
-		// verifico se sono lo stesso oggetto
-		if (this == altroObject) return true;
-				
-		// verifico se il parametro implicito è null
-		if (altroObject == null) return false;
-				
-		//verifico se le classi non coincidono
-		if (getClass() != altroObject.getClass()) return false;
-				
-		//ok, ora so che altroOggetto è un elemento non nullo, per cui faccio i confronti tra attributi
-				
-		Elemento nuovoElemento = (Elemento) altroObject;
-				
-				return (this.idEsterno.equals(nuovoElemento.idEsterno));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
-	}
 	
 
 }

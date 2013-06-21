@@ -68,8 +68,15 @@ public class Mappa extends TreeMap<String,Elemento> implements Serializable{
 		return super.containsKey(k);
 	}
 	
-	public boolean esistenzaElemento(Elemento e){
-		return super.containsKey(e.getIDEsterno());
+	public boolean esistenzaElemento(Elemento e){ //overloading
+		
+		//Verifico su questa mappa la presenza di un elemento con lo stesso id di quello che voglio confrontare
+		if (!super.containsKey(e.getIDEsterno())) return false; //Se non c'e' nessun elemento con quell'id, torno false subito
+		
+		//Se invece vi è un elemento con quell'id, lo prendo e faccio equals, controllo se entrambi gli elementi sono della stessa classe
+		Elemento ele = super.get(e.getIDEsterno());
+		
+		return ele.equals(e);
 	}
 
 }

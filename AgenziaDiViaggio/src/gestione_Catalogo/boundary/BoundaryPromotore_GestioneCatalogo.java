@@ -998,7 +998,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					stazionePartenza = (String) tendinaStazionePartenzaPannello3.getSelectedItem();
 				}
 				
-				if (tendinaStazioneArrivoPannello3.getSelectedItem().toString().equals("new...")){
+				if (!tendinaStazioneArrivoPannello3.isEnabled() || tendinaStazioneArrivoPannello3.getSelectedItem().toString().equals("new...")){
 					stazioneArrivo = uppercaseFirstLetters(campoStazioneArrivoPannello3.getText());
 				} else {
 					stazioneArrivo = (String) tendinaStazioneArrivoPannello3.getSelectedItem();

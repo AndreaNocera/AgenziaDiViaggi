@@ -30,42 +30,42 @@ public class PromotoreThread implements Runnable {
 		
 		try {
 	
-			controllore.aggiungiViaggio("Aria", "Charter", "Roma", "Milano", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Charter", "Roma", "Parigi", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Charter", "Roma", "Ginevra", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Charter", "Napoli", "Cagliari", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Charter", "Napoli", "Isernia", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Charter", "Napoli", "Torino", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Boing", "Roma", "Milano", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Boing", "Roma", "Parigi", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Boing", "Roma", "Ginevra", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Boing", "Napoli", "Cagliari", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Boing", "Napoli", "Isernia", "Diretto");
-			controllore.aggiungiViaggio("Aria", "Boing", "Napoli", "Torino", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Treno", "Roma", "Milano", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Treno", "Roma", "Parigi", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Treno", "Roma", "Ginevra", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Treno", "Napoli", "Cagliari", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Treno", "Napoli", "Isernia", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Treno", "Napoli", "Torino", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Bus", "Roma", "Milano", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Bus", "Roma", "Parigi", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Bus", "Roma", "Ginevra", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Bus", "Napoli", "Cagliari", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Bus", "Napoli", "Isernia", "Diretto");
-			controllore.aggiungiViaggio("Terra", "Bus", "Napoli", "Torino", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Panfilo", "Roma", "Milano", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Panfilo", "Roma", "Parigi", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Panfilo", "Roma", "Ginevra", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Panfilo", "Napoli", "Cagliari", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Panfilo", "Napoli", "Isernia", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Panfilo", "Napoli", "Torino", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Traghetto", "Roma", "Milano", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Traghetto", "Roma", "Parigi", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Traghetto", "Roma", "Ginevra", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Traghetto", "Napoli", "Cagliari", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Traghetto", "Napoli", "Isernia", "Diretto");
-			controllore.aggiungiViaggio("Mare", "Traghetto", "Napoli", "Torino", "Diretto");
+			controllore.aggiungiViaggio("Aria", "Charter", "Roma", "Milano", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Charter", "Roma", "Parigi", "Diretto","No info");
+			controllore.aggiungiViaggio("Aria", "Charter", "Roma", "Ginevra", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Charter", "Napoli", "Cagliari", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Charter", "Napoli", "Isernia", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Charter", "Napoli", "Torino", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Boing", "Roma", "Milano", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Boing", "Roma", "Parigi", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Boing", "Roma", "Ginevra", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Boing", "Napoli", "Cagliari", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Boing", "Napoli", "Isernia", "Diretto", "No info");
+			controllore.aggiungiViaggio("Aria", "Boing", "Napoli", "Torino", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Treno", "Roma", "Milano", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Treno", "Roma", "Parigi", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Treno", "Roma", "Ginevra", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Treno", "Napoli", "Cagliari", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Treno", "Napoli", "Isernia", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Treno", "Napoli", "Torino", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Bus", "Roma", "Milano", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Bus", "Roma", "Parigi", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Bus", "Roma", "Ginevra", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Bus", "Napoli", "Cagliari", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Bus", "Napoli", "Isernia", "Diretto", "No info");
+			controllore.aggiungiViaggio("Terra", "Bus", "Napoli", "Torino", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Panfilo", "Roma", "Milano", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Panfilo", "Roma", "Parigi", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Panfilo", "Roma", "Ginevra", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Panfilo", "Napoli", "Cagliari", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Panfilo", "Napoli", "Isernia", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Panfilo", "Napoli", "Torino", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Traghetto", "Roma", "Milano", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Traghetto", "Roma", "Parigi", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Traghetto", "Roma", "Ginevra", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Traghetto", "Napoli", "Cagliari", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Traghetto", "Napoli", "Isernia", "Diretto", "No info");
+			controllore.aggiungiViaggio("Mare", "Traghetto", "Napoli", "Torino", "Diretto", "No info");
 		
 		} catch (IDEsternoException e) {
 			// TODO Auto-generated catch block
