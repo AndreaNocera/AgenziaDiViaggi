@@ -20,8 +20,8 @@ public abstract class Elemento implements Serializable{
 	//Variabili istanza
 	protected IDEsterno 	idEsterno;
 	private   Indice	  	indice;
+	
 	private   Mappa			mappa;
-	private   Info          info;
 	
 	
 	//costruttore
@@ -29,16 +29,10 @@ public abstract class Elemento implements Serializable{
 		this.idEsterno = idEsterno;
 		indice = new Indice();
 		mappa = new Mappa();
-		info = new Info();
+		
 	}
 	
-	public Elemento(IDEsterno idEsterno, Info info){
-		this.idEsterno = idEsterno;
-		indice = new Indice();
-		mappa = new Mappa();
-		this.info = info;
-	}
-	
+
 	public Elemento getElemento(String k) throws IDEsternoException {   
 		if (esistenzaElemento(k)) return mappa.getElemento(k);
 		else throw new IDEsternoException("Elemento "+k+" non presente");
@@ -64,14 +58,9 @@ public abstract class Elemento implements Serializable{
 		mappa.removeElemento(k);
 	}
 	
-	public String getInfo(){
-		return info.getInfo();
-	}
 	
 	public String getIDEsterno(){
 		return idEsterno.toString();
 	}
 	
-	
-
 }

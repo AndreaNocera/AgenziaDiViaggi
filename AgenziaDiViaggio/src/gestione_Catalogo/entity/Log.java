@@ -45,16 +45,16 @@ public class Log implements Serializable{
 	
 
 	//Metodi
-	public void aggiornaLogAggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String info){
+	public void aggiornaLogAggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia){
 		log = "[" + data.stampaDataAttuale() + "] AGGIUNTO Viaggio Via " + ambiente + ":\n" 									
-				+ mezzoTrasporto + "  ->  " + stazionePartenza + " : " + stazioneArrivo + "  ->  " + info + "\n";
+				+ mezzoTrasporto + "  ->  " + stazionePartenza + " : " + stazioneArrivo + "  ->  " + stazioneIntermedia + "\n";
 		System.out.println(log);
 		salvaLog(log); 
 	}
 	
-	public void aggiornaLogRimuoviViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String info){
+	public void aggiornaLogRimuoviViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia){
 		log = "[" + data.stampaDataAttuale() + "] RIMOSSO Viaggio Via " + ambiente + ":\n" 
-				+ mezzoTrasporto + "  ->  " + stazionePartenza + " : " + stazioneArrivo + "  ->  " + info + "\n";
+				+ mezzoTrasporto + "  ->  " + stazionePartenza + " : " + stazioneArrivo + "  ->  " + stazioneIntermedia + "\n";
 		System.out.println(log);
 		salvaLog(log);
 	}

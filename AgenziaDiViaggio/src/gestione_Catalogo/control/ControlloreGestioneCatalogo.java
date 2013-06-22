@@ -73,8 +73,7 @@ public class ControlloreGestioneCatalogo {
 		//preparo i parametri
 		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
 		
-		@SuppressWarnings("rawtypes")
-		Class[] parametri = {primoParametro};
+		Class<?>[] parametri = {primoParametro};
 		
 		//prendo il costruttore della classe con i parametri indicati
 		Constructor<?> costruttore = c.getConstructor(parametri);
@@ -88,7 +87,21 @@ public class ControlloreGestioneCatalogo {
 		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto));
 		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza));
 		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
-		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info(info));
+		StazioneIntermedia si;
+		if (stazioneIntermedia.equalsIgnoreCase("")){
+			if (info.equalsIgnoreCase("")){
+				si = new StazioneIntermedia();
+			} else {
+				si = new StazioneIntermedia(new Info(info));
+			}	
+		} else {
+			if (info.equalsIgnoreCase("")){
+				si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia));
+			} else {
+				si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info(info));
+			}
+		}
+		
 		
 		//verifico l'esistenza del viaggio nel catalogo
 		if (catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
@@ -96,21 +109,51 @@ public class ControlloreGestioneCatalogo {
 			throw new IDEsternoException("Il viaggio e' gia' presente nel catalogo!");
 		} else {
 			//aggiungo il viaggio
-			catalogo.aggiungiViaggioAlCatalogo(a, mt, sp, sa, si, info);
-			log.aggiornaLogAggiungiViaggio(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo, info);
+			catalogo.aggiungiViaggioAlCatalogo(a, mt, sp, sa, si);
+			log.aggiornaLogAggiungiViaggio(a.getIDEsterno(), mt.getIDEsterno(), sp.getIDEsterno(), sa.getIDEsterno(), si.getIDEsterno());
 		}
 	}
 	
 	
-	public void rimuoviViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException, OffertaException {
+	public void rimuoviViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia) throws IDEsternoException, OffertaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		/*
+		 * FASE 1 : creo l'oggetto Ambiente
+		 */
+			
+		//classe c di nome ambiente
+		Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
+		
+		//preparo i parametri
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		
+		Class<?>[] parametri = {primoParametro};
+		
+		//prendo il costruttore della classe con i parametri indicati
+		Constructor<?> costruttore = c.getConstructor(parametri);
+		
+		//creo l'oggetto
+		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsterno(ambiente));
+		
+		/*
+		 * FASE 2: creo gli altri oggetti
+		 */
+		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto));
+		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza));
+		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
+		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia));
+		
+		//verifico l'esistenza del viaggio nel catalogo
+		if (!catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
+			//System.out.println("Viaggio non presente");
+			throw new IDEsternoException("Il viaggio non e' presente nel catalogo!");
+		} 
 		// verifico l'esistenza di offerte per il viaggio
-		if (catalogo.verificaEsistenzaOfferte(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo)){
+		if (catalogo.verificaEsistenzaOfferte(a, mt, sp, sa, si)){
 			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
 		} else { //rimuovo il viaggio
-			String info = catalogo.getInfo(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo, ""); //memorizzo info per il log
-			catalogo.rimuoviViaggioDalCatalogo(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo);
-			log.aggiornaLogRimuoviViaggio(ambiente, mezzoTrasporto, stazionePartenza, stazioneArrivo, info);
-			
+			catalogo.rimuoviViaggioDalCatalogo(a, mt, sp, sa, si);
+			log.aggiornaLogRimuoviViaggio(a.getIDEsterno(), mt.getIDEsterno(), sp.getIDEsterno(), sa.getIDEsterno(), si.getIDEsterno());
 		}
 
 	}
@@ -147,31 +190,35 @@ public class ControlloreGestioneCatalogo {
 		return catalogo.getChiaviStazioniIntermedie(ambiente, mezzo, partenza, arrivo);
 	}
 	
-	public String mostraCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws MappaException, IDEsternoException{
+	public String mostraCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String stazioneIntermedia) throws MappaException, IDEsternoException{
 		
 		/*
-		 * Ho ben 4 casi ...
+		 * Ho ben 6 casi ...
 		 * Caso a) Ambiente = ----- , devo mostrare tutto il catalogo
 		 * Caso b) Mezzo = -----, devo mostrare tutti i viaggi aventi tutti lo stesso ambiente
 		 * Caso c) Partenza = -----, devo mostrare tutti i viaggio aventi tutti lo stesso mezzo
 		 * Caso d) Arrivo = -----, devo mostrare tutti i viaggi aventi stesso mezzo e stessa stazione di partenza
-		 * Caso e) Il viaggio e' composto, verra' visualizzato solo un viaggio...
+		 * Caso e) StazioneIntermedia = -----, devo mostrare tutti i viaggi aventi stesso mezzo, stessa stazione di partenza e stessa stazione di arrivo
+		 * Caso f) Il viaggio e' composto, verra' visualizzato solo un viaggio...
 		 */
 		
 		Set<String> chiaviAmbiente;
 		Set<String> chiaviMezzo;
 		Set<String> chiaviPartenza;
 		Set<String> chiaviArrivo;
+		Set<String> chiaviIntermedie;
 		
 		Iterator<String>	itAmbiente;		
 		Iterator<String>	itMezzo;
 		Iterator<String>	itPartenza;
 		Iterator<String>	itArrivo;
+		Iterator<String>	itIntermedie;
 		
 		String amb;
 		String mez;
 		String sp;
 		String sa;
+		String si;
 		String info;
 		
 		String listaViaggi = "";
@@ -208,12 +255,21 @@ public class ControlloreGestioneCatalogo {
 						while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 							
 							sa = itArrivo.next();
-							//Prendo le info memorizzate in stazione arrivo
-							info = catalogo.getInfo(amb, mez, sp, sa, "");
-							//Metto in stringa le informazioni di questo viaggio;
-							unViaggio = componiCatalogo(amb,mez,sp,sa,info);
-							//Lo aggiungo alla lista
-							listaViaggi = listaViaggi + unViaggio;
+							//Prendo tute le chiavi di stazioneIntermedia
+							chiaviIntermedie = catalogo.getChiaviStazioniIntermedie(amb, mez, sp, sa);
+							itIntermedie = chiaviIntermedie.iterator();
+							
+							while(itIntermedie.hasNext()){	//itero tutte le stazioni intermedie;
+								
+								si = itIntermedie.next();
+								//Prendo le info memorizzate in stazione arrivo
+								info = catalogo.getInfo(amb, mez, sp, sa, si);
+								//Metto in stringa le informazioni di questo viaggio;
+								unViaggio = componiCatalogo(amb,mez,sp,sa,si,info);
+								//Lo aggiungo alla lista
+								listaViaggi = listaViaggi + unViaggio;
+							}
+			
 						}
 					}
 				}
@@ -251,12 +307,21 @@ public class ControlloreGestioneCatalogo {
 					while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 						
 						sa = itArrivo.next();
-						//Prendo le info memorizzate in stazione arrivo
-						info = catalogo.getInfo(ambiente, mez, sp, sa, "");
-						//Metto in stringa le informazioni di questo viaggio;
-						unViaggio = componiCatalogo(ambiente,mez,sp,sa,info);
-						//Lo aggiungo alla lista
-						listaViaggi = listaViaggi + unViaggio;
+						//Prendo tute le chiavi di stazioneIntermedia
+						chiaviIntermedie = catalogo.getChiaviStazioniIntermedie(ambiente, mez, sp, sa);
+						itIntermedie = chiaviIntermedie.iterator();
+						
+						while(itIntermedie.hasNext()){	//itero tutte le stazioni intermedie;
+							
+							si = itIntermedie.next();
+							//Prendo le info memorizzate in stazione arrivo
+							info = catalogo.getInfo(ambiente, mez, sp, sa, si);
+							//Metto in stringa le informazioni di questo viaggio;
+							unViaggio = componiCatalogo(ambiente,mez,sp,sa,si,info);
+							//Lo aggiungo alla lista
+							listaViaggi = listaViaggi + unViaggio;
+						}
+		
 					}
 				}
 			}
@@ -284,12 +349,21 @@ public class ControlloreGestioneCatalogo {
 				while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 					
 					sa = itArrivo.next();
-					//Prendo le info memorizzate in stazione arrivo
-					info = catalogo.getInfo(ambiente, mezzo, sp, sa, "");
-					//Metto in stringa le informazioni di questo viaggio;
-					unViaggio = componiCatalogo(ambiente,mezzo,sp,sa,info);
-					//Lo aggiungo alla lista
-					listaViaggi = listaViaggi + unViaggio;
+					//Prendo tute le chiavi di stazioneIntermedia
+					chiaviIntermedie = catalogo.getChiaviStazioniIntermedie(ambiente, mezzo, sp, sa);
+					itIntermedie = chiaviIntermedie.iterator();
+					
+					while(itIntermedie.hasNext()){	//itero tutte le stazioni intermedie;
+						
+						si = itIntermedie.next();
+						//Prendo le info memorizzate in stazione arrivo
+						info = catalogo.getInfo(ambiente, mezzo, sp, sa, si);
+						//Metto in stringa le informazioni di questo viaggio;
+						unViaggio = componiCatalogo(ambiente, mezzo,sp,sa,si,info);
+						//Lo aggiungo alla lista
+						listaViaggi = listaViaggi + unViaggio;
+					}
+	
 				}
 			}
 			//ritorna con questa lista
@@ -308,36 +382,66 @@ public class ControlloreGestioneCatalogo {
 			while(itArrivo.hasNext()){	//itero tutte le stazioni di arrivo;
 				
 				sa = itArrivo.next();
-				//Prendo le info memorizzate in stazione arrivo
-				info = catalogo.getInfo(ambiente, mezzo, partenza, sa, "");
-				//Metto in stringa le informazioni di questo viaggio;
-				unViaggio = componiCatalogo(ambiente,mezzo,partenza,sa, info);
-				//Lo aggiungo alla lista
-				listaViaggi = listaViaggi + unViaggio;
+				//Prendo tute le chiavi di stazioneIntermedia
+				chiaviIntermedie = catalogo.getChiaviStazioniIntermedie(ambiente, mezzo, partenza, sa);
+				itIntermedie = chiaviIntermedie.iterator();
+				
+				while(itIntermedie.hasNext()){	//itero tutte le stazioni intermedie;
+					
+					si = itIntermedie.next();
+					//Prendo le info memorizzate in stazione arrivo
+					info = catalogo.getInfo(ambiente, mezzo, partenza, sa, si);
+					//Metto in stringa le informazioni di questo viaggio;
+					unViaggio = componiCatalogo(ambiente, mezzo, partenza,sa,si,info);
+					//Lo aggiungo alla lista
+					listaViaggi = listaViaggi + unViaggio;
+				}
+
 			}
 			//ritorna con questa lista
 			return listaViaggi;
 		}
 		
 		
+		//caso e)
+		if (stazioneIntermedia.equals("-----")){
+			//non serve iterare le chiavi di ambiente, mezzo, partenza e arrivo, li ho gia da parametro
+			chiaviIntermedie = catalogo.getChiaviStazioniIntermedie(ambiente, mezzo, partenza, arrivo);
+			itIntermedie = chiaviIntermedie.iterator();
+			
+			while(itIntermedie.hasNext()){	//itero tutte le stazioni intermedie;
+					
+				si = itIntermedie.next();
+				//Prendo le info memorizzate in stazione arrivo
+				info = catalogo.getInfo(ambiente, mezzo, partenza, arrivo, si);
+				//Metto in stringa le informazioni di questo viaggio;
+				unViaggio = componiCatalogo(ambiente, mezzo, partenza, arrivo,si,info);
+				//Lo aggiungo alla lista
+				listaViaggi = listaViaggi + unViaggio;
+			}
+
+			
+			//ritorna con questa lista
+			return listaViaggi;
+		}
 		
 		
+		//caso f) non serve alcuna iterazione
 		
-		//caso e) non serve alcuna iterazione
-		
-		//Prendo le info memorizzate in stazione arrivo
-		info = catalogo.getInfo(ambiente, mezzo, partenza, arrivo, "");
-		return (componiCatalogo(ambiente,mezzo,partenza,arrivo,info));
+		//Prendo le info memorizzate in stazione intermedia
+		info = catalogo.getInfo(ambiente, mezzo, partenza, arrivo, stazioneIntermedia);
+		return (componiCatalogo(ambiente,mezzo,partenza,arrivo,stazioneIntermedia,info));
 		
 	}
-	private String componiCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String info){
+	
+	private String componiCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String intermedia, String info){
 		
 		
 		String unViaggio;
 		
 		//Prima l'ambiente
 		unViaggio = ambiente;
-		unViaggio += "\t\t"; //aggiungo due tab
+		unViaggio += "\t"; //aggiungo due tab
 		
 		//Dopo l'ambiente, il mezzo
 		unViaggio += mezzo;
@@ -348,22 +452,14 @@ public class ControlloreGestioneCatalogo {
 			unViaggio += "\t";
 		}
 		
-		//Poi la stazione di partenza
-		unViaggio += partenza;
+		//Poi la tratta (stazione di partenza : stazione di arrivo -> stazione intermedia)
+		unViaggio += partenza + " : " + arrivo + "  ->  " + intermedia;
 		unViaggio += "\t";
 		
-		if (partenza.length()<13){ //Se la lunghezza della partenza e' minore di 13, metto un altro tab
+		if (partenza.length()+arrivo.length()+intermedia.length()<24){ //Se la lunghezza della somma di partenza, arrivo e stazione intermedia e' minore di 24, metto un altro tab
 			unViaggio += "\t";
 		}
 	
-		//Poi quelle di arrivo
-		unViaggio += arrivo;
-		unViaggio += "\t";
-		
-		if (arrivo.length()<13){ //Se la lunghezza dell'arrivo e' minore di 13, metto un altro tab
-			unViaggio += "\t";
-		}
-		
 		unViaggio += info;
 		unViaggio += "\n";
 		

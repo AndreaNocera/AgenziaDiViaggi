@@ -25,22 +25,22 @@ public class IDEsterno implements Serializable{
 	}
 	
 	//ridefinisco il metodo equals
-		public boolean equals(Object altroObject){
+	public boolean equals(Object altroObject){
 			
-			// verifico se sono lo stesso oggetto
-			if (this == altroObject) return true;
+		// verifico se sono lo stesso oggetto
+		if (this == altroObject) return true;
 					
-			// verifico se il parametro implicito è null
-			if (altroObject == null) return false;
+		// verifico se il parametro implicito è null
+		if (altroObject == null) return false;
 					
-			//verifico se le classi non coincidono
-			if (getClass() != altroObject.getClass()) return false;
+		//verifico se le classi non coincidono
+		if (getClass() != altroObject.getClass()) return false;
 					
-			//ok, ora so che altroOggetto è un elemento non nullo, per cui faccio i confronti tra attributi
+		//ok, ora so che altroOggetto è un elemento non nullo, per cui faccio i confronti tra attributi
 					
-			IDEsterno nuovoElemento = (IDEsterno) altroObject;
+		IDEsterno nuovoElemento = (IDEsterno) altroObject;
 					
-					return (this.IDEsterno.equals(nuovoElemento.IDEsterno));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
-		}
+		return (this.IDEsterno.equals(nuovoElemento.IDEsterno));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
+	}
 
 }
