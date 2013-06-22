@@ -1,13 +1,19 @@
 package ordinaViaggi.bean;
 
+/** @author Gambella Riccardo and Luca Paoli
+ * 
+ */
+
 import java.io.Serializable;
 
-public class CatalogoBean implements Serializable {
+public class CatalogoBean implements Serializable{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3669355289104989941L;
+	
+	
 	private String id;
 	private String ambiente;
 	private String mezzo;
@@ -16,7 +22,6 @@ public class CatalogoBean implements Serializable {
 	private String via;
 
 	public CatalogoBean() {
-		System.out.println("Istanziato bean!!");
 		setId("");
 		setAmbiente("");
 		setMezzo("");
@@ -72,19 +77,4 @@ public class CatalogoBean implements Serializable {
 	public void setVia(String via) {
 		this.via = via;
 	}
-	
-	public boolean validate() {
-		// Controllo sintattico
-		if (this.id.equals("") || 
-			this.ambiente.equals("") ||
-			this.mezzo.equals("") ||
-			this.cittaPartenza.equals("") ||
-			this.cittaArrivo.equals("") ||
-			this.via.equals(""))
-			{
-			return false;
-		}
-		return true;
-	}
-
 }

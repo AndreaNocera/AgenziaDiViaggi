@@ -1,34 +1,40 @@
 package ordinaViaggi.dao;
 
+/** @author Gambella Riccardo and Luca Paoli
+ * 
+ */
+
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.bean.CatalogoBean;
 
-import ordinaViaggi.exception.ConnectionException;
-import ordinaViaggi.factory.ConnectionFactoryHSQL;
-
-public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
-
-	private static final String usr = "user";
-	private static final String pass = "user";
-
+public class CatalogoDAOMySQL implements IDAO<CatalogoBean>{
+	private static final String driverName = "com.mysql.jdbc.Driver";
+	private static final String connectionURL = "jdbc:mysql:";
+	private static final String URL = connectionURL + "//" + "localhost:3306" + "/";
+	private static final String dbName = URL + "voyager";
+	
+	private static final String usr = "root";
+	private static final String pass = "root";
+	
 	private static final String createQuery = 
 			"CREATE TABLE IF NOT EXISTS CATALOGO(" +
-			"ID VARCHAR(20) PRIMARY KEY, " +
-			"AMBIENTE VARCHAR(20), " +
-			"MEZZO VARCHAR(20), " +
-			"CITTAPARTENZA VARCHAR(20), " +
-			"CITTAARRIVO VARCHAR(20), " +
-			"VIA VARCHAR(20)" +
-			")";
-
+					"ID VARCHAR(20) PRIMARY KEY, " +
+					"AMBIENTE VARCHAR(20), " +
+					"MEZZO VARCHAR(20), " +
+					"CITTAPARTENZA VARCHAR(20), " +
+					"CITTAARRIVO VARCHAR(20), " +
+					"VIA VARCHAR(20)" +
+					")";
+	
 	private static final String insertQuery = 
 			"INSERT INTO CATALOGO " +
 			"VALUES(?, ?, ?, ?, ?, ?)";
-	
 	private static final String updateQuery = 
 			"UPDATE CATALOGO SET " +
 			"ID=?, AMBIENTE=?, MEZZO=?, CITTAPARTENZA=?, CITTAARRIVO=?, VIA=? " +
@@ -42,51 +48,62 @@ public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
 
 	private static final String dropQuery = 
 			"DROP TABLE CATALOGO IF EXISTS";
-
+	
+	
 	Connection conn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
-
-	public CatalogoDAOHSQL() {
+	
+	public CatalogoDAOMySQL(){
 		try {
+			Class.forName(driverName);
+			
 			conn = getConnection(usr, pass);
-
+		
 			ps = conn.prepareStatement(createQuery);
-
+			
 			ps.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		}finally{
 			closeResource();
 		}
 	}
-
-	private Connection getConnection(String user, String password)
-			throws ConnectionException {
-		return ConnectionFactoryHSQL.getInstance()
-				.getConnection(user, password);
+	
+	private Connection getConnection(String user, String password) throws ConnectionException{
+		Connection conn = null;
+		try{
+			conn = DriverManager.getConnection(dbName, user, password);
+		}catch(SQLException sqle){
+			throw new ConnectionException("Errore nella connessione al DB.");
+		}
+		
+		return conn;
 	}
-
-	private void closeResource() {
-		if (conn != null)
+	
+	private void closeResource(){
+		if(conn != null)
 			try {
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		if (ps != null)
+		if(ps != null)
 			try {
 				ps.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		if (rs != null)
+		if(rs != null)
 			try {
 				rs.close();
 			} catch (SQLException e) {
@@ -94,7 +111,7 @@ public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
 				e.printStackTrace();
 			}
 	}
-
+	
 	@Override
 	public void create(CatalogoBean dato) {
 		if (dato == null)
@@ -126,7 +143,7 @@ public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
 		}
 	}
 
-	// read(id) == findByPrimaryKey(id)
+	//read(id) == findByPrimaryKey(id)
 	@Override
 	public CatalogoBean read(String id) {
 		if (id == null)
@@ -165,6 +182,7 @@ public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
 
 		return result;
 	}
+
 
 	@Override
 	public void update(CatalogoBean dato) {
@@ -218,7 +236,7 @@ public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
 			closeResource();
 		}
 	}
-
+	
 	/* Elimina tutta la tabella CATALOGO con le sue entries */
 	public void dropCatalogo() {
 		try {
@@ -235,5 +253,4 @@ public class CatalogoDAOHSQL implements IDAO<CatalogoBean> {
 			e.printStackTrace();
 		}
 	}
-
 }
