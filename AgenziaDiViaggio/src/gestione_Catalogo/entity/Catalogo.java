@@ -7,7 +7,6 @@
 package gestione_Catalogo.entity;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
@@ -49,7 +48,7 @@ public class Catalogo implements Serializable{
 		 */
 		
 		/*
-		 * DA far vedere a MM: meglio usare equals???
+		 * E' stato modifica: invoca il metodo esistenzaElemento(Elemento e) che invoca Equals!
 		 */
 		
 		if (!mappaAmbiente.esistenzaElemento(ambiente)) return false;	//Se non c'e' l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
@@ -70,16 +69,16 @@ public class Catalogo implements Serializable{
 		return true;
 	}
 	
-	public boolean verificaEsistenzaOfferte(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException {
+	public boolean verificaEsistenzaOfferte(Ambiente ambiente, MezzoTrasporto mezzoTrasporto, StazionePartenza stazionePartenza, StazioneArrivo stazioneArrivo, StazioneIntermedia stazioneIntermedia) throws IDEsternoException {
 		
 		//se la tabella della stazione di arrivo e' vuota (non ha offerte) ritorna con false, altrimenti con true
-		return !mappaAmbiente.getElemento(ambiente).getElemento(mezzoTrasporto).getElemento(stazionePartenza).getElemento(stazioneArrivo).listaChiaviElementi().isEmpty();
+		return !mappaAmbiente.getElemento(ambiente.getIDEsterno()).getElemento(mezzoTrasporto.getIDEsterno()).getElemento(stazionePartenza.getIDEsterno()).getElemento(stazioneArrivo.getIDEsterno()).getElemento(stazioneIntermedia.getIDEsterno()).listaChiaviElementi().isEmpty();
 		
 	}
 
 	
 	
-	public void aggiungiViaggioAlCatalogo(Ambiente ambiente, MezzoTrasporto mezzoTrasporto, StazionePartenza stazionePartenza, StazioneArrivo stazioneArrivo, StazioneIntermedia stazioneIntermedia, String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void aggiungiViaggioAlCatalogo(Ambiente ambiente, MezzoTrasporto mezzoTrasporto, StazionePartenza stazionePartenza, StazioneArrivo stazioneArrivo, StazioneIntermedia stazioneIntermedia) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		/*
 		 * Bisogna sempre verificare, prima di aggiungere un elemento alla tabella, se questo elemento e' gia' presente!
 		 */
@@ -119,33 +118,38 @@ public class Catalogo implements Serializable{
 		//System.out.println("Viaggio Aggiunto");
 	}
 	
-	public void rimuoviViaggioDalCatalogo(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo) throws IDEsternoException {
+	public void rimuoviViaggioDalCatalogo(Ambiente ambiente, MezzoTrasporto mezzoTrasporto, StazionePartenza stazionePartenza, StazioneArrivo stazioneArrivo, StazioneIntermedia stazioneIntermedia) throws IDEsternoException {
 	
-		Elemento elementoAmbiente = mappaAmbiente.getElemento(ambiente);
-		Elemento elementoMezzo = elementoAmbiente.getElemento(mezzoTrasporto);
-		Elemento elementoPartenza = elementoMezzo.getElemento(stazionePartenza);
+		Elemento elementoAmbiente = mappaAmbiente.getElemento(ambiente.getIDEsterno());
+		Elemento elementoMezzo = elementoAmbiente.getElemento(mezzoTrasporto.getIDEsterno());
+		Elemento elementoPartenza = elementoMezzo.getElemento(stazionePartenza.getIDEsterno());
+		Elemento elementoArrivo = elementoPartenza.getElemento(stazioneArrivo.getIDEsterno());
 		
-		// Rimuovo stazione di arrivo dalla tabella
-		elementoPartenza.rimuoviElemento(stazioneArrivo);
+		// Rimuovo stazione intermedia dalla tabella
+		elementoArrivo.rimuoviElemento(stazioneIntermedia.getIDEsterno());
+		
+		// Se la tabella della stazione di arrivo non ha elementi, rimuovo la stazione di arrivo;
+		if (elementoArrivo.listaChiaviElementi().isEmpty())
+			elementoPartenza.rimuoviElemento(stazioneArrivo.getIDEsterno());
 		
 		// Se la tabella della stazione di partenza non ha elementi, rimuovo la stazione di partenza
 		if (elementoPartenza.listaChiaviElementi().isEmpty())
-			elementoMezzo.rimuoviElemento(stazionePartenza);
+			elementoMezzo.rimuoviElemento(stazionePartenza.getIDEsterno());
 		
 		// Se la tabella del mezzo di trasporto non ha elementi, rimuovo il mezzo
 		if (elementoMezzo.listaChiaviElementi().isEmpty())
-			elementoAmbiente.rimuoviElemento(mezzoTrasporto);
+			elementoAmbiente.rimuoviElemento(mezzoTrasporto.getIDEsterno());
 		
 		// Se la tabella dell'ambiente non ha elementi, rimuovo l'ambiente
 		if (elementoAmbiente.listaChiaviElementi().isEmpty())
-			mappaAmbiente.removeElemento(ambiente);
-		
+			mappaAmbiente.removeElemento(ambiente.getIDEsterno());
+
 		//System.out.println("Viaggio Rimosso");
 	}
 
 	
 	
-	public Set<String> getAmbienti() throws MappaException {
+	public Set<String> getChiaviAmbienti() throws MappaException {
 
 		Set<String> ambienti = mappaAmbiente.listaChiaviElementi();
 		if (ambienti.isEmpty())
@@ -157,7 +161,7 @@ public class Catalogo implements Serializable{
 
 	
 	
-	public Set<String> getMezziDiTrasporto(String ambiente) throws IDEsternoException {
+	public Set<String> getChiaviMezziDiTrasporto(String ambiente) throws IDEsternoException {
 
 		if (mappaAmbiente.esistenzaElemento(ambiente))
 			return mappaAmbiente.getElemento(ambiente).listaChiaviElementi();
@@ -167,7 +171,7 @@ public class Catalogo implements Serializable{
 
 	
 	
-	public Set<String> getStazioniDiPartenza(String ambiente, String mezzo) throws IDEsternoException {
+	public Set<String> getChiaviStazioniDiPartenza(String ambiente, String mezzo) throws IDEsternoException {
 		
 		Elemento elementoAmbiente = mappaAmbiente.getElemento(ambiente);
 		if (elementoAmbiente.esistenzaElemento(mezzo))
@@ -178,7 +182,7 @@ public class Catalogo implements Serializable{
 	}
 	
 	
-	public Set<String> getStazioniDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoException {
+	public Set<String> getChiaviStazioniDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoException {
 		
 		Elemento elementoMezzo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo);
 		if (elementoMezzo.esistenzaElemento(partenza))
@@ -188,7 +192,8 @@ public class Catalogo implements Serializable{
 	
 	}
 	
-	public Set<String> getStazioniIntermedie(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
+	public Set<String> getChiaviStazioniIntermedie(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
+		
 		Elemento elementoPartenza = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza);
 		if (elementoPartenza.esistenzaElemento(arrivo)){
 			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
@@ -198,11 +203,10 @@ public class Catalogo implements Serializable{
 	public String getInfo(String ambiente, String mezzo, String partenza, String arrivo, String intermedia) throws IDEsternoException{
 		
 		Elemento elementoArrivo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo);
-		if (elementoArrivo.esistenzaElemento(arrivo)){
-			return elementoArrivo.getElemento(intermedia).getInfo();
-			
+		if (elementoArrivo.esistenzaElemento(intermedia)){
+			return  ((StazioneIntermedia) elementoArrivo.getElemento(intermedia)).getInfo().toString();
 		} else {
-			throw new IDEsternoException("Stazione di arrivo "+arrivo+" non presente in catalogo");
+			throw new IDEsternoException("Stazione intermedia "+intermedia+" non presente in catalogo");
 		}
 		
 	}

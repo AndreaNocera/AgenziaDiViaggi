@@ -38,7 +38,7 @@ public class Info implements Serializable{
 		this.info = s;
 	}
 	
-	public String getInfo(){
+	public String toString(){
 		return info;
 	}
 
