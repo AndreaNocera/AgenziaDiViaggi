@@ -89,19 +89,10 @@ public class ControlloreGestioneCatalogo {
 		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
 		StazioneIntermedia si;
 		if (stazioneIntermedia.equalsIgnoreCase("")){
-			if (info.equalsIgnoreCase("")){
-				si = new StazioneIntermedia();
-			} else {
 				si = new StazioneIntermedia(new Info(info));
-			}	
 		} else {
-			if (info.equalsIgnoreCase("")){
-				si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia));
-			} else {
 				si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info(info));
-			}
 		}
-		
 		
 		//verifico l'esistenza del viaggio nel catalogo
 		if (catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
@@ -141,7 +132,7 @@ public class ControlloreGestioneCatalogo {
 		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto));
 		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza));
 		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
-		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia));
+		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info());
 		
 		//verifico l'esistenza del viaggio nel catalogo
 		if (!catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
