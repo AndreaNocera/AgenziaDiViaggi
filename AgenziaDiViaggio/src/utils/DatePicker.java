@@ -16,34 +16,23 @@ public class DatePicker extends JPanel{
 	private static final int CURRENT_YEAR = Calendar.getInstance().get(Calendar.YEAR);
 	private static final int NUM_YEARS = CURRENT_YEAR - FIRST_YEAR;
 	
-	private static final String[] MONTH_CHOICES = new String[NUM_MONTHS + 1];
-	private static final String[] DAY_CHOICES = new String[NUM_DAYS + 1];
-	private static final String[] YEAR_CHOICES = new String[NUM_YEARS + 1];
+	private static final Integer[] MONTH_CHOICES = new Integer[NUM_MONTHS];
+	private static final Integer[] DAY_CHOICES = new Integer[NUM_DAYS];
+	private static final Integer[] YEAR_CHOICES = new Integer[NUM_YEARS];
 	
-	private static final String DAY_TITLE = "Giorno";
-	private static final String MONTH_TITLE = "Mese";
-	private static final String YEAR_TITLE = "Anno";
-	private static final String SEPARATOR = " ";
-	
-	private JComboBox<String> comboDay;
-	private JComboBox<String> comboMonth;
-	private JComboBox<String> comboYear;
+	private JComboBox<Integer> comboDay;
+	private JComboBox<Integer> comboMonth;
+	private JComboBox<Integer> comboYear;
 	
 	public DatePicker() {
 		super();
 		buildPanel();
 	}
 	
-	public DatePicker(String date) {
-		super();
-		buildPanel();
-		this.setDateAsString(date);
-	}
-	
 	public DatePicker(GregorianCalendar date) {
 		super();
 		buildPanel();
-		this.setDateAsGregorianCalendar(date);
+		setDateAsGregorianCalendar(date);
 	}
 	
 	public void addActionListener(ActionListener listener) {
@@ -53,87 +42,24 @@ public class DatePicker extends JPanel{
 	}
 	
 	public GregorianCalendar getDateAsGregorianCalendar() {
-		if (hasValidData()) {
-			int day = (int) comboDay.getSelectedItem();
-			int month = (int) comboMonth.getSelectedItem();
-			int year = (int) comboYear.getSelectedItem();
-			
-			return new GregorianCalendar(year, month, day);
-		}
+		int day = comboDay.getSelectedIndex() + 1;
+		int month = comboMonth.getSelectedIndex() + 1;
+		int year = CURRENT_YEAR - comboYear.getSelectedIndex();
 		
-		return null;		
+		return new GregorianCalendar(year, month, day);		
 	}
-	
-	
+		
 	public void setDateAsGregorianCalendar(GregorianCalendar date) {
-		// Il campI statici DAY_OF_MONTH, MONTH, YEAR, vanno presi in maniera statica
-		// Sostutuire con GregorianCalendar.DAY_OF_MONTH....ecc ecc
-		comboDay.setSelectedItem(String.valueOf(date.DAY_OF_MONTH));
-		comboMonth.setSelectedItem(String.valueOf(date.MONTH));
-		comboYear.setSelectedItem(String.valueOf(date.YEAR));
-	}
-	
-	public String getDateAsString() {
-		if (hasValidData()) {
-			String day = comboDay.getSelectedItem().toString();
-			String month = comboMonth.getSelectedItem().toString();
-			String year = comboYear.getSelectedItem().toString();
-			
-			String date = day + SEPARATOR + month + SEPARATOR + year;
-			
-			return date;
-		} else {
-			return "";
-		}		
-	}
-	
-	public void setDateAsString(String date) {
-		String[] separatedData = date.split(SEPARATOR);
-		comboDay.setSelectedItem(separatedData[0]);
-		comboMonth.setSelectedItem(separatedData[1]);
-		comboYear.setSelectedItem(separatedData[2]);		
-	}
-	
-	public int[] getDateAsInt() {
-		if (hasValidData()) {
-			int[] date = new int[3];
-			date[0] = Integer.valueOf(comboDay.getSelectedItem().toString());
-			date[1] = Integer.valueOf(comboMonth.getSelectedItem().toString());
-			date[2] = Integer.valueOf(comboYear.getSelectedItem().toString());
-			
-			return date;
-		} else {
-			return null;
-		}		
-	}
-	
-	public void setDateAsInt(int day, int month, int year) {
-		comboDay.setSelectedItem(String.valueOf(day));
-		comboMonth.setSelectedItem(String.valueOf(month));
-		comboYear.setSelectedItem(String.valueOf(year));
-	}
-		
-	public boolean hasValidData() {
-		String day = comboDay.getSelectedItem().toString();
-		String month = comboMonth.getSelectedItem().toString();
-		String year = comboYear.getSelectedItem().toString();
-		
-		if (day.equals(DAY_TITLE) || month.equals(MONTH_TITLE) || year.equals(YEAR_TITLE)) {
-			return false;
-		} else {
-			return true;
-		}
+		comboDay.setSelectedItem(date.get(Calendar.DAY_OF_MONTH));
+		comboMonth.setSelectedItem(date.get(Calendar.MONTH));
+		comboYear.setSelectedItem(date.get(Calendar.YEAR));
 	}
 	
  	public void buildPanel() {
 		buildComboChoices();
-		comboDay = new JComboBox<String>(DAY_CHOICES);
-		comboMonth = new JComboBox<String>(MONTH_CHOICES);
-		comboYear = new JComboBox<String>(YEAR_CHOICES);
-		
-		comboDay.setSelectedItem(DAY_TITLE);
-		comboMonth.setSelectedItem(MONTH_TITLE);
-		comboYear.setSelectedItem(YEAR_TITLE);
+		comboDay = new JComboBox<Integer>(DAY_CHOICES);
+		comboMonth = new JComboBox<Integer>(MONTH_CHOICES);
+		comboYear = new JComboBox<Integer>(YEAR_CHOICES);
 		
 		this.add(comboDay);
 		this.add(comboMonth);
@@ -147,26 +73,23 @@ public class DatePicker extends JPanel{
 	}
 	
 	public void buildDayChoices() {
-		DAY_CHOICES[0] = DAY_TITLE;
 		
-		for (int i = 1; i <= NUM_DAYS; i ++) {
-			DAY_CHOICES[i] = String.valueOf(i);
+		for (int i = 0; i < NUM_DAYS; i ++) {
+			DAY_CHOICES[i] = i + 1;
 		}
 	}
 	
 	public void buildMonthChoices() {
-		MONTH_CHOICES[0] = MONTH_TITLE;
 		
-		for (int i = 1; i <= NUM_MONTHS; i ++) {
-			MONTH_CHOICES[i] = String.valueOf(i);
+		for (int i = 0; i < NUM_MONTHS; i ++) {
+			MONTH_CHOICES[i] = i + 1;
 		}
 	}
 	
 	public void buildYearChoices() {
-		YEAR_CHOICES[0] = YEAR_TITLE;
 		
-		for (int i = 1; i <= NUM_YEARS; i ++) {
-			YEAR_CHOICES[i] = String.valueOf(CURRENT_YEAR - i);
+		for (int i = 0; i < NUM_YEARS; i ++) {
+			YEAR_CHOICES[i] = CURRENT_YEAR - i;
 		}
 	}
 
