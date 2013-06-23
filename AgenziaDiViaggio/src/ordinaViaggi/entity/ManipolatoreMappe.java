@@ -8,14 +8,24 @@ import java.util.List;
 
 public abstract class ManipolatoreMappe {
 	
+	/**
+	 * Resituisce la mappa caricandola dal DB.
+	 * @return
+	 * @throws MapDAOException
+	 */
 	protected Map readMap() throws MapDAOException {
-		Map map = new Map();
-		return map.get();
+		MapDAO mapDAO = MAPDAOMySQL.getIstance();
+		return mapDAO.get();
 	}
-
+	/**
+	 * Salva una mappa, si accede direttamente al DAO
+	 * @param map
+	 * @throws MapDAOException
+	 */
 	/* Salva una mappa, visibile solo dai controllori. */
 	protected void saveMap(Map map) throws MapDAOException {
-		map.save();
+		MapDAO mapDAO = MAPDAOMySQL.getIstance();
+		mapDAO.save(map);
 	}
 
 	private SubElement getSubElementRecursive(Map map,
@@ -155,8 +165,7 @@ public abstract class ManipolatoreMappe {
 		 * il rif alla mappa E' un errore quindi che una mappa sia null.
 		 */
 		if (secondmap == null) {
-			System.out.println("Errore mappa non può essere null.");
-			secondmap = new Map();
+			throw new MapDAOException("Errore in inserimento Map recursive!!");
 		}
 
 		/*
@@ -189,8 +198,7 @@ public abstract class ManipolatoreMappe {
 		 * il rif alla mappa E' un errore quindi che una mappa sia null.
 		 */
 		if (secondmap == null) {
-			System.out.println("Errore mappa non può essere null.");
-			secondmap = new Map();
+			throw new MapDAOException("Errore in rimozione map recursive!!");
 		}
 
 		/* Punto di rimozione raggiunto */
