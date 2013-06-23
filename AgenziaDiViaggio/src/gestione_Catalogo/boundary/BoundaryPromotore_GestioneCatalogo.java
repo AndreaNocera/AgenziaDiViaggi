@@ -412,7 +412,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		labelStazioniIntermediePannello4 = new JLabel();	//Etichetta per Stazioni Intermedie
 		labelStazioniIntermediePannello4.setFont(new Font("Arial",0,15));
-		labelStazioniIntermediePannello4.setBounds(panel4.getWidth()/7-10, panel4.getHeight()/6*3+20, panel4.getWidth()/6, 20);
+		labelStazioniIntermediePannello4.setBounds(panel4.getWidth()/7-10, panel4.getHeight()/6*3, panel4.getWidth()/6, 20);
 		labelStazioniIntermediePannello4.setText("Stazione Intermedia");
 		panel4.add(labelStazioniIntermediePannello4);
 		
@@ -420,7 +420,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 	    campoStazioniIntermediePannello4 = new JTextField (panel4.getWidth()/6); //Campo per stazioni intermedie
 	    campoStazioniIntermediePannello4.setFont(new Font("Arial", 0, 18));
-	    campoStazioniIntermediePannello4.setBounds(panel4.getWidth()/7-10, panel4.getHeight()/6*3+40, panel4.getWidth()/6, 20);
+	    campoStazioniIntermediePannello4.setBounds(panel4.getWidth()/7-10, panel4.getHeight()/6*3+20, panel4.getWidth()/6, 20);
 	    campoStazioniIntermediePannello4.setEditable(false);
 	    panel4.add(campoStazioniIntermediePannello4);
 	    
