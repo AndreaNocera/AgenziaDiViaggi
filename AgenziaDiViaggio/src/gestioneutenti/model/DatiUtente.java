@@ -1,6 +1,6 @@
 package gestioneutenti.model;
 
-import gestioneutenti.exception.UtenteException;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
 
 import java.util.GregorianCalendar;
 
@@ -11,22 +11,24 @@ public class DatiUtente {
 	private String città;
 	private GregorianCalendar nascita;
 	private String sesso;	
+	private String mail;
 
-	public DatiUtente(String nome, String cognome, String città, GregorianCalendar nascita, String sesso) throws UtenteException {
+	public DatiUtente(String nome, String cognome, String mail, String città, GregorianCalendar nascita, String sesso) throws DatiUtenteInconsistentiException {
 		this.setNome(nome);
 		this.setCognome(cognome);
+		this.setMail(mail);
 		this.setCittà(città);
 		this.setNascita(nascita);
-		this.setSesso(sesso);		
+		this.setSesso(sesso);			
 	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) throws UtenteException {
+	public void setNome(String nome) throws DatiUtenteInconsistentiException {
 		if (nome.isEmpty()) {
-			throw new UtenteException();
+			throw new DatiUtenteInconsistentiException();
 		}
 		
 		this.nome = nome;
@@ -36,21 +38,33 @@ public class DatiUtente {
 		return cognome;
 	}
 
-	public void setCognome(String cognome) throws UtenteException {
+	public void setCognome(String cognome) throws DatiUtenteInconsistentiException {
 		if (cognome.isEmpty()) {
-			throw new UtenteException();
+			throw new DatiUtenteInconsistentiException();
 		}
 		
 		this.cognome = cognome;
+	}
+	
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) throws DatiUtenteInconsistentiException {
+		if (mail.isEmpty()) {
+			throw new DatiUtenteInconsistentiException();
+		}
+		
+		this.mail = mail;
 	}
 
 	public String getCittà() {
 		return città;
 	}
 
-	public void setCittà(String città) throws UtenteException {
+	public void setCittà(String città) throws DatiUtenteInconsistentiException {
 		if (città.isEmpty()) {
-			throw new UtenteException();
+			throw new DatiUtenteInconsistentiException();
 		}
 		
 		this.città = città;
@@ -68,12 +82,14 @@ public class DatiUtente {
 		return sesso;
 	}
 
-	public void setSesso(String sesso) throws UtenteException {
+	public void setSesso(String sesso) throws DatiUtenteInconsistentiException {
 		if (sesso.isEmpty() || (!sesso.equals("Uomo") && !sesso.equals("Donna"))) {
-			throw new UtenteException();
+			throw new DatiUtenteInconsistentiException();
 		}
 		
 		this.sesso = sesso;
 	}
+
+
 
 }

@@ -43,7 +43,7 @@ public class TabellaUtentiModel extends AbstractTableModel{
 		case 4:
 			return currUser.getDatiUtente().getSesso();
 		case 5:
-			return currUser.getMail();
+			return currUser.getDatiUtente().getMail();
 		case 6:
 			return currUser.getRuolo().asString();
 		case 7:

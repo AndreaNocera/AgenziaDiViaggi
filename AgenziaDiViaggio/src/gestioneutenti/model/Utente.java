@@ -5,13 +5,11 @@ import gestioneutenti.model.ruoli.Ruolo;
 public class Utente implements Comparable<Utente> {
 	
 	private DatiUtente dati;
-	private String mail;
 	private Ruolo ruolo;
 	private Login login;
 
-	public Utente(DatiUtente dati, String mail, Ruolo ruolo, Login login) {
+	public Utente(DatiUtente dati, Ruolo ruolo, Login login) {
 		this.setDatiUtente(dati);
-		this.setMail(mail);
 		this.setRuolo(ruolo);
 		this.setLogin(login);
 	}
@@ -27,14 +25,6 @@ public class Utente implements Comparable<Utente> {
 	
 	private void setDatiUtente(DatiUtente dati) {
 		this.dati = dati;
-	}
-	
-	public String getMail() {
-		return this.mail;
-	}
-	
-	private void setMail(String mail) {
-		this.mail = mail;
 	}
 	
 	private void setRuolo(Ruolo ruolo) {

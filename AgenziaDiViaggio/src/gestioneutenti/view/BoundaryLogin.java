@@ -1,7 +1,8 @@
 package gestioneutenti.view;
 
 import gestioneutenti.controller.ControllerLogin;
-import gestioneutenti.exception.LoginException;
+import gestioneutenti.exception.LoginErratoException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
 
@@ -100,7 +101,7 @@ public class BoundaryLogin extends JFrame{
 			Utente utente = this.controllerLogin.login(login);
 			this.setVisible(false);
 			this.controllerLogin.home(utente);
-		} catch (LoginException e) {
+		} catch (LoginErratoException | LoginInconsistenteException e) {
 			JOptionPane.showMessageDialog(getParent(), "Oops! Non sei stato riconosciuto!" + username + password, "Info", JOptionPane.INFORMATION_MESSAGE);		
 		}	
 	}

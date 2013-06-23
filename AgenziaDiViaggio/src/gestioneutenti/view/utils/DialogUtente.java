@@ -2,8 +2,8 @@ package gestioneutenti.view.utils;
 
 import utils.DatePicker;
 import utils.GBCHelper;
-import gestioneutenti.exception.LoginException;
-import gestioneutenti.exception.UtenteException;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.FactoryUtenti;
 import gestioneutenti.model.Login;
@@ -208,7 +208,6 @@ public class DialogUtente extends JDialog{
 	
 	public void setUserData(Utente user) {
 		DatiUtente dati = user.getDatiUtente();
-		String mail = user.getMail();
 		Ruolo ruolo = user.getRuolo();
 		Login login = user.getLogin();
 		
@@ -218,7 +217,7 @@ public class DialogUtente extends JDialog{
 		this.textfieldCity.setText(dati.getCittà());
 		this.calendarBirth.setDateAsGregorianCalendar(dati.getNascita());
 		this.comboGender.setSelectedItem(dati.getSesso());
-		this.textfieldMail.setText(mail);
+		this.textfieldMail.setText(dati.getMail());
 		this.comboRole.setSelectedIndex(ruolo.getId());
 		this.textfieldUsername.setText(login.getUsername());
 		this.textfieldPassword.setText(login.getPassword());
@@ -240,8 +239,8 @@ public class DialogUtente extends JDialog{
 		
 		try {
 			FactoryUtenti fu = FactoryUtenti.getInstance();
-			utente = fu.creaUtente(new DatiUtente(firstname, lastname, city, birth, sex), mail, ruolo, new Login(username, password));
-		} catch (UtenteException | LoginException e) {
+			utente = fu.creaUtente(new DatiUtente(firstname, lastname, mail, city, birth, sex), ruolo, new Login(username, password));
+		} catch (DatiUtenteInconsistentiException | LoginInconsistenteException e) {
 			e.printStackTrace();
 		}	
 		

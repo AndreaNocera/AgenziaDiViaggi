@@ -79,7 +79,6 @@ public class BoundaryGestisciProfilo extends JPanel{
 		
 		//Utente
 		DatiUtente dati = utente.getDatiUtente();
-		String mail = utente.getMail();
 		Ruolo ruolo = utente.getRuolo();
 		Login login = utente.getLogin();
 		
@@ -111,7 +110,7 @@ public class BoundaryGestisciProfilo extends JPanel{
 		calendarBirth = new DatePicker(dati.getNascita());
 		comboGender = new JComboBox<String>(SEX_CHOICES);
 		comboGender.setSelectedItem(dati.getSesso());
-		textfieldMail = new JTextField(mail, 20);
+		textfieldMail = new JTextField(dati.getMail(), 20);
 		labelContentRole = new JLabel(ruolo.asString());
 		labelContentUsername = new JLabel(login.getUsername());
 		checkboxChangePassword = new JCheckBox("Cambia password", false);

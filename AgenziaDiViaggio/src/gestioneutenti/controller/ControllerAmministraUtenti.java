@@ -1,8 +1,9 @@
 package gestioneutenti.controller;
 
-import gestioneutenti.exception.LoginException;
+import gestioneutenti.exception.LoginErratoException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.RuoloException;
-import gestioneutenti.exception.UtenteException;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.FactoryUtenti;
 import gestioneutenti.model.Login;
@@ -24,7 +25,7 @@ public class ControllerAmministraUtenti {
 	private ControllerAmministraUtenti() {
 		try {
 			inizializzaUtentiProva();
-		} catch (RuoloException | UtenteException | LoginException exc) {
+		} catch (RuoloException | DatiUtenteInconsistentiException | LoginErratoException | LoginInconsistenteException exc) {
 			exc.printStackTrace();
 		}
 	}
@@ -38,12 +39,12 @@ public class ControllerAmministraUtenti {
 		return singletonControllerAmministraUtenti;
 	}	
 	
-	private void inizializzaUtentiProva() throws RuoloException, UtenteException, LoginException {
-		utenti[0] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.AMMINISTRATORE, new Login("amministratore", "password"));
-		utenti[1] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.PROMOTORE, new Login("promotore", "password"));
-		utenti[2] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.PROGETTISTA, new Login("progettista", "password"));
-		utenti[3] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.VENDITORE, new Login("venditore", "password"));
-		utenti[4] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.CLIENTE, new Login("cliente", "password"));
+	private void inizializzaUtentiProva() throws RuoloException, DatiUtenteInconsistentiException, LoginErratoException, LoginInconsistenteException {
+		utenti[0] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.AMMINISTRATORE, new Login("amministratore", "password"));
+		utenti[1] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.PROMOTORE, new Login("promotore", "password"));
+		utenti[2] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.PROGETTISTA, new Login("progettista", "password"));
+		utenti[3] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.VENDITORE, new Login("venditore", "password"));
+		utenti[4] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.CLIENTE, new Login("cliente", "password"));
 	}
 
 	public void rimuoviUtente(String username) {

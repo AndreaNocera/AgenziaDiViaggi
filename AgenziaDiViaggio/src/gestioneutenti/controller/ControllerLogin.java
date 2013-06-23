@@ -4,9 +4,10 @@ import java.util.GregorianCalendar;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import gestioneutenti.exception.LoginException;
+import gestioneutenti.exception.LoginErratoException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.RuoloException;
-import gestioneutenti.exception.UtenteException;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.model.*;
 import gestioneutenti.model.ruoli.*;
 import gestioneutenti.view.utils.DialogReimpostaPassword;
@@ -23,7 +24,7 @@ public class ControllerLogin {
 	private ControllerLogin() {
 		try {
 			inizializzaUtentiProva();
-		} catch (RuoloException | UtenteException | LoginException exc) {
+		} catch (RuoloException | DatiUtenteInconsistentiException | LoginErratoException | LoginInconsistenteException exc) {
 			exc.printStackTrace();
 		}
 	}
@@ -37,14 +38,14 @@ public class ControllerLogin {
 		return singletonControllerLogin;
 	}
 		
-	public synchronized Utente login(Login login) throws LoginException {
+	public synchronized Utente login(Login login) throws LoginErratoException {
 		for (Utente u : utenti) {
 			if (login.equals(u.getLogin())) {
 				return u;
 			}
 		}
 			
-		throw new LoginException();					
+		throw new LoginErratoException();					
 	}
 	
 	public synchronized void home(Utente utente) {
@@ -69,12 +70,12 @@ public class ControllerLogin {
 		dialog.setVisible(false);
 	}
 
-	private void inizializzaUtentiProva() throws RuoloException, UtenteException, LoginException {
-		utenti[0] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.AMMINISTRATORE, new Login("amministratore", "password"));
-		utenti[1] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.PROMOTORE, new Login("promotore", "password"));
-		utenti[2] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.PROGETTISTA, new Login("progettista", "password"));
-		utenti[3] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.VENDITORE, new Login("venditore", "password"));
-		utenti[4] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", new GregorianCalendar(1990, 06, 27), "Uomo"), "giacomo.marciani@gmail.com", Ruolo.CLIENTE, new Login("cliente", "password"));
+	private void inizializzaUtentiProva() throws RuoloException, DatiUtenteInconsistentiException, LoginErratoException, LoginInconsistenteException {
+		utenti[0] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.AMMINISTRATORE, new Login("amministratore", "password"));
+		utenti[1] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.PROMOTORE, new Login("promotore", "password"));
+		utenti[2] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.PROGETTISTA, new Login("progettista", "password"));
+		utenti[3] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.VENDITORE, new Login("venditore", "password"));
+		utenti[4] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.CLIENTE, new Login("cliente", "password"));
 	}
 
 }

@@ -1,13 +1,13 @@
 package gestioneutenti.model;
 
-import gestioneutenti.exception.LoginException;
+import gestioneutenti.exception.LoginInconsistenteException;
 
 public class Login {
 	
 	private String username;
 	private String password;
 	
-	public Login(String username, String password) throws LoginException {
+	public Login(String username, String password) throws LoginInconsistenteException {
 		this.setUsername(username);
 		this.setPassword(password);
 	}
@@ -20,9 +20,9 @@ public class Login {
 		return username;
 	}
 
-	public void setUsername(String username) throws LoginException {
+	public void setUsername(String username) throws LoginInconsistenteException {
 		if (username.isEmpty()) {
-			throw new LoginException();
+			throw new LoginInconsistenteException();
 		}
 		
 		this.username = username;
@@ -32,9 +32,9 @@ public class Login {
 		return password;
 	}
 
-	public void setPassword(String password) throws LoginException {
+	public void setPassword(String password) throws LoginInconsistenteException {
 		if (password.isEmpty()) {
-			throw new LoginException();
+			throw new LoginInconsistenteException();
 		}
 		
 		this.password = password;

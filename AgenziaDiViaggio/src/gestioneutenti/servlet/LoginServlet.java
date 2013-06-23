@@ -1,6 +1,8 @@
 package gestioneutenti.servlet;
 
 import gestioneutenti.controller.ControllerLogin;
+import gestioneutenti.exception.LoginInconsistenteException;
+import gestioneutenti.exception.LoginErratoException;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
 import java.io.IOException;
@@ -24,16 +26,21 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Login login = new Login(username, password);
-		//Utente utente = this.controllerLogin.login(login);
-		
-		if (utente != null) {
-			HttpSession session = request.getSession(true);
-            session.setAttribute("currentSessionUser", utente);
-            response.sendRedirect("LoginSuccesso.jsp");
-		} else {
-			response.sendRedirect("Login.jsp");
-		}
+		Login login;
+		Utente utente;
+		try {
+			login = new Login(username, password);
+			utente = this.controllerLogin.login(login);
+			if (utente != null) {
+				HttpSession session = request.getSession(true);
+	            session.setAttribute("currentSessionUser", utente);
+	            response.sendRedirect("LoginSuccesso.jsp");
+			} else {
+				response.sendRedirect("Login.jsp");
+			}
+		} catch (LoginInconsistenteException | LoginErratoException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
