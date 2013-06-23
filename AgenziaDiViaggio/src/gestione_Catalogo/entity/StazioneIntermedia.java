@@ -17,7 +17,7 @@ public class StazioneIntermedia extends Elemento{
 	
 
 	public StazioneIntermedia(Info info){
-		super(new IDEsterno("(Diretto)"));
+		super(new IDEsternoElemento("(Diretto)"));
 		
 		if (info.toString().equalsIgnoreCase("")) this.info = new Info();
 		else this.info = info;
@@ -28,7 +28,7 @@ public class StazioneIntermedia extends Elemento{
 		this.info.updateInfo("--- Inserito il " + data.stampaDataAttuale());
 	}
 	
-	public StazioneIntermedia(IDEsterno idEsterno, Info info) {
+	public StazioneIntermedia(IDEsternoElemento idEsterno, Info info) {
 		super(idEsterno);
 		
 		if (info.toString().equalsIgnoreCase("")) this.info = new Info();

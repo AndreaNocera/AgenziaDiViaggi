@@ -15,7 +15,7 @@ public abstract class Ambiente extends Elemento implements Serializable{
 
 	
 	//costruttori
-	public Ambiente (IDEsterno idEsterno){
+	public Ambiente (IDEsternoElemento idEsterno){
 		super(idEsterno);
 	}
 	

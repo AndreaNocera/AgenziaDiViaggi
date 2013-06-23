@@ -66,8 +66,8 @@ public class BoundaryAAAprimaria extends JFrame{
 		
 		
 		Dimension dim = getToolkit().getScreenSize();
-		confinePrincipale.setSize(dim.width/3*2,dim.height/4*3);
-		confinePrincipale.setLocation(dim.width/6 , dim.height/8);
+		confinePrincipale.setSize(dim.width/4*3,dim.height/6*5);
+		confinePrincipale.setLocation(dim.width/8 , dim.height/12);
 		confinePrincipale.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		confinePrincipale.setVisible(true);
 		confinePrincipale.setResizable(false);

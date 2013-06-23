@@ -14,7 +14,7 @@ public class ViaMare extends Ambiente implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	public ViaMare(IDEsterno idEsterno){
+	public ViaMare(IDEsternoElemento idEsterno){
 		super(idEsterno);
 	}
 	

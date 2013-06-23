@@ -14,7 +14,7 @@ public class ViaTerra extends Ambiente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	public ViaTerra(IDEsterno idEsterno){
+	public ViaTerra(IDEsternoElemento idEsterno){
 		super(idEsterno);
 	}
 	

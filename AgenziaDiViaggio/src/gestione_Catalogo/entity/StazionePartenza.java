@@ -14,7 +14,7 @@ public class StazionePartenza extends Elemento implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//Costruttore
-	public StazionePartenza (IDEsterno idEsterno){
+	public StazionePartenza (IDEsternoElemento idEsterno){
 		super(idEsterno);
 	}
 	

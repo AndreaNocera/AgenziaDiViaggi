@@ -7,15 +7,15 @@
 
 package gestione_Catalogo.exception;
 
-public class IDEsternoException extends Exception {
+public class IDEsternoElementoException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public IDEsternoException(){
+	public IDEsternoElementoException(){
 		
 	}
 	
-	public IDEsternoException(String m){
+	public IDEsternoElementoException(String m){
 		super(m);
 	}
 

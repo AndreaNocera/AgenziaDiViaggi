@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeMap;
 
-import gestione_Catalogo.exception.IDEsternoException;
+import gestione_Catalogo.exception.IDEsternoElementoException;
 
 
 public class Mappa extends TreeMap<String,Elemento> implements Serializable{
@@ -27,32 +27,32 @@ public class Mappa extends TreeMap<String,Elemento> implements Serializable{
 	
 	//metodi
 	
-	public void addElemento(String idEsterno, Elemento elemento) throws IDEsternoException {
+	public void addElemento(String idEsterno, Elemento elemento) throws IDEsternoElementoException {
 		
 		if(!containsKey(idEsterno))
 			super.put(idEsterno, elemento);
 		else 
-			throw new IDEsternoException ("ID esterno " + idEsterno.toString() + "  gia presente/n");
+			throw new IDEsternoElementoException ("ID esterno " + idEsterno.toString() + "  gia presente/n");
 	}
 	
-	public Elemento getElemento(String k) throws IDEsternoException {
+	public Elemento getElemento(String k) throws IDEsternoElementoException {
 		
 		if(k==null)
-			throw new IDEsternoException("ID esterno non deve essere nullo/n");
+			throw new IDEsternoElementoException("ID esterno non deve essere nullo/n");
 		Elemento e = super.get(k);		
 		if(e==null)
-			throw new IDEsternoException("ID esterno " + k.toString() + "  non presente/n");
+			throw new IDEsternoElementoException("ID esterno " + k.toString() + "  non presente/n");
 		else
 			return e;
 		
 	}
 	
 	
-	public void removeElemento(String k) throws IDEsternoException {
+	public void removeElemento(String k) throws IDEsternoElementoException {
 		
 		Elemento e = super.get(k);		
 		if(e==null)
-			throw new IDEsternoException("ID esterno " + k.toString() + "  non presente/n");
+			throw new IDEsternoElementoException("ID esterno " + k.toString() + "  non presente/n");
 		else 
 			super.remove(k);
 		

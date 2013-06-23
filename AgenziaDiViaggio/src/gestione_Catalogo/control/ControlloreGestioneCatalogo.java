@@ -14,7 +14,7 @@ import java.util.Set;
 import gestione_Catalogo.entity.Ambiente;
 import gestione_Catalogo.entity.Catalogo;
 import gestione_Catalogo.entity.DeserializzaOggetti;
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Log;
 import gestione_Catalogo.entity.MezzoTrasporto;
@@ -23,7 +23,7 @@ import gestione_Catalogo.entity.StazioneArrivo;
 import gestione_Catalogo.entity.StazioneIntermedia;
 import gestione_Catalogo.entity.StazionePartenza;
 import gestione_Catalogo.exception.DeserializzazioneException;
-import gestione_Catalogo.exception.IDEsternoException;
+import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.SerializzazioneException;
@@ -61,7 +61,7 @@ public class ControlloreGestioneCatalogo {
 	
 	
 	//Metodi
-	public void aggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia,  String info) throws IDEsternoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void aggiungiViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia,  String info) throws IDEsternoElementoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		
 		/*
 		 * FASE 1 : creo l'oggetto Ambiente
@@ -71,7 +71,7 @@ public class ControlloreGestioneCatalogo {
 		Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
 		
 		//preparo i parametri
-		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsternoElemento");
 		
 		Class<?>[] parametri = {primoParametro};
 		
@@ -79,25 +79,25 @@ public class ControlloreGestioneCatalogo {
 		Constructor<?> costruttore = c.getConstructor(parametri);
 		
 		//creo l'oggetto
-		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsterno(ambiente));
+		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsternoElemento(ambiente));
 		
 		/*
 		 * FASE 2: creo gli altri oggetti
 		 */
-		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto));
-		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza));
-		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
+		MezzoTrasporto mt = new MezzoTrasporto(new IDEsternoElemento(mezzoTrasporto));
+		StazionePartenza sp = new StazionePartenza(new IDEsternoElemento(stazionePartenza));
+		StazioneArrivo sa = new StazioneArrivo(new IDEsternoElemento(stazioneArrivo));
 		StazioneIntermedia si;
 		if (stazioneIntermedia.equalsIgnoreCase("")){
 				si = new StazioneIntermedia(new Info(info));
 		} else {
-				si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info(info));
+				si = new StazioneIntermedia(new IDEsternoElemento(stazioneIntermedia), new Info(info));
 		}
 		
 		//verifico l'esistenza del viaggio nel catalogo
 		if (catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
 			//System.out.println("Viaggio gia' presente");
-			throw new IDEsternoException("Il viaggio e' gia' presente nel catalogo!");
+			throw new IDEsternoElementoException("Il viaggio e' gia' presente nel catalogo!");
 		} else {
 			//aggiungo il viaggio
 			catalogo.aggiungiViaggioAlCatalogo(a, mt, sp, sa, si);
@@ -106,7 +106,7 @@ public class ControlloreGestioneCatalogo {
 	}
 	
 	
-	public void rimuoviViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia) throws IDEsternoException, OffertaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void rimuoviViaggio(String ambiente, String mezzoTrasporto, String stazionePartenza, String stazioneArrivo, String stazioneIntermedia) throws IDEsternoElementoException, OffertaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		
 		/*
 		 * FASE 1 : creo l'oggetto Ambiente
@@ -116,7 +116,7 @@ public class ControlloreGestioneCatalogo {
 		Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
 		
 		//preparo i parametri
-		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsternoElemento");
 		
 		Class<?>[] parametri = {primoParametro};
 		
@@ -124,20 +124,20 @@ public class ControlloreGestioneCatalogo {
 		Constructor<?> costruttore = c.getConstructor(parametri);
 		
 		//creo l'oggetto
-		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsterno(ambiente));
+		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsternoElemento(ambiente));
 		
 		/*
 		 * FASE 2: creo gli altri oggetti
 		 */
-		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto));
-		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza));
-		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo));
-		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia), new Info());
+		MezzoTrasporto mt = new MezzoTrasporto(new IDEsternoElemento(mezzoTrasporto));
+		StazionePartenza sp = new StazionePartenza(new IDEsternoElemento(stazionePartenza));
+		StazioneArrivo sa = new StazioneArrivo(new IDEsternoElemento(stazioneArrivo));
+		StazioneIntermedia si = new StazioneIntermedia(new IDEsternoElemento(stazioneIntermedia), new Info());
 		
 		//verifico l'esistenza del viaggio nel catalogo
 		if (!catalogo.verificaEsistenzaViaggio(a, mt, sp, sa, si)){
 			//System.out.println("Viaggio non presente");
-			throw new IDEsternoException("Il viaggio non e' presente nel catalogo!");
+			throw new IDEsternoElementoException("Il viaggio non e' presente nel catalogo!");
 		} 
 		// verifico l'esistenza di offerte per il viaggio
 		if (catalogo.verificaEsistenzaOfferte(a, mt, sp, sa, si)){
@@ -157,31 +157,31 @@ public class ControlloreGestioneCatalogo {
 	}
 
 	
-	public Set<String> mostraMezziDiTrasportoInCatalogo(String ambiente) throws IDEsternoException {
+	public Set<String> mostraMezziDiTrasportoInCatalogo(String ambiente) throws IDEsternoElementoException {
 		
 		return catalogo.getChiaviMezziDiTrasporto(ambiente);
 		
 	}
 	
 
-	public Set<String> mostraStazioniDiPartenzaInCatalogo(String ambiente, String mezzo) throws IDEsternoException {
+	public Set<String> mostraStazioniDiPartenzaInCatalogo(String ambiente, String mezzo) throws IDEsternoElementoException {
 		
 		return catalogo.getChiaviStazioniDiPartenza(ambiente, mezzo);
 				
 	}
 
 
-	public Set<String> mostraStazioniDiArrivoInCatalogo(String ambiente, String mezzo, String partenza) throws IDEsternoException {
+	public Set<String> mostraStazioniDiArrivoInCatalogo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
 
 		return catalogo.getChiaviStazioniDiArrivo(ambiente, mezzo, partenza);
 		
 	}
 	
-	public Set<String> mostraStazioniIntermedieInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoException{
+	public Set<String> mostraStazioniIntermedieInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
 		return catalogo.getChiaviStazioniIntermedie(ambiente, mezzo, partenza, arrivo);
 	}
 	
-	public String mostraCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String stazioneIntermedia) throws MappaException, IDEsternoException{
+	public String mostraCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String stazioneIntermedia) throws MappaException, IDEsternoElementoException{
 		
 		/*
 		 * Ho ben 6 casi ...

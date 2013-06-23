@@ -9,7 +9,7 @@ package gestione_Catalogo.entity;
 import java.io.Serializable;
 import java.util.Set;
 
-import gestione_Catalogo.exception.IDEsternoException;
+import gestione_Catalogo.exception.IDEsternoElementoException;
 
 
 public abstract class Elemento implements Serializable{
@@ -18,14 +18,14 @@ public abstract class Elemento implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//Variabili istanza
-	protected IDEsterno 	idEsterno;
+	protected IDEsternoElemento 	idEsterno;
 	private   Indice	  	indice;
 	
 	private   Mappa			mappa;
 	
 	
 	//costruttore
-	public Elemento(IDEsterno idEsterno){
+	public Elemento(IDEsternoElemento idEsterno){
 		this.idEsterno = idEsterno;
 		indice = new Indice();
 		mappa = new Mappa();
@@ -33,9 +33,9 @@ public abstract class Elemento implements Serializable{
 	}
 	
 
-	public Elemento getElemento(String k) throws IDEsternoException {   
+	public Elemento getElemento(String k) throws IDEsternoElementoException {   
 		if (esistenzaElemento(k)) return mappa.getElemento(k);
-		else throw new IDEsternoException("Elemento "+k+" non presente");
+		else throw new IDEsternoElementoException("Elemento "+k+" non presente");
 	}
 	
 	public Set<String> listaChiaviElementi() {
@@ -50,11 +50,11 @@ public abstract class Elemento implements Serializable{
 		return mappa.esistenzaElemento(e.getIDEsterno());
 	}
 	
-	public void aggiungiElemento(String k, Elemento e) throws IDEsternoException {
+	public void aggiungiElemento(String k, Elemento e) throws IDEsternoElementoException {
 		mappa.addElemento(k, e);
 	}
 	
-	public void rimuoviElemento(String k) throws IDEsternoException {
+	public void rimuoviElemento(String k) throws IDEsternoElementoException {
 		mappa.removeElemento(k);
 	}
 	
