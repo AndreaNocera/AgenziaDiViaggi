@@ -293,7 +293,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		bottoneChiudiPannello3 = new JButton("X");
 		bottoneChiudiPannello3.setBackground(Color.RED);
-		bottoneChiudiPannello3.setBounds(panel3.getWidth()/20*19, 0, panel3.getWidth()/20, panel3.getHeight()/2);
+		bottoneChiudiPannello3.setBounds(panel3.getWidth()/20*19-10, 0, panel3.getWidth()/20, panel3.getHeight()/2-3);
 		panel3.add(bottoneChiudiPannello3);
 		
 		
@@ -454,7 +454,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		bottoneChiudiPannello4 = new JButton("X");
 		bottoneChiudiPannello4.setBackground(Color.RED);
-		bottoneChiudiPannello4.setBounds(panel4.getWidth()/20*19, 0, panel4.getWidth()/20, panel4.getHeight()/18);
+		bottoneChiudiPannello4.setBounds(panel4.getWidth()/20*19-10, 0, panel4.getWidth()/20, panel4.getHeight()/18);
 		panel4.add(bottoneChiudiPannello4);
 		
 		
@@ -601,7 +601,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		bottoneChiudiPannello5 = new JButton("X");
 		bottoneChiudiPannello5.setBackground(Color.RED);
-		bottoneChiudiPannello5.setBounds(panel5.getWidth()/20*19, 0, panel5.getWidth()/20, panel5.getHeight()/18);
+		bottoneChiudiPannello5.setBounds(panel5.getWidth()/20*19-10, 0, panel5.getWidth()/20, panel5.getHeight()/18);
 		panel5.add(bottoneChiudiPannello5);
 		
 		
@@ -851,6 +851,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			
 			bottoneAggiungiViaggio.setEnabled(false); //disattiva i bottoni
 			bottoneRimuoviViaggio.setEnabled(false);
+			bottoneChiudiPannello3.setEnabled(false);
 		
 		}
 		
@@ -869,6 +870,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			panel5.setVisible(true);	//attiva pannello 5
 			bottoneAggiungiViaggio.setEnabled(false); //disattiva i bottoni
 			bottoneRimuoviViaggio.setEnabled(false);
+			bottoneChiudiPannello3.setEnabled(false);
 			
 			//premendo il bottone, mi attiva subito la tendina ambiente implementata in aggiornaTendinaPannello5
 			aggiornaTendinePannello5();
@@ -1199,6 +1201,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			panel4.setVisible(false); 					//chiude questo pannello
 			bottoneAggiungiViaggio.setEnabled(true);	//riattiva i bottoni
 			bottoneRimuoviViaggio.setEnabled(true);
+			bottoneChiudiPannello3.setEnabled(true);
 			
 			
 			//svuoto cmq il pannello
@@ -1627,6 +1630,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			panel5.setVisible(false); 					//chiude questo pannello
 			bottoneAggiungiViaggio.setEnabled(true);	//riattiva i bottoni
 			bottoneRimuoviViaggio.setEnabled(true);
+			bottoneChiudiPannello3.setEnabled(true);
 			
 			//svuoto comunque il pannello
 			if (tendinaAmbientePannello5.getItemCount() != 0){
