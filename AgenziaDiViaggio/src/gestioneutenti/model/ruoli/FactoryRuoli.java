@@ -1,5 +1,7 @@
 package gestioneutenti.model.ruoli;
 
+import gestioneutenti.exception.RuoloException;
+
 public final class FactoryRuoli {
 	
 	private static FactoryRuoli singletonFactoryRuoli = null;
@@ -15,7 +17,7 @@ public final class FactoryRuoli {
 		return singletonFactoryRuoli;
 	}
 	
-	public Ruolo assegnaRuolo(int ruolo) throws RuoloNonEsistenteException {
+	public Ruolo assegnaRuolo(int ruolo) throws RuoloException {
 		switch(ruolo) {
 		case Ruolo.AMMINISTRATORE:
 			return Amministratore.getInstance();
@@ -30,7 +32,7 @@ public final class FactoryRuoli {
 		case Ruolo.VISITATORE:
 			return Visitatore.getInstance();
 		default:
-			throw new RuoloNonEsistenteException(ruolo);
+			throw new RuoloException(ruolo);
 		}		
 	}
 

@@ -2,7 +2,10 @@ package gestioneutenti.view.utils;
 
 import utils.DatePicker;
 import utils.GBCHelper;
+import gestioneutenti.exception.LoginException;
+import gestioneutenti.exception.UtenteException;
 import gestioneutenti.model.DatiUtente;
+import gestioneutenti.model.FactoryUtenti;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
 import gestioneutenti.model.ruoli.Ruolo;
@@ -10,14 +13,16 @@ import gestioneutenti.model.ruoli.Ruolo;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
+
 import javax.swing.*;
 
-public class UtenteDialog extends JDialog{
+public class DialogUtente extends JDialog{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private static final String[] SEX_CHOICES = {"Uomo", "Donna"};
-	private static final String[] ROLE_CHOICES = {"Cliente", "Venditore", "Progettista", "Promotore", "Amministratore"};
+	private static final String[] ROLE_CHOICES = {"Amministratore", "Promotore", "Progettista", "Venditore", "Cliente"};
 	
 	public JDialog dialogMain;
 	
@@ -49,18 +54,20 @@ public class UtenteDialog extends JDialog{
 	private boolean validData;
 	private boolean modifiedData;
 	
-	public UtenteDialog(JFrame ownerFrame) {
-		super(ownerFrame, "Nuovo UtenteOld", true);
+	private Utente utente;
+	
+	public DialogUtente(JFrame ownerFrame) {
+		super(ownerFrame, "Nuovo Utente", true);
 		buildDialog();
-		validData = false;
+		setValidData(false);
 	}
 	
-	public UtenteDialog(JFrame ownerFrame, Utente user) {
-		super(ownerFrame, "Modifica UtenteOld", true);
+	public DialogUtente(JFrame ownerFrame, Utente user) {
+		super(ownerFrame, "Modifica Utente", true);
 		buildDialog();
 		setUserData(user);
-		modifiedData = false;
-		validData = false;
+		setValidData(true);
+		setModifiedData(false);		
 	}
 	
 	private void buildDialog() {
@@ -68,7 +75,7 @@ public class UtenteDialog extends JDialog{
 		//Initialization
 		this.setResizable(false);
 		this.setLayout(new GridBagLayout());		
-		dialogMain = this;
+		this.dialogMain = this;
 		
 		//Panel Main
 		panelMain = new JPanel();
@@ -145,6 +152,14 @@ public class UtenteDialog extends JDialog{
 		this.getRootPane().setDefaultButton(buttonOk);
 	}
 	
+	private void setValidData(boolean bool) {
+		this.validData = bool;
+	}
+	
+	private void setModifiedData(boolean bool) {
+		this.modifiedData = bool;
+	}
+	
 	public void generatePassword() {	
 		textfieldPassword.setText("Prova Password generata");
 		//textfieldPassword.setText(controller.generatePassword());
@@ -154,7 +169,7 @@ public class UtenteDialog extends JDialog{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			modifiedData = true;			
+			setModifiedData(true);			
 		}	
 	}
 	
@@ -166,6 +181,7 @@ public class UtenteDialog extends JDialog{
 				generatePassword();
 				textfieldPassword.setEditable(false);
 			} else {
+				textfieldPassword.setText("");
 				textfieldPassword.setEditable(true);
 			}
 		}		
@@ -175,14 +191,8 @@ public class UtenteDialog extends JDialog{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String[] data;
-			data = getUserData();
-			if (checkUserDataCompleteness(data) == true) {
-				validData = true;
-				dialogMain.setVisible(false);					
-			} else {
-				validData = false;
-			}			
+			utente = getUtente();
+			dialogMain.setVisible(false);			
 		}		
 	}
 	
@@ -194,17 +204,6 @@ public class UtenteDialog extends JDialog{
 			dialogMain.setVisible(false);
 			dialogMain.dispose();
 		}		
-	}
-	
-	public boolean checkUserDataCompleteness(String[] data) {		
-		for (String info : data) {
-			if (info.toString().isEmpty()) {
-				JOptionPane.showMessageDialog(getParent(), "Oops! Missing Data!", "Warning", JOptionPane.WARNING_MESSAGE);
-				return false;
-			}
-		}
-		
-		return true;
 	}
 	
 	public void setUserData(Utente user) {
@@ -220,25 +219,38 @@ public class UtenteDialog extends JDialog{
 		this.calendarBirth.setDateAsGregorianCalendar(dati.getNascita());
 		this.comboGender.setSelectedItem(dati.getSesso());
 		this.textfieldMail.setText(mail);
-		this.comboRole.setSelectedItem(ruolo.asString());
+		this.comboRole.setSelectedIndex(ruolo.getId());
 		this.textfieldUsername.setText(login.getUsername());
 		this.textfieldPassword.setText(login.getPassword());
 	}
 	
-	public String[] getUserData() {
+	public Utente getUserFromData() {
+		
 		String firstname = textfieldFirstname.getText().toString();
 		String lastname = textfieldLastname.getText().toString();
 		String city = textfieldCity.getText().toString();
-		String birth = calendarBirth.getDateAsString().toString();
+		GregorianCalendar birth = calendarBirth.getDateAsGregorianCalendar();
 		String sex = comboGender.getSelectedItem().toString();
 		String mail = textfieldMail.getText().toString();
-		String role = comboRole.getSelectedItem().toString();
+		int ruolo = comboRole.getSelectedIndex();
 		String username = textfieldUsername.getText().toString();
 		String password = textfieldPassword.getText().toString();
 		
-		String[] data = {firstname, lastname, city, birth, sex, mail, role, username, password};
+		Utente utente = null;
 		
-		return data;		
+		try {
+			FactoryUtenti fu = FactoryUtenti.getInstance();
+			utente = fu.creaUtente(new DatiUtente(firstname, lastname, city, birth, sex), mail, ruolo, new Login(username, password));
+		} catch (UtenteException | LoginException e) {
+			e.printStackTrace();
+		}	
+		
+		setValidData(true);
+		return utente;
+	}
+	
+	public Utente getUtente() {
+		return utente;
 	}
 
 	public boolean hasValidData() {

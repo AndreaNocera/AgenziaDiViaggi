@@ -1,6 +1,8 @@
 package gestioneutenti.model.ruoli;
 
-import gestioneutenti.model.Competenza;
+import gestioneutenti.model.competenze.Competenza;
+import gestioneutenti.model.competenze.GestioneProfilo;
+import gestioneutenti.model.competenze.Login;
 
 public class Cliente extends AbstractRuolo {
 	
@@ -8,7 +10,7 @@ public class Cliente extends AbstractRuolo {
 	
 	private static int ID = Ruolo.CLIENTE;
 	private static String STRING = "Cliente";
-	private static Competenza[] COMPETENZE = null;
+	private static Competenza[] COMPETENZE = {GestioneProfilo.getInstance(), Login.getInstance()};
 
 	protected Cliente(int id, String string, Competenza[] competenze) {
 		super(id, string, competenze);

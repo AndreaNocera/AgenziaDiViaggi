@@ -3,14 +3,14 @@ import gestioneutenti.model.Utente;
 
 import javax.swing.*;
 
-public class UserTable extends JTable{
+public class TabellaUtenti extends JTable{
 	
 	private static final long serialVersionUID = 1L;
-	private UserTableModel tableModel;
+	private TabellaUtentiModel tableModel;
 
-	public UserTable(Utente[] users) {
+	public TabellaUtenti(Utente[] users) {
 		super();
-		tableModel = new UserTableModel(users);
+		tableModel = new TabellaUtentiModel(users);
 		super.setModel(tableModel);
 		this.enableInputMethods(false);
 		this.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

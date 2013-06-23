@@ -1,17 +1,20 @@
 package gestioneutenti.view.utils;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import gestioneutenti.model.Utente;
 
 import javax.swing.table.AbstractTableModel;
 
-public class UserTableModel extends AbstractTableModel{
+public class TabellaUtentiModel extends AbstractTableModel{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private static final String[] COLUMNS = {"Nome", "Cognome", "Città", "Data di Nascita", "Sesso", "Mail", "Ruolo", "Username", "Password"};
 	private Utente[] userList;	
 	
-	public UserTableModel(Utente[] userList) {
+	public TabellaUtentiModel(Utente[] userList) {
 		this.userList = userList;
 	}
 	
@@ -34,7 +37,9 @@ public class UserTableModel extends AbstractTableModel{
 		case 2:
 			return currUser.getDatiUtente().getCittà();
 		case 3:
-			return currUser.getDatiUtente().getNascita();
+			GregorianCalendar calendar = currUser.getDatiUtente().getNascita();
+			String calendarString = calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.YEAR);
+			return calendarString;
 		case 4:
 			return currUser.getDatiUtente().getSesso();
 		case 5:

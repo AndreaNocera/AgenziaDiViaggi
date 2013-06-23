@@ -7,21 +7,28 @@ import gestioneutenti.model.ruoli.Ruolo;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
+
 import javax.swing.*;
 
 import utils.DatePicker;
 import utils.GBCHelper;
 
-public class BoundaryGestisciProfilo extends JDialog{
+public class BoundaryGestisciProfilo extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 
-	private static final String[] SEX_CHOICES = {"Uomo", "Donna"};
+	private static final String[] SEX_CHOICES = {"M", "F"};
 	
-	public JDialog dialogMain;
+	private static final String TITLE = "Gestione Profilo";
 	
+	private JPanel panelMe;
+	
+	private JPanel panelTitle;
 	private JPanel panelMain;
 	private JPanel panelButton;
+	
+	private JLabel labelTitle;
 	
 	private JLabel labelFirstname;
 	private JLabel labelLastname;
@@ -49,29 +56,39 @@ public class BoundaryGestisciProfilo extends JDialog{
 	private JButton buttonOk;
 	private JButton buttonCancel;
 	
-	private Utente user;
+	private Utente utente;
 	
 	private boolean modifiedPassword;
 		
-	public BoundaryGestisciProfilo(JFrame ownerFrame, Utente user) {
-		super(ownerFrame, "Gestione Profilo", true);
-		this.user = user;
+	public BoundaryGestisciProfilo(Utente utente) {
+		this.setUtente(utente);
 		buildDialog();
 		this.modifiedPassword = false;
-		dialogMain = this;
+		this.panelMe = this;
+	}
+	
+	public void setUtente(Utente utente) {
+		this.utente = utente;
 	}
 	
 	private void buildDialog() {
 		
 		//Initialization
-		this.setResizable(false);
-		this.setLayout(new GridBagLayout());
+		this.setLayout(new GridBagLayout());	
+		
 		
 		//Utente
-		DatiUtente dati = user.getDatiUtente();
-		String mail = user.getMail();
-		Ruolo ruolo = user.getRuolo();
-		Login login = user.getLogin();
+		DatiUtente dati = utente.getDatiUtente();
+		String mail = utente.getMail();
+		Ruolo ruolo = utente.getRuolo();
+		Login login = utente.getLogin();
+		
+		
+		//Panel Title
+		panelTitle = new JPanel();
+		panelTitle.setLayout(new GridBagLayout());
+		labelTitle = new JLabel(TITLE);
+		panelTitle.add(labelTitle, new GBCHelper(0, 0).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.CENTER).setInsets(15, 15, 15, 15));
 		
 		
 		//Panel Main
@@ -83,7 +100,7 @@ public class BoundaryGestisciProfilo extends JDialog{
 		labelBirth = new JLabel("Data di nascita");
 		labelSex = new JLabel("Sesso");
 		labelMail = new JLabel("Mail");
-		labelRole = new JLabel("RuoloOld");		
+		labelRole = new JLabel("Ruolo");		
 		labelUsername = new JLabel("Username");
 		labelCurrentPassword = new JLabel("Password");
 		labelNewPassword = new JLabel("Nuova Password");
@@ -143,14 +160,10 @@ public class BoundaryGestisciProfilo extends JDialog{
 		panelButton.add(buttonOk);
 		
 		
-		//Dialog Pack
-		this.add(panelMain, new GBCHelper(0, 0).setWeight(100, 0).setInsets(15, 15, 15, 15));
-		this.add(panelButton, new GBCHelper(0, 1).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.EAST).setInsets(15, 15, 15, 15));
-		this.pack();
-		
-		
-		//Default button
-		this.getRootPane().setDefaultButton(buttonOk);
+		//Panel Pack
+		this.add(panelTitle, new GBCHelper(0, 0).setWeight(100, 0).setInsets(15, 15, 15, 15));
+		this.add(panelMain, new GBCHelper(0, 1).setWeight(100, 0).setInsets(15, 15, 15, 15));
+		this.add(panelButton, new GBCHelper(0, 2).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.EAST).setInsets(15, 15, 15, 15));
 	}
 	
 	public class ChangePasswordListener implements ActionListener {
@@ -183,7 +196,7 @@ public class BoundaryGestisciProfilo extends JDialog{
 				if (!hasModifiedPassword() || hasModifiedPassword() && checkPassword()) {
 					//if(controller.updateProfile(getUserData()) {
 					JOptionPane.showMessageDialog(getParent(), "Profilo correttamente aggiornato!", "Gestione Profilo", JOptionPane.INFORMATION_MESSAGE);		
-					dialogMain.setVisible(false);
+					//dialogMain.setVisible(false);
 				}									
 			}			
 		}		
@@ -193,14 +206,13 @@ public class BoundaryGestisciProfilo extends JDialog{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dialogMain.setVisible(false);
-			dialogMain.dispose();
+			panelMe.setVisible(false);
 		}		
 	}
 	
 	public boolean checkFormDataCompleteness() {
-		for (String info : getFormData()) {
-			if (info.toString().isEmpty()) {
+		for (Object info : getFormData()) {
+			if (info.toString().isEmpty() || info == null) {
 				JOptionPane.showMessageDialog(getParent(), "Oops! Dati mancanti!", "Warning", JOptionPane.WARNING_MESSAGE);
 				return false;
 			}
@@ -227,7 +239,7 @@ public class BoundaryGestisciProfilo extends JDialog{
 	}
 	
 	public boolean checkCurrentPassword() {
-		String currentPassword = this.user.getLogin().getPassword();
+		String currentPassword = this.utente.getLogin().getPassword();
 		String password = new String(passwordfieldCurrentPassword.getPassword());
 		
 		if (!password.equals(currentPassword)) {
@@ -238,24 +250,22 @@ public class BoundaryGestisciProfilo extends JDialog{
 		return true;
 	}
 	
-	public String[] getFormData() {
+	public Object[] getFormData() {
 		String firstname = textfieldFirstname.getText().toString();
 		String lastname = textfieldLastname.getText().toString();
 		String city = textfieldCity.getText().toString();
-		String birth = calendarBirth.getDateAsString().toString();
+		GregorianCalendar birth = calendarBirth.getDateAsGregorianCalendar();
 		String sex = comboGender.getSelectedItem().toString();
 		String mail = textfieldMail.getText().toString();
-		String role = labelContentRole.getText().toString();
-		String username = labelContentUsername.getText().toString();
 		if (hasModifiedPassword()) {
 			String currentPassword = new String(passwordfieldCurrentPassword.getPassword());
 			String newPassword = new String(passwordfieldNewPassword.getPassword());
 			String confirmNewPassword = new String(passwordfieldConfirmNewPassword.getPassword());
-			String[] data = {firstname, lastname, city, birth, sex, mail, role, username, currentPassword, newPassword, confirmNewPassword};
+			Object[] data = {firstname, lastname, city, birth, sex, mail, currentPassword, newPassword, confirmNewPassword};
 			return data;			
 		} else {
-			String password = this.user.getLogin().getPassword();
-			String[] data = {firstname, lastname, city, birth, sex, mail, role, username, password};	
+			String password = utente.getLogin().getPassword();
+			Object[] data = {firstname, lastname, city, birth, sex, mail, password};	
 			return data;
 		}		
 	}
@@ -267,4 +277,5 @@ public class BoundaryGestisciProfilo extends JDialog{
 	public void setHasModifiedPassword(boolean bool) {
 		this.modifiedPassword = bool;
 	}
+	
 }

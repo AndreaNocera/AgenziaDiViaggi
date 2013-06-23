@@ -1,6 +1,6 @@
 package gestioneutenti.model.ruoli;
 
-import gestioneutenti.model.Competenza;
+import gestioneutenti.model.competenze.Competenza;
 
 public abstract class AbstractRuolo implements Ruolo{
 	

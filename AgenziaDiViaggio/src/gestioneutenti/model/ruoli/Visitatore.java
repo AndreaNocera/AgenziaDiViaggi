@@ -1,6 +1,8 @@
 package gestioneutenti.model.ruoli;
 
-import gestioneutenti.model.Competenza;
+import gestioneutenti.model.competenze.Competenza;
+import gestioneutenti.model.competenze.GestioneProfilo;
+import gestioneutenti.model.competenze.Login;
 
 //singleton
 
@@ -10,7 +12,7 @@ public class Visitatore extends AbstractRuolo {
 	
 	private static int ID = Ruolo.VISITATORE;
 	private static String STRING = "Visitatore";
-	private static Competenza[] COMPETENZE = null;	
+	private static Competenza[] COMPETENZE = {GestioneProfilo.getInstance(), Login.getInstance()};	
 
 	protected Visitatore(int id, String string, Competenza[] competenze) {
 		super(id, string, competenze);

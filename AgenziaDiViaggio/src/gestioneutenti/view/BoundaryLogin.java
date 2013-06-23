@@ -1,5 +1,10 @@
 package gestioneutenti.view;
 
+import gestioneutenti.controller.ControllerLogin;
+import gestioneutenti.exception.LoginException;
+import gestioneutenti.model.Login;
+import gestioneutenti.model.Utente;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
+
 import utils.GBCHelper;
 
 public class BoundaryLogin extends JFrame{
@@ -26,8 +32,11 @@ public class BoundaryLogin extends JFrame{
 	private JButton buttonLogin;
 	private JLabel labelForgottenPassword;
 	
+	private ControllerLogin controllerLogin;
+	
 	public BoundaryLogin() {
-		buildFrame();		
+		buildFrame();	
+		this.controllerLogin = ControllerLogin.getInstance();
 	}
 	
 	public void buildFrame() {
@@ -50,7 +59,7 @@ public class BoundaryLogin extends JFrame{
 		buttonLogin = new JButton("Login");
 		buttonLogin.addActionListener(new LoginListener());
 		labelForgottenPassword = new JLabel("Password dimenticata?");
-		labelForgottenPassword.addMouseListener(new ForgottenPasswordListener());
+		labelForgottenPassword.addMouseListener(new PasswordDimenticataListener());
 		
 		panelLogin.add(labelUsername, new GBCHelper(0, 0).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 0, 0, 0));
 		panelLogin.add(textfieldUsername, new GBCHelper(0, 1).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 0, 0, 0));
@@ -75,19 +84,30 @@ public class BoundaryLogin extends JFrame{
 		}		
 	}
 	
-	public class ForgottenPasswordListener extends MouseAdapter {
+	public class PasswordDimenticataListener extends MouseAdapter {
 		
 		public void mousePressed(MouseEvent e) {
-			forgottenPassword();
+			passwordDimenticata();
 		}		
 	}
 	
 	public void login() {
-		JOptionPane.showMessageDialog(getParent(), "Oops! Not implemented function!", "Info", JOptionPane.INFORMATION_MESSAGE);
+		String username = this.textfieldUsername.getText().toString();
+		String password = String.valueOf(this.passwordfieldPassword.getPassword());
+		Login login;
+		try {
+			login = new Login(username, password);
+			Utente utente = this.controllerLogin.login(login);
+			this.setVisible(false);
+			this.controllerLogin.home(utente);
+		} catch (LoginException e) {
+			JOptionPane.showMessageDialog(getParent(), "Oops! Non sei stato riconosciuto!" + username + password, "Info", JOptionPane.INFORMATION_MESSAGE);		
+		}	
 	}
 	
-	public void forgottenPassword() {
-		JOptionPane.showMessageDialog(getParent(), "Oops! Not implemented function!", "Info", JOptionPane.INFORMATION_MESSAGE);
+	public void passwordDimenticata() {
+		String username = textfieldUsername.getText().toString();
+		this.controllerLogin.mostraDialogReimpostaPassword(this, username);
 	}
 	
 	public void setDefaultScreenLocation() {
