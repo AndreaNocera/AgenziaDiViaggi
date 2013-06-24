@@ -6,12 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import ordinaViaggi.exception.ConnectionException;
 /**@author Gambella Riccardo
  * 
  */
-import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.MapDAOException;
 
 public class MAPDAOMySQL implements MapDAO {
@@ -30,14 +31,17 @@ public class MAPDAOMySQL implements MapDAO {
 	private static final String getCatalogoQuery = "SELECT *" + "FROM CATALOGO";
 
 	private static final String createQuery = "CREATE TABLE IF NOT EXISTS CATALOGO("
-			+ "ID VARCHAR(20) PRIMARY KEY, "
-			+ "AMBIENTE VARCHAR(20), "
-			+ "MEZZO VARCHAR(20), "
-			+ "CITTAPARTENZA VARCHAR(20), "
-			+ "CITTAARRIVO VARCHAR(20), " + "VIA VARCHAR(20)" + ")";
+			+ "IdCatalogo INT(10) PRIMARY KEY AUTO_INCREMENT, "
+			+ "Ambiente VARCHAR(20), "
+			+ "Mezzo VARCHAR(20), "
+			+ "CittaPartenza VARCHAR(20), "
+			+ "CittaArrivo VARCHAR(20), "
+			+ "Via VARCHAR(20)" 
+			+ ")";
 
 	private static final String insertQuery = "INSERT INTO CATALOGO "
-			+ "VALUES(?, ?, ?, ?, ?, ?)";
+			+ "(Ambiente, Mezzo, CittaPartenza, CittaArrivo, Via)"
+			+ "VALUES(?, ?, ?, ?, ?)";
 	private static final String updateQuery = "UPDATE CATALOGO SET "
 			+ "ID=?, AMBIENTE=?, MEZZO=?, CITTAPARTENZA=?, CITTAARRIVO=?, VIA=? "
 			+ "WHERE ID=?";
@@ -81,7 +85,7 @@ public class MAPDAOMySQL implements MapDAO {
 		return istance;
 	}
 
-	private Connection getConnection(String user, String password)
+	private static Connection getConnection(String user, String password)
 			throws ConnectionException {
 		Connection conn = null;
 		try {
@@ -93,7 +97,7 @@ public class MAPDAOMySQL implements MapDAO {
 		return conn;
 	}
 
-	private void closeResource() {
+	private static void closeResource() {
 		if (conn != null)
 			try {
 				conn.close();
@@ -124,6 +128,8 @@ public class MAPDAOMySQL implements MapDAO {
 	@Override
 	public void save(Map map) throws MapDAOException {
 		// TODO Auto-generated method stub
+		List<String> tupla = new ArrayList<String>();
+		saveMapRecursive(map, tupla, 0, 5);
 
 	}
 
@@ -140,7 +146,7 @@ public class MAPDAOMySQL implements MapDAO {
 			conn = getConnection(usr, pass);
 			ps = conn.prepareStatement(getCatalogoQuery);
 			rs = ps.executeQuery();
-				
+
 			while(rs.next()){
 				//String idCatalogo = rs.getString("IDCatalogo");
 				String ambiente = rs.getString("AMBIENTE");
@@ -148,28 +154,28 @@ public class MAPDAOMySQL implements MapDAO {
 				String cittaPartenza = rs.getString("CITTAPARTENZA");
 				String cittaArrivo = rs.getString("CITTAARRIVO");
 				String via = rs.getString("VIA");
-				
+
 				//Inserimento delle info nella mappa
 				List<String> record = new ArrayList<String>();
 				List<String> subElementsInfo = new ArrayList<String>();
 				List<SubElement> listaSubElements = new ArrayList<SubElement>();
-				
+
 				record.add(ambiente);
 				record.add(mezzo);
 				record.add(cittaPartenza);
 				record.add(cittaArrivo);
 				record.add(via);
-				
+
 				// Crea la lista di SubElements di tipo SubElementCatalogo
 				for(int i=0;i<5;i++)
 					subElementsInfo.add("");
-				
-				
+
+
 				for(String info : subElementsInfo){
 					SubElement subElement = new SubElementCatalogo(new Map(),info);
 					listaSubElements.add(subElement);
 				}
-				
+
 				//Opero l'inserimento nella mappa
 				inserimentoInMapRecursive(map, record, listaSubElements);
 			}
@@ -223,101 +229,165 @@ public class MAPDAOMySQL implements MapDAO {
 
 	}
 
-	/*
-	 * @Override public void create(CatalogoBean dato) { if (dato == null)
-	 * return;
+	/**
 	 * 
-	 * try { conn = getConnection(usr, pass);
-	 * 
-	 * ps = conn.prepareStatement(insertQuery);
-	 * 
-	 * ps.setString(1, dato.getId()); ps.setString(2, dato.getAmbiente());
-	 * ps.setString(3, dato.getMezzo()); ps.setString(4,
-	 * dato.getCittaPartenza()); ps.setString(5, dato.getCittaArrivo());
-	 * ps.setString(6, dato.getVia());
-	 * 
-	 * 
-	 * 
-	 * ps.executeUpdate(); } catch (ConnectionException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } catch (SQLException e)
-	 * { // TODO Auto-generated catch block e.printStackTrace(); } finally {
-	 * closeResource(); } }
-	 * 
-	 * //read(id) == findByPrimaryKey(id)
-	 * 
-	 * @Override public CatalogoBean read(String id) { if (id == null) return
-	 * null;
-	 * 
-	 * CatalogoBean result = null;
-	 * 
-	 * try { conn = getConnection(usr, pass); ps =
-	 * conn.prepareStatement(findQuery);
-	 * 
-	 * ps.setString(1, id);
-	 * 
-	 * rs = ps.executeQuery();
-	 * 
-	 * rs.next();
-	 * 
-	 * result = new CatalogoBean();
-	 * 
-	 * result.setId(rs.getString(1)); result.setAmbiente(rs.getString(2));
-	 * result.setMezzo(rs.getString(3));
-	 * result.setCittaPartenza(rs.getString(4));
-	 * result.setCittaArrivo(rs.getString(5)); result.setVia(rs.getString(6));
-	 * 
-	 * } catch (ConnectionException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } catch (SQLException e) { // TODO Auto-generated
-	 * catch block e.printStackTrace(); } finally { closeResource(); }
-	 * 
-	 * return result; }
-	 * 
-	 * 
-	 * @Override public void update(CatalogoBean dato) { if (dato == null)
-	 * return;
-	 * 
-	 * try { conn = getConnection(usr, pass);
-	 * 
-	 * ps = conn.prepareStatement(updateQuery);
-	 * 
-	 * ps.setString(1, dato.getId()); ps.setString(2, dato.getAmbiente());
-	 * ps.setString(3, dato.getMezzo()); ps.setString(4,
-	 * dato.getCittaPartenza()); ps.setString(5, dato.getCittaArrivo());
-	 * ps.setString(6, dato.getVia()); ps.setString(7, dato.getId());
-	 * 
-	 * ps.executeUpdate(); } catch (ConnectionException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } catch (SQLException e)
-	 * { // TODO Auto-generated catch block e.printStackTrace(); } finally {
-	 * closeResource(); } }
-	 * 
-	 * @Override public void delete(String id) { if (id == null) return;
-	 * 
-	 * try { conn = getConnection(usr, pass); ps =
-	 * conn.prepareStatement(deleteQuery);
-	 * 
-	 * ps.setString(1, id);
-	 * 
-	 * ps.executeUpdate(); } catch (ConnectionException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } catch (SQLException e)
-	 * { // TODO Auto-generated catch block e.printStackTrace(); } finally {
-	 * closeResource(); } }
+	 * @param map
+	 * @param levelReached
+	 * @param level
+	 * Metodo di salvataggio ricorsivo della mappa nel DB
 	 */
+	private static void saveMapRecursive(Map map, List<String> tupla, int levelReached, int level) {
+		// Livello voluto raggiunto. Salvataggio della tupla nel DB
+		if (levelReached == level){
+			String ambiente = tupla.get(0);
+			String mezzo = tupla.get(1);
+			String cittaPartenza = tupla.get(2);
+			String cittaArrivo = tupla.get(3);
+			String via = tupla.get(4);
+			System.out.println("Tupla da inserire: " + ambiente + " " + mezzo + 
+					" " + cittaPartenza + " " + cittaArrivo + " " + via);
+			try { 
+				conn = getConnection(usr, pass);
+				
+				ps = conn.prepareStatement(insertQuery);
+	
+				ps.setString(1, ambiente); 
+				ps.setString(2, mezzo);
+				ps.setString(3, cittaPartenza); 
+				ps.setString(4, cittaArrivo);
+				ps.setString(5, via);
 
-	/* Elimina tutta la tabella CATALOGO con le sue entries */
-	public void dropCatalogo() {
-		try {
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(dropQuery);
-
-			ps.execute();
-		} catch (ConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				ps.executeUpdate(); 
+			} 
+			catch (ConnectionException e) { 
+				// TODO Auto-generated catch block 
+				e.printStackTrace(); } 
+			catch (SQLException e){ 
+				// TODO Auto-generated catch block 
+				e.printStackTrace(); 
+			} 
+			finally {
+				closeResource(); 
+			}
 		}
+
+	if (map == null) {
+		// System.out.println("Errore: Mappa null.");
+		return;
 	}
+	if (map.isEmpty()) {
+		// System.out.println("Mappa vuota.");
+		return;
+	}
+	Collection<String> collection = map.keySet();
+	for (String key : collection) {
+
+		//Inserisce la chiave nella tupla, per inserimento successivo nel DB.
+		tupla.add(key);
+		SubElement sub = map.get(key);
+
+		// Get della mappa successiva.
+		Map secondMap = sub.getMap();
+		/* Ricorsione sulla mappa stampa della mappa di livello successivo */
+		saveMapRecursive(secondMap, tupla,  levelReached + 1, level);
+	}
+}
+
+/*
+ * @Override public void create(CatalogoBean dato) { if (dato == null)
+ * return;
+ * 
+ * try { conn = getConnection(usr, pass);
+ * 
+ * ps = conn.prepareStatement(insertQuery);
+ * 
+ * ps.setString(1, dato.getId()); ps.setString(2, dato.getAmbiente());
+ * ps.setString(3, dato.getMezzo()); ps.setString(4,
+ * dato.getCittaPartenza()); ps.setString(5, dato.getCittaArrivo());
+ * ps.setString(6, dato.getVia());
+ * 
+ * 
+ * 
+ * ps.executeUpdate(); } catch (ConnectionException e) { // TODO
+ * Auto-generated catch block e.printStackTrace(); } catch (SQLException e)
+ * { // TODO Auto-generated catch block e.printStackTrace(); } finally {
+ * closeResource(); } }
+ * 
+ * //read(id) == findByPrimaryKey(id)
+ * 
+ * @Override public CatalogoBean read(String id) { if (id == null) return
+ * null;
+ * 
+ * CatalogoBean result = null;
+ * 
+ * try { conn = getConnection(usr, pass); ps =
+ * conn.prepareStatement(findQuery);
+ * 
+ * ps.setString(1, id);
+ * 
+ * rs = ps.executeQuery();
+ * 
+ * rs.next();
+ * 
+ * result = new CatalogoBean();
+ * 
+ * result.setId(rs.getString(1)); result.setAmbiente(rs.getString(2));
+ * result.setMezzo(rs.getString(3));
+ * result.setCittaPartenza(rs.getString(4));
+ * result.setCittaArrivo(rs.getString(5)); result.setVia(rs.getString(6));
+ * 
+ * } catch (ConnectionException e) { // TODO Auto-generated catch block
+ * e.printStackTrace(); } catch (SQLException e) { // TODO Auto-generated
+ * catch block e.printStackTrace(); } finally { closeResource(); }
+ * 
+ * return result; }
+ * 
+ * 
+ * @Override public void update(CatalogoBean dato) { if (dato == null)
+ * return;
+ * 
+ * try { conn = getConnection(usr, pass);
+ * 
+ * ps = conn.prepareStatement(updateQuery);
+ * 
+ * ps.setString(1, dato.getId()); ps.setString(2, dato.getAmbiente());
+ * ps.setString(3, dato.getMezzo()); ps.setString(4,
+ * dato.getCittaPartenza()); ps.setString(5, dato.getCittaArrivo());
+ * ps.setString(6, dato.getVia()); ps.setString(7, dato.getId());
+ * 
+ * ps.executeUpdate(); } catch (ConnectionException e) { // TODO
+ * Auto-generated catch block e.printStackTrace(); } catch (SQLException e)
+ * { // TODO Auto-generated catch block e.printStackTrace(); } finally {
+ * closeResource(); } }
+ * 
+ * @Override public void delete(String id) { if (id == null) return;
+ * 
+ * try { conn = getConnection(usr, pass); ps =
+ * conn.prepareStatement(deleteQuery);
+ * 
+ * ps.setString(1, id);
+ * 
+ * ps.executeUpdate(); } catch (ConnectionException e) { // TODO
+ * Auto-generated catch block e.printStackTrace(); } catch (SQLException e)
+ * { // TODO Auto-generated catch block e.printStackTrace(); } finally {
+ * closeResource(); } }
+ */
+
+/* Elimina tutta la tabella CATALOGO con le sue entries */
+public void dropCatalogo() {
+	try {
+		conn = getConnection(usr, pass);
+
+		ps = conn.prepareStatement(dropQuery);
+
+		ps.execute();
+	} catch (ConnectionException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
 
 }

@@ -40,12 +40,12 @@
 			}
 			
 			.panelLogin {
-				background: #ffffff;
+				background: #000000;
 				border-radius: 10px;
 				padding: 25px;
 				margin-top: 25px;
-				margin-left: 500px;
-				margin-right: 500px;				
+				margin-left: 50px;
+				margin-right: 50px;				
 			}			  			
   			
   			input {
