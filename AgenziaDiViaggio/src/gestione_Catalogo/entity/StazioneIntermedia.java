@@ -66,7 +66,7 @@ public class StazioneIntermedia extends Elemento{
 						
 		StazioneIntermedia nuovoElemento = (StazioneIntermedia) altroObject;
 						
-		return (this.idEsterno.equals(nuovoElemento.idEsterno));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
+		return (this.idEsternoElemento.equals(nuovoElemento.idEsternoElemento));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
 	}
 
 }

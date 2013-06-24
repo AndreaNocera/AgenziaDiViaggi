@@ -18,7 +18,7 @@ public abstract class Elemento implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//Variabili istanza
-	protected IDEsternoElemento 	idEsterno;
+	protected IDEsternoElemento 	idEsternoElemento;
 	private   Indice	  	indice;
 	
 	private   Mappa			mappa;
@@ -26,7 +26,7 @@ public abstract class Elemento implements Serializable{
 	
 	//costruttore
 	public Elemento(IDEsternoElemento idEsterno){
-		this.idEsterno = idEsterno;
+		this.idEsternoElemento = idEsterno;
 		indice = new Indice();
 		mappa = new Mappa();
 		
@@ -47,7 +47,7 @@ public abstract class Elemento implements Serializable{
 	}
 	
 	public boolean esistenzaElemento(Elemento e){  //overloading, se in parametro gli passo un elemento
-		return mappa.esistenzaElemento(e.getIDEsterno());
+		return mappa.esistenzaElemento(e.getIDEsternoElemento());
 	}
 	
 	public void aggiungiElemento(String k, Elemento e) throws IDEsternoElementoException {
@@ -59,8 +59,8 @@ public abstract class Elemento implements Serializable{
 	}
 	
 	
-	public String getIDEsterno(){
-		return idEsterno.toString();
+	public String getIDEsternoElemento(){
+		return idEsternoElemento.toString();
 	}
 	
 }

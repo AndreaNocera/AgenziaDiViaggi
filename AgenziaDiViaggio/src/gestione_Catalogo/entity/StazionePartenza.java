@@ -37,7 +37,7 @@ public class StazionePartenza extends Elemento implements Serializable{
 						
 		StazionePartenza nuovoElemento = (StazionePartenza) altroObject;
 						
-		return (this.idEsterno.equals(nuovoElemento.idEsterno));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
+		return (this.idEsternoElemento.equals(nuovoElemento.idEsternoElemento));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
 	}
 
 

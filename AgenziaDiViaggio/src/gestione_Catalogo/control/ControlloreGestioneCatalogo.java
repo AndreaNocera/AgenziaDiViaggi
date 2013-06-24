@@ -101,7 +101,7 @@ public class ControlloreGestioneCatalogo {
 		} else {
 			//aggiungo il viaggio
 			catalogo.aggiungiViaggioAlCatalogo(a, mt, sp, sa, si);
-			log.aggiornaLogAggiungiViaggio(a.getIDEsterno(), mt.getIDEsterno(), sp.getIDEsterno(), sa.getIDEsterno(), si.getIDEsterno());
+			log.aggiornaLogAggiungiViaggio(a.getIDEsternoElemento(), mt.getIDEsternoElemento(), sp.getIDEsternoElemento(), sa.getIDEsternoElemento(), si.getIDEsternoElemento());
 		}
 	}
 	
@@ -144,7 +144,7 @@ public class ControlloreGestioneCatalogo {
 			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
 		} else { //rimuovo il viaggio
 			catalogo.rimuoviViaggioDalCatalogo(a, mt, sp, sa, si);
-			log.aggiornaLogRimuoviViaggio(a.getIDEsterno(), mt.getIDEsterno(), sp.getIDEsterno(), sa.getIDEsterno(), si.getIDEsterno());
+			log.aggiornaLogRimuoviViaggio(a.getIDEsternoElemento(), mt.getIDEsternoElemento(), sp.getIDEsternoElemento(), sa.getIDEsternoElemento(), si.getIDEsternoElemento());
 		}
 
 	}
