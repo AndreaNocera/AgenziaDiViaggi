@@ -19,7 +19,7 @@ import home.controller.ControllerHome;
 
 import javax.swing.*;
 
-import utils.GBCHelper;
+import utils.swing.GBCHelper;
 
 public class BoundaryHome extends JFrame{
 	

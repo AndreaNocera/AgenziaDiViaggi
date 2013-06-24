@@ -11,8 +11,8 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
-import utils.DatePicker;
-import utils.GBCHelper;
+import utils.swing.DatePicker;
+import utils.swing.GBCHelper;
 
 public class BoundaryGestisciProfilo extends JPanel{
 	

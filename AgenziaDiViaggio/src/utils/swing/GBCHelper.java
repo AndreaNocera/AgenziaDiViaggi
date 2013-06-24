@@ -1,4 +1,4 @@
-package utils;
+package utils.swing;
 
 import java.awt.*;
 

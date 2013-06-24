@@ -1,7 +1,7 @@
 package gestioneutenti.view.utils;
 
-import utils.DatePicker;
-import utils.GBCHelper;
+import utils.swing.DatePicker;
+import utils.swing.GBCHelper;
 import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.model.DatiUtente;

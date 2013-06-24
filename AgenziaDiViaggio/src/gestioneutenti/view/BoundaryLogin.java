@@ -15,7 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
 
-import utils.GBCHelper;
+import utils.swing.GBCHelper;
 
 public class BoundaryLogin extends JFrame{
 	

@@ -12,7 +12,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import utils.GBCHelper;
+
+import utils.swing.GBCHelper;
 
 public class BoundaryAmministraUtenti extends JPanel{
 	
