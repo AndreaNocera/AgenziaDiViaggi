@@ -6,61 +6,46 @@
 
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.exception.IDEsternoElementoException;
+
 import java.io.Serializable;
 import java.util.Set;
 
-import gestione_Catalogo.exception.IDEsternoElementoException;
-
-
-public abstract class Elemento implements Serializable{
+public abstract class Elemento implements Serializable {
 	
-	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
-	//Variabili istanza
 	protected IDEsternoElemento 	idEsternoElemento;
 	private   Indice	  	indice;
 	
-	private   Mappa			mappa;
 	
-	
-	//costruttore
-	public Elemento(IDEsternoElemento idEsterno){
-		this.idEsternoElemento = idEsterno;
+	public Elemento(IDEsternoElemento idEsternoElemento){
+		this.idEsternoElemento = idEsternoElemento;
 		indice = new Indice();
-		mappa = new Mappa();
-		
 	}
 	
+	//Metodi Astratti, forzo l'implementazione	
 
-	public Elemento getElemento(String k) throws IDEsternoElementoException {   
-		if (esistenzaElemento(k)) return mappa.getElemento(k);
-		else throw new IDEsternoElementoException("Elemento "+k+" non presente");
-	}
+	//Cambiato da Elemento a ElementoCatalogo
+	public abstract Elemento getElemento(String k) throws IDEsternoElementoException;
 	
-	public Set<String> listaChiaviElementi() {
-		return mappa.listaChiaviElementi();
-	}
+	public abstract Set<String> listaChiaviElementi();
 	
-	public boolean esistenzaElemento(String k){    //se in parametro gli passo una stringa
-		return mappa.esistenzaElemento(k);
-	}
+	public abstract boolean esistenzaElemento(String k);
 	
-	public boolean esistenzaElemento(Elemento e){  //overloading, se in parametro gli passo un elemento
-		return mappa.esistenzaElemento(e.getIDEsternoElemento());
-	}
+	public abstract boolean esistenzaElemento(ElementoCatalogo e);
 	
-	public void aggiungiElemento(String k, Elemento e) throws IDEsternoElementoException {
-		mappa.addElemento(k, e);
-	}
+	public abstract void aggiungiElemento(String k, ElementoCatalogo e) throws IDEsternoElementoException;
 	
-	public void rimuoviElemento(String k) throws IDEsternoElementoException {
-		mappa.removeElemento(k);
-	}
+	public abstract void rimuoviElemento(String k) throws IDEsternoElementoException;
 	
 	
+	
+	//altri metodi
 	public String getIDEsternoElemento(){
 		return idEsternoElemento.toString();
 	}
-	
+
 }
