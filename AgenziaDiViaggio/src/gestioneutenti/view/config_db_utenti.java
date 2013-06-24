@@ -2,7 +2,7 @@ package gestioneutenti.view;
 
 
 /**
- * @author Jesus Cevallos
+ * @author <GRUPPO 9>
  *config_db_utenti contiene alcune costanti per la configurazione del db. 
  */
 public class config_db_utenti {
@@ -38,9 +38,53 @@ public class config_db_utenti {
 
 
 
-	public static final String STATEMENT_SALVA="INSERT INTO " + NOME_TABELLA_UTENTI+
-			"(username, password, nome, cognome, citta, nascita, sesso, mail, ruolo) VALUES(?,?,?,?,?,?,?,?,?)";
-
+	static public final String QUERY_CREA_TABELLA="CREATE TABLE IF NOT EXISTS "
+			+config_db_utenti.NOME_TABELLA_UTENTI+"( "+
+			config_db_utenti.COLONNA_USERNAME+" VARCHAR(20) PRIMARY KEY, "+
+			config_db_utenti.COLONNA_PASSWORD+" VARCHAR(20), "+
+			config_db_utenti.COLONNA_NOME+" VARCHAR(20), "+
+			config_db_utenti.COLONNA_COGNOME+" VARCHAR(20), "+
+			config_db_utenti.COLONNA_CITTA+" VARCHAR(20), "+
+			config_db_utenti.COLONNA_NASCITA+" DATETIME, "+
+			config_db_utenti.COLONNA_SESSO+" VARCHAR(20), "+
+			config_db_utenti.COLONNA_MAIL+" VARCHAR(50), "+
+			config_db_utenti.COLONNA_RUOLO+" INT(2))";
 	
+	
+	static public final String STATEMENT_SALVA="INSERT INTO "
+			+NOME_TABELLA_UTENTI+
+			" ("+COLONNA_USERNAME+", "
+			+COLONNA_PASSWORD+", "
+			+COLONNA_NOME+", "
+			+COLONNA_COGNOME+", "
+			+COLONNA_CITTA+", "
+			+COLONNA_SESSO+", "
+			+COLONNA_MAIL+", "
+			+COLONNA_RUOLO
+			+", ) VALUES(?,?,?,?,?,?,?,?,?)";
+
+	static public final String QUERY_SELECT_USERNAME = "SELECT * FROM " 
+			+NOME_TABELLA_UTENTI+" WHERE "
+			+COLONNA_USERNAME+" =?";
+	
+	static public final String QUERY_SELECT_ALL = "SELECT * FROM " 
+			+NOME_TABELLA_UTENTI+" WHERE "
+			+COLONNA_USERNAME+" =?";
+	
+	static public final String STATEMENT_DELETE = "DELETE FROM " 
+			+NOME_TABELLA_UTENTI+" WHERE "
+			+COLONNA_USERNAME+" =?";
+	
+	static public final String STATEMENT_UPDATE = "UPDATE "
+			+NOME_TABELLA_UTENTI+" SET "
+			+COLONNA_PASSWORD+"=?, "
+			+COLONNA_NOME+"=?, "
+			+COLONNA_COGNOME+"=?, "
+			+COLONNA_CITTA+"=?, "
+			+COLONNA_NASCITA+"=?"
+			+COLONNA_SESSO+"=? ,"
+			+COLONNA_MAIL+"=? ,"
+			+COLONNA_RUOLO+"=?, WHERE "
+			+COLONNA_USERNAME+" =?";
 
 } 

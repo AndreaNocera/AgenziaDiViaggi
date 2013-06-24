@@ -1,7 +1,7 @@
 package gestioneutenti.model;
 
 
-import gestioneutenti.view.Db_utenti_OpenHelper;
+import gestioneutenti.view.Utenti_table__DAO;
 import gestioneutenti.view.config_db_utenti;
 
 import java.sql.ResultSet;
@@ -11,14 +11,14 @@ import gestioneutenti.exception.*;
 
 
 /**
- * @author Jesus Cevallos
- *Utente_db_DAO interagisce col db di utenti per salvataggi e query. si appoggia al Db_utenti_OpenHelper per collegarsi al database.
+ * @author <GRUPPO 9>
+ *Utente_db_DAO interagisce col db di utenti per salvataggi e query. si appoggia al Utenti_table__DAO per collegarsi al database.
  */
 public class Utente_db_DAO implements utente_DAO {
 
 
 	ResultSet rs_db_utenti;
-	Db_utenti_OpenHelper openhelper;
+	Utenti_table__DAO openhelper;
 
 
 	String nome=null;
@@ -33,12 +33,12 @@ public class Utente_db_DAO implements utente_DAO {
 
 
 	public Utente_db_DAO(){
-		openhelper=Db_utenti_OpenHelper.getinstance();
+		openhelper=Utenti_table__DAO.getinstance();
 	}
 
 	public Utente_db_DAO(String nome, String cognome, String citta, String nascita, String sesso, String mail, int ruolo, Login login){
 
-		openhelper=Db_utenti_OpenHelper.getinstance();
+		openhelper=Utenti_table__DAO.getinstance();
 
 		this.nome = nome;
 		this.cognome = cognome;
@@ -52,7 +52,7 @@ public class Utente_db_DAO implements utente_DAO {
 	}
 
 	public Utente_db_DAO(Utente nuovo_utente) {
-		openhelper=Db_utenti_OpenHelper.getinstance();
+		openhelper=Utenti_table__DAO.getinstance();
 		this.nome=nuovo_utente.getDatiUtente().getNome();
 		this.cognome=nuovo_utente.getDatiUtente().getCognome();
 		this.citta= nuovo_utente.getDatiUtente().getCitta();

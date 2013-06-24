@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 
 
 
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteEsistenteException;
 import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.Login;
@@ -16,16 +17,16 @@ import gestioneutenti.model.utente_DAO;
 import gestioneutenti.model.Utente_db_DAO;
 import gestioneutenti.model.ruoli.Amministratore;
 import gestioneutenti.model.ruoli.Ruolo;
-import gestioneutenti.view.Db_utenti_OpenHelper;
+import gestioneutenti.view.Utenti_table__DAO;
 
 /**
- * @author Jesus Cevallos
+ * @author <GRUPPO 9>
  * TestDatabaseUtenti è un test per l'utilizzo delle 
  * classi Utente_db_DAO e db_utenti_helper.
  */
 public class TestDatabaseUtenti {
 
-	static Db_utenti_OpenHelper db_utenti_helper=Db_utenti_OpenHelper.getinstance();
+	static Utenti_table__DAO db_utenti_helper=Utenti_table__DAO.getinstance();
 	Connection conn;
 	Statement statement;
 
@@ -39,9 +40,17 @@ public class TestDatabaseUtenti {
 		Utente_db_DAO utente;
 
 		//Per il test:
-		Login marcianilogin= new Login("Giacomo", "12345");
-		Login abokylogin= new Login("Ylias", "12345");
-		Login cevalloslogin= new Login("Cevallos", "12345");
+		Login marcianilogin= null;
+		Login abokylogin= null;
+		Login cevalloslogin= null;
+		try {
+			marcianilogin = new Login("Giacomo", "12345");
+			abokylogin= new Login("Ylias", "12345");
+			 cevalloslogin= new Login("Cevallos", "12345");
+		} catch (LoginInconsistenteException e2) {
+			e2.printStackTrace();
+		}
+		
 
 		Utente_db_DAO utente1= new Utente_db_DAO("Giacomo", "Marciani", "Roma", "1990-6-27", "Uomo", "giacomo.marciani@gmail.com", 2, marcianilogin);
 		Utente_db_DAO utente2= new Utente_db_DAO("Jesus", "Cevallos", "Quito", "1991-9-30", "Uomo", "jesusfcevallos@gmail.com", 3, cevalloslogin);
@@ -58,7 +67,6 @@ public class TestDatabaseUtenti {
 		try {
 			lista_utenti_dao=db_utenti_helper.get_all();
 		} catch (SQLException e) {
-			// TODO Auto-oggettigenerated catch block
 			e.printStackTrace();
 		}
 
@@ -70,11 +78,10 @@ public class TestDatabaseUtenti {
 
 
 
-		GregorianCalendar nascita_nuovo_utente= new GregorianCalendar(1990, 10, 04);
-		DatiUtente dati_nuovo_utente= new DatiUtente("Ludovi", "William", "Roma", nascita_nuovo_utente, "Uomo");
+		DatiUtente dati_nuovo_utente= new DatiUtente("Ludovi", "William", "Roma", "Uomo");
 		Ruolo ruolo_nuovo_utente= Amministratore.getInstance();
 
-		Utente nuovo_utente= new Utente(dati_nuovo_utente, "Ludovic.william@hotmail.com",ruolo_nuovo_utente, cevalloslogin);
+		Utente nuovo_utente= new Utente(dati_nuovo_utente, ruolo_nuovo_utente, cevalloslogin);
 
 		Utente_db_DAO nuovo_dao_utente =new Utente_db_DAO(nuovo_utente);
 		try {
@@ -102,7 +109,12 @@ public class TestDatabaseUtenti {
 			utente=(lista_utenti_dao.remove(index));
 		}
 		
-		Login login_nuevo_utente = new Login("Will.Ludovic", "123456789");
+		Login login_nuevo_utente = null;
+		try {
+			login_nuevo_utente = new Login("Will.Ludovic", "123456789");
+		} catch (LoginInconsistenteException e) {
+			e.printStackTrace();
+		}
 		
 		nuovo_dao_utente.setLogin(login_nuevo_utente);
 		nuovo_dao_utente.update();

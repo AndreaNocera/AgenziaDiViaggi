@@ -12,15 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
-
-
-
-/**Db_utenti_OpenHelper
- * @author Jesus Cevallos
+/**Utenti_table__DAO
+ * @author <GRUPPO 9>
  * Crea e assegna connessioni verso il db di utenti. 
  */
-public class Db_utenti_OpenHelper {
+public class Utenti_table__DAO {
 
 	public Connection conn;
 	public PreparedStatement pstatement;
@@ -29,14 +25,14 @@ public class Db_utenti_OpenHelper {
 
 
 	private static class SingletonHolder { 
-		public static final Db_utenti_OpenHelper INSTANCE = new Db_utenti_OpenHelper();
+		public static final Utenti_table__DAO INSTANCE = new Utenti_table__DAO();
 	}
-	public static Db_utenti_OpenHelper getinstance(){
+	public static Utenti_table__DAO getinstance(){
 		return SingletonHolder.INSTANCE;
 	};
 
 
-	private Db_utenti_OpenHelper() {
+	private Utenti_table__DAO() {
 		try{
 			Class.forName(config_db_utenti.NOME_DRIVER);
 		}catch(ClassNotFoundException cnfe){
@@ -47,47 +43,27 @@ public class Db_utenti_OpenHelper {
 
 
 	public void createDb() {
-		String query="";
 		connect();
-
 		try {
-			query="CREATE TABLE IF NOT EXISTS "
-					+config_db_utenti.NOME_TABELLA_UTENTI+"( "+
-					config_db_utenti.COLONNA_USERNAME+" VARCHAR(20) PRIMARY KEY, "+
-					config_db_utenti.COLONNA_PASSWORD+" VARCHAR(20), "+
-					config_db_utenti.COLONNA_NOME+" VARCHAR(20), "+
-					config_db_utenti.COLONNA_COGNOME+" VARCHAR(20), "+
-					config_db_utenti.COLONNA_CITTA+" VARCHAR(20), "+
-					config_db_utenti.COLONNA_NASCITA+" DATETIME, "+
-					config_db_utenti.COLONNA_SESSO+" VARCHAR(20), "+
-					config_db_utenti.COLONNA_MAIL+" VARCHAR(50), "+
-					config_db_utenti.COLONNA_RUOLO+" INT(2))";
-
-
-			pstatement=conn.prepareStatement(query);
+			pstatement=conn.prepareStatement(config_db_utenti.QUERY_CREA_TABELLA);
 			pstatement.executeUpdate();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close();
 		}	
-
 	}
 
 
 
-	public void connect() {
+	public synchronized void connect(){
 		try {
 			conn = DriverManager.getConnection(config_db_utenti.PERCORSO_COMPLETO_DB, config_db_utenti.USER_CONNESSIONE, config_db_utenti.PASSWORD_CONNESSIONE);
 			statement=conn.createStatement();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
 	}
-
 	public synchronized void close() {
 		try {
 			if(conn != null)conn.close();
@@ -97,19 +73,16 @@ public class Db_utenti_OpenHelper {
 			e.printStackTrace();
 		}
 	}
-
-
+	
 	public boolean isthereAnyUser(Utente_db_DAO utente_verifica) {
 		resultset=null;
 		try {
-			pstatement=conn.prepareStatement("SELECT * FROM "+config_db_utenti.NOME_TABELLA_UTENTI+
-					" WHERE "+config_db_utenti.COLONNA_USERNAME+"= '"+utente_verifica.login.getUsername()+"' ");
-			
+			pstatement=conn.prepareStatement(config_db_utenti.QUERY_SELECT_USERNAME);
+			pstatement.setString(1, utente_verifica.getLogin().getUsername());
 			resultset=pstatement.executeQuery();
 			if(resultset.next()) return true;
 			else return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -117,12 +90,10 @@ public class Db_utenti_OpenHelper {
 
 	public ArrayList <Utente_db_DAO> get_all() throws SQLException{
 		ArrayList <Utente_db_DAO> lista_completa_utenti= new ArrayList<Utente_db_DAO>();
-
-		
 		try {
 			connect();
 			statement=conn.createStatement();
-			resultset=statement.executeQuery("SELECT * FROM "+config_db_utenti.NOME_TABELLA_UTENTI+"");
+			resultset=statement.executeQuery(config_db_utenti.QUERY_SELECT_ALL);
 			boolean element=resultset.next();
 
 			while(element){
