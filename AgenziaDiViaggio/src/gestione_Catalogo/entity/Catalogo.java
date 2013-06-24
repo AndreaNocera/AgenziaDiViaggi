@@ -30,13 +30,13 @@ public class Catalogo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//attributi d'istanza
-	private Mappa mappaAmbiente;
+	private MappaCatalogo mappaAmbiente;
 	
 	
 	//controllore
 	
 	public Catalogo(){
-		mappaAmbiente = new Mappa();    //instanziato il catalogo, crea subito una mappa per gli ambienti
+		mappaAmbiente = new MappaCatalogo();    //instanziato il catalogo, crea subito una mappa per gli ambienti
 			
 		
 	}
@@ -53,16 +53,16 @@ public class Catalogo implements Serializable{
 		
 		if (!mappaAmbiente.esistenzaElemento(ambiente)) return false;	//Se non c'e' l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
 		
-		Elemento amb = mappaAmbiente.getElemento(ambiente.getIDEsternoElemento());		
+		ElementoCatalogo amb = mappaAmbiente.getElemento(ambiente.getIDEsternoElemento());		
 		if (!amb.esistenzaElemento(mezzoTrasporto)) return false;  //se nn c'e' il mezzo ritorna con false, altrimenti continua
 		
-		Elemento mez = amb.getElemento(mezzoTrasporto.getIDEsternoElemento());
+		ElementoCatalogo mez = amb.getElemento(mezzoTrasporto.getIDEsternoElemento());
 		if (!mez.esistenzaElemento(stazionePartenza)) return false;
 		
-		Elemento part = mez.getElemento(stazionePartenza.getIDEsternoElemento());
+		ElementoCatalogo part = mez.getElemento(stazionePartenza.getIDEsternoElemento());
 		if (!part.esistenzaElemento(stazioneArrivo)) return false;
 		
-		Elemento arr = part.getElemento(stazioneArrivo.getIDEsternoElemento());
+		ElementoCatalogo arr = part.getElemento(stazioneArrivo.getIDEsternoElemento());
 		if (!arr.esistenzaElemento(stazioneIntermedia)) return false;
 		
 		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio e' gia' presente
@@ -120,10 +120,10 @@ public class Catalogo implements Serializable{
 	
 	public void rimuoviViaggioDalCatalogo(Ambiente ambiente, MezzoTrasporto mezzoTrasporto, StazionePartenza stazionePartenza, StazioneArrivo stazioneArrivo, StazioneIntermedia stazioneIntermedia) throws IDEsternoElementoException {
 	
-		Elemento elementoAmbiente = mappaAmbiente.getElemento(ambiente.getIDEsternoElemento());
-		Elemento elementoMezzo = elementoAmbiente.getElemento(mezzoTrasporto.getIDEsternoElemento());
-		Elemento elementoPartenza = elementoMezzo.getElemento(stazionePartenza.getIDEsternoElemento());
-		Elemento elementoArrivo = elementoPartenza.getElemento(stazioneArrivo.getIDEsternoElemento());
+		ElementoCatalogo elementoAmbiente = mappaAmbiente.getElemento(ambiente.getIDEsternoElemento());
+		ElementoCatalogo elementoMezzo = elementoAmbiente.getElemento(mezzoTrasporto.getIDEsternoElemento());
+		ElementoCatalogo elementoPartenza = elementoMezzo.getElemento(stazionePartenza.getIDEsternoElemento());
+		ElementoCatalogo elementoArrivo = elementoPartenza.getElemento(stazioneArrivo.getIDEsternoElemento());
 		
 		// Rimuovo stazione intermedia dalla tabella
 		elementoArrivo.rimuoviElemento(stazioneIntermedia.getIDEsternoElemento());
@@ -173,7 +173,7 @@ public class Catalogo implements Serializable{
 	
 	public Set<String> getChiaviStazioniDiPartenza(String ambiente, String mezzo) throws IDEsternoElementoException {
 		
-		Elemento elementoAmbiente = mappaAmbiente.getElemento(ambiente);
+		ElementoCatalogo elementoAmbiente = mappaAmbiente.getElemento(ambiente);
 		if (elementoAmbiente.esistenzaElemento(mezzo))
 			return elementoAmbiente.getElemento(mezzo).listaChiaviElementi(); 
 		else
@@ -184,7 +184,7 @@ public class Catalogo implements Serializable{
 	
 	public Set<String> getChiaviStazioniDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
 		
-		Elemento elementoMezzo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo);
+		ElementoCatalogo elementoMezzo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo);
 		if (elementoMezzo.esistenzaElemento(partenza))
 			return elementoMezzo.getElemento(partenza).listaChiaviElementi();
 		else 
@@ -194,7 +194,7 @@ public class Catalogo implements Serializable{
 	
 	public Set<String> getChiaviStazioniIntermedie(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
 		
-		Elemento elementoPartenza = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza);
+		ElementoCatalogo elementoPartenza = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza);
 		if (elementoPartenza.esistenzaElemento(arrivo)){
 			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
 		} else throw new IDEsternoElementoException("Stazione di arrivo "+arrivo+" non presente in catalogo");
@@ -202,7 +202,7 @@ public class Catalogo implements Serializable{
 	
 	public String getInfo(String ambiente, String mezzo, String partenza, String arrivo, String intermedia) throws IDEsternoElementoException{
 		
-		Elemento elementoArrivo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo);
+		ElementoCatalogo elementoArrivo = mappaAmbiente.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo);
 		if (elementoArrivo.esistenzaElemento(intermedia)){
 			return  ((StazioneIntermedia) elementoArrivo.getElemento(intermedia)).getInfo().toString();
 		} else {

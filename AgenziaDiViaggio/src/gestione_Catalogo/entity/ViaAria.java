@@ -34,6 +34,10 @@ public class ViaAria extends Ambiente implements Serializable{
 		//ok, ora so che altroOggetto è un elemento non nullo, per cui faccio i confronti tra attributi
 					
 		ViaAria nuovoElemento = (ViaAria) altroObject;
+		
+		System.out.println(this.getIDEsternoElemento().toString());
+		System.out.println(nuovoElemento.getIDEsternoElemento().toString());
+		System.out.println("fdfdfd");
 					
 		return (this.idEsternoElemento.equals(nuovoElemento.idEsternoElemento));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
 	}

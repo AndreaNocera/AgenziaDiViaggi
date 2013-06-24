@@ -80,7 +80,6 @@ public class ControlloreGestioneCatalogo {
 		
 		//creo l'oggetto
 		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsternoElemento(ambiente));
-		
 		/*
 		 * FASE 2: creo gli altri oggetti
 		 */

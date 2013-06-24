@@ -9,7 +9,7 @@ package gestione_Catalogo.entity;
 
 import java.io.Serializable;
 
-public class StazioneArrivo extends Elemento implements Serializable{
+public class StazioneArrivo extends ElementoCatalogo implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;

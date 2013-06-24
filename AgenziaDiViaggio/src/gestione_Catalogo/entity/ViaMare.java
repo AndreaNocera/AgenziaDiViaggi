@@ -33,6 +33,8 @@ public class ViaMare extends Ambiente implements Serializable{
 		//ok, ora so che altroOggetto è un elemento non nullo, per cui faccio i confronti tra attributi
 						
 		ViaMare nuovoElemento = (ViaMare) altroObject;
+		
+
 						
 		return (this.idEsternoElemento.equals(nuovoElemento.idEsternoElemento));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
 	}

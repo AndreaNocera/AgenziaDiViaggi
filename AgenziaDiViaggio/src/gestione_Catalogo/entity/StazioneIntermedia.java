@@ -6,7 +6,7 @@
 
 package gestione_Catalogo.entity;
 
-public class StazioneIntermedia extends Elemento{
+public class StazioneIntermedia extends ElementoCatalogo{
 	
 
 	private static final long serialVersionUID = 1L;
