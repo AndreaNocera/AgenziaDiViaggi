@@ -2,6 +2,8 @@
  * Autori:
  * Remo Sperlongano
  * Ivan Torre
+ * 
+ * (noi odiamo i mailer....)
  */
 
 
