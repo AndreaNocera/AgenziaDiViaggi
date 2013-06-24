@@ -6,6 +6,8 @@ import gestioneutenti.exception.LoginErratoException;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,14 +33,18 @@ public class LoginServlet extends HttpServlet {
 		try {
 			login = new Login(username, password);
 			utente = this.controllerLogin.login(login);
-			if (utente != null) {
-				HttpSession session = request.getSession(true);
-	            session.setAttribute("currentSessionUser", utente);
-	            response.sendRedirect("LoginSuccesso.jsp");
-			} else {
-				response.sendRedirect("Login.jsp");
-			}
+			HttpSession session = request.getSession(true);
+            session.setAttribute("utente", utente);
+            
+            try {
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Home.jsp");
+                request.setAttribute("utente", utente);
+                rd.forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 		} catch (LoginInconsistenteException | LoginErratoException e) {
+			response.sendRedirect("Login.jsp");
 			e.printStackTrace();
 		}		
 	}
