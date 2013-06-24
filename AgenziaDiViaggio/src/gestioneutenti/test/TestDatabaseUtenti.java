@@ -3,14 +3,15 @@ package gestioneutenti.test;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 
 
-import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteEsistenteException;
 import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
+import gestioneutenti.model.utente_DAO;
 
 import gestioneutenti.model.Utente_db_DAO;
 import gestioneutenti.model.ruoli.Amministratore;
@@ -35,19 +36,12 @@ public class TestDatabaseUtenti {
 		db_utenti_helper.createDb();
 
 		lista_utenti_dao= new ArrayList<Utente_db_DAO>();
-		//Per il test:
-		Login marcianilogin = null;
-		Login abokylogin= null;
-		Login cevalloslogin = null;
-		try {
-			marcianilogin = new Login("Giacomo", "12345");
-			abokylogin= new Login("Ylias", "12345");
-			cevalloslogin= new Login("Cevallos", "12345");
-		} catch (LoginInconsistenteException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		Utente_db_DAO utente;
 
+		//Per il test:
+		Login marcianilogin= new Login("Giacomo", "12345");
+		Login abokylogin= new Login("Ylias", "12345");
+		Login cevalloslogin= new Login("Cevallos", "12345");
 
 		Utente_db_DAO utente1= new Utente_db_DAO("Giacomo", "Marciani", "Roma", "1990-6-27", "Uomo", "giacomo.marciani@gmail.com", 2, marcianilogin);
 		Utente_db_DAO utente2= new Utente_db_DAO("Jesus", "Cevallos", "Quito", "1991-9-30", "Uomo", "jesusfcevallos@gmail.com", 3, cevalloslogin);
@@ -76,10 +70,11 @@ public class TestDatabaseUtenti {
 
 
 
-		DatiUtente dati_nuovo_utente= new DatiUtente("Ludovi", "William","william@gmail.com","Roma");
+		GregorianCalendar nascita_nuovo_utente= new GregorianCalendar(1990, 10, 04);
+		DatiUtente dati_nuovo_utente= new DatiUtente("Ludovi", "William", "Roma", nascita_nuovo_utente, "Uomo");
 		Ruolo ruolo_nuovo_utente= Amministratore.getInstance();
 
-		Utente nuovo_utente= new Utente(dati_nuovo_utente, ruolo_nuovo_utente, cevalloslogin);
+		Utente nuovo_utente= new Utente(dati_nuovo_utente, "Ludovic.william@hotmail.com",ruolo_nuovo_utente, cevalloslogin);
 
 		Utente_db_DAO nuovo_dao_utente =new Utente_db_DAO(nuovo_utente);
 		try {
@@ -88,7 +83,7 @@ public class TestDatabaseUtenti {
 			e1.printStackTrace();
 		}
 
-
+		
 
 		try {
 			lista_utenti_dao=db_utenti_helper.get_all();
@@ -104,19 +99,14 @@ public class TestDatabaseUtenti {
 		}
 
 		for(int index=0;index<(lista_utenti_dao.size());index++){
+			utente=(lista_utenti_dao.remove(index));
 		}
-
-		Login login_nuevo_utente = null;
-		try {
-			login_nuevo_utente = new Login("Will.Ludovic", "123456789");
-		} catch (LoginInconsistenteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		
+		Login login_nuevo_utente = new Login("Will.Ludovic", "123456789");
+		
 		nuovo_dao_utente.setLogin(login_nuevo_utente);
 		nuovo_dao_utente.update();
-
+		
 	}	
 
 }
