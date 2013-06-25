@@ -15,8 +15,12 @@ public class StazioneArrivo extends ElementoCatalogo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//Costruttore
-	public StazioneArrivo (IDEsternoElemento idEsterno){
-		super(idEsterno);
+	public StazioneArrivo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
+		super(idEsternoElemento, idEsternoViaggio);
+		}
+	
+	public StazioneArrivo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
+		super(idEsternoElemento, idEsternoViaggio, indice);
 	}
 	
 	

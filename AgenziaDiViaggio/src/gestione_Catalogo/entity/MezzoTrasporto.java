@@ -15,8 +15,12 @@ public class MezzoTrasporto extends ElementoCatalogo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//Costruttori
-	public MezzoTrasporto (IDEsternoElemento idEsterno){
-		super(idEsterno);
+	public MezzoTrasporto(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
+		super(idEsternoElemento, idEsternoViaggio);
+		}
+	
+	public MezzoTrasporto(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
+		super(idEsternoElemento, idEsternoViaggio, indice);
 	}
 	
 	//ridefinisco il metodo equals

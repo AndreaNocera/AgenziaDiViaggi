@@ -23,10 +23,14 @@ public abstract class ElementoCatalogo extends Elemento implements Serializable{
 	
 	
 	//costruttore
-	public ElementoCatalogo(IDEsternoElemento idEsternoElemento){
-		super(idEsternoElemento);
+	public ElementoCatalogo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
+		super(idEsternoElemento, idEsternoViaggio);
 		mappa = new MappaCatalogo();
-		
+		}
+	
+	public ElementoCatalogo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
+		super(idEsternoElemento, idEsternoViaggio, indice);
+		mappa = new MappaCatalogo();
 	}
 	
 

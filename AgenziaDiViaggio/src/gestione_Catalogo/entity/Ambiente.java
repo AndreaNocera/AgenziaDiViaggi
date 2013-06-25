@@ -15,8 +15,12 @@ public abstract class Ambiente extends ElementoCatalogo implements Serializable{
 
 	
 	//costruttori
-	public Ambiente (IDEsternoElemento idEsterno){
-		super(idEsterno);
+	public Ambiente(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
+		super(idEsternoElemento, idEsternoViaggio);
+		}
+	
+	public Ambiente(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
+		super(idEsternoElemento, idEsternoViaggio, indice);
 	}
 	
 	

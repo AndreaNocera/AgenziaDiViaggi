@@ -14,8 +14,13 @@ public class ViaMare extends Ambiente implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	public ViaMare(IDEsternoElemento idEsterno){
-		super(idEsterno);
+	public ViaMare(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
+		super(idEsternoElemento, idEsternoViaggio);
+		
+		}
+	
+	public ViaMare(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
+		super(idEsternoElemento, idEsternoViaggio, indice);
 	}
 	
 	//ridefinisco il metodo equals

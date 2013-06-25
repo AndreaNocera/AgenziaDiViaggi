@@ -16,8 +16,8 @@ public class StazioneIntermedia extends ElementoCatalogo{
 	
 	
 
-	public StazioneIntermedia(Info info){
-		super(new IDEsternoElemento("(Diretto)"));
+	public StazioneIntermedia(IDEsterno idEsternoViaggo, Info info){
+		super(new IDEsterno("(Diretto)"), new IDEsterno(idEsternoViaggo + "(Diretto)"));
 		
 		if (info.toString().equalsIgnoreCase("")) this.info = new Info();
 		else this.info = info;
@@ -28,8 +28,20 @@ public class StazioneIntermedia extends ElementoCatalogo{
 		this.info.updateInfo("--- Inserito il " + data.stampaDataAttuale());
 	}
 	
-	public StazioneIntermedia(IDEsternoElemento idEsterno, Info info) {
-		super(idEsterno);
+	public StazioneIntermedia(IDEsterno idEsterno,IDEsterno idEsternoViaggio, Info info) {
+		super(idEsterno, idEsternoViaggio);
+		
+		if (info.toString().equalsIgnoreCase("")) this.info = new Info();
+		else this.info = info;
+		
+		data = new Orologio();
+		
+		//aggiorno le info mettendoci la data di inserimento
+		this.info.updateInfo("--- Inserito il " + data.stampaDataAttuale());
+	}
+	
+	public StazioneIntermedia(IDEsterno idEsterno,IDEsterno idEsternoViaggio,Indice indice,  Info info) {
+		super(idEsterno, idEsternoViaggio, indice);
 		
 		if (info.toString().equalsIgnoreCase("")) this.info = new Info();
 		else this.info = info;

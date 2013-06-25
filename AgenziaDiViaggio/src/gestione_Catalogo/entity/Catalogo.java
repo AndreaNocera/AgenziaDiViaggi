@@ -115,6 +115,7 @@ public class Catalogo implements Serializable{
 		//FASE 5: Aggiungo stazione intermedia nella mappa delle stazioni di Arrivo
 		//non c'e' bisogno di controllo, so gia' che non c'e' (verificaEsistenzaViaggio());
 		mappaAmbiente.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzoTrasporto.getIDEsternoElemento()).getElemento(stazionePartenza.getIDEsternoElemento()).getElemento(stazioneArrivo.getIDEsternoElemento()).aggiungiElemento(stazioneIntermedia.getIDEsternoElemento(), stazioneIntermedia);
+		//System.out.println((mappaAmbiente.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzoTrasporto.getIDEsternoElemento()).getElemento(stazionePartenza.getIDEsternoElemento()).getElemento(stazioneArrivo.getIDEsternoElemento()).getElemento(stazioneIntermedia.getIDEsternoElemento())).getIDEsternoViaggio());
 		//System.out.println("Viaggio Aggiunto");
 	}
 	
