@@ -54,5 +54,17 @@ public abstract class Elemento implements Serializable {
 		return idEsternoElemento.toString();
 	}
 	
+	public IDEsterno getIDEsternoDiElemento(){
+		return idEsternoElemento;
+	}
+	
+	public Indice getIndice(){
+		return indice;
+	}
+	
+	public void setIndice(Indice indice){
+		this.indice = indice;
+	}
+	
 
 }

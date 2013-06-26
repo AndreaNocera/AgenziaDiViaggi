@@ -4,7 +4,9 @@
  * Ivan Torre
  */
 
-package gestione_Catalogo.entity;
+package gestione_Catalogo.dao;
+
+import gestione_Catalogo.entity.MappaCatalogo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
