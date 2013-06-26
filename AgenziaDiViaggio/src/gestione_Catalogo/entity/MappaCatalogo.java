@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeMap;
 
+import gestione_Catalogo.entity.Mappa;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 
 
@@ -65,7 +66,7 @@ public class MappaCatalogo extends Mappa implements Serializable{
 		//Verifico su questa mappa la presenza di un elemento con lo stesso id di quello che voglio confrontare
 		if (!super.containsKey(e.getIDEsternoElemento())) return false; //Se non c'e' nessun elemento con quell'id, torno false subito
 		
-		//Se invece vi è un elemento con quell'id, lo prendo e faccio equals, controllo se entrambi gli elementi sono della stessa classe
+		//Se invece vi ï¿½ un elemento con quell'id, lo prendo e faccio equals, controllo se entrambi gli elementi sono della stessa classe
 		ElementoCatalogo ele = (ElementoCatalogo) super.get(e.getIDEsternoElemento());
 		
 		return ele.equals(e);

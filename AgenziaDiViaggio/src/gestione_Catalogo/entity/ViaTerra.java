@@ -7,6 +7,8 @@
 
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.entity.IDEsterno;
+
 import java.io.Serializable;
 
 public class ViaTerra extends Ambiente implements Serializable{
@@ -30,13 +32,13 @@ public class ViaTerra extends Ambiente implements Serializable{
 		// verifico se sono lo stesso oggetto
 		if (this == altroObject) return true;
 						
-		// verifico se il parametro implicito è null
+		// verifico se il parametro implicito ï¿½ null
 		if (altroObject == null) return false;
 						
 		//verifico se le classi non coincidono
 		if (getClass() != altroObject.getClass()) return false;
 						
-		//ok, ora so che altroOggetto è un elemento non nullo, per cui faccio i confronti tra attributi
+		//ok, ora so che altroOggetto ï¿½ un elemento non nullo, per cui faccio i confronti tra attributi
 						
 		ViaTerra nuovoElemento = (ViaTerra) altroObject;
 						

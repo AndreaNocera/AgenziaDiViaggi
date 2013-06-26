@@ -6,6 +6,8 @@
 
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.entity.IDEsterno;
+
 import java.io.Serializable;
 
 public abstract class Ambiente extends ElementoCatalogo implements Serializable{

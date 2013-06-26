@@ -6,6 +6,7 @@
 
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.entity.IDEsterno;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 
 import java.io.Serializable;

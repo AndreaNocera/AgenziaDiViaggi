@@ -11,10 +11,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Set;
 
+import gestioneOfferta.entity.Catalogo;
+import gestioneOfferta.entity.IDEsterno;
 import gestione_Catalogo.entity.Ambiente;
-import gestione_Catalogo.entity.Catalogo;
 import gestione_Catalogo.entity.DeserializzaOggetti;
-import gestione_Catalogo.entity.IDEsterno;
 import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Log;
 import gestione_Catalogo.entity.MezzoTrasporto;
