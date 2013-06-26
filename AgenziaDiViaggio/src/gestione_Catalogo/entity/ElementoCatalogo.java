@@ -19,17 +19,20 @@ public abstract class ElementoCatalogo extends Elemento implements Serializable{
 	
 	//Variabili istanza
 	
+	protected IDEsterno		idEsternoViaggio;
 	private   MappaCatalogo			mappa;
 	
 	
 	//costruttore
 	public ElementoCatalogo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
-		super(idEsternoElemento, idEsternoViaggio);
+		super(idEsternoElemento);
+		this.idEsternoViaggio = idEsternoViaggio;
 		mappa = new MappaCatalogo();
 		}
 	
 	public ElementoCatalogo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
-		super(idEsternoElemento, idEsternoViaggio, indice);
+		super(idEsternoElemento, indice);
+		this.idEsternoViaggio = idEsternoViaggio;
 		mappa = new MappaCatalogo();
 	}
 	
@@ -60,6 +63,9 @@ public abstract class ElementoCatalogo extends Elemento implements Serializable{
 	}
 	
 	
-	
+	public String getIDEsternoViaggio(){
+		return idEsternoViaggio.toString();
+	}
+
 	
 }

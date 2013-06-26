@@ -18,20 +18,17 @@ public abstract class Elemento implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected IDEsterno 	idEsternoElemento;
-	protected IDEsterno		idEsternoViaggio;
 	private   Indice	  	indice;
 	
 	
 	//Costruttori
-	public Elemento(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
+	public Elemento(IDEsterno idEsternoElemento){
 		this.idEsternoElemento = idEsternoElemento;
-		this.idEsternoViaggio = idEsternoViaggio;
 		indice = new Indice();
 	}
 	
-	public Elemento(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
+	public Elemento(IDEsterno idEsternoElemento, Indice indice){
 		this.idEsternoElemento = idEsternoElemento;
-		this.idEsternoViaggio = idEsternoViaggio;
 		this.indice = indice;
 	}
 	
@@ -57,8 +54,5 @@ public abstract class Elemento implements Serializable {
 		return idEsternoElemento.toString();
 	}
 	
-	public String getIDEsternoViaggio(){
-		return idEsternoViaggio.toString();
-	}
 
 }
