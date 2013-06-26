@@ -1,23 +1,39 @@
+/**
+ * 
+ */
 package ordinaViaggi.entity;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
-public class Biglietto implements Serializable{
-	/**
-	 * 
+/** 
+ * <!-- begin-UML-doc -->
+ * <!-- end-UML-doc -->
+ * @author Gambella
+ * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ */
+public class Biglietto {
+	/** 
+	 * <!-- begin-UML-doc -->
+	 * <!-- end-UML-doc -->
+	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	private static final long serialVersionUID = -3821594773375207599L;
-	private List<Traveler> listTravelers;
-	public Biglietto(List<Traveler> listTravelers){
-		this.listTravelers = listTravelers;
-	}
-	
-	public List<Traveler> getTravelers() {
-		return listTravelers;
-	}
-	public void setTraveler(List<Traveler> listTravelers) {
-		this.listTravelers = listTravelers;
-	}
-	
+	private String idBiglietto;
+	/** 
+	 * <!-- begin-UML-doc -->
+	 * <!-- end-UML-doc -->
+	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
+	private Object listaTravelers;
+	/** 
+	 * <!-- begin-UML-doc -->
+	 * <!-- end-UML-doc -->
+	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
+	private Set<Traveler> traveler;
+	/** 
+	 * <!-- begin-UML-doc -->
+	 * <!-- end-UML-doc -->
+	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
+	private Set<Traveler> traveler2;
 }

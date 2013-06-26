@@ -1,51 +1,80 @@
+/**
+ * 
+ */
 package ordinaViaggi.entity;
 
-/**
+import ordinaViaggi.exception.MapException;
+
+import java.util.Collection;
+import java.util.TreeMap;
+
+/** 
+ * <!-- begin-UML-doc -->
+ * <!-- end-UML-doc -->
  * @author Gambella Riccardo
- * Entità Map.
+ * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
+public abstract class Map extends TreeMap<Integer, Elemento>{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3765994717735043055L;
+	/** 
+	 * <!-- begin-UML-doc -->
+	 * <!-- end-UML-doc -->
+	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
+	
+	
 
-
-import ordinaViaggi.exception.MapDAOException;
-
-import java.io.Serializable;
-import java.util.*;
-
-
-public class Map extends TreeMap <String,SubElement> implements Serializable{
-
-	private static final long serialVersionUID = 1L;
 	public Map(){
 		super();
 	}
 	
-	/*
-	 *  Save() e get() utilizzano il DAO relativo alla gestione della persistenza sul file.
+	public Elemento getElemento(Integer key) throws MapException{
+		if(!containsKey(key))
+			throw new MapException("Errore nel getElemento. Chiave non presente");
+		return super.get(key);
+	}
+
+	public void setSubElement(Integer key, Elemento elemento) throws MapException {
+		if(!containsKey(key))
+			throw new MapException("Errore nel setElemento. Chiave non presente");
+		super.put(key, elemento);
+	}
+	/**
+	 * Inserisce il record con chiave key.
+	 * Va ridefinito nelle sottoclassi.
+	 * @param key
 	 */
-	public void save() throws MapDAOException{
-		MapDAO mapDAO = MapDAOPersistentFile.getIstance();
-		mapDAO.save(this);
-	}
-	
-	public Map get() throws MapDAOException{
-		MapDAO mapDAO = MapDAOPersistentFile.getIstance();
-		return mapDAO.get();
-	}
-	
-	public void insertRecord(String key, SubElement subElement){
+	public abstract void insertRecord(Integer key);
+	 /**
+	  * Se si chiama insertRecord e la chiave è già inserita non inserisce il nuovo SubElement.
+	  * Si deve chiamre setSubElement sulla chiave, invece.
+	  * @param key
+	  * @param subElement
+	  */
+	public void insertRecord(Integer key, Elemento elemento){
 		if(!containsKey(key))
 		{	
-			super.put(key, subElement);  //put(Terra, subElement)
+			super.put(key, elemento);  //put(Terra, subElement)
 		}
 	}
+	
+
+	public void removeRecord(Integer key) throws MapException{
+		if(!containsKey(key))
+			throw new MapException("Errore nella rimozione. Chiave non esistente.");
+		super.remove(key);
+	}
+	
 	public void printMap(){
 		if(this == null)
 			return;
-		Collection<String> collection = this.keySet();
-        Iterator<String> iterator = collection.iterator();
-        while(iterator.hasNext()){
-        	String key = iterator.next();
-        	System.out.println(key);
+		Collection<Integer> collection = this.keySet();
+        for(Integer I : collection){
+        	System.out.println(I);
         }
 	}
 }

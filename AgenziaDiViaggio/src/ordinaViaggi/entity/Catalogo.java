@@ -1,14 +1,44 @@
+/**
+ * 
+ */
 package ordinaViaggi.entity;
 
+import ordinaViaggi.exception.CatalogoException;
+import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.MapDAOException;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Catalogo extends ManipolatoreMappe{
-	
+import ordinaViaggi.dao.DAOCatalogo;
+import ordinaViaggi.dao.DAOTratta;
+
+/** 
+ * <!-- begin-UML-doc -->
+ * <!-- end-UML-doc -->
+ * @author Gambella
+ * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ */
+public class Catalogo {
+	/** 
+	 * <!-- begin-UML-doc -->
+	 * <!-- end-UML-doc -->
+	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
 	private static Catalogo catalogo;
+	private List<Tratta> tratte;
+	private MapCatalogo map;
 	private Catalogo(){
+		/*
+		 * Fetch del catalogo dal database.
+		 */
+		DAOCatalogo daoCatalogo = DAOCatalogo.getIstance();
+		//map = (MapCatalogo)createMap();
+		try {
+			tratte = daoCatalogo.getCatalogo();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static Catalogo getIstance(){
@@ -18,28 +48,24 @@ public class Catalogo extends ManipolatoreMappe{
 	}
 	
 	
+	
+	
+	
 	/**Inserimento di un elemento nel catalogo
 	 * 
 	 * @param listaCatalogo
 	 * @param subElementsInfo
 	 * @throws MapDAOException
 	 */
-	public void inserimentoInCatalogo(List<String> listaCatalogo, List<String> subElementsInfo)
-			throws MapDAOException{
-		if(listaCatalogo.size() != subElementsInfo.size())
-			throw new MapDAOException("Errore in Inserimento Catalogo");
-		Map map = readMap();
-		// Crea la lista di SubElements di tipo SubElementCatalogo
-		List<SubElement> listaSubElements = new ArrayList<SubElement>();
-		for(String info : subElementsInfo){
-			SubElement subElement = new SubElementCatalogo(new Map(),info);
-			listaSubElements.add(subElement);
+	public void inserimentoInCatalogo(Tratta tratta) throws CatalogoException{
+		tratte.add(tratta);
+		DAOTratta daoTratta = DAOTratta.getIstance();
+		try {
+			daoTratta.insert(tratta);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new CatalogoException();
 		}
-			
-		inserimentoInMapRecursive(map,listaCatalogo,listaSubElements);
-		
-		// Al termine dell'inserimento salva la mappa (NB Metodo del Controllore)
-		saveMap(map);
 	}
 	
 	/**Rimozione di un elemento dal catalogo
@@ -48,20 +74,24 @@ public class Catalogo extends ManipolatoreMappe{
 	 * @throws MapDAOException
 	 */
 	
-	public void rimozioneInCatalogo(List<String> listaCatalogo) throws MapDAOException{
-		Map map = readMap();
-		rimozioneInMapRecursive(map,listaCatalogo,"Catalogo");
-		// Al termine della rimozione salva la mappa (NB Metodo del Controllore)
-		saveMap(map);
+	public void rimozioneInCatalogo(Tratta tratta) throws CatalogoException{
+		tratte.remove(tratta);
 	}
 	
 	/**Stampa del catalogo
 	 * 
 	 * @throws MapDAOException
 	 */
-	public void printCatalogo() throws MapDAOException{
-		Map map = readMap();
-		printMapRecursive(map, 0, 5);
+	public void printCatalogo() throws CatalogoException{
+		for(Tratta tratta : tratte)
+			tratta.printTratta();
 	}
 	
+	/**
+	 *  Metodo di creazione della mappa associata al catalogo.
+	 */
+	private Map createMap(){
+		Map map = new MapCatalogo();
+		return map;
+	}
 }
