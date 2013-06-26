@@ -68,6 +68,10 @@ public abstract class ElementoCatalogo extends Elemento implements Serializable{
 	public String getIDEsternoViaggio(){
 		return idEsternoViaggio.toString();
 	}
+	
+	public IDEsterno getIDEsternoDiViaggio(){
+		return idEsternoViaggio;
+	}
 
 	
 }
