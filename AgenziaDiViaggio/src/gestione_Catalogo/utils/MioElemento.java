@@ -5,13 +5,13 @@ public class MioElemento{
 	
 	public static int nextID = 1;
 	private Integer id;
-	private IDEsterno idEsterno;
+	private IDEsterno nome;
 	
 	
 	public MioElemento(String nome){
 		this.id = new Integer(nextID);
 		nextID++;
-		this.idEsterno = new IDEsterno(nome);
+		this.nome = new IDEsterno(nome);
 	}
 	
 	
@@ -20,7 +20,7 @@ public class MioElemento{
 	}
 	
 	public IDEsterno getIDEsterno(){
-		return idEsterno;
+		return nome;
 	}
 
 	

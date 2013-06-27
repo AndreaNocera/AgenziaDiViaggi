@@ -1,7 +1,9 @@
 package gestione_Catalogo.utils;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class MappaComparatorText {
 
@@ -9,7 +11,7 @@ public class MappaComparatorText {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MappaComparator<Integer, MioElemento> mappa = new MappaComparator(new IDEsternoComparator());
+		MappaCatalogo mappa = new MappaCatalogo(new IDEsternoComparator());
 		
 		MioElemento me1 = new MioElemento("Zaccaria");
 		MioElemento me2 = new MioElemento("Alberto");
@@ -26,19 +28,19 @@ public class MappaComparatorText {
 		MioElemento me13 = new MioElemento("Zeno");
 		
 		
-		mappa.put(me1.getID(), me1);
-		mappa.put(me2.getID(), me2);
-		mappa.put(me3.getID(), me3);
-		mappa.put(me4.getID(), me4);
-		mappa.put(me5.getID(), me5);
-		mappa.put(me6.getID(), me6);
-		mappa.put(me7.getID(), me7);
-		mappa.put(me8.getID(), me8);
-		mappa.put(me9.getID(), me9);
-		mappa.put(me10.getID(), me10);
-		mappa.put(me11.getID(), me11);
-		mappa.put(me12.getID(), me12);
-		mappa.put(me13.getID(), me13);
+		mappa.put(me1.getIDEsterno(), me1);
+		mappa.put(me2.getIDEsterno(), me2);
+		mappa.put(me3.getIDEsterno(), me3);
+		mappa.put(me4.getIDEsterno(), me4);
+		mappa.put(me5.getIDEsterno(), me5);
+		mappa.put(me6.getIDEsterno(), me6);
+		mappa.put(me7.getIDEsterno(), me7);
+		mappa.put(me8.getIDEsterno(), me8);
+		mappa.put(me9.getIDEsterno(), me9);
+		mappa.put(me10.getIDEsterno(), me10);
+		mappa.put(me11.getIDEsterno(), me11);
+		mappa.put(me12.getIDEsterno(), me12);
+		mappa.put(me13.getIDEsterno(), me13);
 		
 		
 		
@@ -49,7 +51,7 @@ public class MappaComparatorText {
 		
 		while(it.hasNext()){
 			MioElemento me = (MioElemento) mappa.get(it.next());
-			s += me.getID().toString() + "\t" + me.getIDEsterno() + "\n";
+			s += me.getIDEsterno().getNome() + "\n";
 		}
 		
 		System.out.println(s);

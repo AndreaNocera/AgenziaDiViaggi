@@ -1,10 +1,18 @@
 package gestione_Catalogo.utils;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class MappaComparator<Integer, MioElemento> extends TreeMap{
+@SuppressWarnings("hiding")
+public abstract class MappaComparator<IDEsterno, MioElemento> extends TreeMap{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1533484176662572187L;
+
 
 	public MappaComparator(){
 		

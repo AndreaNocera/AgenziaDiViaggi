@@ -1,17 +1,15 @@
 package gestione_Catalogo.utils;
 
-import java.util.Comparator;
+public class IDEsterno {
 
-public class IDEsterno{
+	private String nome;
 	
-	private String IDEsterno;
-	
-	public IDEsterno(String IDEsterno){
-		this.IDEsterno = IDEsterno;
+	public IDEsterno(String nome){
+		this.nome =nome;
 	}
 	
-	public String toString(){
-		return IDEsterno;
+	public String getNome(){
+		return nome;
 	}
 
 }
