@@ -1,13 +1,13 @@
 /**
  * 
  */
-package gestione_Catalogo.entity;
+package gestione_Catalogo.dao;
 
 /**
  * @authors 
  * Remo Sperlongano
  * Ivan Torre
  */
-public class Info {
+public class MezzoDAO {
 
 }
