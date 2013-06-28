@@ -10,9 +10,13 @@ package gestione_Catalogo.entity;
  */
 public class Via extends ElementoCatalogo  {
 	
+	private static int nextID = 1;
+	
 	private MappaOfferta mappaOfferta;
 	
-	public Via(){
+	public Via(IDEsternoElemento idEsternoElemento){
+		super(nextID, idEsternoElemento);
+		nextID++;
 		
 		mappaCatalogo = null;
 		mappaOfferta = new MappaOfferta();

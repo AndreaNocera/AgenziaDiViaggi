@@ -10,4 +10,8 @@ package gestione_Catalogo.entity;
  */
 public class Terra extends Ambiente {
 
+	public Terra(IDEsternoElemento idEsternoElemento) {
+		super(idEsternoElemento);
+	}
+
 }

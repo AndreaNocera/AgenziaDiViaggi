@@ -10,4 +10,8 @@ package gestione_Catalogo.entity;
  */
 public class Aria extends Ambiente {
 
+	public Aria(IDEsternoElemento idEsternoElemento) {
+		super(idEsternoElemento);
+	}
+
 }

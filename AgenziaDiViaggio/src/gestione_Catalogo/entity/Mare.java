@@ -10,4 +10,8 @@ package gestione_Catalogo.entity;
  */
 public class Mare extends Ambiente {
 
+	public Mare(IDEsternoElemento idEsternoElemento) {
+		super(idEsternoElemento);
+	}
+
 }
