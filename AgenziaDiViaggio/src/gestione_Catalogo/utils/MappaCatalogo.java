@@ -1,6 +1,6 @@
 package gestione_Catalogo.utils;
 
-public class MappaCatalogo extends MappaComparator<IDEsterno, MioElemento> {
+public class MappaCatalogo extends MappaComparator<IDEsternoElemento, MioElemento> {
 	
 	public MappaCatalogo(IDEsternoComparator c){
 		super(c);
@@ -8,12 +8,12 @@ public class MappaCatalogo extends MappaComparator<IDEsterno, MioElemento> {
 	}
 	
 	
-	public void put (IDEsterno k, MioElemento v){
+	public void put (IDEsternoElemento k, MioElemento v){
 		super.put(k, v);
 	}
 	
 	
-	public MioElemento get(IDEsterno k){
+	public MioElemento get(IDEsternoElemento k){
 		return (MioElemento) super.get(k);
 	}
 

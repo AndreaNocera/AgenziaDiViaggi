@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import gestione_Catalogo.dao.IndiceDAO;
 import gestione_Catalogo.dao.ViaAriaDAO;
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.Indice;
 
 public class DBTestIndice {
@@ -18,9 +18,9 @@ public class DBTestIndice {
 		
 		try {
 			
-			IndiceDAO.create(new IDEsterno("AriaBoingPerugiaTorinoImola"), i);
+			IndiceDAO.create(new IDEsternoElemento("AriaBoingPerugiaTorinoImola"), i);
 			
-			ViaAriaDAO.create(new IDEsterno("AriaBoingPerugiaTorinoImola"), new IDEsterno("Aria"));
+			ViaAriaDAO.create(new IDEsternoElemento("AriaBoingPerugiaTorinoImola"), new IDEsternoElemento("Aria"));
 			
 			//IndiceDAO.update(new IDEsterno("MareTraghettoPerugiaTorinoImola"), new Indice(10));
 			

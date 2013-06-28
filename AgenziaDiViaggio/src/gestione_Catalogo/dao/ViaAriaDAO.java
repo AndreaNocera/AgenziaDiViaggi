@@ -6,7 +6,7 @@
 
 package gestione_Catalogo.dao;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.ViaAria;
 
 import java.sql.Connection;
@@ -56,7 +56,7 @@ public class ViaAriaDAO {
 	}
 	
 	//METODI CRUD
-	public static void create(IDEsterno idEsternoViaggio, IDEsterno idEsternoElemento) throws SQLException, ClassNotFoundException{
+	public static void create(IDEsternoElemento idEsternoViaggio, IDEsternoElemento idEsternoElemento) throws SQLException, ClassNotFoundException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		
@@ -73,7 +73,7 @@ public class ViaAriaDAO {
 	}
 	
 	
-	public static ViaAria read(IDEsterno idEsternoViaggio) throws SQLException, ClassNotFoundException{
+	public static ViaAria read(IDEsternoElemento idEsternoViaggio) throws SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -94,14 +94,14 @@ public class ViaAriaDAO {
 		pstmt.close();
 		con.close();
 		
-		return new ViaAria(new IDEsterno(id2), new IDEsterno(id));
+		return new ViaAria(new IDEsternoElemento(id2), new IDEsternoElemento(id));
 		
 		
 		
 	}
 	
 	
-	public static void update(IDEsterno idEsternoViaggio, IDEsterno idEsternoElemento) throws SQLException, ClassNotFoundException{
+	public static void update(IDEsternoElemento idEsternoViaggio, IDEsternoElemento idEsternoElemento) throws SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -118,7 +118,7 @@ public class ViaAriaDAO {
 		
 	}
 	
-	public static void delete(IDEsterno idEsternoViaggio) throws  SQLException, ClassNotFoundException{
+	public static void delete(IDEsternoElemento idEsternoViaggio) throws  SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;

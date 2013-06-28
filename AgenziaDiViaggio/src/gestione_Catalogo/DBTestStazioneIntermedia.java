@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import gestione_Catalogo.dao.IndiceDAO;
 import gestione_Catalogo.dao.StazioneIntermediaDAO;
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.StazioneIntermedia;
 
@@ -21,7 +21,7 @@ public class DBTestStazioneIntermedia {
 	 */
 	public static void main(String[] args) {
 
-		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno("Formia"), new IDEsterno("MareTraghettoRomaCagliariFormia"), new Info("no"));
+		StazioneIntermedia si = new StazioneIntermedia(new IDEsternoElemento("Formia"), new IDEsternoElemento("MareTraghettoRomaCagliariFormia"), new Info("no"));
 		
 		try {
 			

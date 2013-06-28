@@ -6,7 +6,7 @@
 
 package gestione_Catalogo.dao;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.Indice;
 
 import java.sql.Connection;
@@ -56,7 +56,7 @@ public class IndiceDAO {
 	
 	//Metodi CRUD
 	
-	public static void create(IDEsterno idEsternoViaggio, Indice indice) throws SQLException, ClassNotFoundException{
+	public static void create(IDEsternoElemento idEsternoViaggio, Indice indice) throws SQLException, ClassNotFoundException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		
@@ -73,7 +73,7 @@ public class IndiceDAO {
 	}
 	
 	
-	public static Indice read(IDEsterno idEsternoViaggio) throws SQLException, ClassNotFoundException{
+	public static Indice read(IDEsternoElemento idEsternoViaggio) throws SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -101,7 +101,7 @@ public class IndiceDAO {
 	}
 	
 	
-	public static void update(IDEsterno idEsternoViaggio, Indice indice) throws SQLException, ClassNotFoundException{
+	public static void update(IDEsternoElemento idEsternoViaggio, Indice indice) throws SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -118,7 +118,7 @@ public class IndiceDAO {
 		
 	}
 	
-	public static void delete(IDEsterno idEsternoViaggio) throws  SQLException, ClassNotFoundException{
+	public static void delete(IDEsternoElemento idEsternoViaggio) throws  SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;

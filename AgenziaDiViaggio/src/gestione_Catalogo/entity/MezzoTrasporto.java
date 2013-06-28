@@ -7,7 +7,7 @@
 
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 
 import java.io.Serializable;
 
@@ -17,12 +17,12 @@ public class MezzoTrasporto extends ElementoCatalogo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//Costruttori
-	public MezzoTrasporto(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
-		super(idEsternoElemento, idEsternoViaggio);
+	public MezzoTrasporto(IDEsternoElemento idEsternoElemento){
+		super(idEsternoElemento);
 		}
 	
-	public MezzoTrasporto(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
-		super(idEsternoElemento, idEsternoViaggio, indice);
+	public MezzoTrasporto(IDEsternoElemento idEsternoElemento, Indice indice){
+		super(idEsternoElemento, indice);
 	}
 	
 	//ridefinisco il metodo equals

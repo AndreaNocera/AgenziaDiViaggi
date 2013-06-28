@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import gestione_Catalogo.entity.Elemento;
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 
 
@@ -21,20 +21,18 @@ public abstract class ElementoCatalogo extends Elemento implements Serializable{
 	
 	//Variabili istanza
 	
-	protected IDEsterno		idEsternoViaggio;
+	
 	private   MappaCatalogo			mappa;
 	
 	
 	//costruttore
-	public ElementoCatalogo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
+	public ElementoCatalogo(IDEsternoElemento idEsternoElemento){
 		super(idEsternoElemento);
-		this.idEsternoViaggio = idEsternoViaggio;
 		mappa = new MappaCatalogo();
 		}
 	
-	public ElementoCatalogo(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
+	public ElementoCatalogo(IDEsternoElemento idEsternoElemento, Indice indice){
 		super(idEsternoElemento, indice);
-		this.idEsternoViaggio = idEsternoViaggio;
 		mappa = new MappaCatalogo();
 	}
 	
@@ -64,14 +62,6 @@ public abstract class ElementoCatalogo extends Elemento implements Serializable{
 		mappa.removeElemento(k);
 	}
 	
-	
-	public String getIDEsternoViaggio(){
-		return idEsternoViaggio.toString();
-	}
-	
-	public IDEsterno getIDEsternoDiViaggio(){
-		return idEsternoViaggio;
-	}
 
 	
 }

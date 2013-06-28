@@ -7,7 +7,7 @@
 
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 
 import java.io.Serializable;
 
@@ -16,12 +16,12 @@ public class ViaAria extends Ambiente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	public ViaAria(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
-		super(idEsternoElemento, idEsternoViaggio);
+	public ViaAria(IDEsternoElemento idEsternoElemento){
+		super(idEsternoElemento);
 		}
 	
-	public ViaAria(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
-		super(idEsternoElemento, idEsternoViaggio, indice);
+	public ViaAria(IDEsternoElemento idEsternoElemento, Indice indice){
+		super(idEsternoElemento, indice);
 	}
 	
 	

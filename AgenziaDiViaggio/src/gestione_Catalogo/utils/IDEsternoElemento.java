@@ -1,10 +1,10 @@
 package gestione_Catalogo.utils;
 
-public class IDEsterno {
+public class IDEsternoElemento {
 
 	private String nome;
 	
-	public IDEsterno(String nome){
+	public IDEsternoElemento(String nome){
 		this.nome =nome;
 	}
 	

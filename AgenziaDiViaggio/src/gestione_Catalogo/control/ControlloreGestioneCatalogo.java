@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import gestione_Catalogo.entity.Catalogo;
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.Ambiente;
 import gestione_Catalogo.entity.DeserializzaOggetti;
 import gestione_Catalogo.entity.Info;
@@ -71,27 +71,26 @@ public class ControlloreGestioneCatalogo {
 		Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
 		
 		//preparo i parametri
-		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
-		Class<?> secondoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsternoElemento");
 		
-		Class<?>[] parametri = {primoParametro, secondoParametro};
+		Class<?>[] parametri = {primoParametro};
 		
 		//prendo il costruttore della classe con i parametri indicati
 		Constructor<?> costruttore = c.getConstructor(parametri);
 		
 		//creo l'oggetto
-		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsterno(ambiente), new IDEsterno(ambiente));
+		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsternoElemento(ambiente));
 		/*
 		 * FASE 2: creo gli altri oggetti
 		 */
-		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto), new IDEsterno(ambiente+mezzoTrasporto));
-		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza), new IDEsterno(ambiente+mezzoTrasporto+stazionePartenza));
-		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo), new IDEsterno(ambiente+mezzoTrasporto+stazionePartenza+stazioneArrivo));
+		MezzoTrasporto mt = new MezzoTrasporto(new IDEsternoElemento(mezzoTrasporto));
+		StazionePartenza sp = new StazionePartenza(new IDEsternoElemento(stazionePartenza));
+		StazioneArrivo sa = new StazioneArrivo(new IDEsternoElemento(stazioneArrivo));
 		StazioneIntermedia si;
 		if (stazioneIntermedia.equalsIgnoreCase("")){
-				si = new StazioneIntermedia(new IDEsterno(ambiente+mezzoTrasporto+stazionePartenza+stazioneArrivo+stazioneIntermedia), new Info(info));
+				si = new StazioneIntermedia(new Info(info));
 		} else {
-				si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia),new IDEsterno(ambiente+mezzoTrasporto+stazionePartenza+stazioneArrivo+stazioneIntermedia), new Info(info));
+				si = new StazioneIntermedia(new IDEsternoElemento(stazioneIntermedia), new Info(info));
 		}
 		
 		//verifico l'esistenza del viaggio nel catalogo
@@ -116,23 +115,22 @@ public class ControlloreGestioneCatalogo {
 		Class<?> c = Class.forName("gestione_Catalogo.entity.Via"+ambiente);   // per classi in un package, va messo il nome del package!!!"
 		
 		//preparo i parametri
-		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
-		Class<?> secondoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsternoElemento");
 		
-		Class<?>[] parametri = {primoParametro, secondoParametro};
+		Class<?>[] parametri = {primoParametro};
 		
 		//prendo il costruttore della classe con i parametri indicati
 		Constructor<?> costruttore = c.getConstructor(parametri);
 		
 		//creo l'oggetto
-		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsterno(ambiente), new IDEsterno(ambiente));
+		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsternoElemento(ambiente));
 		/*
 		 * FASE 2: creo gli altri oggetti
 		 */
-		MezzoTrasporto mt = new MezzoTrasporto(new IDEsterno(mezzoTrasporto), new IDEsterno(ambiente+mezzoTrasporto));
-		StazionePartenza sp = new StazionePartenza(new IDEsterno(stazionePartenza), new IDEsterno(ambiente+mezzoTrasporto+stazionePartenza));
-		StazioneArrivo sa = new StazioneArrivo(new IDEsterno(stazioneArrivo), new IDEsterno(ambiente+mezzoTrasporto+stazionePartenza+stazioneArrivo));
-		StazioneIntermedia si = new StazioneIntermedia(new IDEsterno(stazioneIntermedia),new IDEsterno(ambiente+mezzoTrasporto+stazionePartenza+stazioneArrivo+stazioneIntermedia), new Info());
+		MezzoTrasporto mt = new MezzoTrasporto(new IDEsternoElemento(mezzoTrasporto));
+		StazionePartenza sp = new StazionePartenza(new IDEsternoElemento(stazionePartenza));
+		StazioneArrivo sa = new StazioneArrivo(new IDEsternoElemento(stazioneArrivo));
+		StazioneIntermedia si = new StazioneIntermedia(new IDEsternoElemento(stazioneIntermedia), new Info());
 		
 		
 		//verifico l'esistenza del viaggio nel catalogo

@@ -6,7 +6,7 @@
 
 package gestione_Catalogo.dao;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Orologio;
 import gestione_Catalogo.entity.StazioneIntermedia;
@@ -64,7 +64,7 @@ public class StazioneIntermediaDAO {
 	}
 	
 	//METODI CRUD
-	public static void create(IDEsterno idEsternoViaggio, IDEsterno idEsternoElemento, Info info, Orologio data) throws SQLException, ClassNotFoundException{
+	public static void create(IDEsternoElemento idEsternoViaggio, IDEsternoElemento idEsternoElemento, Info info, Orologio data) throws SQLException, ClassNotFoundException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		
@@ -83,7 +83,7 @@ public class StazioneIntermediaDAO {
 	}
 	
 	
-	public static StazioneIntermedia read(IDEsterno idEsternoViaggio) throws SQLException, ClassNotFoundException{
+	public static StazioneIntermedia read(IDEsternoElemento idEsternoViaggio) throws SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -106,14 +106,14 @@ public class StazioneIntermediaDAO {
 		pstmt.close();
 		con.close();
 		
-		return new StazioneIntermedia(new IDEsterno(id2), new IDEsterno(id), new Info(info), new Orologio(data));
+		return new StazioneIntermedia(new IDEsternoElemento(id2), new IDEsternoElemento(id), new Info(info), new Orologio(data));
 		
 		
 		
 	}
 	
 	
-	public static void update(IDEsterno idEsternoViaggio, IDEsterno idEsternoElemento, Info info, Orologio data) throws SQLException, ClassNotFoundException{
+	public static void update(IDEsternoElemento idEsternoViaggio, IDEsternoElemento idEsternoElemento, Info info, Orologio data) throws SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -132,7 +132,7 @@ public class StazioneIntermediaDAO {
 		
 	}
 	
-	public static void delete(IDEsterno idEsternoViaggio) throws  SQLException, ClassNotFoundException{
+	public static void delete(IDEsternoElemento idEsternoViaggio) throws  SQLException, ClassNotFoundException{
 		
 		Connection con=null;
 		PreparedStatement pstmt=null;

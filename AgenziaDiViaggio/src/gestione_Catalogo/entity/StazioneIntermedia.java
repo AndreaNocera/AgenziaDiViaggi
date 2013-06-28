@@ -6,7 +6,7 @@
 
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 
 public class StazioneIntermedia extends ElementoCatalogo{
 	
@@ -18,8 +18,8 @@ public class StazioneIntermedia extends ElementoCatalogo{
 	
 	
 
-	public StazioneIntermedia(IDEsterno idEsternoViaggio, Info info){
-		super(new IDEsterno("(Diretto)"), new IDEsterno(idEsternoViaggio + "(Diretto)"));
+	public StazioneIntermedia(Info info){
+		super(new IDEsternoElemento("(Diretto)"));
 		
 		if (info.toString().equalsIgnoreCase("")) this.info = new Info();
 		else this.info = info;
@@ -30,8 +30,8 @@ public class StazioneIntermedia extends ElementoCatalogo{
 		this.info.updateInfo("--- Inserito il " + data.stampaDataAttuale());
 	}
 	
-	public StazioneIntermedia(IDEsterno idEsterno,IDEsterno idEsternoViaggio, Info info) {
-		super(idEsterno, idEsternoViaggio);
+	public StazioneIntermedia(IDEsternoElemento idEsterno, Info info) {
+		super(idEsterno);
 		
 		if (info.toString().equalsIgnoreCase("")) this.info = new Info();
 		else this.info = info;
@@ -42,8 +42,8 @@ public class StazioneIntermedia extends ElementoCatalogo{
 		this.info.updateInfo("--- Inserito il " + data.stampaDataAttuale());
 	}
 	
-	public StazioneIntermedia(IDEsterno idEsterno,IDEsterno idEsternoViaggio, Info info, Orologio data) {
-		super(idEsterno, idEsternoViaggio);
+	public StazioneIntermedia(IDEsternoElemento idEsterno, Info info, Orologio data) {
+		super(idEsterno);
 		
 		this.info = info;
 		this.data = data;

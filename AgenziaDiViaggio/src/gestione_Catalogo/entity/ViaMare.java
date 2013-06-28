@@ -7,7 +7,7 @@
 
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 
 import java.io.Serializable;
 
@@ -16,13 +16,13 @@ public class ViaMare extends Ambiente implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	public ViaMare(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
-		super(idEsternoElemento, idEsternoViaggio);
+	public ViaMare(IDEsternoElemento idEsternoElemento){
+		super(idEsternoElemento);
 		
 		}
 	
-	public ViaMare(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
-		super(idEsternoElemento, idEsternoViaggio, indice);
+	public ViaMare(IDEsternoElemento idEsternoElemento, Indice indice){
+		super(idEsternoElemento, indice);
 	}
 	
 	//ridefinisco il metodo equals

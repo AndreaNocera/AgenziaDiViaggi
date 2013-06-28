@@ -9,14 +9,14 @@ package gestione_Catalogo.entity;
 
 import java.io.Serializable;
 
-public class IDEsterno implements Serializable{
+public class IDEsternoElemento implements Serializable{
 	
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String IDEsterno;
 	
-	public IDEsterno(String IDEsterno){
+	public IDEsternoElemento(String IDEsterno){
 		this.IDEsterno = IDEsterno;
 	}
 	
@@ -38,7 +38,7 @@ public class IDEsterno implements Serializable{
 					
 		//ok, ora so che altroOggetto � un elemento non nullo, per cui faccio i confronti tra attributi
 					
-		IDEsterno nuovoElemento = (IDEsterno) altroObject;
+		IDEsternoElemento nuovoElemento = (IDEsternoElemento) altroObject;
 					
 		return (this.IDEsterno.equals(nuovoElemento.IDEsterno));  //devo ridefinire equals anche per IDEsterno (equals in profondita')
 	}

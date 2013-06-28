@@ -6,7 +6,7 @@
 
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 
 import java.io.Serializable;
 
@@ -17,12 +17,12 @@ public abstract class Ambiente extends ElementoCatalogo implements Serializable{
 
 	
 	//costruttori
-	public Ambiente(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio){
-		super(idEsternoElemento, idEsternoViaggio);
+	public Ambiente(IDEsternoElemento idEsternoElemento){
+		super(idEsternoElemento);
 		}
 	
-	public Ambiente(IDEsterno idEsternoElemento, IDEsterno idEsternoViaggio, Indice indice){
-		super(idEsternoElemento, idEsternoViaggio, indice);
+	public Ambiente(IDEsternoElemento idEsternoElemento, Indice indice){
+		super(idEsternoElemento, indice);
 	}
 	
 	

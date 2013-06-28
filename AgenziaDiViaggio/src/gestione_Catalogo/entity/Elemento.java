@@ -6,7 +6,7 @@
 
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.entity.IDEsterno;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 
 import java.io.Serializable;
@@ -18,17 +18,17 @@ public abstract class Elemento implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected IDEsterno 	idEsternoElemento;
+	protected IDEsternoElemento 	idEsternoElemento;
 	private   Indice	  	indice;
 	
 	
 	//Costruttori
-	public Elemento(IDEsterno idEsternoElemento){
+	public Elemento(IDEsternoElemento idEsternoElemento){
 		this.idEsternoElemento = idEsternoElemento;
 		indice = new Indice();
 	}
 	
-	public Elemento(IDEsterno idEsternoElemento, Indice indice){
+	public Elemento(IDEsternoElemento idEsternoElemento, Indice indice){
 		this.idEsternoElemento = idEsternoElemento;
 		this.indice = indice;
 	}
@@ -55,7 +55,7 @@ public abstract class Elemento implements Serializable {
 		return idEsternoElemento.toString();
 	}
 	
-	public IDEsterno getIDEsternoDiElemento(){
+	public IDEsternoElemento getIDEsternoDiElemento(){
 		return idEsternoElemento;
 	}
 	
