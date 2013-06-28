@@ -59,7 +59,7 @@ public class Catalogo {
 		
 		Set<String> ambienti = mappaCatalogo.keySet();
 		if (ambienti.isEmpty())
-			throw new MappaException("Nessun viaggio in catalogo!");
+			throw new MappaException("Non sono presenti Viaggi nel Catalogo.");
 		else
 			return ambienti;
 		
@@ -76,7 +76,7 @@ public class Catalogo {
 	
 	public Set<String> getChiaviCittaDiPartenza(String ambiente, String mezzo) throws IDEsternoElementoException {
 		
-		ElementoCatalogo elementoAmbiente = mappaCatalogo.get(ambiente);
+		ElementoIntermedio elementoAmbiente = mappaCatalogo.get(ambiente);
 		if (elementoAmbiente.esistenzaElemento(mezzo))
 			return elementoAmbiente.getElemento(mezzo).listaChiaviElementi(); 
 		else
@@ -87,7 +87,7 @@ public class Catalogo {
 	
 	public Set<String> getChiaviCittaDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
 		
-		ElementoCatalogo elementoMezzo = mappaCatalogo.get(ambiente).getElemento(mezzo);
+		ElementoIntermedio elementoMezzo = mappaCatalogo.get(ambiente).getElemento(mezzo);
 		if (elementoMezzo.esistenzaElemento(partenza))
 			return elementoMezzo.getElemento(partenza).listaChiaviElementi();
 		else 
@@ -97,7 +97,7 @@ public class Catalogo {
 	
 	public Set<String> getChiaviVia(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
 		
-		ElementoCatalogo elementoPartenza = mappaCatalogo.get(ambiente).getElemento(mezzo).getElemento(partenza);
+		ElementoIntermedio elementoPartenza = mappaCatalogo.get(ambiente).getElemento(mezzo).getElemento(partenza);
 		if (elementoPartenza.esistenzaElemento(arrivo)){
 			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
 		} else throw new IDEsternoElementoException("Citta' di arrivo "+arrivo+" non presente in catalogo");

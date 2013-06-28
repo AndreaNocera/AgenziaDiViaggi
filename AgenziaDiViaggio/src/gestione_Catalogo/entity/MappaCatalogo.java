@@ -7,7 +7,7 @@ import java.util.TreeMap;
  * Remo Sperlongano
  * Ivan Torre
  */
-public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
+public class MappaCatalogo extends TreeMap<String,ElementoIntermedio> {
 	
 
 	private static final long serialVersionUID = 1L;

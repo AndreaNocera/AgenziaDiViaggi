@@ -5,7 +5,7 @@ package gestione_Catalogo.entity;
  * Remo Sperlongano
  * Ivan Torre
  */
-public class Citta extends ElementoCatalogo {
+public class Citta extends ElementoIntermedio {
 	
 	private static int nextID = 1;
 	

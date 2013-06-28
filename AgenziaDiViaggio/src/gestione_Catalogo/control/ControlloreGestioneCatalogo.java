@@ -37,27 +37,27 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	}
 
 	
-	public Set<String> mostraMezziDiTrasportoInCatalogo(String ambiente) throws IDEsternoElementoException {
+	public Set<String> mostraMezziInCatalogo(String ambiente) throws IDEsternoElementoException {
 		
 		return catalogo.getChiaviMezzi(ambiente);
 		
 	}
 	
 
-	public Set<String> mostraStazioniDiPartenzaInCatalogo(String ambiente, String mezzo) throws IDEsternoElementoException {
+	public Set<String> mostraCittaDiPartenzaInCatalogo(String ambiente, String mezzo) throws IDEsternoElementoException {
 		
 		return catalogo.getChiaviCittaDiPartenza(ambiente, mezzo);
 				
 	}
 
 
-	public Set<String> mostraStazioniDiArrivoInCatalogo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
+	public Set<String> mostraCittaDiArrivoInCatalogo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
 
 		return catalogo.getChiaviCittaDiArrivo(ambiente, mezzo, partenza);
 		
 	}
 	
-	public Set<String> mostraStazioniIntermedieInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
+	public Set<String> mostraViaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
 		return catalogo.getChiaviVia(ambiente, mezzo, partenza, arrivo);
 	}
 	
