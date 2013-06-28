@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gestione_Catalogo.entity;
 
 import gestione_Catalogo.exception.IDEsternoElementoException;
@@ -33,9 +30,8 @@ public abstract class ElementoCatalogo {
 	
 	
 	//metodi
-	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException {   
-		if (esistenzaElemento(k)) return mappaCatalogo.get(k);
-		else throw new IDEsternoElementoException("Elemento "+k+" non presente");
+	public ElementoCatalogo getElemento(String k){   
+		return mappaCatalogo.get(k);
 	}
 	
 	public Set<String> listaChiaviElementi() {
@@ -47,18 +43,17 @@ public abstract class ElementoCatalogo {
 	}
 	
 	public boolean esistenzaElemento(ElementoCatalogo e){  //overloading, se in parametro gli passo un elemento
-		return mappaCatalogo.containsKey(e.getIDEsternoElemento());
+		return mappaCatalogo.containsKey(e.getIDEsternoElemento().toString());
 	}
 	
-	public void aggiungiElemento(String k, ElementoCatalogo e) throws IDEsternoElementoException {
+	public void aggiungiElemento(String k, ElementoCatalogo e){
 		mappaCatalogo.put(k, e);
 	}
 	
-	public void rimuoviElemento(String k) throws IDEsternoElementoException {
+	public void rimuoviElemento(String k){
 		mappaCatalogo.remove(k);
 	}
 		
-
 	
 	public Integer getID() {
 		return ID;

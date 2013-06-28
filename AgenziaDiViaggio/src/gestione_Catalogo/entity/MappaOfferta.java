@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gestione_Catalogo.entity;
 
 import java.util.TreeMap;
@@ -11,5 +8,11 @@ import java.util.TreeMap;
  * Ivan Torre
  */
 public class MappaOfferta extends TreeMap<Data,Offerta>{
+
+	private static final long serialVersionUID = 1L;
+
+	public MappaOfferta(){
+		super();
+	}
 
 }

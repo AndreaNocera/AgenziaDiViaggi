@@ -1,5 +1,10 @@
 package gestione_Catalogo.control;
 
+/**
+ * @authors 
+ * Remo Sperlongano
+ * Ivan Torre
+ */
 import gestione_Catalogo.entity.Catalogo;
 import gestione_Catalogo.entity.Log;
 

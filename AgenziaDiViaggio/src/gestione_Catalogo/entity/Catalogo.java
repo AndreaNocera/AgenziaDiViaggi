@@ -1,7 +1,7 @@
-/**
- * 
- */
 package gestione_Catalogo.entity;
+
+import gestione_Catalogo.exception.IDEsternoElementoException;
+import gestione_Catalogo.exception.MappaException;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -55,12 +55,53 @@ public class Catalogo {
 	}
 	
 	
-	public Set<String> getChiaviAmbienti(){
-		return mappaCatalogo.keySet();
+	public Set<String> getChiaviAmbienti() throws MappaException {
+		
+		Set<String> ambienti = mappaCatalogo.keySet();
+		if (ambienti.isEmpty())
+			throw new MappaException("Nessun viaggio in catalogo!");
+		else
+			return ambienti;
+		
 	}
 	
-	public Set<String> getChiaviMezzi(String ambiente){
-		return mappaCatalogo.get(ambiente).listaChiaviElementi();
+	public Set<String> getChiaviMezzi(String ambiente) throws IDEsternoElementoException {
+		
+		if (mappaCatalogo.containsKey(ambiente))
+			return mappaCatalogo.get(ambiente).listaChiaviElementi();
+		else
+			throw new IDEsternoElementoException("Ambiente "+ambiente+" non presente in catalogo");
+		
+	}
+	
+	public Set<String> getChiaviCittaDiPartenza(String ambiente, String mezzo) throws IDEsternoElementoException {
+		
+		ElementoCatalogo elementoAmbiente = mappaCatalogo.get(ambiente);
+		if (elementoAmbiente.esistenzaElemento(mezzo))
+			return elementoAmbiente.getElemento(mezzo).listaChiaviElementi(); 
+		else
+			throw new IDEsternoElementoException("Mezzo "+mezzo+" non presente in catalogo");
+		
+	}
+	
+	
+	public Set<String> getChiaviCittaDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
+		
+		ElementoCatalogo elementoMezzo = mappaCatalogo.get(ambiente).getElemento(mezzo);
+		if (elementoMezzo.esistenzaElemento(partenza))
+			return elementoMezzo.getElemento(partenza).listaChiaviElementi();
+		else 
+			throw new IDEsternoElementoException("Citta' di partenza "+partenza+" non presente in catalogo");
+	
+	}
+	
+	public Set<String> getChiaviVia(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
+		
+		ElementoCatalogo elementoPartenza = mappaCatalogo.get(ambiente).getElemento(mezzo).getElemento(partenza);
+		if (elementoPartenza.esistenzaElemento(arrivo)){
+			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
+		} else throw new IDEsternoElementoException("Citta' di arrivo "+arrivo+" non presente in catalogo");
+		
 	}
 }
 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gestione_Catalogo.entity;
 
 /**
@@ -14,14 +11,22 @@ public class Via extends ElementoCatalogo  {
 	
 	private MappaOfferta mappaOfferta;
 	
+	
+	public Via(){
+		super(nextID, new IDEsternoElemento("(Diretto)"));
+		nextID++;
+		
+		mappaCatalogo = null;
+		mappaOfferta = new MappaOfferta();
+	}
+	
+	
 	public Via(IDEsternoElemento idEsternoElemento){
 		super(nextID, idEsternoElemento);
 		nextID++;
 		
 		mappaCatalogo = null;
-		mappaOfferta = new MappaOfferta();
-		
-		
+		mappaOfferta = new MappaOfferta();	
 	}
 
 }

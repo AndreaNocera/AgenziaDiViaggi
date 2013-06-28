@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gestione_Catalogo.dao;
 
 /**

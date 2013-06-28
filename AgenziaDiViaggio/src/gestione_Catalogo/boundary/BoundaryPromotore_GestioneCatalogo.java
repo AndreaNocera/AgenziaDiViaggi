@@ -733,7 +733,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	
 	private void caricaCatalogo(){
 		
-		boolean b = true;
+	/*	boolean b = true;
 		try {
 			controllore.carica();
 		} catch (DeserializzazioneException e) {
@@ -745,7 +745,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		if (b){
 			JOptionPane.showMessageDialog(null, "E' stato caricato il catalogo", "Catalogo Caricato", JOptionPane.INFORMATION_MESSAGE);
 		}
-		
+	*/	
 	}
 	
 	private void avviaThread(){
@@ -775,13 +775,13 @@ public class BoundaryPromotore_GestioneCatalogo {
 		 * Torna al pannello precedente e serializza!
 		 */
 		public void actionPerformed(ActionEvent arg0) {
-		
+	/*	
 			try {  //Salva gli articoli all'uscita
 				controllore.salva();
 			} catch (SerializzazioneException e){
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 			}
-			
+	*/		
 			superPanel.setVisible(false);
 			BoundaryAAAprimaria.superPanel.setVisible(true);
 		//	BoundaryAAAprimaria.confinePrincipale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -797,13 +797,13 @@ public class BoundaryPromotore_GestioneCatalogo {
 		 * Esce dal programma ma serializza!!!!
 		 */
 		public void actionPerformed(ActionEvent arg0) {
-			
+		/*	
 			try {  //Salva gli articoli all'uscita
 				controllore.salva();
 			} catch (SerializzazioneException e){
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 			}
-			
+		*/	
 			System.exit(0);
 		}
 		
@@ -1124,7 +1124,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					
 				} catch (IDEsternoElementoException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Attenzione!", JOptionPane.WARNING_MESSAGE);
-				} catch (ClassNotFoundException e1) {
+	/*			} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (NoSuchMethodException e1) {
@@ -1145,7 +1145,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 				} catch (InvocationTargetException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+			*/	}
 				
 	
 			
@@ -1548,13 +1548,13 @@ public class BoundaryPromotore_GestioneCatalogo {
 				if (conferma == JOptionPane.YES_OPTION){
 					
 					// rimuovo il viaggio
-					try {
+				//	try {
 						controllore.rimuoviViaggio(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, stazioneIntermedia);
 						JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
 						//aggiorno tutti i campi dopo aver rimosso il viaggio
 						aggiornaTendinePannello5();
 						
-					} catch (IDEsternoElementoException e1) {
+	/*				} catch (IDEsternoElementoException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 					} catch (OffertaException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
@@ -1580,7 +1580,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+			*/		
 				}
 					
 			} else {
