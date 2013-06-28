@@ -38,35 +38,28 @@ public class DBTest {
 		
 		
 		
-		System.out.println("Creo Tabella indice");
-		createQuery = 
-				"CREATE TABLE IF NOT EXISTS INDICE(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"NEROGATI INTEGER " +
-						")";
-		ps = conn.prepareStatement(createQuery);
-		ps.executeUpdate();
 		
-		System.out.println("Creo Tabella VIAARIA");
+		
+		/*System.out.println("Creo Tabella AMBIENTE");
 		createQuery = 
-				"CREATE TABLE IF NOT EXISTS VIAARIA(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"IDESTERNOELEMENTO VARCHAR(100), " +
-						"FOREIGN KEY (IDESTERNOVIAGGIO) REFERENCES INDICE (IDESTERNOVIAGGIO)" +
+				"CREATE TABLE IF NOT EXISTS AMBIENTE(" +
+						"ID INTEGER PRIMARY KEY, " +
+						"IDESTERNO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
 		ps.executeUpdate();
+		*/
 		
 		
 		
 		
-		System.out.println("Creo Tabella VIAMARE");
+		
+		System.out.println("Creo Tabella MEZZO");
 		createQuery = 
-				"CREATE TABLE IF NOT EXISTS VIAMARE(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"IDESTERNOELEMENTO VARCHAR(100), " +
-						"FOREIGN KEY (IDESTERNOVIAGGIO) REFERENCES INDICE (IDESTERNOVIAGGIO)" +
+				"CREATE TABLE IF NOT EXISTS MEZZO(" +
+						"ID INTEGER PRIMARY KEY, " +
+						"IDESTERNO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
@@ -74,12 +67,11 @@ public class DBTest {
 		
 		
 		
-		System.out.println("Creo Tabella VIATERRA");
+		System.out.println("Creo Tabella CITTAPARTENZA");
 		createQuery = 
-				"CREATE TABLE IF NOT EXISTS VIATERRA(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"IDESTERNOELEMENTO VARCHAR(100), " +
-						"FOREIGN KEY (IDESTERNOVIAGGIO) REFERENCES INDICE (IDESTERNOVIAGGIO)" +
+				"CREATE TABLE IF NOT EXISTS CITTAPARTENZA(" +
+						"ID INTEGER PRIMARY KEY, " +
+						"IDESTERNO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
@@ -87,52 +79,22 @@ public class DBTest {
 		
 		
 		
-		System.out.println("Creo Tabella MEZZOTRASPORTO");
+		System.out.println("Creo Tabella CITTAARRIVO");
 		createQuery = 
-				"CREATE TABLE IF NOT EXISTS MEZZOTRASPORTO(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"IDESTERNOELEMENTO VARCHAR(100), " +
-						"FOREIGN KEY (IDESTERNOVIAGGIO) REFERENCES INDICE (IDESTERNOVIAGGIO)" +
+				"CREATE TABLE IF NOT EXISTS CITTAARRIVO(" +
+						"ID INTEGER PRIMARY KEY, " +
+						"IDESTERNO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
 		ps.executeUpdate();
 		
 		
-		
-		System.out.println("Creo Tabella STAZIONEPARTENZA");
+		System.out.println("Creo Tabella VIA");
 		createQuery = 
-				"CREATE TABLE IF NOT EXISTS STAZIONEPARTENZA(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"IDESTERNOELEMENTO VARCHAR(100), " +
-						"FOREIGN KEY (IDESTERNOVIAGGIO) REFERENCES INDICE (IDESTERNOVIAGGIO)" +
-						")";
-		
-		ps = conn.prepareStatement(createQuery);
-		ps.executeUpdate();
-		
-		
-		
-		System.out.println("Creo Tabella STAZIONEARRIVO");
-		createQuery = 
-				"CREATE TABLE IF NOT EXISTS STAZIONEARRIVO(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"IDESTERNOELEMENTO VARCHAR(100), " +
-						"FOREIGN KEY (IDESTERNOVIAGGIO) REFERENCES INDICE (IDESTERNOVIAGGIO)" +
-						")";
-		
-		ps = conn.prepareStatement(createQuery);
-		ps.executeUpdate();
-		
-		
-		System.out.println("Creo Tabella STAZIONEINTERMEDIA");
-		createQuery = 
-				"CREATE TABLE IF NOT EXISTS STAZIONEINTERMEDIA(" +
-						"IDESTERNOVIAGGIO VARCHAR(100) PRIMARY KEY, " +
-						"IDESTERNOELEMENTO VARCHAR(100), " +
-						"INFO VARCHAR(100), " +
-						"DATA DATE, " +
-						"FOREIGN KEY (IDESTERNOVIAGGIO) REFERENCES INDICE (IDESTERNOVIAGGIO)" +
+				"CREATE TABLE IF NOT EXISTS VIA(" +
+						"ID INTEGER PRIMARY KEY, " +
+						"IDESTERNO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
@@ -141,20 +103,21 @@ public class DBTest {
 		
 		
 		
-		
-		
-		
-		
-		
-		System.out.println("Creo Tabella catalogo");
+		System.out.println("Creo Tabella CATALOGO");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS CATALOGO(" +
-						"ID VARCHAR(20) PRIMARY KEY, " +
-						"AMBIENTE VARCHAR(100), " +
-						"MEZZO VARCHAR(100), " +
-						"STAZIONEPARTENZA VARCHAR(100), " +
-						"STAZIONEARRIVO VARCHAR(100), " +
-						"STAZIONEINTERMEDIA VARCHAR(100)" +
+						"ID INTEGER PRIMARY KEY, " +
+						"AMBIENTE VARCHAR(30), " +
+						"MEZZO INTEGER, " +
+						"CITTAPARTENZA INTEGER, " +
+						"CITTAARRIVO INTEGER, " +
+						"VIA INTEGER, " +
+						"INFO VARCHAR(100), " +
+						"DATA DATE, " +
+						"FOREIGN KEY (MEZZO) REFERENCES MEZZO (ID), " +
+						"FOREIGN KEY (CITTAPARTENZA) REFERENCES CITTAPARTENZA (ID), " +
+						"FOREIGN KEY (CITTAARRIVO) REFERENCES CITTAARRIVO (ID), " +
+						"FOREIGN KEY (VIA) REFERENCES VIA (ID) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
