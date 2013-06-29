@@ -1,5 +1,8 @@
 package gestione_Catalogo.dao;
 
+import gestione_Catalogo.entity.Citta;
+import gestione_Catalogo.exception.DAOException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,7 +52,7 @@ public class CittaDAO extends DAO{
 	private static PreparedStatement ps = null;
 	private static ResultSet rs = null;
 
-	private DAOCitta() {
+	private CittaDAO() {
 		try {
 			Class.forName(driverName);
 
@@ -61,9 +64,6 @@ public class CittaDAO extends DAO{
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,10 +72,10 @@ public class CittaDAO extends DAO{
 		}
 	}
 
-	public static DAOCitta getIstance() {
-		if (istance == null)
-			istance = new DAOCitta();
-		return istance;
+	public static CittaDAO getIstanza() {
+		if (istanza == null)
+			istanza = new CittaDAO();
+		return istanza;
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class CittaDAO extends DAO{
 		try {
 			citta = (Citta) obj;
 			
-			System.out.println("Citta da inserire: " + citta.getValore());
+			System.out.println("Citta da inserire: " + citta.getIDEsternoElemento().toString());
 			//Situazione 1. Tabella vuota. Inserisco.
 			
 			conn = getConnection(usr, pass);
@@ -94,8 +94,8 @@ public class CittaDAO extends DAO{
 			if(!rs.next()){
 				ps = conn.prepareStatement(insertQuery);
 
-				ps.setInt(1, citta.getId());
-				ps.setString(2, citta.getValore());
+				ps.setInt(1, citta.getID());
+				ps.setString(2, citta.getIDEsternoElemento().toString());
 
 				ps.executeUpdate();
 			}
@@ -103,22 +103,22 @@ public class CittaDAO extends DAO{
 			//Situazione 2. Elemento non presente.
 			ps = conn.prepareStatement(findQuery);
 
-			ps.setInt(1, citta.getId());
+			ps.setInt(1, citta.getID());
 			
 			rs = ps.executeQuery();
 			
 			if(!rs.next()){
 				ps = conn.prepareStatement(insertQuery);
 	
-				ps.setInt(1, citta.getId());
-				ps.setString(2, citta.getValore());
+				ps.setInt(1, citta.getID());
+				ps.setString(2, citta.getIDEsternoElemento().toString());
 				
-				System.out.println("Inserisco citta: " + citta.getValore());
+				System.out.println("Inserisco citta: " + citta.getIDEsternoElemento().toString());
 				
 				ps.executeUpdate();
 			}
 			//Situazione 3.Elemento Presente. Non inserisco.
-			System.out.println("Elemento presente: " + citta.getValore());
+			System.out.println("Elemento presente: " + citta.getIDEsternoElemento().toString());
 			
 		} catch (ClassCastException e) {
 			throw new DAOException("Errore in insert ClassCastException.");
@@ -129,7 +129,6 @@ public class CittaDAO extends DAO{
 
 	@Override
 	public Citta read(Integer id) throws DAOException {
-		Citta citta = new Citta();
 		try {
 			conn = getConnection(usr, pass);
 
@@ -140,10 +139,10 @@ public class CittaDAO extends DAO{
 			rs = ps.executeQuery();
 
 			rs.next();
-			citta.setId(rs.getInt(1));
-			citta.setValore(rs.getString(2));
+			Integer i = rs.getInt(1);
+			String s = rs.getString(2);
 
-			return citta;
+			return new Città(i, new IDEsternoElemento(s));
 
 		} catch (ClassCastException e) {
 			throw new DAOException("Errore in read.");
@@ -163,9 +162,8 @@ public class CittaDAO extends DAO{
 
 			ps = conn.prepareStatement(updateQuery);
 
-			ps.setInt(1, citta.getId());
-			ps.setString(2, citta.getValore());
-			ps.setInt(3, citta.getId());
+			ps.setString(1, citta.getIDEsternoElemento().toString());
+			ps.setInt(2, citta.getID());
 
 			ps.executeUpdate();
 
@@ -188,7 +186,7 @@ public class CittaDAO extends DAO{
 
 			ps = conn.prepareStatement(deleteQuery);
 
-			ps.setInt(1, citta.getId());
+			ps.setInt(1, citta.getID());
 
 			ps.executeUpdate();
 
@@ -244,7 +242,7 @@ public class CittaDAO extends DAO{
 	}
 	
 	public Integer getIdByValue(String valore) throws DAOException {
-		String query = "SELECT * FROM `citta` WHERE `value` = ?";
+		String query = "SELECT * FROM CITTA WHERE IDESTERNOELEMENTO=?";
 		ResultSet rs = null;
 		try {
 			conn = getConnection(usr, pass);
@@ -270,9 +268,6 @@ public class CittaDAO extends DAO{
 			rs = ps.executeQuery();
 			rs.last();
 			return rs.getInt(1) + 1;
-		} catch (ConnectionException e) {
-			// TODO Auto-generated catch block
-			throw new DAOException("Errore in getID.");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getID.");
@@ -285,7 +280,7 @@ public class CittaDAO extends DAO{
 	 * @return
 	 */
 	public String getValueById(Integer id) throws DAOException{
-		String query = "SELECT * FROM `citta` WHERE `id` = ?";
+		String query = "SELECT * FROM CITTA WHERE ID=?";
 		ResultSet rs = null;
 		try {
 			//Situazione 2. Elemento presente
@@ -299,9 +294,6 @@ public class CittaDAO extends DAO{
 				return rs.getString(2); 
 			}
 			
-			throw new DAOException("Errore in getValue.");
-		} catch (ConnectionException e) {
-			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getValue.");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

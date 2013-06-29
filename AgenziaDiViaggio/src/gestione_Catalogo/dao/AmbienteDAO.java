@@ -163,9 +163,8 @@ public class AmbienteDAO extends DAO {
 
 			ps = conn.prepareStatement(updateQuery);
 
-			ps.setInt(1, ambiente.getID());
-			ps.setString(2, ambiente.getIDEsternoElemento().toString());
-			ps.setInt(3, ambiente.getID());
+			ps.setString(1, ambiente.getIDEsternoElemento().toString());
+			ps.setInt(2, ambiente.getID());
 
 			ps.executeUpdate();
 

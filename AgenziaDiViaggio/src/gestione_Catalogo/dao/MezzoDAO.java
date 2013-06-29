@@ -159,9 +159,8 @@ public class MezzoDAO extends DAO {
 
 			ps = conn.prepareStatement(updateQuery);
 
-			ps.setInt(1, mezzo.getID());
-			ps.setString(2, mezzo.getIDEsternoElemento().toString());
-			ps.setInt(3, mezzo.getID());
+			ps.setString(1, mezzo.getIDEsternoElemento().toString());
+			ps.setInt(2, mezzo.getID());
 
 			ps.executeUpdate();
 
@@ -234,7 +233,7 @@ public class MezzoDAO extends DAO {
 	}
 	
 	public Integer getIdByValue(String valore) throws DAOException {
-		String query = "SELECT * FROM `mezzi` WHERE `value` = ?";
+		String query = "SELECT * FROM MEZZI WHERE IDESTERNOELEMENTO=?";
 		ResultSet rs = null;
 		try {
 			conn = getConnection(usr, pass);
