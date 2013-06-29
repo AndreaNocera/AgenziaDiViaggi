@@ -40,7 +40,7 @@ public class DBTest {
 		
 		
 		
-		/*System.out.println("Creo Tabella AMBIENTE");
+		System.out.println("Creo Tabella AMBIENTE");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS AMBIENTE(" +
 						"ID INTEGER PRIMARY KEY, " +
@@ -49,7 +49,7 @@ public class DBTest {
 		
 		ps = conn.prepareStatement(createQuery);
 		ps.executeUpdate();
-		*/
+		
 		
 		
 		
