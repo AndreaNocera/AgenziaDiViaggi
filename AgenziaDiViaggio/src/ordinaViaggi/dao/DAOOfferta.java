@@ -16,6 +16,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
@@ -27,11 +29,9 @@ import java.sql.SQLException;
 public class DAOOfferta extends DAO {
 	private static DAOOfferta istance = null;
 
-	
 	private static final String getOffertaQuery = "SELECT * FROM `offerta`";
-	
-	private static final String insertQuery = 
-			"INSERT INTO `offerta`(`idOfferta`, `idTratta`, `giorno`, `mese`, `anno`, `ora`, `minuti`, `posti`) "
+
+	private static final String insertQuery = "INSERT INTO `offerta`(`idOfferta`, `idTratta`, `giorno`, `mese`, `anno`, `ora`, `minuti`, `posti`) "
 			+ "VALUES (?,?,?,?,?,?,?,?)";
 
 	private static final String deleteQuery = "DELETE FROM `offerta` WHERE `idOfferta`=?";
@@ -43,9 +43,9 @@ public class DAOOfferta extends DAO {
 	private static PreparedStatement ps = null;
 	private static ResultSet rs = null;
 
-
 	/**
-	 * Il DAO dell'offerta si occupa della gestione delle tuple nella tabella offerta.
+	 * Il DAO dell'offerta si occupa della gestione delle tuple nella tabella
+	 * offerta.
 	 */
 	private DAOOfferta() {
 		try {
@@ -114,7 +114,7 @@ public class DAOOfferta extends DAO {
 			offerta.setIdOfferta(rs.getInt(1));
 			offerta.setIdTratta(rs.getInt(2));
 			offerta.setData(new Data(rs.getInt(3), rs.getInt(4), rs.getInt(5)));
-			offerta.setOra(new Ora(rs.getInt(6),rs.getInt(7)));
+			offerta.setOra(new Ora(rs.getInt(6), rs.getInt(7)));
 			offerta.setPosti(rs.getInt(8));
 
 			return offerta;
@@ -125,10 +125,12 @@ public class DAOOfferta extends DAO {
 			throw new DAOException("Errore in read. SQLException");
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
-			throw new DAOException("Errore in read.Inserimento scorretto delle data.");
+			throw new DAOException(
+					"Errore in read.Inserimento scorretto delle data.");
 		} catch (OraException e) {
 			// TODO Auto-generated catch block
-			throw new DAOException("Errore in read.Inserimento scorretto dell'ora.");
+			throw new DAOException(
+					"Errore in read.Inserimento scorretto dell'ora.");
 		}
 	}
 
@@ -162,7 +164,7 @@ public class DAOOfferta extends DAO {
 		}
 
 	}
-	
+
 	public Integer getNextId() throws DAOException {
 		try {
 			// Situazione 1. Tabella Vuota. Id da ritornare 1.
@@ -182,4 +184,39 @@ public class DAOOfferta extends DAO {
 		}
 	}
 
+	public List<Offerta> getListaOfferta() throws SQLException, DataException, OraException {
+		// TODO Auto-generated method stub
+		List<Offerta> listOfferte = new ArrayList<Offerta>();
+
+		conn = getConnection(usr, pass);
+
+		ps = conn.prepareStatement(getOffertaQuery);
+
+		rs = ps.executeQuery();
+
+		while (rs.next()) {
+			Offerta offerta = new Offerta();
+			offerta.setIdOfferta(rs.getInt(1));
+			offerta.setIdTratta(rs.getInt(2));
+			offerta.setData(new Data(rs.getInt(3), rs.getInt(4), rs.getInt(5)));
+			offerta.setOra(new Ora(rs.getInt(6), rs.getInt(7)));
+			offerta.setPosti(rs.getInt(8));
+			listOfferte.add(offerta);
+		}
+		return listOfferte;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

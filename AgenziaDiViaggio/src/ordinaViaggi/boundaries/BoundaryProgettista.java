@@ -1,10 +1,15 @@
 package ordinaViaggi.boundaries;
 
-import ordinaViaggi.control.ControlloreProgettista;
+import ordinaViaggi.exception.CatalogoException;
+import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
+import ordinaViaggi.exception.MapException;
+import ordinaViaggi.exception.OraException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,8 +26,6 @@ public class BoundaryProgettista extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -1509189593795356946L;
-	private ControlloreProgettista controlloreProgettista = null;
-	private BoundaryProgettista boundaryProgettista = this;
 
 	public static JPanel pannelloProgettista;
 	public static JPanel pannelloSelezionaViaggioOfferta;
@@ -47,8 +50,6 @@ public class BoundaryProgettista extends JFrame {
 
 	public BoundaryProgettista() 
 	{
-
-		this.controlloreProgettista = ControlloreProgettista.getIstance();
 
 		pannelloProgettista = new JPanel();
 
@@ -114,7 +115,27 @@ public class BoundaryProgettista extends JFrame {
 				 * mettere singleton. Altrimenti crea una nuova
 				 * BoundaryClienteOrdinaViaggi a ogni passaggio back->Ritorno.
 				 */
-				new BoundaryProgettistaGestioneOfferta();
+				try {
+					new BoundaryProgettistaGestioneOfferta();
+				} catch (DAOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (MapException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (OraException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CatalogoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 

@@ -2,7 +2,10 @@ package ordinaViaggi.exception;
 
 public class DeserializzazioneException extends Exception
 {
-	private static final long	serialVersionUID	= 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8718334296658133191L;
 
 	public DeserializzazioneException()
 	{

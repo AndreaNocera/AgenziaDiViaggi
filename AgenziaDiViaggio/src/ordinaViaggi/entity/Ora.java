@@ -26,10 +26,26 @@ public class Ora {
 	public void setOra(Integer ora) {
 		this.ora = ora;
 	}
+	public String getString(){
+		String min;
+		if(minuti < 10)
+			min = "0" + minuti;
+		else 
+			min = minuti.toString();
+		return ora + ":" + min;
+	}
+	public boolean contains(Integer ora, Integer minuti) {
+		// TODO Auto-generated method stub
+		if(this.ora.equals(ora) && this.minuti.equals(minuti))
+			return true;
+		return false;
+	}
 	public void print(){
 		System.out.print(ora + ":");
 		if(minuti < 10)
 			System.out.print("0");
 		System.out.print(minuti + " ");
 	}
+
+	
 }

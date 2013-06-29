@@ -10,11 +10,14 @@ import ordinaViaggi.entity.Tratta;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.ControllerException;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 import ordinaViaggi.exception.MapException;
+import ordinaViaggi.exception.OraException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Gambella Riccardo Controllore Promotore.
@@ -22,49 +25,40 @@ import java.io.InputStreamReader;
 
 public class ControllorePromotore extends Controllore {
 	private static ControllorePromotore istance = null;
-
-	public ControllorePromotore() {
+	private static Catalogo catalogo = null;
+	private static DAOCatalogo daoCatalogo = null;
+	private static DAOAmbiente daoAmbiente = null;
+	private static DAOMezzo daoMezzo = null;
+	private static DAOCitta daoCitta = null;
+	private static DAOVia daoVia = null;
+	
+	public ControllorePromotore() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
 		super();
+		catalogo = Catalogo.getIstance();
+		daoCatalogo = DAOCatalogo.getIstance();
+		daoAmbiente = DAOAmbiente.getIstance();
+		daoMezzo = DAOMezzo.getIstance();
+		daoCitta = DAOCitta.getIstance();
+		daoVia = DAOVia.getIstance();
 	}
 
-	public static ControllorePromotore getIstance() {
+	public static ControllorePromotore getIstance() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
 		if (istance == null)
 			istance = new ControllorePromotore();
 		return istance;
 	}
 
-	public void inserimentoCatalogo() throws ControllerException, IOException,
-			DAOException, MapException, CatalogoException {
+	public void inserimentoCatalogo(String ambiente, String mezzo,
+			String cittaPartenza, String cittaArrivo, String via)
+			throws ControllerException, IOException, DAOException,
+			MapException, CatalogoException, SQLException, DataException,
+			OraException {
 		System.out.println("Inserimento nel catalogo");
 		// Richiesta inserimento di Ambiente, Mezzo, CittaPartenza, CittaArrivo
 		// da StdIn
 		Tratta tratta = new Tratta();
-		String ambiente = null;
-		String mezzo = null;
-		String cittaPartenza = null;
-		String cittaArrivo = null;
-		String via = null;
 
 		Integer id = null;
-
-		BufferedReader input = new BufferedReader(new InputStreamReader(
-				System.in));
-		System.out.print("Inserire l'ambiente.\r\n");
-		ambiente = input.readLine();
-		System.out.print("Inserire il mezzo.\r\n");
-		mezzo = input.readLine();
-		System.out.print("Inserire la città di partenza.\r\n");
-		cittaPartenza = input.readLine();
-		System.out.print("Inserire la città di arrivo.\r\n");
-		cittaArrivo = input.readLine();
-		System.out.println("Inserire la via (Tratte intermedie)");
-		via = input.readLine();
-
-		DAOCatalogo daoCatalogo = DAOCatalogo.getIstance();
-		DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
-		DAOMezzo daoMezzo = DAOMezzo.getIstance();
-		DAOCitta daoCitta = DAOCitta.getIstance();
-		DAOVia daoVia = DAOVia.getIstance();
 
 		// Prende un nuovo id per la costruzione della tratta.
 		id = daoCatalogo.getNextId();
@@ -80,47 +74,19 @@ public class ControllorePromotore extends Controllore {
 		System.out.print("Tratta da inserire: ");
 		tratta.printTratta();
 
-		Catalogo catalogo = Catalogo.getIstance();
 		catalogo.inserimentoInCatalogo(tratta);
-		System.out.println("Catalogo presente dopo l'inserimento\n");
-		catalogo.printCatalogo();
-		System.out.println("Mappa presente dopo l'inserimento.");
-		catalogo.printMapCatalogo();
-
 	}
 
-	public void rimozioneInCatalogo() throws ControllerException, IOException,
-			DAOException, MapException, CatalogoException {
-		System.out.println("Inserimento nel catalogo");
-		// Richiesta inserimento di Ambiente, Mezzo, CittaPartenza, CittaArrivo
-		// da StdIn
-		String ambiente = null;
-		String mezzo = null;
-		String cittaPartenza = null;
-		String cittaArrivo = null;
-		String via = null;
-
-		BufferedReader input = new BufferedReader(new InputStreamReader(
-				System.in));
-		System.out.print("Inserire l'ambiente.\r\n");
-		ambiente = input.readLine();
-		System.out.print("Inserire il mezzo.\r\n");
-		mezzo = input.readLine();
-		System.out.print("Inserire la città di partenza.\r\n");
-		cittaPartenza = input.readLine();
-		System.out.print("Inserire la città di arrivo.\r\n");
-		cittaArrivo = input.readLine();
-		System.out.println("Inserire la via (Tratte intermedie)");
-		via = input.readLine();
-
-		DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
-		DAOMezzo daoMezzo = DAOMezzo.getIstance();
-		DAOCitta daoCitta = DAOCitta.getIstance();
-		DAOVia daoVia = DAOVia.getIstance();
+	public void rimozioneInCatalogo(String ambiente, String mezzo,
+			String cittaPartenza, String cittaArrivo, String via)
+			throws ControllerException, IOException, DAOException,
+			MapException, CatalogoException, SQLException, DataException,
+			OraException {
+		
+		System.out.println("Rimozione nel catalogo");
 
 		// Ottengo la tratta dal catalogo.
 		// Deve esistere oppure ci sono errori nelle comboBox.
-		Catalogo catalogo = Catalogo.getIstance();
 		Tratta tratta = catalogo.getTrattaByValue(
 				daoAmbiente.getObjectByValue(ambiente),
 				daoMezzo.getObjectByValue(mezzo),
@@ -130,21 +96,29 @@ public class ControllorePromotore extends Controllore {
 
 		System.out.println("Tratta da rimuovere.");
 		tratta.printTratta();
-		
-		catalogo.rimozioneInCatalogo(tratta);
-		System.out.println("Catalogo presente dopo la rimozione\n");
-		catalogo.printCatalogo();
 
+		catalogo.rimozioneInCatalogo(tratta);
 	}
 
-	public void printCatalogo() throws ControllerException, DAOException,
-			MapException, CatalogoException {
+	public List<String> visualizzaCatalogo() throws ControllerException,
+			DAOException, MapException, CatalogoException, SQLException,
+			DataException, OraException {
 		// TODO Auto-generated method stub
-		Catalogo catalogo = Catalogo.getIstance();
-		System.out.println("Lista catalogo.");
-		catalogo.printCatalogo();
-		System.out.println("Mappa presente.");
-		catalogo.printMapCatalogo();
+		List<String> listaTratte = new ArrayList<String>();
+		List<Tratta> tratte = catalogo.visualizzaCatalogo();
+		for (Tratta tratta : tratte) {
+			listaTratte.add(tratta.getString());
+		}
+		return listaTratte;
+	}
+
+	public boolean verificaDati(String ambiente, String mezzo,
+			String cittaPartenza, String cittaArrivo, String via) {
+		if (ambiente.equals("") || mezzo.equals("") || cittaPartenza.equals("")
+				|| cittaArrivo.equals("") || via.equals(""))
+			return false;
+		return true;
+
 	}
 
 }

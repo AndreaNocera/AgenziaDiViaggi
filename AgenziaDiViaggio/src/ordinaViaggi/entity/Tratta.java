@@ -91,11 +91,18 @@ public class Tratta {
 		DAOTratta daoTratta = DAOTratta.getIstance();
 		daoTratta.insert(this);
 	}
-	
+
 	public void delete() throws DAOException {
 		// TODO Auto-generated method stub
 		DAOTratta daoTratta = DAOTratta.getIstance();
 		daoTratta.delete(this);
+	}
+
+	public String getString() {
+		return (id + " " + ambiente.getValore() + " " + mezzo.getValore() + " "
+				+ cittaPartenza.getValore() + " " + cittaArrivo.getValore()
+				+ " " + via.getValore() + ".");
+
 	}
 
 	public void printTratta() {
@@ -114,5 +121,4 @@ public class Tratta {
 		return false;
 	}
 
-	
 }

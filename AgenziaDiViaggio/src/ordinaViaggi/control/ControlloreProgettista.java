@@ -21,9 +21,8 @@ import ordinaViaggi.exception.DataException;
 import ordinaViaggi.exception.MapException;
 import ordinaViaggi.exception.OraException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +31,26 @@ import java.util.List;
  */
 public class ControlloreProgettista extends Controllore {
 	private static ControlloreProgettista istance = null;
-
-	public ControlloreProgettista() {
+	private static Catalogo catalogo = null;
+	private static DAOAmbiente daoAmbiente = null;
+	private static DAOMezzo daoMezzo = null;
+	private static DAOCitta daoCitta = null;
+	private static DAOVia daoVia = null;
+	private static DAOOfferta daoOfferta = null;
+	
+	
+	public ControlloreProgettista() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
 		super();
+		catalogo = Catalogo.getIstance();
+		daoAmbiente = DAOAmbiente.getIstance();
+		daoMezzo = DAOMezzo.getIstance();
+		daoCitta = DAOCitta.getIstance();
+		daoVia = DAOVia.getIstance();
+		daoOfferta = DAOOfferta.getIstance();
+		
 	}
 
-	public static ControlloreProgettista getIstance() {
+	public static ControlloreProgettista getIstance() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
 		if (istance == null)
 			istance = new ControlloreProgettista();
 		return istance;
@@ -49,8 +62,13 @@ public class ControlloreProgettista extends Controllore {
 	 * @return
 	 * @throws DAOException
 	 * @throws MapException
+	 * @throws CatalogoException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
 	 */
-	public List<String> estrazioneAmbienti() throws DAOException, MapException {
+	public List<String> estrazioneAmbienti() throws DAOException, MapException,
+			SQLException, DataException, OraException, CatalogoException {
 		Catalogo catalogo = Catalogo.getIstance();
 		List<Ambiente> listaAmbienti = catalogo.getAmbienti();
 		List<String> lista = new ArrayList<String>();
@@ -66,10 +84,14 @@ public class ControlloreProgettista extends Controllore {
 	 * @return
 	 * @throws DAOException
 	 * @throws MapException
+	 * @throws CatalogoException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
 	 */
 	public List<String> estrazioneMezzi(String ambiente) throws DAOException,
-			MapException {
-		Catalogo catalogo = Catalogo.getIstance();
+			MapException, SQLException, DataException, OraException,
+			CatalogoException {
 		List<Mezzo> listaMezzi = catalogo.getMezzi(ambiente);
 		List<String> lista = new ArrayList<String>();
 		for (Mezzo mezzo : listaMezzi)
@@ -84,10 +106,14 @@ public class ControlloreProgettista extends Controllore {
 	 * @return
 	 * @throws DAOException
 	 * @throws MapException
+	 * @throws CatalogoException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
 	 */
 	public List<String> estrazioneCittaPartenza(String ambiente, String mezzo)
-			throws DAOException, MapException {
-		Catalogo catalogo = Catalogo.getIstance();
+			throws DAOException, MapException, SQLException, DataException,
+			OraException, CatalogoException {
 		List<Citta> listaCittaPartenza = catalogo.getCittaPartenza(ambiente,
 				mezzo);
 		List<String> lista = new ArrayList<String>();
@@ -105,10 +131,14 @@ public class ControlloreProgettista extends Controllore {
 	 * @return
 	 * @throws MapException
 	 * @throws DAOException
+	 * @throws CatalogoException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
 	 */
 	public List<String> estrazioneCittaArrivo(String ambiente, String mezzo,
-			String cittaPartenza) throws DAOException, MapException {
-		Catalogo catalogo = Catalogo.getIstance();
+			String cittaPartenza) throws DAOException, MapException,
+			SQLException, DataException, OraException, CatalogoException {
 		List<Citta> listaCittaArrivo = catalogo.getCittaArrivo(ambiente, mezzo,
 				cittaPartenza);
 		List<String> lista = new ArrayList<String>();
@@ -127,11 +157,15 @@ public class ControlloreProgettista extends Controllore {
 	 * @return
 	 * @throws MapException
 	 * @throws DAOException
+	 * @throws CatalogoException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
 	 */
 	public List<String> estrazioneVia(String ambiente, String mezzo,
 			String cittaPartenza, String cittaArrivo) throws DAOException,
-			MapException {
-		Catalogo catalogo = Catalogo.getIstance();
+			MapException, SQLException, DataException, OraException,
+			CatalogoException {
 		List<Via> listaVia = catalogo.getVia(ambiente, mezzo, cittaPartenza,
 				cittaArrivo);
 		List<String> lista = new ArrayList<String>();
@@ -148,87 +182,89 @@ public class ControlloreProgettista extends Controllore {
 	 * @param cittaPartenza
 	 * @param cittaArrivo
 	 * @param via
+	 * @return
 	 * @throws DAOException
 	 * @throws MapException
+	 * @throws CatalogoException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
 	 */
-	public void visualizzaOfferta(String ambiente, String mezzo,
-			String cittaPartenza, String cittaArrivo, String via)
-			throws DAOException, MapException {
+	public List<String> visualizzaOfferta(List<String> listaCatalogo)
+			throws DAOException, MapException, SQLException, DataException,
+			OraException, CatalogoException {
 		// TODO Auto-generated method stub
-		Catalogo catalogo = Catalogo.getIstance();
-		List<Offerta> listaOfferta = catalogo.getOfferta(ambiente, mezzo,
-				cittaPartenza, cittaArrivo, via);
-		for (Offerta offerta : listaOfferta) {
-			offerta.print();
-		}
+
+		List<Offerta> listaOfferta = catalogo.getListaOfferte(listaCatalogo.get(0),
+				listaCatalogo.get(1), listaCatalogo.get(2),
+				listaCatalogo.get(3), listaCatalogo.get(4));
+		List<String> lista = new ArrayList<String>();
+		for (Offerta offerta : listaOfferta)
+			lista.add(offerta.getString());
+		return lista;
+
 	}
 
-	public void inserimentoInOfferta(String ambiente, String mezzo,
-			String cittaPartenza, String cittaArrivo, String via)
-			throws ControllerException, IOException, DAOException,
-			MapException, CatalogoException, DataException, OraException {
+	public void inserimentoInOfferta(List<String> listaCatalogo,
+			Integer giorno, Integer mese, Integer anno, Integer ora, Integer minuto,
+			Integer posti) throws ControllerException, IOException,
+			DAOException, MapException, CatalogoException, DataException,
+			OraException, SQLException {
 		// TODO Auto-generated method stub
-
-		Integer giorno;
-		Integer mese;
-		Integer ora;
-		Integer minuto;
-		Integer posti;
-
-		BufferedReader input = new BufferedReader(new InputStreamReader(
-				System.in));
-		System.out.print("Inserire il giorno: ");
-		giorno = input.read();
-		System.out.print("Inserire il mese: ");
-		mese = input.read();
-		System.out.print("Inserire l'ora: ");
-		ora = input.read();
-		System.out.println("Inserire il minuto: ");
-		minuto = input.read();
-		System.out.println("Inserire i posti disponibili iniziali.");
-		posti = input.read();
-
-		DAOOfferta daoOfferta = DAOOfferta.getIstance();
-		DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
-		DAOMezzo daoMezzo = DAOMezzo.getIstance();
-		DAOCitta daoCitta = DAOCitta.getIstance();
-		DAOVia daoVia = DAOVia.getIstance();
 
 		// Ottengo la tratta dal catalogo.
 		// Deve esistere oppure ci sono errori nelle comboBox.
-		Catalogo catalogo = Catalogo.getIstance();
 		Tratta tratta = catalogo.getTrattaByValue(
-				daoAmbiente.getObjectByValue(ambiente),
-				daoMezzo.getObjectByValue(mezzo),
-				daoCitta.getObjectByValue(cittaPartenza),
-				daoCitta.getObjectByValue(cittaArrivo),
-				daoVia.getObjectByValue(via));
+				daoAmbiente.getObjectByValue(listaCatalogo.get(0)),
+				daoMezzo.getObjectByValue(listaCatalogo.get(1)),
+				daoCitta.getObjectByValue(listaCatalogo.get(2)),
+				daoCitta.getObjectByValue(listaCatalogo.get(3)),
+				daoVia.getObjectByValue(listaCatalogo.get(4)));
 
 		Offerta offerta = new Offerta(daoOfferta.getNextId(), tratta.getId(),
-				new Data(giorno, mese), new Ora(ora, minuto), posti);
+				new Data(giorno, mese, anno), new Ora(ora, minuto), posti);
 
 		System.out.println("Offerta da inserire.");
 		offerta.print();
 
 		catalogo.inserimentoInOfferta(tratta, offerta);
 	}
+	
+	
+	
 
-	/*
-	 * public void rimozioneInOfferta(List<String> listaCatalogo) throws
-	 * IOException, ControllerException { // TODO Auto-generated method stub
-	 * String data = null; String ora = null;
-	 * 
-	 * BufferedReader input = new BufferedReader( new
-	 * InputStreamReader(System.in)); System.out.print("Inserire la data.\r\n");
-	 * data = input.readLine(); System.out.print("Inserire l'ora.\r\n"); ora =
-	 * input.readLine(); ListaOfferta offerta = ListaOfferta.getIstance(); try {
-	 * offerta.rimozioneInOfferta(listaCatalogo, data, ora);
-	 * System.out.println("Stampa mappa dopo inserimento in offerta.");
-	 * offerta.printOfferta(); } catch (MapDAOException e) { // TODO
-	 * Auto-generated catch block throw new
-	 * ControllerException("Errore in rimozione offerta!!"); }
-	 * 
-	 * }
-	 */
+	public void rimozioneInOfferta(List<String> listaCatalogo,
+			Integer giorno, Integer mese, Integer anno, Integer ora, Integer minuti,
+			Integer posti) throws ControllerException, IOException,
+			DAOException, MapException, CatalogoException, DataException,
+			OraException, SQLException {
+		// TODO Auto-generated method stub
+
+		// Ottengo la tratta dal catalogo.
+		// Deve esistere oppure ci sono errori nelle comboBox.
+		Tratta tratta = catalogo.getTrattaByValue(
+				daoAmbiente.getObjectByValue(listaCatalogo.get(0)),
+				daoMezzo.getObjectByValue(listaCatalogo.get(1)),
+				daoCitta.getObjectByValue(listaCatalogo.get(2)),
+				daoCitta.getObjectByValue(listaCatalogo.get(3)),
+				daoVia.getObjectByValue(listaCatalogo.get(4)));
+
+		Offerta offerta = catalogo.getOffertaByValue(tratta.getId(), giorno, mese, anno , ora, minuti, posti);
+		
+		System.out.println("Offerta da rimuovere.");
+		offerta.print();
+
+		catalogo.rimozioneInOfferta(tratta, offerta);
+	}
+
+	
+	public boolean verificaDati(String giorno, String mese,
+			String ora, String minuti, String posti) {
+		if (giorno.equals("") || mese.equals("") || ora.equals("")
+				|| minuti.equals("") || posti.equals(""))
+			return false;
+		return true;
+
+	}
 
 }

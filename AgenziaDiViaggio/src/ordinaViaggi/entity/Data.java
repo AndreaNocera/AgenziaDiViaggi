@@ -43,9 +43,19 @@ public class Data {
 	public void setAnno(Integer anno) {
 		this.anno = anno;
 	}
+	public String getString(){
+		return (giorno + "/" + mese + "/" + anno);
+	}
+	public boolean contains(Integer giorno, Integer mese, Integer anno) {
+		// TODO Auto-generated method stub
+		if(this.giorno.equals(giorno) && this.mese.equals(mese) && this.anno.equals(anno))
+			return true;
+		return false;
+	}
 	
 	public void print(){
 		System.out.print(giorno + "/" + mese + "/" + anno + " ");
 	}
+	
 	
 }
