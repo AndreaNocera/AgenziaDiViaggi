@@ -1,59 +1,95 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "gestioneutenti.model.Utente" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 
 	<head>
+	
 		<meta http-equiv = "Content-Type" content = "text/html; charset=ISO-8859-1">
-		<title>Voyager Amministra Utenti</title>
+		<title>Voyager Gestisci Profilo</title>
 		<link rel = "stylesheet" href = "Script/jquery-ui/css/ui-lightness/jquery-ui-1.10.3.custom.css" >
+		<link rel = "stylesheet" href = "css/Main.css" >
 		<script src = "Script/jquery-ui/js/jquery-1.9.1.js"></script>
 		<script src = "Script/jquery-ui/js/jquery-ui-1.10.3.custom.js"></script>
 		
 		<script>
-  			$(function() {
+		
+			window.onload = function() {
+				
     			$( document ).tooltip();
+    			
     			$( "button" ).button();
-    			$( "button").css({width: 300});
-  			});
+    			
+    			$( "#buttonNuovo" ).button({
+    				icons: { primary: "ui-icon-person" }
+    			});
+    			
+    			$( "#buttonModifica" ).button({
+    				icons: { primary: "ui-icon-pencil" }
+    			}); 
+    			
+    			$( "#buttonRimuovi" ).button({
+    				icons: { primary: "ui-icon-trash" }
+    			});
+    			
+    			$( "#buttonCerca" ).button({
+    				icons: { primary: "ui-icon-search" }
+    			});
+    			
+    			$( "#selectable" ).selectable({
+    			      stop: function() {
+    			        var result = $( "#select-result" ).empty();
+    			        $( ".ui-selected", this ).each(function() {
+    			          var index = $( "#selectable li" ).index( this );
+    			          result.append( " #" + ( index + 1 ) );
+    			        });
+    			      }
+    			    });
+    			
+  			};
   			
   		</script>
-  		
-  		<style>
-  			body{
-				font: 62.5% "Trebuchet MS", sans-serif;
-				margin: 50px;
-			}
-			.title {
-				margin-top: 2em;
-			}
-			.subtitle {
-				margin-top: 2em;
-			}
-			
-  			label {
-    			display: inline-block;
-    			width: 5em;
-  			}
-  		</style>
+	
 	</head>
 	
 	<body>
 	
-		<% Utente[] utenti = (Utente[]) request.getAttribute("utenti");%>
+		<div class = "panelLogo" align = "center">
+				<img class = "logo" border = "0" src = "img/Voyager.png" >
+		</div>
 		
-		<div align = "center">
-			<h1 class = "title">Voyager Amministra Utenti</h1>
-			<p><button id = "buttonNuovoUtente" name = "azione" value = "nuovoUtente" type = "submit">Nuovo</button>
-			<button id = "buttonModificaUtente" name = "azione" value = "modificaUtente" type = "submit">Modifica</button>
-			<button id = "buttonRimuoviUtente" name = "azione" value = "rimuoviUtente" type = "submit">Rimuovi</button></p>
-		</div>			
+		<div class = "panelAmministrazioneUtenti" align = "center">
+			<p class = "title">AMMINISTRAZIONE UTENTI</p>
+			<div class = panelButton id = "panelButton" align = "center">
+				<form name = "formAzioni" action = "AmministrazioneUtentiServlet" method = "GET">
+					<p><input class = "text" id = "cerca" name = "cerca" type = "text" placeholder = "Cerca" />
+					<button class = "buttonIconLabel" id = "buttonCerca" type = "submit" name = "action" value = "cerca">Cerca</button>
+					<button class = "buttonIconLabel" id = "buttonNuovo" type = "submit" name = "action" value = "nuovo">Nuovo</button>
+					<button class = "buttonIconLabel" id = "buttonModifica" type = "submit" name = "action" value = "modifica">Modifica</button>
+					<button class = "buttonIconLabel" id = "buttonRimuovi" type = "submit" name = "action" value = "rimuovi">Rimuovi</button></p>
+				</form>			
+			</div>			
+			
+			<p id = "feedback"> <span>Hai selezionato l'elemento:</span> <span id = "select-result">Nessuno</span></p>
+				<div class = "items" align = "center">
+					<ol id = "selectable">
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+						<li class = "ui-widget-content">Giacomo Marciani</li>
+					</ol>			
+				</div>				
+		</div>
 	
 	</body>
-	
-	<body>
-	
-	</body>
+
 </html>
