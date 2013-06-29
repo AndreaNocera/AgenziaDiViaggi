@@ -6,7 +6,9 @@ package gestione_Catalogo.entity;
  * Ivan Torre
  */
 public class Tratta {
-
+	
+	private static Integer ID =0;
+	
 	//attributi di istanza
 	private Ambiente ambiente;
 	private Mezzo mezzo;
@@ -16,53 +18,41 @@ public class Tratta {
 	
 	private Info info;
 	
+	private Data dataInserimento;
 	
-	public Tratta(Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via){
-		this.setAmbiente(ambiente);
-		this.setMezzo(mezzo);
-		this.setPartenza(partenza);
-		this.setArrivo(arrivo);
-		this.setVia(via);
+	
+	public Tratta(Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via, Info info){
+		ID+=1;
+		
+		this.ambiente = ambiente;
+		this.mezzo = mezzo;
+		this.partenza = partenza;
+		this.arrivo = arrivo;
+		this.via = via;
+		this.setInfo(info);
+		
+		dataInserimento = new Data();
 	}
 
+	
 	public Ambiente getAmbiente() {
 		return ambiente;
-	}
-
-	public void setAmbiente(Ambiente ambiente) {
-		this.ambiente = ambiente;
 	}
 
 	public Mezzo getMezzo() {
 		return mezzo;
 	}
 
-	public void setMezzo(Mezzo mezzo) {
-		this.mezzo = mezzo;
-	}
-
 	public Citta getPartenza() {
 		return partenza;
-	}
-
-	public void setPartenza(Citta partenza) {
-		this.partenza = partenza;
 	}
 
 	public Citta getArrivo() {
 		return arrivo;
 	}
 
-	public void setArrivo(Citta arrivo) {
-		this.arrivo = arrivo;
-	}
-
 	public Via getVia() {
 		return via;
-	}
-
-	public void setVia(Via via) {
-		this.via = via;
 	}
 
 	public Info getInfo() {
@@ -72,5 +62,10 @@ public class Tratta {
 	public void setInfo(Info info) {
 		this.info = info;
 	}
+
+	public Data getDataInserimento() {
+		return dataInserimento;
+	}
+
 	
 }
