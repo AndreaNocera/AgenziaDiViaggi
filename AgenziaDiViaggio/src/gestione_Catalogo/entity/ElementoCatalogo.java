@@ -1,9 +1,5 @@
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.exception.IDEsternoElementoException;
-
-import java.util.Set;
-
 /**
  * @authors 
  * Remo Sperlongano

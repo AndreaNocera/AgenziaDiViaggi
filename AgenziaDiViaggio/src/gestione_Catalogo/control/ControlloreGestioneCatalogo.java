@@ -39,10 +39,9 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		Class<?> c = Class.forName("gestione_Catalogo.entity."+ambiente);   // per classi in un package, va messo il nome del package!!!"
 		
 		//preparo i parametri
-		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
-		Class<?> secondoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsterno");
+		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsternoElemento");
 		
-		Class<?>[] parametri = {primoParametro, secondoParametro};
+		Class<?>[] parametri = {primoParametro};
 		
 		//prendo il costruttore della classe con i parametri indicati
 		Constructor<?> costruttore = c.getConstructor(parametri);
