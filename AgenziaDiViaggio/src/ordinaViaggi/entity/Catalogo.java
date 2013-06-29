@@ -4,10 +4,14 @@
 package ordinaViaggi.entity;
 
 import ordinaViaggi.dao.DAOCatalogo;
+import ordinaViaggi.dao.DAOOfferta;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 import ordinaViaggi.exception.MapException;
+import ordinaViaggi.exception.OraException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -28,9 +32,11 @@ public class Catalogo {
 	 */
 	private static Catalogo catalogo;
 	private List<Tratta> tratte;
+	private List<Offerta> offerte;
 	private static MapCatalogo<ElementoCatalogo> mapCatalogo;
 
-	private Catalogo() throws DAOException, MapException {
+	private Catalogo() throws DAOException, MapException, SQLException,
+			DataException, OraException, CatalogoException {
 		/*
 		 * Fetch del catalogo dal database.
 		 */
@@ -41,7 +47,8 @@ public class Catalogo {
 		createMap();
 	}
 
-	public static Catalogo getIstance() throws DAOException, MapException {
+	public static Catalogo getIstance() throws DAOException, MapException,
+			SQLException, DataException, OraException, CatalogoException {
 		if (catalogo == null)
 			catalogo = new Catalogo();
 		return catalogo;
@@ -80,7 +87,7 @@ public class Catalogo {
 		// Rimozione della tratta sul DB
 		tratta.delete();
 		// Rimozione della tratta nella mappa
-		rimozioneInMap(tratta);
+		deleteInMap(tratta);
 	}
 
 	/**
@@ -88,9 +95,22 @@ public class Catalogo {
 	 * 
 	 * @throws MapException
 	 */
-	public void printCatalogo() throws CatalogoException {
-		for (Tratta tratta : tratte)
-			tratta.printTratta();
+	public List<Tratta> visualizzaCatalogo() throws CatalogoException {
+		return tratte;
+	}
+
+	public void printListaOfferte() {
+		for (Offerta offerta : offerte)
+			offerta.print();
+	}
+
+	public Tratta getTrattaById(Integer idTratta) throws CatalogoException {
+		for (Tratta tratta : tratte) {
+			if (tratta.getId().equals(idTratta))
+				return tratta;
+		}
+		// Se la tratta non c'è errore nell'utilizzo
+		throw new CatalogoException("Errore in getTrattaById!!");
 	}
 
 	public Tratta getTrattaByValue(Ambiente ambiente, Mezzo mezzo,
@@ -103,7 +123,19 @@ public class Catalogo {
 		}
 		// Se la tratta non c'è errore nell'utilizzo
 		throw new CatalogoException("Errore in getTrattaByValue!!");
+	}
 
+	public Offerta getOffertaByValue(Integer idTratta, Integer giorno,
+			Integer mese, Integer anno, Integer ora, Integer minuti,
+			Integer posti) throws CatalogoException {
+		// TODO Auto-generated method stub
+		for (Offerta offerta : offerte) {
+			if (offerta.contains(idTratta, giorno, mese, anno, ora, minuti,
+					posti))
+				return offerta;
+		}
+		// Se la tratta non c'è errore nell'utilizzo
+		throw new CatalogoException("Errore in getOffertaByValue!!");
 	}
 
 	/**
@@ -221,8 +253,9 @@ public class Catalogo {
 	 * @param via
 	 * @return
 	 */
-	public List<Offerta> getOfferta(String ambienteSelezionato, String mezzoSelezionato,
-			String cittaPartenzaSelezionata, String cittaArrivoSelezionata, String viaSelezionata) {
+	public List<Offerta> getListaOfferte(String ambienteSelezionato,
+			String mezzoSelezionato, String cittaPartenzaSelezionata,
+			String cittaArrivoSelezionata, String viaSelezionata) {
 		// TODO Auto-generated method stub
 		List<Offerta> listaOfferta = new ArrayList<Offerta>();
 		MapCatalogo<ElementoCatalogo> mapAmbiente = ((Ambiente) mapCatalogo
@@ -233,45 +266,80 @@ public class Catalogo {
 				.get(cittaPartenzaSelezionata)).getMapCatalogo();
 		MapCatalogo<ElementoCatalogo> mapCittaArrivo = ((Citta) mapCittaPartenza
 				.get(cittaArrivoSelezionata)).getMapCatalogo();
-		MapOfferta mapVia = ((Via) mapCittaArrivo
-				.get(viaSelezionata)).getMapOfferta();
-		for(Integer key : mapVia.keySet()){
+		MapOfferta mapVia = ((Via) mapCittaArrivo.get(viaSelezionata))
+				.getMapOfferta();
+		for (Integer key : mapVia.keySet()) {
 			listaOfferta.add(mapVia.get(key));
 		}
 		return listaOfferta;
 	}
+
 	/**
-	 * Metodo di un elemento nell'offerta.
+	 * Metodo di inserimento di un elemento nell'offerta.
+	 * 
 	 * @param tratta
 	 * @param offerta
-	 * @throws DAOException 
+	 * @throws DAOException
 	 */
-	public void inserimentoInOfferta(Tratta tratta, Offerta offerta) throws DAOException {
+	public void inserimentoInOfferta(Tratta tratta, Offerta offerta)
+			throws DAOException {
 		// TODO Auto-generated method stub
-		
+
+		offerte.add(offerta);
 		// Salvataggio dell'offerta sul database.
 		offerta.save();
 		// Salvataggio dell'offerta nella mappa
+		inserimentoInMapOfferta(tratta, offerta);
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * Metodo di rimozione di un elemento dall'offerta
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @throws DAOException
+	 */
+	public void rimozioneInOfferta(Tratta tratta, Offerta offerta)
+			throws DAOException {
+		// TODO Auto-generated method stub
+
+		/*
+		 * if(catalogo.verificaEsistenzaPrenotazioni(offerta)) throw new
+		 * GestoreEccezioniException();
+		 */
+
+		offerte.remove(offerta);
+		// Rimozione dell'offerta sul database
+		offerta.delete();
+		// Rimozione dell'offerta dalla mappa
+		deleteInMapOfferta(tratta, offerta);
+
+	}
 
 	/**
 	 * Metodo di creazione della mappa associata al catalogo.
 	 * 
 	 * @throws MapException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
+	 * @throws CatalogoException
 	 */
-	private void createMap() throws MapException {
+	private void createMap() throws MapException, SQLException, DataException,
+			OraException, CatalogoException {
 
 		mapCatalogo = new MapCatalogo<ElementoCatalogo>();
-		System.out.println("Caricamento iniziale della mappa!!");
+
 		for (Tratta tratta : tratte)
 			inserimentoInMap(tratta);
+		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		offerte = daoOfferta.getListaOfferta();
+		for (Offerta offerta : offerte) {
+			inserimentoInMapOfferta(getTrattaById(offerta.getIdTratta()),
+					offerta);
+		}
+		System.out.println("Caricamento iniziale della mappa completato!!");
+
 	}
 
 	/**
@@ -286,7 +354,6 @@ public class Catalogo {
 		// Inserisco l'ambiente nella mappa
 		Ambiente ambiente = tratta.getAmbiente();
 
-		// Inserisci l'ambiente nella mappa
 		mapCatalogo.insertElementoIntermedio(ambiente.getValore(), ambiente);
 		// Estrai l'oggetto inserito nella mappa. Potrebbe non essere quello di
 		// prima se già presente.
@@ -327,12 +394,37 @@ public class Catalogo {
 	}
 
 	/**
+	 * Inserimento di un offerta della mappa
+	 * 
+	 * @param trattaById
+	 * @param offerta
+	 */
+	private void inserimentoInMapOfferta(Tratta tratta, Offerta offerta) {
+		// TODO Auto-generated method stub
+		// Estrazione mapAmbiente l'ambiente nella mappa
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		MapOfferta mapOfferta = via.getMapOfferta();
+		// Inserimento dell'offerta nella tratta associata
+		mapOfferta.insertRecord(offerta.getIdOfferta(), offerta);
+
+	}
+
+	/**
 	 * Rimozione di un elemento dalla mappa.
 	 * 
 	 * @param tratta
 	 * @throws MapException
 	 */
-	private void rimozioneInMap(Tratta tratta) throws MapException {
+	private void deleteInMap(Tratta tratta) throws MapException {
 		// TODO Auto-generated method stub
 		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
 				.getAmbiente().getValore());
@@ -365,6 +457,25 @@ public class Catalogo {
 		System.out.println("Oggetto da cancellare: ");
 		System.out.println("Id: " + via.getId() + " valore : "
 				+ via.getValore());
+
+	}
+
+	private void deleteInMapOfferta(Tratta tratta, Offerta offerta) {
+		// TODO Auto-generated method stub
+		// Estrazione mapAmbiente l'ambiente nella mappa
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		MapOfferta mapOfferta = via.getMapOfferta();
+		// Inserimento dell'offerta nella tratta associata
+		mapOfferta.remove(offerta.getIdOfferta());
 
 	}
 
@@ -402,6 +513,38 @@ public class Catalogo {
 		}
 	}
 
-	
+	public void printMapOfferta() throws MapException {
+		System.out.println("Stampa mappa offerta.");
+		// Stampa Ambienti e mezzi
+		Set<String> collection = mapCatalogo.keySet();
+		for (String ambiente : collection) {
+			System.out.println(ambiente);
+			MapCatalogo<ElementoCatalogo> mappaMezzi = ((ElementoIntermedio) mapCatalogo
+					.get(ambiente)).getMapCatalogo();
+			for (String mezzo : mappaMezzi.keySet()) {
+				System.out.println("  " + mezzo);
+				MapCatalogo<ElementoCatalogo> mappaCittaPartenza = ((ElementoIntermedio) mappaMezzi
+						.get(mezzo)).getMapCatalogo();
+				for (String cittaPartenza : mappaCittaPartenza.keySet()) {
+					System.out.println("    " + cittaPartenza);
+					MapCatalogo<ElementoCatalogo> mappaCittaArrivo = ((ElementoIntermedio) mappaCittaPartenza
+							.get(cittaPartenza)).getMapCatalogo();
+					for (String cittaArrivo : mappaCittaArrivo.keySet()) {
+						System.out.println("      " + cittaArrivo);
+						MapCatalogo<ElementoCatalogo> mappaVia = ((ElementoIntermedio) mappaCittaArrivo
+								.get(cittaArrivo)).getMapCatalogo();
+						for (String via : mappaVia.keySet()) {
+							System.out.println("        " + via);
+							MapOfferta mappaOfferta = ((ElementoFinale) mappaVia
+									.get(via)).getMapOfferta();
+							for (Integer idOfferta : mappaOfferta.keySet()) {
+								mappaOfferta.get(idOfferta).print();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 }

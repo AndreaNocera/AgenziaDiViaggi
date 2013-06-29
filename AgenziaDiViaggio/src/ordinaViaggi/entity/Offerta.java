@@ -68,6 +68,18 @@ public class Offerta {
 	public void setPosti(Integer posti) {
 		this.posti = posti;
 	}
+	public String getString(){
+		return data.getString() + " " + ora.getString() + " " + posti;
+	}
+	
+	public boolean contains(Integer idTratta, Integer giorno, Integer mese,
+			Integer anno, Integer ora, Integer minuti, Integer posti) {
+		// TODO Auto-generated method stub
+		if(this.idTratta.equals(idTratta) && this.data.contains(giorno,mese,anno) && this.ora.contains(ora,minuti) && this.posti.equals(posti))
+			return true;
+		return false;
+	}
+	
 	public void print(){
 		System.out.print(idOfferta  + " " );
 		data.print();
@@ -83,6 +95,12 @@ public class Offerta {
 		DAOOfferta daoOfferta = DAOOfferta.getIstance();
 		daoOfferta.insert(this);
 	}
+	public void delete() throws DAOException {
+		// TODO Auto-generated method stub
+		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		daoOfferta.delete(this);
+	}
+	
 	
 	
 }

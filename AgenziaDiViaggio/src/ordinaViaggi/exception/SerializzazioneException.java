@@ -2,7 +2,10 @@ package ordinaViaggi.exception;
 
 public class SerializzazioneException extends Exception
 {
-	private static final long	serialVersionUID	= 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7439767609536558190L;
 
 	public SerializzazioneException()
 	{}
