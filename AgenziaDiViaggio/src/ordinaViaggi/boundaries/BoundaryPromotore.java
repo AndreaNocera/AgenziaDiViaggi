@@ -1,7 +1,10 @@
 package ordinaViaggi.boundaries;
 
 import ordinaViaggi.control.ControllorePromotore;
+import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.ControllerException;
+import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.MapException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -138,6 +141,15 @@ public class BoundaryPromotore extends JFrame
 					} catch (ControllerException e) {
 						// TODO Blocco catch generato automaticamente
 						e.printStackTrace();
+					} catch (DAOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MapException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (CatalogoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 			}
 			else if(event.getSource() == inserisciCatalogo){
@@ -145,6 +157,15 @@ public class BoundaryPromotore extends JFrame
 						try {
 							controllorePromotore.inserimentoCatalogo();
 						} catch (ControllerException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (DAOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (MapException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (CatalogoException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -156,6 +177,15 @@ public class BoundaryPromotore extends JFrame
 					try {
 						controllorePromotore.rimozioneInCatalogo();
 					} catch (ControllerException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DAOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MapException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (CatalogoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

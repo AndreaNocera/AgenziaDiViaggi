@@ -1,4 +1,4 @@
-package ordinaViaggi.dao;
+package ordinaViaggi.entity;
 
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
@@ -61,5 +61,5 @@ public abstract class DAO {
 	public abstract void insert(Object obj) throws DAOException;
 	public abstract Object read(Integer id) throws DAOException;
 	public abstract void update(Object obj) throws DAOException;
-	public abstract void delete(Object obj) throws DAOException;
+	public abstract void delete(Object obj) throws DAOException, SQLException;
 }

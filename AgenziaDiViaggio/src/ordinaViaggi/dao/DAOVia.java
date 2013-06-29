@@ -3,6 +3,8 @@
  */
 package ordinaViaggi.dao;
 
+import ordinaViaggi.entity.DAO;
+import ordinaViaggi.entity.Via;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
 
@@ -10,8 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import ordinaViaggi.entity.Via;
 
 /** 
  * <!-- begin-UML-doc -->
@@ -232,16 +232,21 @@ public class DAOVia extends DAO{
 		}
 	}
 	
-	public Integer getIdByValue(String valore) throws DAOException {
+	public Via getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `via` WHERE `value` = ?";
 		ResultSet rs = null;
+		Via via;
 		try {
 			conn = getConnection(usr, pass);
 			//Situazione 1. Tabella Vuota. Id da ritornare 1.
 			ps = conn.prepareStatement(getListaViaQuery);
 			rs = ps.executeQuery();
-			if(!rs.next())
-				return 1;
+			if(!rs.next()){
+				//Elemento non esistente. Creazione e salvataggio nel DB.
+				via = new Via(1,valore);
+				via.save();
+				return via;
+			}
 			//Situazione 2. Elemento presente
 			
 			ps = conn.prepareStatement(query);
@@ -250,7 +255,7 @@ public class DAOVia extends DAO{
 
 			rs = ps.executeQuery();
 			if(rs.next()){
-				return rs.getInt(1); 
+				return new Via(rs.getInt(1), valore); 
 			}
 			
 			// Situazione 3. Elemento non presente.
@@ -258,7 +263,10 @@ public class DAOVia extends DAO{
 			
 			rs = ps.executeQuery();
 			rs.last();
-			return rs.getInt(1) + 1;
+			//Elemento non esistente. Creazione e salvataggio nel DB.
+			via = new Via((rs.getInt(1) + 1), valore);
+			via.save();
+			return via;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getID.");

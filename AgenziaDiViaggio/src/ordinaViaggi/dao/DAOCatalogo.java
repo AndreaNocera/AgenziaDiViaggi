@@ -3,6 +3,12 @@
  */
 package ordinaViaggi.dao;
 
+import ordinaViaggi.entity.Ambiente;
+import ordinaViaggi.entity.Citta;
+import ordinaViaggi.entity.DAO;
+import ordinaViaggi.entity.Mezzo;
+import ordinaViaggi.entity.Tratta;
+import ordinaViaggi.entity.Via;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
 
@@ -12,12 +18,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import ordinaViaggi.entity.Ambiente;
-import ordinaViaggi.entity.Citta;
-import ordinaViaggi.entity.Mezzo;
-import ordinaViaggi.entity.Tratta;
-import ordinaViaggi.entity.Via;
 
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
@@ -40,17 +40,6 @@ public class DAOCatalogo extends DAO {
 			+ "idCittaArrivo INT(10), " 
 			+ "idVia INT(10)" 
 			+ ")";
-
-	private static final String insertQuery = "INSERT INTO Ambienti "
-			+ "(value)" + "VALUES(?)";
-	private static final String updateQuery = "UPDATE Ambienti SET "
-			+ "id=?, value=?" + "WHERE id=?";
-	private static final String deleteQuery = "DELETE FROM "
-			+ "Ambienti WHERE id=?";
-	private static final String findQuery = "SELECT * FROM Ambienti "
-			+ "WHERE id=?";
-
-	private static final String dropQuery = "DROP TABLE Ambienti IF EXISTS";
 
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
@@ -144,6 +133,8 @@ public class DAOCatalogo extends DAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in SQL.");
+		} finally {
+			closeResource();
 		}
 
 	}

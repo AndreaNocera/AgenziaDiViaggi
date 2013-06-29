@@ -3,6 +3,8 @@
  */
 package ordinaViaggi.dao;
 
+import ordinaViaggi.entity.Ambiente;
+import ordinaViaggi.entity.DAO;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
 
@@ -10,8 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import ordinaViaggi.entity.Ambiente;
 
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
@@ -126,6 +126,8 @@ public class DAOAmbiente extends DAO {
 			throw new DAOException("Errore in insert ClassCastException.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in insert SQLException.");
+		} finally {
+			closeResource();
 		}
 
 	}
@@ -152,6 +154,8 @@ public class DAOAmbiente extends DAO {
 			throw new DAOException("Errore in read.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in read.");
+		} finally {
+			closeResource();
 		}
 	}
 
@@ -176,6 +180,8 @@ public class DAOAmbiente extends DAO {
 			throw new DAOException("Errore in update.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in update.");
+		} finally {
+			closeResource();
 		}
 
 	}
@@ -199,6 +205,8 @@ public class DAOAmbiente extends DAO {
 			throw new DAOException("Errore in delete.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in delete.");
+		} finally {
+			closeResource();
 		}
 	}
 
@@ -243,11 +251,15 @@ public class DAOAmbiente extends DAO {
 			throw new DAOException("Errore in printListaAmbienti.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in printListaAmbienti.");
+		} finally {
+			closeResource();
 		}
 	}
 	
-	public Integer getIdByValue(String valore) throws DAOException {
+	public Ambiente getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `ambienti` WHERE `value` = ?";
+		Ambiente ambiente;
+		ResultSet rs = null;
 		try {
 			conn = getConnection(usr, pass);
 			
@@ -255,7 +267,10 @@ public class DAOAmbiente extends DAO {
 			ps = conn.prepareStatement(getListaAmbientiQuery);
 			rs = ps.executeQuery();
 			if(!rs.next()){
-				return 1;
+				//Elemento non esistente. Creazione e salvataggio nel DB.
+				ambiente = new Ambiente(1,valore);
+				ambiente.save();
+				return ambiente;
 			}
 			//Situazione 2. Elemento presente
 			
@@ -265,7 +280,7 @@ public class DAOAmbiente extends DAO {
 
 			rs = ps.executeQuery();
 			if(rs.next()){
-				return rs.getInt(1); 
+				return new Ambiente(rs.getInt(1), valore); 
 			}
 			
 			// Situazione 3. Elemento non presente.
@@ -273,13 +288,18 @@ public class DAOAmbiente extends DAO {
 			
 			rs = ps.executeQuery();
 			rs.last();
-			return rs.getInt(1) + 1;
+			//Elemento non esistente. Creazione e salvataggio nel DB.
+			ambiente = new Ambiente((rs.getInt(1) + 1), valore);
+			ambiente.save();
+			return ambiente;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getIDByValue in Connection.");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getIDByValue in SQL.");
+		} finally {
+			closeResource();
 		}
 	}
 	
@@ -290,7 +310,6 @@ public class DAOAmbiente extends DAO {
 	 */
 	public String getValueById(Integer id) throws DAOException{
 		String query = "SELECT * FROM `ambienti` WHERE `id` = ?";
-		ResultSet rs = null;
 		try {
 			//Situazione 2. Elemento presente
 			
@@ -310,6 +329,8 @@ public class DAOAmbiente extends DAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getValue.");
+		} finally {
+			closeResource();
 		}
 		
 	}
@@ -325,6 +346,8 @@ public class DAOAmbiente extends DAO {
 			throw new DAOException("Errore in dropTable.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in dropTable.");
+		} finally {
+			closeResource();
 		}
 	}
 

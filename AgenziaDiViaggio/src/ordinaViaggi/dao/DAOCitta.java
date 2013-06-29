@@ -3,6 +3,8 @@
  */
 package ordinaViaggi.dao;
 
+import ordinaViaggi.entity.Citta;
+import ordinaViaggi.entity.DAO;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
 
@@ -10,8 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import ordinaViaggi.entity.Citta;
 
 /** 
  * <!-- begin-UML-doc -->
@@ -123,6 +123,8 @@ public class DAOCitta extends DAO{
 			throw new DAOException("Errore in insert ClassCastException.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in insert SQLException.");
+		} finally {
+			closeResource();
 		}
 	}
 
@@ -148,6 +150,8 @@ public class DAOCitta extends DAO{
 			throw new DAOException("Errore in read.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in read.");
+		} finally {
+			closeResource();
 		}
 	}
 
@@ -172,6 +176,8 @@ public class DAOCitta extends DAO{
 			throw new DAOException("Errore in update.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in update.");
+		} finally {
+			closeResource();
 		}
 
 	}
@@ -195,6 +201,8 @@ public class DAOCitta extends DAO{
 			throw new DAOException("Errore in delete.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in delete.");
+		} finally {
+			closeResource();
 		}
 	}
 
@@ -239,19 +247,27 @@ public class DAOCitta extends DAO{
 			throw new DAOException("Errore in printListaCitta.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in printListaCitta.");
+		} finally {
+			closeResource();
 		}
 	}
 	
-	public Integer getIdByValue(String valore) throws DAOException {
+	
+	public Citta getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `citta` WHERE `value` = ?";
 		ResultSet rs = null;
+		Citta citta;
 		try {
 			conn = getConnection(usr, pass);
 			//Situazione 1. Tabella Vuota. Id da ritornare 1.
 			ps = conn.prepareStatement(getListaCittaQuery);
 			rs = ps.executeQuery();
-			if(!rs.next())
-				return 1;
+			if(!rs.next()){
+				//Elemento non esistente. Creazione e salvataggio nel DB.
+				citta = new Citta(1,valore);
+				citta.save();
+				return citta;
+			}
 			//Situazione 2. Elemento presente
 			
 			ps = conn.prepareStatement(query);
@@ -260,7 +276,7 @@ public class DAOCitta extends DAO{
 
 			rs = ps.executeQuery();
 			if(rs.next()){
-				return rs.getInt(1); 
+				return new Citta(rs.getInt(1),valore); 
 			}
 			
 			// Situazione 3. Elemento non presente.
@@ -268,13 +284,18 @@ public class DAOCitta extends DAO{
 			
 			rs = ps.executeQuery();
 			rs.last();
-			return rs.getInt(1) + 1;
+			//Elemento non esistente. Creazione e salvataggio nel DB.
+			citta = new Citta((rs.getInt(1) + 1),valore);
+			citta.save();
+			return citta;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getID.");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getID.");
+		} finally {
+			closeResource();
 		}
 	}
 	
@@ -305,6 +326,8 @@ public class DAOCitta extends DAO{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getValue.");
+		} finally {
+			closeResource();
 		}
 		
 	}
@@ -320,6 +343,8 @@ public class DAOCitta extends DAO{
 			throw new DAOException("Errore in dropTable.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in dropTable.");
+		} finally {
+			closeResource();
 		}
 	}
 }

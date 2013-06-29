@@ -1,6 +1,6 @@
 package ordinaViaggi.entity;
 
-public class ElementoCatalogo extends Elemento{
+public class ElementoCatalogo {
 	/** 
 	 * <!-- begin-UML-doc -->
 	 * <!-- end-UML-doc -->
@@ -28,5 +28,11 @@ public class ElementoCatalogo extends Elemento{
 	}
 	public void setValore(String valore) {
 		this.valore = valore;
+	}
+	
+	public boolean equals(ElementoCatalogo elementoCatalogo){
+		if((this.id).equals(elementoCatalogo.getId()))
+				return true;
+		return false;
 	}
 }

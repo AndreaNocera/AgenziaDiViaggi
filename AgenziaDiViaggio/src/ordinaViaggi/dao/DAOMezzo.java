@@ -3,6 +3,8 @@
  */
 package ordinaViaggi.dao;
 
+import ordinaViaggi.entity.DAO;
+import ordinaViaggi.entity.Mezzo;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
 
@@ -10,8 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import ordinaViaggi.entity.Mezzo;
 
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
@@ -233,16 +233,22 @@ public class DAOMezzo extends DAO {
 		}
 	}
 	
-	public Integer getIdByValue(String valore) throws DAOException {
+	public Mezzo getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `mezzi` WHERE `value` = ?";
 		ResultSet rs = null;
+		Mezzo mezzo;
 		try {
 			conn = getConnection(usr, pass);
 			//Situazione 1. Tabella Vuota. Id da ritornare 1.
 			ps = conn.prepareStatement(getListaMezziQuery);
 			rs = ps.executeQuery();
-			if(!rs.next())
-				return 1;
+			
+			if(!rs.next()){
+				//Elemento non esistente. Creazione e salvataggio nel DB.
+				mezzo = new Mezzo(1,valore);
+				mezzo.save();
+				return mezzo;
+			}
 			//Situazione 2. Elemento presente
 			
 			ps = conn.prepareStatement(query);
@@ -251,7 +257,7 @@ public class DAOMezzo extends DAO {
 
 			rs = ps.executeQuery();
 			if(rs.next()){
-				return rs.getInt(1); 
+				return new Mezzo(rs.getInt(1), valore);  
 			}
 			
 			// Situazione 3. Elemento non presente.
@@ -259,7 +265,10 @@ public class DAOMezzo extends DAO {
 			
 			rs = ps.executeQuery();
 			rs.last();
-			return rs.getInt(1) + 1;
+			//Elemento non esistente. Creazione e salvataggio nel DB.
+			mezzo = new Mezzo((rs.getInt(1) + 1), valore);
+			mezzo.save();
+			return mezzo;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getID.");

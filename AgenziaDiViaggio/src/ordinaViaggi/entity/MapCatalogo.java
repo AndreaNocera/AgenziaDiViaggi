@@ -3,33 +3,66 @@
  */
 package ordinaViaggi.entity;
 
+import ordinaViaggi.exception.MapException;
+
+import java.util.TreeMap;
+
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
  * @author Gambella Riccardo
  * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
-public class MapCatalogo extends Map {
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	
+public class MapCatalogo<T extends ElementoCatalogo> extends TreeMap<String, T>{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7922896680836125231L;
-
+	private static final long serialVersionUID = -6165364327193703741L;
+	public MapCatalogo(){
+		
+	}
+	
 	/**
-	 * Inserisce la chiave istanziando un SubElementCatalogo.
+	 * Inserisce la chiave istanziando un ElementoCatalogo.
 	 */
-	@Override
-	public void insertRecord(Integer key) {
+	public void insertRecord(String key) {
 		// TODO Auto-generated method stub
 		if(!containsKey(key))
 		{	
-			super.put(key, new ElementoCatalogo());
+			super.put(key, (T) new ElementoIntermedio());
 		}
+	}
+	
+	public void removeRecord(String key) throws MapException {
+		// TODO Auto-generated method stub
+		if(!containsKey(key))
+		{	
+			throw new MapException("Errore in rimozione. Chiave non presente.");
+		}
+		super.remove(key);
+		
+	}
+	
+	public void insertElementoIntermedio(String key, ElementoIntermedio elemento){
+		// TODO Auto-generated method stub
+			if(!containsKey(key))
+			{	
+				super.put(key,(T) elemento);
+			}
+	}
+	public void insertElementoFinale(String key, ElementoFinale elemento){
+		// TODO Auto-generated method stub
+			if(!containsKey(key))
+			{	
+				super.put(key,(T) elemento);
+			}
+	}
+	
+	public ElementoFinale getElementoFinale(String key){
+		return (ElementoFinale)super.get(key);
+	}
+	public ElementoIntermedio getElementoIntermedio(String key){
+		return (ElementoIntermedio)super.get(key);
 	}
 }

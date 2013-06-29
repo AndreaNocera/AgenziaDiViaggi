@@ -1,7 +1,12 @@
 package ordinaViaggi.boundaries;
 
 import ordinaViaggi.control.ControlloreProgettista;
+import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.ControllerException;
+import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
+import ordinaViaggi.exception.MapException;
+import ordinaViaggi.exception.OraException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -211,7 +216,6 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			List<String> selectedList = new ArrayList<String>();
-			List<String> mapList = new ArrayList<String>();
 
 			// Se la comboBox interessata è quella degli ambienti
 			// Generazione della comboBox successiva: ComboBoxMezzi
@@ -222,18 +226,19 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 				if (comboBoxMezzi.getItemCount() > 1)
 					svuotaComboBox(comboBoxMezzi);
 
-				// Estrazione della mappa successiva
-				selectedList.add(selected);
 				try {
-					controlloreProgettista.estrazioneLista(selectedList,
-							mapList);
-				} catch (ControllerException e1) {
-					// TODO Blocco catch generato automaticamente
+					selectedList = controlloreProgettista
+							.estrazioneMezzi(selected);
+				} catch (DAOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (MapException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
 				// Inserisce nella comboBox gli elementi estratti
-				for (String mapItem : mapList)
+				for (String mapItem : selectedList)
 					comboBoxMezzi.addItem(mapItem);
 
 			}
@@ -249,19 +254,18 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					if (comboBoxCittaPartenza.getItemCount() > 1)
 						svuotaComboBox(comboBoxCittaPartenza);
 
-					// Estrazione della mappa successiva
-					selectedList.add(ambiente);
-					selectedList.add(mezzo);
-
 					try {
-						controlloreProgettista.estrazioneLista(selectedList,
-								mapList);
-					} catch (ControllerException e1) {
-						// TODO Blocco catch generato automaticamente
+						selectedList = controlloreProgettista
+								.estrazioneCittaPartenza(ambiente, mezzo);
+					} catch (DAOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (MapException e1) {
+						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					// Inserisce nella comboBox gli elementi estratti
-					for (String mapItem : mapList)
+					for (String mapItem : selectedList)
 						comboBoxCittaPartenza.addItem(mapItem);
 				}
 			}
@@ -278,20 +282,19 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					if (comboBoxCittaArrivo.getItemCount() > 1)
 						svuotaComboBox(comboBoxCittaArrivo);
 
-					// Estrazione della mappa successiva
-					selectedList.add(ambiente);
-					selectedList.add(mezzo);
-					selectedList.add(cittaPartenza);
-
 					try {
-						controlloreProgettista.estrazioneLista(selectedList,
-								mapList);
-					} catch (ControllerException e1) {
-						// TODO Blocco catch generato automaticamente
+						selectedList = controlloreProgettista
+								.estrazioneCittaArrivo(ambiente, mezzo,
+										cittaPartenza);
+					} catch (DAOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (MapException e1) {
+						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					// Inserisce nella comboBox gli elementi estratti
-					for (String mapItem : mapList)
+					for (String mapItem : selectedList)
 						comboBoxCittaArrivo.addItem(mapItem);
 
 				}
@@ -311,21 +314,18 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					if (comboBoxVia.getItemCount() > 1)
 						svuotaComboBox(comboBoxVia);
 
-					// Estrazione della mappa successiva
-					selectedList.add(ambiente);
-					selectedList.add(mezzo);
-					selectedList.add(cittaPartenza);
-					selectedList.add(cittaArrivo);
-
 					try {
-						controlloreProgettista.estrazioneLista(selectedList,
-								mapList);
-					} catch (ControllerException e1) {
-						// TODO Blocco catch generato automaticamente
+						selectedList = controlloreProgettista.estrazioneVia(
+								ambiente, mezzo, cittaPartenza, cittaArrivo);
+					} catch (DAOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (MapException e1) {
+						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					// Inserisce nella comboBox gli elementi estratti
-					for (String mapItem : mapList)
+					for (String mapItem : selectedList)
 						comboBoxVia.addItem(mapItem);
 
 				}
@@ -351,10 +351,16 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					System.out.println("Dati non inseriti totalmente");
 				else {
 					try {
-						controlloreProgettista.printOfferta();
-					} catch (ControllerException e1) {
-						// TODO Blocco catch generato automaticamente
-						e1.printStackTrace();
+						controlloreProgettista.visualizzaOfferta(
+								listaCatalogo.get(0), listaCatalogo.get(1),
+								listaCatalogo.get(2), listaCatalogo.get(3),
+								listaCatalogo.get(4));
+					} catch (DAOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MapException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
@@ -369,38 +375,50 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					System.out.println("Dati non inseriti totalmente");
 				else {
 					try {
-						controlloreProgettista
-								.inserimentoInOfferta(listaCatalogo);
+						controlloreProgettista.inserimentoInOfferta(
+								listaCatalogo.get(0), listaCatalogo.get(1),
+								listaCatalogo.get(2), listaCatalogo.get(3),
+								listaCatalogo.get(4));
 					} catch (IOException | ControllerException e) {
 						e.printStackTrace();
-					}
-
-				}
-			} else if (event.getSource() == rimuoviOfferta) {
-				System.out.println("Rimozione dell'offerta!!");
-
-				List<String> listaCatalogo = prelevaComboBoxCatalogo();
-
-				// Controllo sull'inserimento corretto dei dati
-				if (!controlloreProgettista.verificaDati(listaCatalogo))
-					System.out.println("Dati non inseriti totalmente");
-				else {
-					try {
-						controlloreProgettista
-								.rimozioneInOfferta(listaCatalogo);
-					} catch (IOException | ControllerException e) {
+					} catch (DAOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MapException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (CatalogoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DataException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (OraException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
-					System.out.println("Stampa mappa Finale");
-					try {
-						controlloreProgettista.printOfferta();
-					} catch (ControllerException e) {
-						// TODO Blocco catch generato automaticamente
-						e.printStackTrace();
-					}
 				}
 			}
+
+			/*
+			 * else if (event.getSource() == rimuoviOfferta) {
+			 * System.out.println("Rimozione dell'offerta!!");
+			 * 
+			 * List<String> listaCatalogo = prelevaComboBoxCatalogo();
+			 * 
+			 * // Controllo sull'inserimento corretto dei dati if
+			 * (!controlloreProgettista.verificaDati(listaCatalogo))
+			 * System.out.println("Dati non inseriti totalmente"); else { try {
+			 * controlloreProgettista .rimozioneInOfferta(listaCatalogo); }
+			 * catch (IOException | ControllerException e) {
+			 * e.printStackTrace(); }
+			 * 
+			 * System.out.println("Stampa mappa Finale"); try {
+			 * controlloreProgettista.printOfferta(); } catch
+			 * (ControllerException e) { // TODO Blocco catch generato
+			 * automaticamente e.printStackTrace(); } } }
+			 */
 		}
 	}
 
@@ -419,18 +437,20 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 
 		// Richiama il metodo estrazione Mappa da ControlloreProgettista
 		List<String> selectedList = new ArrayList<String>();
-		List<String> mapList = new ArrayList<String>();
 
 		// Estrae la mappa iniziale
 		try {
-			controlloreProgettista.estrazioneLista(selectedList, mapList);
-		} catch (ControllerException e) {
-			// TODO Blocco catch generato automaticamente
+			selectedList = controlloreProgettista.estrazioneAmbienti();
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MapException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		// Inserisce nella comboBox gli elementi estratti
-		for (String mapItem : mapList)
+		for (String mapItem : selectedList)
 			comboBox.addItem(mapItem);
 
 	}
