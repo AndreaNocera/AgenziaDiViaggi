@@ -47,9 +47,9 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	}
 
 	
-	public void rimuoviViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException, OffertaException, IDEsternoElementoException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void rimuoviViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException, OffertaException, IDEsternoElementoException {
 		
-		Tratta tratta = getTratta(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
+		Tratta tratta = catalogo.getTrattaByValue(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 
 		// verifico l'esistenza di offerte per il viaggio
 		if (catalogo.verificaEsistenzaOfferte(tratta)){
