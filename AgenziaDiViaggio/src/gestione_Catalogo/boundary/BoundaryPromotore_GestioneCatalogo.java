@@ -33,6 +33,7 @@ import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.SerializzazioneException;
+import gestione_Catalogo.exception.TrattaException;
 
 
 
@@ -695,6 +696,8 @@ public class BoundaryPromotore_GestioneCatalogo {
 			areaTestoPannello5.setText(e.getMessage()+"\n");
 		} catch (IDEsternoElementoException e) {
 			areaTestoPannello5.setText(e.getMessage()+"\n");
+		} catch (TrattaException e) {
+			areaTestoPannello5.setText(e.getMessage()+"\n");
 		} 
 
 	}
@@ -736,13 +739,13 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private void caricaCatalogo(){
 		
 		boolean b = true;
-		try {
+	/*	try {
 			controllore.carica();
 		} catch (DeserializzazioneException e) {
-			JOptionPane.showMessageDialog(null, "Non e' stato ancora salvato un catalogo.  Faccio partire il thread.");
+	*/		JOptionPane.showMessageDialog(null, "Non e' stato ancora salvato un catalogo.  Faccio partire il thread.");
 			avviaThread();
 			b = false;
-		}
+	//	}
 		
 		if (b){
 			JOptionPane.showMessageDialog(null, "E' stato caricato il catalogo", "Catalogo Caricato", JOptionPane.INFORMATION_MESSAGE);
@@ -778,12 +781,12 @@ public class BoundaryPromotore_GestioneCatalogo {
 		 */
 		public void actionPerformed(ActionEvent arg0) {
 		
-			try {  //Salva gli articoli all'uscita
+		/*	try {  //Salva gli articoli all'uscita
 				controllore.salva();
 			} catch (SerializzazioneException e){
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 			}
-			
+		*/	
 			superPanel.setVisible(false);
 			BoundaryAAAprimaria.superPanel.setVisible(true);
 		//	BoundaryAAAprimaria.confinePrincipale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -800,12 +803,12 @@ public class BoundaryPromotore_GestioneCatalogo {
 		 */
 		public void actionPerformed(ActionEvent arg0) {
 			
-			try {  //Salva gli articoli all'uscita
+	/*		try {  //Salva gli articoli all'uscita
 				controllore.salva();
 			} catch (SerializzazioneException e){
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 			}
-			
+	*/		
 			System.exit(0);
 		}
 		
@@ -1126,6 +1129,8 @@ public class BoundaryPromotore_GestioneCatalogo {
 					
 				} catch (IDEsternoElementoException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Attenzione!", JOptionPane.WARNING_MESSAGE);
+				} catch (TrattaException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Attenzione!", JOptionPane.WARNING_MESSAGE);
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1284,9 +1289,10 @@ public class BoundaryPromotore_GestioneCatalogo {
 						areaTestoPannello5.setCaretPosition(0);
 						
 					} catch (MappaException e1) {
-						areaTestoPannello5.setText("Non sono presenti Viaggi nel Catalogo.\n");
-						
+						areaTestoPannello5.setText(e1.getMessage()+"\n");
 					} catch (IDEsternoElementoException e1) {
+						areaTestoPannello5.setText(e1.getMessage()+"\n");
+					} catch (TrattaException e1) {
 						areaTestoPannello5.setText(e1.getMessage()+"\n");
 					}
 	
@@ -1344,9 +1350,10 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello5.setCaretPosition(0);
 				
 				} catch (MappaException e1) {
-					areaTestoPannello5.setText("Non sono presenti Viaggi nel Catalogo.\n");
-					
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
+				} catch (TrattaException e1) {
 					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				}
 						
@@ -1406,9 +1413,10 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello5.setCaretPosition(0);
 					
 				} catch (MappaException e1) {
-					areaTestoPannello5.setText("Non sono presenti Viaggi nel Catalogo.\n");
-					
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
+				} catch (TrattaException e1) {
 					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				}
 			
@@ -1468,9 +1476,10 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello5.setCaretPosition(0);
 					
 				} catch (MappaException e1) {
-					areaTestoPannello5.setText("Non sono presenti Viaggi nel Catalogo.\n");
-					
+					areaTestoPannello5.setText(e1.getMessage()+"\n");	
 				} catch (IDEsternoElementoException e1) {
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
+				} catch (TrattaException e1) {
 					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				}
 			
@@ -1489,9 +1498,10 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello5.setText(areaTestoImp + areaTestoCatalogo);
 					areaTestoPannello5.setCaretPosition(0);
 				} catch (MappaException e1) {
-					areaTestoPannello5.setText("Non sono presenti Viaggi nel Catalogo.\n");
-					
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
+				} catch (TrattaException e1) {
 					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				}
 				
@@ -1507,7 +1517,6 @@ public class BoundaryPromotore_GestioneCatalogo {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			
 			ambienteScelto = (String) tendinaAmbientePannello5.getSelectedItem();
 			mezzoScelto = (String) tendinaMezziPannello5.getSelectedItem();
@@ -1523,9 +1532,10 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello5.setText(areaTestoImp + areaTestoCatalogo);
 					areaTestoPannello5.setCaretPosition(0);
 				} catch (MappaException e1) {
-					areaTestoPannello5.setText("Non sono presenti Viaggi nel Catalogo.\n");
-					
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
+					areaTestoPannello5.setText(e1.getMessage()+"\n");
+				} catch (TrattaException e1) {
 					areaTestoPannello5.setText(e1.getMessage()+"\n");
 				}
 				
@@ -1555,11 +1565,13 @@ public class BoundaryPromotore_GestioneCatalogo {
 						JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
 						//aggiorno tutti i campi dopo aver rimosso il viaggio
 						aggiornaTendinePannello5();
-						
 					} catch (IDEsternoElementoException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+					} catch (TrattaException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 					} catch (OffertaException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
+
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

@@ -7,11 +7,12 @@ package gestione_Catalogo.entity;
  */
 public class Citta extends ElementoIntermedio {
 	
-	private static int nextID = 1;
-	
 	public Citta(IDEsternoElemento idEsternoElemento){
-		super(nextID, idEsternoElemento);
-		nextID++;
+		super(idEsternoElemento);
+	}
+	
+	public Citta(Integer ID, IDEsternoElemento idEsternoElemento){
+		super(ID, idEsternoElemento);
 	}
 
 }

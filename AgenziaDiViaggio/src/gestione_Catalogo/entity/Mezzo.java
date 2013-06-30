@@ -7,11 +7,13 @@ package gestione_Catalogo.entity;
  */
 public class Mezzo extends ElementoIntermedio {
 	
-	private static int nextID = 1; 
-	
 	public Mezzo(IDEsternoElemento idEsternoElemento){
-		super(nextID, idEsternoElemento);
-		nextID++;
+		super(idEsternoElemento);
 	}
+	
+	public Mezzo(Integer ID, IDEsternoElemento idEsternoElemento){
+		super(ID, idEsternoElemento);
+	}
+
 
 }

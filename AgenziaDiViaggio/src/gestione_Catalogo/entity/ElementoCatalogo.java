@@ -1,5 +1,6 @@
 package gestione_Catalogo.entity;
 
+
 /**
  * @authors 
  * Remo Sperlongano
@@ -18,7 +19,7 @@ public abstract class ElementoCatalogo {
 	}
 	
 	public ElementoCatalogo(Integer ID, IDEsternoElemento idEsternoElemento){
-		this.ID = ID;
+		this.setID(ID);
 		this.idEsternoElemento = idEsternoElemento;
 	}
 	
@@ -26,14 +27,21 @@ public abstract class ElementoCatalogo {
 	public Integer getID() {
 		return ID;
 	}
-	public void setId(Integer ID) {
-		this.ID = ID;
+
+	public void setID(Integer iD) {
+		ID = iD;
 	}
-	public IDEsternoElemento getIDEsternoElemento() {
-		return idEsternoElemento;
+
+	public String getIDEsternoElemento() {
+		return idEsternoElemento.toString();
 	}
-	public void setIdEsternoElemento(IDEsternoElemento idEsternoElemento) {
-		this.idEsternoElemento = idEsternoElemento;
+	
+	
+	public boolean equals(ElementoCatalogo elementoCatalogo){
+		if((this.ID).equals(elementoCatalogo.getID()))
+				return true;
+		return false;
 	}
+
 
 }

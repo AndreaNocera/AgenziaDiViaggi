@@ -1,6 +1,9 @@
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.exception.IDEsternoElementoException;
+
 import java.util.Set;
+
 
 /**
  * @authors 
@@ -27,12 +30,27 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 	
 	//metodi
 	public ElementoIntermedio getElemento(String k){   
-		return mappaCatalogo.get(k);
+		return mappaCatalogo.getElemento(k);
 	}
+	
+	public ElementoFinale getElementoFinale(String k){
+		return mappaCatalogo.getElementoFinale(k);
+	}
+	
+	
+	public void aggiungiElemento(String k, ElementoCatalogo e){
+		mappaCatalogo.aggiungiElemento(k, e);
+	}
+	
+	public void rimuoviElemento(String k) throws IDEsternoElementoException{
+		mappaCatalogo.rimuoviElemento(k);
+	}
+	
 	
 	public Set<String> listaChiaviElementi() {
 		return mappaCatalogo.keySet();
 	}
+	
 	
 	public boolean esistenzaElemento(String k){    //se in parametro gli passo una stringa
 		return mappaCatalogo.containsKey(k);
@@ -42,13 +60,7 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 		return mappaCatalogo.containsKey(e.getIDEsternoElemento().toString());
 	}
 	
-	public void aggiungiElemento(String k, ElementoIntermedio e){
-		mappaCatalogo.put(k, e);
-	}
-	
-	public void rimuoviElemento(String k){
-		mappaCatalogo.remove(k);
-	}
+
 		
 	
 

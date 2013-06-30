@@ -11,4 +11,8 @@ public class Mare extends Ambiente {
 		super(idEsternoElemento);
 	}
 
+	public Mare(Integer ID, IDEsternoElemento idEsternoElemento) {
+		super(ID, idEsternoElemento);
+	}
+
 }

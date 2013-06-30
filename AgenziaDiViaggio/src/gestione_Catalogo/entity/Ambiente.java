@@ -11,4 +11,8 @@ public abstract class Ambiente extends ElementoIntermedio {
 		super(idEsternoElemento);
 	}
 
+	public Ambiente(Integer ID, IDEsternoElemento idEsternoElemento){
+		super(ID, idEsternoElemento);
+	}
+
 }

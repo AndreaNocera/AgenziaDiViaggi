@@ -7,19 +7,20 @@ package gestione_Catalogo.entity;
  */
 public class Via extends ElementoFinale  {
 	
-	private static int nextID = 1;
-	
-	
 	public Via(){
-		super(nextID, new IDEsternoElemento("(Diretto)"));
-		nextID++;
+		super(new IDEsternoElemento("(Diretto)"));
 	}
 	
+	public Via(Integer ID){
+		super(ID, new IDEsternoElemento("(Diretto)"));
+	}
 	
 	public Via(IDEsternoElemento idEsternoElemento){
-		super(nextID, idEsternoElemento);
-		nextID++;
-
+		super(idEsternoElemento);
+	}
+	
+	public Via(Integer ID, IDEsternoElemento idEsternoElemento){
+		super(ID, idEsternoElemento);
 	}
 
 }

@@ -32,6 +32,8 @@ public class Tratta {
 		this.setInfo(info);
 		
 		dataInserimento = new Data();
+		
+		this.info.updateInfo("--- Inserito il " + dataInserimento.stampaData());
 	}
 
 	
@@ -55,8 +57,8 @@ public class Tratta {
 		return via;
 	}
 
-	public Info getInfo() {
-		return info;
+	public String getInfo() {
+		return info.toString();
 	}
 
 	public void setInfo(Info info) {
@@ -67,5 +69,13 @@ public class Tratta {
 		return dataInserimento;
 	}
 
+	public boolean verifyExistance(Ambiente ambiente, Mezzo mezzo,
+			Citta partenza, Citta arrivo, Via via) {
+		if (this.ambiente.equals(ambiente) && this.mezzo.equals(mezzo)
+				&& this.partenza.equals(partenza)
+				&& this.arrivo.equals(arrivo) && this.via.equals(via))
+			return true;
+		return false;
+	}
 	
 }
