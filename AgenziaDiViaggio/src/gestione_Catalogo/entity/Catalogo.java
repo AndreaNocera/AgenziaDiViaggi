@@ -38,8 +38,7 @@ public class Catalogo {
 	
 	
 	public boolean verificaEsistenzaViaggio(Tratta tratta){
-		//return listaTratte.contains(tratta);
-		return false;
+		return listaTratte.contains(tratta);
 	}
 	
 	public boolean verificaEsistenzaOfferte(Tratta tratta){
@@ -134,6 +133,14 @@ public class Catalogo {
 
 	}
 	
+	
+	/*
+	 * Questo getTrattaByValue dovrebbe avere come parametri solo stringhe!
+	 * Ogni volta che creo un qualsiasi oggetto, automaticamente il rispettivo dao della sua classe lo salva in db ...
+	 * (metodo insert del DAO nel costruttore di ogni oggetto...)
+	 * In questo caso, dal metodo getTratta del controllore creo degli oggetti soltanto per prendermi l'id della tratta
+	 * Per di più il metodo getTratta viene usato per cancellare una tratta.... creo oggetti per cancellarli?
+	 */
 	
 	public Tratta getTrattaByValue(Ambiente ambiente, Mezzo mezzo, Citta cittaPartenza, Citta cittaArrivo, Via via) throws TrattaException{
 		for (Tratta tratta : listaTratte) {
