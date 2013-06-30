@@ -71,23 +71,24 @@
 				</form>			
 			</div>			
 			
-			<p id = "feedback"> <span>Hai selezionato l'elemento:</span> <span id = "select-result">Nessuno</span></p>
-				<div class = "items" align = "center">
-					<ol id = "selectable">
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-						<li class = "ui-widget-content">Giacomo Marciani</li>
-					</ol>			
-				</div>				
+			<div class = "items" align = "center">
+				<ol id = "selectable">
+				<%  %>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+					<li class = "ui-widget-content">Giacomo Marciani</li>
+				</ol>			
+			</div>		
+					
 		</div>
 	
 	</body>
