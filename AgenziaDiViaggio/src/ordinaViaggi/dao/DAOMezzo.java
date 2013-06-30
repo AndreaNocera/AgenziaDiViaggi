@@ -195,26 +195,6 @@ public class DAOMezzo extends DAO {
 		}
 	}
 
-	/*
-	 * private boolean isInDatabase(Object obj) throws DAOException { // TODO
-	 * Auto-generated method stub Mezzo mezzo; try { mezzo = (Mezzo)
-	 * obj;
-	 * 
-	 * conn = getConnection(usr, pass);
-	 * 
-	 * ps = conn.prepareStatement(findExistsQuery);
-	 * 
-	 * ps.setString(1, mezzo.getValore());
-	 * 
-	 * rs = ps.executeQuery();
-	 * 
-	 * rs.next(); if((rs.getString(1)).equals("1")) return true; return false;
-	 * 
-	 * } catch (ClassCastException e) { throw new
-	 * DAOException("Errore in delete."); } catch (SQLException e) { throw new
-	 * DAOException("Errore in delete."); } }
-	 */
-
 	public void printListaMezzi() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
@@ -246,7 +226,7 @@ public class DAOMezzo extends DAO {
 			if(!rs.next()){
 				//Elemento non esistente. Creazione e salvataggio nel DB.
 				mezzo = new Mezzo(1,valore);
-				mezzo.save();
+				insert(mezzo);
 				return mezzo;
 			}
 			//Situazione 2. Elemento presente
@@ -267,7 +247,7 @@ public class DAOMezzo extends DAO {
 			rs.last();
 			//Elemento non esistente. Creazione e salvataggio nel DB.
 			mezzo = new Mezzo((rs.getInt(1) + 1), valore);
-			mezzo.save();
+			insert(mezzo);
 			return mezzo;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block

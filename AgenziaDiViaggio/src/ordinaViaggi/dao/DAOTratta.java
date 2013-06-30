@@ -38,10 +38,6 @@ public class DAOTratta extends DAO {
 	private static PreparedStatement ps = null;
 	private static ResultSet rs = null;
 
-	/*
-	 * private static final String findExistsQuery = "SELECT EXISTS( " +
-	 * "SELECT * FROM Ambienti " + "WHERE value = ?)";
-	 */
 
 	/**
 	 * La tratta non si occupa della gestione della tabella del Catalogo. Queste
@@ -167,26 +163,6 @@ public class DAOTratta extends DAO {
 		}
 
 	}
-
-	/*
-	 * private boolean isInDatabase(Object obj) throws DAOException { // TODO
-	 * Auto-generated method stub Ambiente ambiente; try { ambiente = (Ambiente)
-	 * obj;
-	 * 
-	 * conn = getConnection(usr, pass);
-	 * 
-	 * ps = conn.prepareStatement(findExistsQuery);
-	 * 
-	 * ps.setString(1, ambiente.getValore());
-	 * 
-	 * rs = ps.executeQuery();
-	 * 
-	 * rs.next(); if((rs.getString(1)).equals("1")) return true; return false;
-	 * 
-	 * } catch (ClassCastException e) { throw new
-	 * DAOException("Errore in delete."); } catch (SQLException e) { throw new
-	 * DAOException("Errore in delete."); } }
-	 */
 
 	public String readValue(String table, Integer id) throws DAOException {
 

@@ -210,32 +210,6 @@ public class DAOAmbiente extends DAO {
 		}
 	}
 
-	/*private boolean isInDatabase(Object obj) throws DAOException {
-		// TODO Auto-generated method stub
-		Ambiente ambiente;
-		try {
-			ambiente = (Ambiente) obj;
-
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(findExistsQuery);
-
-			ps.setString(1, ambiente.getValore());
-
-			rs = ps.executeQuery();
-			
-			rs.next();
-			if((rs.getString(1)).equals("1"))
-				return true;
-			return false;
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in delete.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in delete.");
-		}
-	}*/
-
 	public void printListaAmbienti() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
@@ -269,7 +243,7 @@ public class DAOAmbiente extends DAO {
 			if(!rs.next()){
 				//Elemento non esistente. Creazione e salvataggio nel DB.
 				ambiente = new Ambiente(1,valore);
-				ambiente.save();
+				insert(ambiente);
 				return ambiente;
 			}
 			//Situazione 2. Elemento presente
@@ -290,7 +264,7 @@ public class DAOAmbiente extends DAO {
 			rs.last();
 			//Elemento non esistente. Creazione e salvataggio nel DB.
 			ambiente = new Ambiente((rs.getInt(1) + 1), valore);
-			ambiente.save();
+			insert(ambiente);
 			return ambiente;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
