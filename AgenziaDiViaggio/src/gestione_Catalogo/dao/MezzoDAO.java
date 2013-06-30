@@ -84,7 +84,7 @@ public class MezzoDAO extends DAO {
 	 * La Insert viene invocata dal costruttore di Mezzo, collegata alla creazione dell'oggetto
 	 * Questa particolare insert mi deve ritornare l'id da associare all'oggetto appena creato
 	 */
-	public int insertAndReturnId(Mezzo mezzo) throws DAOException {
+	public int insertAndReturnId(IDEsternoElemento idEsternoElemento) throws DAOException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		try {
@@ -97,7 +97,7 @@ public class MezzoDAO extends DAO {
 				ps = conn.prepareStatement(insertQuery);
 
 				ps.setInt(1, 1);
-				ps.setString(2, mezzo.getIDEsternoElemento().toString());
+				ps.setString(2, idEsternoElemento.toString());
 
 				ps.executeUpdate();
 				return 1;
@@ -106,7 +106,7 @@ public class MezzoDAO extends DAO {
 				//Situazione 2. Elemento non presente. Inserisco con l'id successivo all'ultimo elemento
 				ps = conn.prepareStatement(findByValueQuery);
 
-				ps.setString(1, mezzo.getIDEsternoElemento().toString());
+				ps.setString(1, idEsternoElemento.toString());
 				
 				rs = ps.executeQuery();
 				
@@ -123,7 +123,7 @@ public class MezzoDAO extends DAO {
 					ps = conn.prepareStatement(insertQuery);
 		
 					ps.setInt(1, id);
-					ps.setString(2, mezzo.getIDEsternoElemento().toString());
+					ps.setString(2, idEsternoElemento.toString());
 		
 					ps.executeUpdate();
 					return id;
@@ -132,7 +132,7 @@ public class MezzoDAO extends DAO {
 					//Situazione 3.Elemento Presente. Non inserisco, ma ritorno il suo id.
 					ps = conn.prepareStatement(findByValueQuery);
 
-					ps.setString(1, mezzo.getIDEsternoElemento().toString());
+					ps.setString(1, idEsternoElemento.toString());
 					
 					rs = ps.executeQuery();
 					

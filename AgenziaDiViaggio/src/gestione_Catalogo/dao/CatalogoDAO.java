@@ -2,17 +2,22 @@ package gestione_Catalogo.dao;
 
 import gestione_Catalogo.entity.Ambiente;
 import gestione_Catalogo.entity.Citta;
+import gestione_Catalogo.entity.Data;
+import gestione_Catalogo.entity.IDEsternoElemento;
+import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Mezzo;
 import gestione_Catalogo.entity.Tratta;
 import gestione_Catalogo.entity.Via;
 import gestione_Catalogo.exception.DAOException;
 
+import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 /**
@@ -90,6 +95,16 @@ public class CatalogoDAO extends DAO {
 			istanza = new CatalogoDAO();
 		return istanza;
 	}
+	
+	/*
+	 * FETCH del catalogo
+	 * Viene letto tutta la tabella catalogo, e per ogni riga vengono lette tutti gli elementi e creati i corrispettivi oggetti
+	 * la riga non contiene il nome dei vari elementi, ma solo il loro id!!!
+	 * Per questo viene invocato il rispettivo DAO per ottenere dall'id il valore giusto
+	 * Infine verrà creato l'oggetto usando il giusto controllore (per capirci, quello che non invoca il DAO per salvare da db)
+	 * Creati tutti gli oggetti per un riga, lo aggiunge ad un arrayList.
+	 * Terminato il resultSet, ritorna l'Arraylist
+	 */
 
 	public List<Tratta> getCatalogo() throws DAOException {
 		List<Tratta> tratte = new ArrayList<Tratta>();
@@ -98,47 +113,77 @@ public class CatalogoDAO extends DAO {
 			ps = conn.prepareStatement(getCatalogoQuery);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				Tratta tratta = new Tratta();
+		
 				Ambiente ambiente;
 				Mezzo mezzo;
 				Citta cittaPartenza;
 				Citta cittaArrivo;
 				Via via;
-				String valore;
+				Info info;
+				Data data;
+				
+				IDEsternoElemento valore;
+				String s;
 				Integer id;
 
-				tratta.setId(rs.getInt(1));
+				//prendo l'id
+				Integer idTratta = rs.getInt(1);
 
-				DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
+				//creo oggetto ambiente
+				AmbienteDAO daoAmbiente = AmbienteDAO.getIstanza();
 				id = rs.getInt(2);
-				valore = daoAmbiente.getValueById(id);
-				ambiente = new Ambiente(id, valore);
-				tratta.setAmbiente(ambiente);
+				valore = daoAmbiente.readOnlyValue(id);
+				
+				Class<?> c = Class.forName("gestione_Catalogo.entity."+valore);   // per classi in un package, va messo il nome del package!!!"
+				
+				//preparo i parametri
+				Class<?> primoParametro  = Integer.class;
+				Class<?> secondoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsternoElemento");
+				
+				Class<?>[] parametri = {primoParametro, secondoParametro};
+				
+				//prendo il costruttore della classe con i parametri indicati
+				Constructor<?> costruttore = c.getConstructor(parametri);
+				
+				//creo l'oggetto
+				ambiente = (Ambiente) costruttore.newInstance(id, valore);
 
-				DAOMezzo daoMezzo = DAOMezzo.getIstance();
+				
+				//creo oggetto mezzo
+				MezzoDAO daoMezzo = MezzoDAO.getIstanza();
 				id = rs.getInt(3);
-				valore = daoMezzo.getValueById(id);
+				valore = daoMezzo.readOnlyValue(id);
 				mezzo = new Mezzo(id, valore);
-				tratta.setMezzo(mezzo);
 
-				DAOCitta daoCitta = DAOCitta.getIstance();
+                //creo oggetto citta per la partenza
+				CittaDAO daoCitta = CittaDAO.getIstanza();
 				id = rs.getInt(4);
-				valore = daoCitta.getValueById(id);
+				valore = daoCitta.readOnlyValue(id);
 				cittaPartenza = new Citta(id, valore);
-				tratta.setCittaPartenza(cittaPartenza);
 
+				//creo oggetto citta per l'arrivo
 				id = rs.getInt(5);
-				valore = daoCitta.getValueById(id);
+				valore = daoCitta.readOnlyValue(id);
 				cittaArrivo = new Citta(id, valore);
-				tratta.setCittaArrivo(cittaArrivo);
 
-				DAOVia daoVia = DAOVia.getIstance();
+				//creo oggetto via
+				ViaDAO daoVia = ViaDAO.getIstanza();
 				id = rs.getInt(6);
-				valore = daoVia.getValueById(id);
+				valore = daoVia.readOnlyValue(id);
 				via = new Via(id, valore);
-				tratta.setVia(via);
 
+				
+				//creo l'oggetto per le Info
+				s = rs.getString(7);
+				
+				//creo l'oggetto per la data
+				data = rs.getDate(8);
+				
+				
+				//creo l'oggetto tratta e l'aggiungo
+				Tratta tratta = new Tratta(idTratta, ambiente, mezzo, cittaPartenza, cittaArrivo, via, info, data);
 				tratte.add(tratta);
+				
 			}
 
 			return tratte;
@@ -150,29 +195,6 @@ public class CatalogoDAO extends DAO {
 
 	}
 
-	@Override
-	public void insert(Object obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void update(Object obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(Object obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Object read(Integer id){
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public Integer getNextId() throws DAOException {
 		try {

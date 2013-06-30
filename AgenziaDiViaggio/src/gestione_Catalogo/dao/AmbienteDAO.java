@@ -88,7 +88,7 @@ public class AmbienteDAO extends DAO {
 	 * Questa particolare insert mi deve ritornare l'id da associare all'oggetto appena creato
 	 */
 
-	public int insertAndReturnId(Ambiente ambiente) throws DAOException {
+	public int insertAndReturnId(IDEsternoElemento idEsternoElemento) throws DAOException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		try {
@@ -101,7 +101,7 @@ public class AmbienteDAO extends DAO {
 				ps = conn.prepareStatement(insertQuery);
 
 				ps.setInt(1, 1);
-				ps.setString(2, ambiente.getIDEsternoElemento().toString());
+				ps.setString(2, idEsternoElemento.toString());
 
 				ps.executeUpdate();
 				return 1;
@@ -110,7 +110,7 @@ public class AmbienteDAO extends DAO {
 				//Situazione 2. Elemento non presente. Inserisco con l'id successivo all'ultimo elemento
 				ps = conn.prepareStatement(findByValueQuery);
 
-				ps.setString(1, ambiente.getIDEsternoElemento().toString());
+				ps.setString(1, idEsternoElemento.toString());
 				
 				rs = ps.executeQuery();
 				
@@ -127,7 +127,7 @@ public class AmbienteDAO extends DAO {
 					ps = conn.prepareStatement(insertQuery);
 		
 					ps.setInt(1, id);
-					ps.setString(2, ambiente.getIDEsternoElemento().toString());
+					ps.setString(2, idEsternoElemento.toString());
 		
 					ps.executeUpdate();
 					return id;
@@ -136,7 +136,7 @@ public class AmbienteDAO extends DAO {
 					//Situazione 3.Elemento Presente. Non inserisco, ma ritorno il suo id.
 					ps = conn.prepareStatement(findByValueQuery);
 
-					ps.setString(1, ambiente.getIDEsternoElemento().toString());
+					ps.setString(1, idEsternoElemento.toString());
 					
 					rs = ps.executeQuery();
 					
