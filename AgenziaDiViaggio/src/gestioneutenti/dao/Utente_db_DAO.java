@@ -1,45 +1,41 @@
 package gestioneutenti.dao;
 
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import gestioneutenti.exception.*;
-import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
-
-
+import gestioneutenti.model.Login;
 
 /**
- * @author <GRUPPO 9>
- *Utente_db_DAO interagisce col db di utenti per salvataggi e query. si appoggia al Utenti_table__DAO per collegarsi al database.
+ *Utente_db_DAO interagisce col db di utenti per salvataggi e query. si appoggia al Persistence_Db per collegarsi al database.
  */
-public class Utente_db_DAO implements utente_DAO {
+public class Utente_db_DAO{
 
 
 	ResultSet rs_db_utenti;
-	Utenti_table__DAO openhelper;
+	Persistence_Db openhelper;
 
 
-	String nome=null;
-	String cognome=null;
-	String citta=null;
-	String nascita=null;
-	String sesso=null;
-	String mail=null;
-	int ruolo;
-	public Login login=null;
+	private String nome=null;
+	private String cognome=null;
+	private String citta=null;
+	private String nascita=null;
+	private String sesso=null;
+	private String mail=null;
+	private int ruolo;
+	private Login login=null;
+	private String resetCode;
 
 
 
 	public Utente_db_DAO(){
-		openhelper=Utenti_table__DAO.getinstance();
+		openhelper=Persistence_Db.getinstance();
 	}
 
-	public Utente_db_DAO(String nome, String cognome, String citta, String nascita, String sesso, String mail, int ruolo, Login login){
+	public Utente_db_DAO(String nome, String cognome, String citta, String nascita, String sesso, String mail, int ruolo, Login login, String rcode){
 
-		openhelper=Utenti_table__DAO.getinstance();
+		openhelper=Persistence_Db.getinstance();
 
 		this.nome = nome;
 		this.cognome = cognome;
@@ -49,21 +45,28 @@ public class Utente_db_DAO implements utente_DAO {
 		this.mail = mail;
 		this.ruolo = ruolo;
 		this.login=login;
+		this.resetCode=rcode;
 
 	}
 
-	public Utente_db_DAO(Utente nuovo_utente) throws LoginInconsistenteException {
-		openhelper=Utenti_table__DAO.getinstance();
-		this.nome=nuovo_utente.getDatiUtente().getNome();
-		this.cognome=nuovo_utente.getDatiUtente().getCognome();
-		this.citta= nuovo_utente.getDatiUtente().getCittà();
-		this.sesso=nuovo_utente.getDatiUtente().getSesso();
-		this.nascita= nuovo_utente.getDatiUtente().getNascita().toString();
-		Login this_login= new Login(nuovo_utente.getLogin().getUsername(), nuovo_utente.getLogin().getPassword());
-		this.login=this_login;
-		this.ruolo=nuovo_utente.getRuolo().getId();
-		this.mail=nuovo_utente.getDatiUtente().getMail();
+	public Utente_db_DAO(Utente nuovo_utente)  {
+		try {
+			openhelper=Persistence_Db.getinstance();
+
+			this.nome=nuovo_utente.getDatiUtente().getNome();
+			this.cognome=nuovo_utente.getDatiUtente().getCognome();
+			this.citta= nuovo_utente.getDatiUtente().getcitta();
+			this.sesso=nuovo_utente.getDatiUtente().getSesso();
+			this.nascita=config_db_utenti.formattoDateTime.format(nuovo_utente.getDatiUtente().getNascita().getTime());
+			this.login= new Login(nuovo_utente.getLogin().getUsername(), nuovo_utente.getLogin().getPassword());
+			this.ruolo=nuovo_utente.getRuolo().getId();
+			this.mail=nuovo_utente.getDatiUtente().getMail();
+
+		} catch (LoginInconsistenteException e) {
+			e.printStackTrace();
+		}
 	}
+
 
 	public String getNome() {
 		return nome;
@@ -128,84 +131,75 @@ public class Utente_db_DAO implements utente_DAO {
 	public void setLogin(Login login) {
 		this.login = login;
 	}
-
-	/*Esegue la query sul db di utenti con il criterio di ricerca username, che coincide con la chiave della tabella,
-	 * dunque il result set e' costituito di un solo risultato oppure e'  null nel caso non ci sia una coincidenza.
-	 * Di seguito mappa i risultati sulla istanza corrente di Utente_db_DAO.
-	 * */
-	@Override
-	public void get(Login login) {
-
-		openhelper.connect();
-
-		try {
-			rs_db_utenti=null;
-			rs_db_utenti=openhelper.statement.executeQuery("SELECT * FROM "+ config_db_utenti.NOME_TABELLA_UTENTI+
-					"WHERE "+config_db_utenti.COLONNA_USERNAME+"= "+login.getUsername());
-
-			this.nome = rs_db_utenti.getString(config_db_utenti.INDICE_NOME);
-			this.cognome = rs_db_utenti.getString(config_db_utenti.INDICE_COGNOME);
-			this.citta = rs_db_utenti.getString(config_db_utenti.INDICE_CITTA);
-			this.nascita = rs_db_utenti.getString(config_db_utenti.INDICE_NASCITA);
-			this.sesso = rs_db_utenti.getString(config_db_utenti.INDICE_SESSO);
-			this.mail = rs_db_utenti.getString(config_db_utenti.INDICE_MAIL);
-			this.ruolo=rs_db_utenti.getInt(config_db_utenti.INDICE_RUOLO);
-			this.login.setPassword(rs_db_utenti.getString(config_db_utenti.INDICE_PASSWORD));
-			this.login.setUsername(rs_db_utenti.getString(config_db_utenti.INDICE_USERNAME));
-		} catch (SQLException | LoginInconsistenteException e) {
-			e.printStackTrace();
-		}
-		openhelper.close();
+	public void setResetCode(String rc) {
+		this.resetCode= rc;
+	}
+	public String getResetCode(String rc) {
+		return this.resetCode;
 	}
 
-	@Override
+
 	public void save() throws UtenteEsistenteException{
 		openhelper.connect();
-	if(!openhelper.isthereAnyUser(this)){
+		if(openhelper.isthereAnyUser(this)){
 			try {
 				openhelper.pstatement=openhelper.conn.prepareStatement(config_db_utenti.STATEMENT_SALVA);
-				openhelper.pstatement.setString(1, this.login.getUsername());
-				openhelper.pstatement.setString(2, this.login.getPassword());
-				openhelper.pstatement.setString(3, this.nome);
-				openhelper.pstatement.setString(4, this.cognome);
-				openhelper.pstatement.setString(5, this.citta);
-				openhelper.pstatement.setString(6, this.nascita);
-				openhelper.pstatement.setString(7, this.sesso);
-				openhelper.pstatement.setString(8, this.mail);
-				openhelper.pstatement.setInt(9, this.ruolo);
-
+				openhelper.pstatement.setString(config_db_utenti.INDICE_USERNAME, this.login.getUsername());
+				openhelper.pstatement.setString(config_db_utenti.INDICE_PASSWORD, this.login.getPassword());
+				openhelper.pstatement.setString(config_db_utenti.INDICE_NOME, this.nome);
+				openhelper.pstatement.setString(config_db_utenti.INDICE_COGNOME, this.cognome);
+				openhelper.pstatement.setString(config_db_utenti.INDICE_CITTA, this.citta);
+				openhelper.pstatement.setString(config_db_utenti.INDICE_NASCITA, this.nascita);
+				openhelper.pstatement.setString(config_db_utenti.INDICE_SESSO, this.sesso);
+				openhelper.pstatement.setString(config_db_utenti.INDICE_MAIL, this.mail);
+				openhelper.pstatement.setInt(config_db_utenti.INDICE_RUOLO, this.ruolo);
+				openhelper.pstatement.setString(config_db_utenti.INDICE_RCODE, this.resetCode);
 				openhelper.pstatement.executeUpdate();
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally{
+			}finally{
 				openhelper.close();
 			}
+		}else{
+			throw new UtenteEsistenteException("L'username '"+this.getLogin().getUsername()+"' Ã¨ gia stato usato");
 		}
-	else throw new UtenteEsistenteException("Usename gia esistente per questo utente");
 	}
 
-	public void update(){ 
+	public void update() throws UtenteEsistenteException{ 
 		openhelper.connect();
 		try {
-			openhelper.statement.executeUpdate("UPDATE "+config_db_utenti.NOME_TABELLA_UTENTI+
-					" SET "+config_db_utenti.COLONNA_PASSWORD+"="+this.login.getPassword()+", "
-					+config_db_utenti.COLONNA_NOME+"="+this.login.getPassword()+", "
-					+config_db_utenti.COLONNA_COGNOME+"="+this.login.getPassword()+", "
-					+config_db_utenti.COLONNA_CITTA+"="+this.login.getPassword()+", "
-					+config_db_utenti.COLONNA_NASCITA+"="+this.login.getPassword()+", "
-					+config_db_utenti.COLONNA_SESSO+"="+this.login.getPassword()+", "
-					+config_db_utenti.COLONNA_MAIL+"="+this.login.getPassword()+", "
-					+config_db_utenti.COLONNA_RUOLO+"="+this.login.getPassword()+
-					" WHERE "+config_db_utenti.COLONNA_USERNAME+" = '"+this.login.getUsername()+"'");
+			openhelper.pstatement=openhelper.conn.prepareStatement(config_db_utenti.STATEMENT_UPDATE);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_PASSWORD-1, this.login.getPassword());
+			openhelper.pstatement.setString(config_db_utenti.INDICE_NOME-1, this.nome);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_COGNOME-1, this.cognome);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_CITTA-1, this.citta);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_NASCITA-1, this.nascita);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_SESSO-1, this.sesso);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_MAIL-1, this.mail);
+			openhelper.pstatement.setInt(config_db_utenti.INDICE_RUOLO-1, this.ruolo);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_RCODE-1,this.resetCode);
+			openhelper.pstatement.setString(10, this.login.getUsername());
+			openhelper.pstatement.executeUpdate();
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}   catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			openhelper.close();
 		}
-		openhelper.close();
+	}
 
+	public void delete(){
+		openhelper.connect();
+		try {
+			openhelper.pstatement=openhelper.conn.prepareStatement(config_db_utenti.STATEMENT_DELETE);
+			openhelper.pstatement.setString(config_db_utenti.INDICE_USERNAME, this.login.getUsername());
+			openhelper.pstatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			openhelper.close();
+		}
 	}
 
 }
