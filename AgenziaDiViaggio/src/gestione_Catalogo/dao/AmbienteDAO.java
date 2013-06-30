@@ -1,6 +1,7 @@
 package gestione_Catalogo.dao;
 
 import gestione_Catalogo.entity.Ambiente;
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.exception.DAOException;
 
 import java.sql.Connection;
@@ -41,11 +42,9 @@ public class AmbienteDAO extends DAO {
 			"SELECT * FROM AMBIENTE " +
 			"WHERE ID=?";
 	
-	/*private static final String findExistsQuery = 
-			"SELECT EXISTS( " +
-			"SELECT * FROM Ambienti " +
-			"WHERE value = ?)";
-	*/
+	private static final String findByValueQuery =
+			"SELECT * FROM AMBIENTE WHERE IDESTERNOELEMENTO = ?";
+
 
 	private static final String dropQuery = "DROP TABLE AMBIENTE IF EXISTS";
 
@@ -80,7 +79,262 @@ public class AmbienteDAO extends DAO {
 		return istanza;
 	}
 
-	@Override
+	
+	
+	
+	/*
+	 * CRUD - Create
+	 * La Insert viene invocata dal costruttore di Ambiente, collegata alla creazione dell'oggetto
+	 * Questa particolare insert mi deve ritornare l'id da associare all'oggetto appena creato
+	 */
+
+	public int insertAndReturnId(Ambiente ambiente) throws DAOException {
+		// TODO Auto-generated method stub
+		ResultSet rs;
+		try {
+			//Situazione 1. Tabella vuota. Inserisco con ID 1.
+			
+			conn = getConnection(usr, pass);
+			ps = conn.prepareStatement(getListaAmbientiQuery);
+			rs = ps.executeQuery();
+			if(!rs.next()){
+				ps = conn.prepareStatement(insertQuery);
+
+				ps.setInt(1, 1);
+				ps.setString(2, ambiente.getIDEsternoElemento().toString());
+
+				ps.executeUpdate();
+				return 1;
+			} else {
+				
+				//Situazione 2. Elemento non presente. Inserisco con l'id successivo all'ultimo elemento
+				ps = conn.prepareStatement(findByValueQuery);
+
+				ps.setString(1, ambiente.getIDEsternoElemento().toString());
+				
+				rs = ps.executeQuery();
+				
+				if(!rs.next()){
+					//prima prendo l'id successivo all'ultimo elemento
+					ps = conn.prepareStatement(getListaAmbientiQuery);
+					
+					rs = ps.executeQuery();
+					
+					rs.last();
+					
+					int id = rs.getInt(1)+1;
+					
+					ps = conn.prepareStatement(insertQuery);
+		
+					ps.setInt(1, id);
+					ps.setString(2, ambiente.getIDEsternoElemento().toString());
+		
+					ps.executeUpdate();
+					return id;
+				} else {
+					
+					//Situazione 3.Elemento Presente. Non inserisco, ma ritorno il suo id.
+					ps = conn.prepareStatement(findByValueQuery);
+
+					ps.setString(1, ambiente.getIDEsternoElemento().toString());
+					
+					rs = ps.executeQuery();
+					
+					rs.next(); //Lo sposto avanti alla prima, e unica, riga
+					
+					return rs.getInt(1);
+									
+				}			
+				
+			}			
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in insert ClassCastException.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in insert SQLException.");
+		}finally {
+			closeResource();
+		}
+
+	}
+	
+	/*
+	 * CRUD - Read
+	 * La Read invocata nel CatalogoDAO - siamo in fase di fetch del Catalogo dal DB 
+	 * Questa particolare read, mi torna solo il valore, l'id l'ho preso dal CatalogoDAO
+	 */
+
+	public IDEsternoElemento readOnlyValue(Integer id) throws DAOException {
+		
+		try {
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(findQuery);
+
+			ps.setInt(1, id);
+
+			rs = ps.executeQuery();
+
+			rs.next();
+			String s =rs.getString(2);
+
+			return new IDEsternoElemento(s);
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in read.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in read.");
+		}finally {
+			closeResource();
+		}
+	}
+	
+	/*
+	 * CRUD - Update
+	 * Da invocare nei metodo set di Ambiente
+	 */
+
+
+	public void update(Ambiente ambiente) throws DAOException {
+		// TODO Auto-generated method stub
+
+		try {
+
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(updateQuery);
+
+			ps.setString(1, ambiente.getIDEsternoElemento().toString());
+			ps.setInt(2, ambiente.getID());
+
+			ps.executeUpdate();
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in update.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in update.");
+		}finally {
+			closeResource();
+		}
+
+	}
+
+	/*
+	 * CRUD - Delete
+	 * Da Invocare (probabilmente) alla rimozione di una tratta, quando non vi sono più Ambienti uguali
+	 */
+
+	public void delete(Ambiente ambiente) throws DAOException {
+		// TODO Auto-generated method stub
+
+		try {
+
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(deleteQuery);
+
+			ps.setInt(1, ambiente.getID());
+
+			ps.executeUpdate();
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in delete.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in delete.");
+		}finally {
+			closeResource();
+		}
+	}
+	
+	
+	
+	public void dropTable() throws DAOException {
+		try {
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(dropQuery);
+
+			ps.executeUpdate();
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in dropTable.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in dropTable.");
+		}finally {
+			closeResource();
+		}
+	}
+
+	
+	/*   Vecchi metodi, forse deprecabili
+	  
+	 
+	public Ambiente getObjectByValue(String valore) throws DAOException {
+		String query = "SELECT * FROM AMBIENTE WHERE IDESTERNOELEMENTO = ?";
+		ResultSet rs = null;
+		try {
+			conn = getConnection(usr, pass);
+			
+			//Situazione 1. Tabella Vuota. Id da ritornare 1.
+			ps = conn.prepareStatement(getListaAmbientiQuery);
+			rs = ps.executeQuery();
+			if(!rs.next()){
+				//Elemento non esistente. Creazione e salvataggio nel DB.
+				ambiente = new Ambiente(1,valore);
+				ambiente.save();
+				return ambiente;
+			}
+			//Situazione 2. Elemento presente
+			
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, valore);
+
+			rs = ps.executeQuery();
+			if(rs.next()){
+				return rs.getInt(1); 
+			}
+			
+			// Situazione 3. Elemento non presente.
+			ps = conn.prepareStatement(getListaAmbientiQuery);
+			
+			rs = ps.executeQuery();
+			rs.last();
+			return rs.getInt(1) + 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new DAOException("Errore in getIDByValue in SQL.");
+		}finally {
+			closeResource();
+		}
+	}
+	
+	
+	public String getValueById(Integer id) throws DAOException{
+		String query = "SELECT * FROM AMBIENTE WHERE ID=?";
+		ResultSet rs = null;
+		try {
+			//Situazione 2. Elemento presente
+			
+			ps = conn.prepareStatement(query);
+
+			ps.setInt(1, id);
+
+			rs = ps.executeQuery();
+			if(rs.next()){
+				return rs.getString(2); 
+			}
+			
+			throw new DAOException("Errore in getValue.");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new DAOException("Errore in getValue.");
+		}finally {
+			closeResource();
+		}
+		
+	}
+	
+	
 	public void insert(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
@@ -123,199 +377,10 @@ public class AmbienteDAO extends DAO {
 			throw new DAOException("Errore in insert ClassCastException.");
 		} catch (SQLException e) {
 			throw new DAOException("Errore in insert SQLException.");
+		}finally {
+			closeResource();
 		}
 
-	}
-
-	@Override
-	public Ambiente read(Integer id) throws DAOException {
-		Ambiente ambiente = new Ambiente();
-		try {
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(findQuery);
-
-			ps.setInt(1, id);
-
-			rs = ps.executeQuery();
-
-			rs.next();
-			ambiente.setId(rs.getInt(1));
-			ambiente.setValore(rs.getString(2));
-
-			return ambiente;
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in read.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in read.");
-		}
-	}
-
-	@Override
-	public void update(Object obj) throws DAOException {
-		// TODO Auto-generated method stub
-		Ambiente ambiente;
-		try {
-			ambiente = (Ambiente) obj;
-
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(updateQuery);
-
-			ps.setString(1, ambiente.getIDEsternoElemento().toString());
-			ps.setInt(2, ambiente.getID());
-
-			ps.executeUpdate();
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in update.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in update.");
-		}
-
-	}
-
-	@Override
-	public void delete(Object obj) throws DAOException {
-		// TODO Auto-generated method stub
-		Ambiente ambiente;
-		try {
-			ambiente = (Ambiente) obj;
-
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(deleteQuery);
-
-			ps.setInt(1, ambiente.getID());
-
-			ps.executeUpdate();
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in delete.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in delete.");
-		}
-	}
-
-	/*private boolean isInDatabase(Object obj) throws DAOException {
-		// TODO Auto-generated method stub
-		Ambiente ambiente;
-		try {
-			ambiente = (Ambiente) obj;
-
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(findExistsQuery);
-
-			ps.setString(1, ambiente.getValore());
-
-			rs = ps.executeQuery();
-			
-			rs.next();
-			if((rs.getString(1)).equals("1"))
-				return true;
-			return false;
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in delete.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in delete.");
-		}
-	}*/
-
-	public void printListaAmbienti() throws DAOException {
-		try {
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(getListaAmbientiQuery);
-
-			rs = ps.executeQuery();
-			System.out.println("Lista ambienti.");
-			while (rs.next()) {
-				System.out.println(rs.getInt(1) + " " + rs.getString(2));
-			}
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in printListaAmbienti.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in printListaAmbienti.");
-		}
-	}
-	
-	public Integer getIdByValue(String valore) throws DAOException {
-		String query = "SELECT * FROM AMBIENTE WHERE IDESTERNOELEMENTO = ?";
-		try {
-			conn = getConnection(usr, pass);
-			
-			//Situazione 1. Tabella Vuota. Id da ritornare 1.
-			ps = conn.prepareStatement(getListaAmbientiQuery);
-			rs = ps.executeQuery();
-			if(!rs.next()){
-				return 1;
-			}
-			//Situazione 2. Elemento presente
-			
-			ps = conn.prepareStatement(query);
-
-			ps.setString(1, valore);
-
-			rs = ps.executeQuery();
-			if(rs.next()){
-				return rs.getInt(1); 
-			}
-			
-			// Situazione 3. Elemento non presente.
-			ps = conn.prepareStatement(getListaAmbientiQuery);
-			
-			rs = ps.executeQuery();
-			rs.last();
-			return rs.getInt(1) + 1;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new DAOException("Errore in getIDByValue in SQL.");
-		}
-	}
-	
-	/**
-	 * Se l'id passato non esiste lancia un'eccezione.
-	 * @param id
-	 * @return
-	 */
-	public String getValueById(Integer id) throws DAOException{
-		String query = "SELECT * FROM AMBIENTE WHERE ID=?";
-		ResultSet rs = null;
-		try {
-			//Situazione 2. Elemento presente
-			
-			ps = conn.prepareStatement(query);
-
-			ps.setInt(1, id);
-
-			rs = ps.executeQuery();
-			if(rs.next()){
-				return rs.getString(2); 
-			}
-			
-			throw new DAOException("Errore in getValue.");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new DAOException("Errore in getValue.");
-		}
-		
-	}
-
-	public void dropTable() throws DAOException {
-		try {
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(dropQuery);
-
-			ps.executeUpdate();
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in dropTable.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in dropTable.");
-		}
-	}
+	}   */
 
 }

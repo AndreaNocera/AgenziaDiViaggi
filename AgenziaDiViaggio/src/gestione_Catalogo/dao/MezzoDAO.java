@@ -1,5 +1,6 @@
 package gestione_Catalogo.dao;
 
+import gestione_Catalogo.entity.Mezzo;
 import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.entity.Mezzo;
 import gestione_Catalogo.exception.DAOException;
@@ -41,10 +42,8 @@ public class MezzoDAO extends DAO {
 			"SELECT * FROM MEZZO " +
 			"WHERE ID=?";
 
-	/*
-	 * private static final String findExistsQuery = "SELECT EXISTS( " +
-	 * "SELECT * FROM Mezzi " + "WHERE value = ?)";
-	 */
+	private static final String findByValueQuery =
+			"SELECT * FROM MEZZO WHERE IDESTERNOELEMENTO = ?";
 
 	private static final String dropQuery = "DROP TABLE MEZZO IF EXISTS";
 	
@@ -72,13 +71,192 @@ public class MezzoDAO extends DAO {
 		}
 	}
 
+	
 	public static MezzoDAO getIstanza() {
 		if (istanza == null)
 			istanza = new MezzoDAO();
 		return istanza;
 	}
 
-	@Override
+
+	/*
+	 * CRUD - Create
+	 * La Insert viene invocata dal costruttore di Mezzo, collegata alla creazione dell'oggetto
+	 * Questa particolare insert mi deve ritornare l'id da associare all'oggetto appena creato
+	 */
+	public int insertAndReturnId(Mezzo mezzo) throws DAOException {
+		// TODO Auto-generated method stub
+		ResultSet rs;
+		try {
+			//Situazione 1. Tabella vuota. Inserisco con ID 1.
+			
+			conn = getConnection(usr, pass);
+			ps = conn.prepareStatement(getListaMezziQuery);
+			rs = ps.executeQuery();
+			if(!rs.next()){
+				ps = conn.prepareStatement(insertQuery);
+
+				ps.setInt(1, 1);
+				ps.setString(2, mezzo.getIDEsternoElemento().toString());
+
+				ps.executeUpdate();
+				return 1;
+			} else {
+				
+				//Situazione 2. Elemento non presente. Inserisco con l'id successivo all'ultimo elemento
+				ps = conn.prepareStatement(findByValueQuery);
+
+				ps.setString(1, mezzo.getIDEsternoElemento().toString());
+				
+				rs = ps.executeQuery();
+				
+				if(!rs.next()){
+					//prima prendo l'id successivo all'ultimo elemento
+					ps = conn.prepareStatement(getListaMezziQuery);
+					
+					rs = ps.executeQuery();
+					
+					rs.last();
+					
+					int id = rs.getInt(1)+1;
+					
+					ps = conn.prepareStatement(insertQuery);
+		
+					ps.setInt(1, id);
+					ps.setString(2, mezzo.getIDEsternoElemento().toString());
+		
+					ps.executeUpdate();
+					return id;
+				} else {
+					
+					//Situazione 3.Elemento Presente. Non inserisco, ma ritorno il suo id.
+					ps = conn.prepareStatement(findByValueQuery);
+
+					ps.setString(1, mezzo.getIDEsternoElemento().toString());
+					
+					rs = ps.executeQuery();
+					
+					rs.next(); //Lo sposto avanti alla prima, e unica, riga
+					
+					return rs.getInt(1);
+									
+				}			
+				
+			}			
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in insert ClassCastException.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in insert SQLException.");
+		}finally {
+			closeResource();
+		}
+
+	}
+	
+	/*
+	 * CRUD - Read
+	 * La Read invocata nel CatalogoDAO - siamo in fase di fetch del Catalogo dal DB 
+	 * Questa particolare read, mi torna solo il valore, l'id l'ho preso dal CatalogoDAO
+	 */
+
+	public IDEsternoElemento readOnlyValue(Integer id) throws DAOException {
+		
+		try {
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(findQuery);
+
+			ps.setInt(1, id);
+
+			rs = ps.executeQuery();
+
+			rs.next();
+			String s =rs.getString(2);
+
+			return new IDEsternoElemento(s);
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in read.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in read.");
+		}finally {
+			closeResource();
+		}
+	}
+	
+	/*
+	 * CRUD - Update
+	 * Da invocare nei metodo set di Mezzo
+	 */
+
+	public void update(Mezzo mezzo) throws DAOException {
+		// TODO Auto-generated method stub
+		try {
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(updateQuery);
+
+			ps.setString(1, mezzo.getIDEsternoElemento().toString());
+			ps.setInt(2, mezzo.getID());
+
+			ps.executeUpdate();
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in update.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in update.");
+		}finally {
+			closeResource();
+		}
+
+	}
+
+	/*
+	 * CRUD - Delete
+	 * Da Invocare (probabilmente) alla rimozione di una tratta, quando non vi sono più Ambienti uguali
+	 */
+	public void delete(Mezzo mezzo) throws DAOException {
+		// TODO Auto-generated method stub
+		try {
+
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(deleteQuery);
+
+			ps.setInt(1, mezzo.getID());
+
+			ps.executeUpdate();
+
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in delete.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in delete.");
+		}finally {
+			closeResource();
+		}
+	}
+	
+	
+	
+	public void dropTable() throws DAOException {
+		try {
+			conn = getConnection(usr, pass);
+
+			ps = conn.prepareStatement(dropQuery);
+
+			ps.executeUpdate();
+		} catch (ClassCastException e) {
+			throw new DAOException("Errore in dropTable.");
+		} catch (SQLException e) {
+			throw new DAOException("Errore in dropTable.");
+		}finally {
+			closeResource();
+		}
+	}
+	
+	/*  Metodi deprecabili
+
 	public void insert(Object obj) throws DAOException {
 		ResultSet rs;
 		Mezzo mezzo;
@@ -123,114 +301,6 @@ public class MezzoDAO extends DAO {
 		}
 
 	}
-
-	@Override
-	public Mezzo read(Integer id) throws DAOException {
-		try {
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(findQuery);
-
-			ps.setInt(1, id);
-
-			rs = ps.executeQuery();
-
-			rs.next();
-			Integer i = rs.getInt(1);
-			String s = rs.getString(2);
-
-			return new Mezzo(i,new IDEsternoElemento(s));
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in read.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in read.");
-		}
-	}
-
-	@Override
-	public void update(Object obj) throws DAOException {
-		// TODO Auto-generated method stub
-		Mezzo mezzo;
-		try {
-			mezzo = (Mezzo) obj;
-
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(updateQuery);
-
-			ps.setString(1, mezzo.getIDEsternoElemento().toString());
-			ps.setInt(2, mezzo.getID());
-
-			ps.executeUpdate();
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in update.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in update.");
-		}
-
-	}
-
-	@Override
-	public void delete(Object obj) throws DAOException {
-		// TODO Auto-generated method stub
-		Mezzo mezzo;
-		try {
-			mezzo = (Mezzo) obj;
-
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(deleteQuery);
-
-			ps.setInt(1, mezzo.getID());
-
-			ps.executeUpdate();
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in delete.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in delete.");
-		}
-	}
-
-	/*
-	 * private boolean isInDatabase(Object obj) throws DAOException { // TODO
-	 * Auto-generated method stub Mezzo mezzo; try { mezzo = (Mezzo)
-	 * obj;
-	 * 
-	 * conn = getConnection(usr, pass);
-	 * 
-	 * ps = conn.prepareStatement(findExistsQuery);
-	 * 
-	 * ps.setString(1, mezzo.getValore());
-	 * 
-	 * rs = ps.executeQuery();
-	 * 
-	 * rs.next(); if((rs.getString(1)).equals("1")) return true; return false;
-	 * 
-	 * } catch (ClassCastException e) { throw new
-	 * DAOException("Errore in delete."); } catch (SQLException e) { throw new
-	 * DAOException("Errore in delete."); } }
-	 */
-
-	public void printListaMezzi() throws DAOException {
-		try {
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(getListaMezziQuery);
-
-			rs = ps.executeQuery();
-			System.out.println("Lista mezzi.");
-			while (rs.next()) {
-				System.out.println(rs.getInt(1) + " " + rs.getString(2));
-			}
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in printListaMezzi.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in printListaMezzi.");
-		}
-	}
 	
 	public Integer getIdByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM MEZZI WHERE IDESTERNOELEMENTO=?";
@@ -265,11 +335,7 @@ public class MezzoDAO extends DAO {
 		}
 	}
 	
-	/**
-	 * Se l'id passato non esiste lancia un'eccezione.
-	 * @param id
-	 * @return
-	 */
+	
 	public String getValueById(Integer id) throws DAOException{
 		String query = "SELECT * FROM MEZZO WHERE ID=?";
 		ResultSet rs = null;
@@ -293,19 +359,9 @@ public class MezzoDAO extends DAO {
 		
 	}
 	
+	*/
+	
 
-	public void dropTable() throws DAOException {
-		try {
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(dropQuery);
-
-			ps.executeUpdate();
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in dropTable.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in dropTable.");
-		}
-	}
+	
 
 }

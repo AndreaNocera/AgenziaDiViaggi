@@ -33,7 +33,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	//metodi
 	public void aggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws TrattaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		Tratta nuovaTratta = newTratta(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info);
+		Tratta nuovaTratta = creaTratta(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info);
 		
 		//verifico l'esistenza del viaggio nel catalogo
 		if (catalogo.verificaEsistenzaViaggio(nuovaTratta)){
@@ -386,7 +386,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		return unViaggio;
 	}
 	
-	private Tratta newTratta(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+	private Tratta creaTratta(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		/*
 		 * FASE 1 : creo l'oggetto Ambiente
 		 */

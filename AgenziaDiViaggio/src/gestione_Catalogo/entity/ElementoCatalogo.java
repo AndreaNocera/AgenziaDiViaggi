@@ -16,6 +16,7 @@ public abstract class ElementoCatalogo {
 	//costruttori
 	public ElementoCatalogo (IDEsternoElemento idEsternoElemento){
 		this.idEsternoElemento = idEsternoElemento;
+		ID = 1;
 	}
 	
 	public ElementoCatalogo(Integer ID, IDEsternoElemento idEsternoElemento){

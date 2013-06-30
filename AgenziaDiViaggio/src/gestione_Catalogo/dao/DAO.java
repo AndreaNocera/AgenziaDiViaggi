@@ -3,6 +3,7 @@
  */
 package gestione_Catalogo.dao;
 
+import gestione_Catalogo.entity.IDEsternoElemento;
 import gestione_Catalogo.exception.DAOException;
 
 import java.sql.Connection;
@@ -65,8 +66,4 @@ public abstract class DAO {
 				e.printStackTrace();
 			}
 	}
-	public abstract void insert(Object obj) throws DAOException;
-	public abstract Object read(Integer id) throws DAOException;
-	public abstract void update(Object obj) throws DAOException;
-	public abstract void delete(Object obj) throws DAOException;
 }
