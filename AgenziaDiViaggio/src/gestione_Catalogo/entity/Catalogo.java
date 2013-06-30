@@ -38,8 +38,7 @@ public class Catalogo {
 	
 	
 	public boolean verificaEsistenzaViaggio(Tratta tratta){
-		//return listaTratte.contains(tratta);
-		return false;
+		return listaTratte.contains(tratta);
 	}
 	
 	public boolean verificaEsistenzaOfferte(Tratta tratta){

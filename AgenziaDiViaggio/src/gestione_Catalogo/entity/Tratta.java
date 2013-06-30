@@ -6,10 +6,11 @@ package gestione_Catalogo.entity;
  * Ivan Torre
  */
 public class Tratta {
-	
-	private static Integer ID =0;
+
 	
 	//attributi di istanza
+	private Integer ID;
+	
 	private Ambiente ambiente;
 	private Mezzo mezzo;
 	private Citta partenza;
@@ -22,7 +23,6 @@ public class Tratta {
 	
 	
 	public Tratta(Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via, Info info){
-		ID+=1;
 		
 		this.ambiente = ambiente;
 		this.mezzo = mezzo;
@@ -37,6 +37,32 @@ public class Tratta {
 	}
 
 	
+	public Tratta(Integer ID, Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via, Info info, Data dataInserimento){
+		
+		this.setID(ID);
+		
+		this.ambiente = ambiente;
+		this.mezzo = mezzo;
+		this.partenza = partenza;
+		this.arrivo = arrivo;
+		this.via = via;
+		this.setInfo(info);
+		
+		this.dataInserimento = dataInserimento;
+
+	}
+
+	
+	public Integer getID() {
+		return ID;
+	}
+
+
+	public void setID(Integer iD) {
+		ID = iD;
+	}
+
+
 	public Ambiente getAmbiente() {
 		return ambiente;
 	}
