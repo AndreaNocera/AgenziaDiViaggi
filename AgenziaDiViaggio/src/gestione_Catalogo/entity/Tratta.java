@@ -94,14 +94,23 @@ public class Tratta {
 	public Data getDataInserimento() {
 		return dataInserimento;
 	}
+	
+	
+	public boolean verifyExistence(String ambiente, String mezzo, String partenza, String arrivo, String via) {
+		if (this.ambiente.getIDEsternoElemento().equals(ambiente) && this.mezzo.getIDEsternoElemento().equals(mezzo)
+				&& this.partenza.getIDEsternoElemento().equals(partenza) && this.arrivo.getIDEsternoElemento().equals(arrivo) 
+				&& this.via.getIDEsternoElemento().equals(via))
+			return true;
+		return false;
+	}
 
-	public boolean verifyExistance(Ambiente ambiente, Mezzo mezzo,
-			Citta partenza, Citta arrivo, Via via) {
-		if (this.ambiente.equals(ambiente) && this.mezzo.equals(mezzo)
-				&& this.partenza.equals(partenza)
-				&& this.arrivo.equals(arrivo) && this.via.equals(via))
+	
+	public boolean equals(Tratta t){
+		if (this.ambiente.equals(t.getAmbiente()) && this.mezzo.equals(t.getMezzo()) && this.partenza.equals(t.getPartenza())
+				&& this.arrivo.equals(t.getArrivo()) && this.via.equals(t.getVia()))
 			return true;
 		return false;
 	}
 	
+
 }

@@ -32,7 +32,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	
 	//metodi
 	public void aggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws TrattaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
+		
 		Tratta nuovaTratta = creaTratta(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info);
 		
 		//verifico l'esistenza del viaggio nel catalogo
@@ -62,8 +62,6 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		
 	}
 	
-	
-
 
 
 	public Set<String> mostraAmbientiInCatalogo() throws MappaException {
@@ -427,41 +425,6 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		return new Tratta (a,mt,cp,ca,v,i);
 		
 	}
-	
-	
-
-	private Tratta getTratta(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		
-		/*
-		 * FASE 1 : creo l'oggetto Ambiente
-		 */
-			
-		//classe c di nome ambiente
-		Class<?> c = Class.forName("gestione_Catalogo.entity."+ambiente);   // per classi in un package, va messo il nome del package!!!"
-		
-		//preparo i parametri
-		Class<?> primoParametro	 = Class.forName("gestione_Catalogo.entity.IDEsternoElemento");
-		
-		Class<?>[] parametri = {primoParametro};
-		
-		//prendo il costruttore della classe con i parametri indicati
-		Constructor<?> costruttore = c.getConstructor(parametri);
-		
-		//creo l'oggetto
-		Ambiente a = (Ambiente) costruttore.newInstance(new IDEsternoElemento(ambiente));
-		/*
-		 * FASE 2: creo gli altri oggetti
-		 */
-		Mezzo mt = new Mezzo(new IDEsternoElemento(mezzo));
-		Citta cp = new Citta(new IDEsternoElemento(cittaPartenza));
-		Citta ca = new Citta(new IDEsternoElemento(cittaArrivo));
-		Via v = new Via(new IDEsternoElemento(via));
-		
-		return catalogo.getTrattaByValue(a, mt, cp, ca, v);
-
-	}
-
-	
 	
 	
 }

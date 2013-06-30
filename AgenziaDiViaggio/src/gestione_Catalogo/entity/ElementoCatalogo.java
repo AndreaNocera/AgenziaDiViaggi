@@ -15,8 +15,7 @@ public abstract class ElementoCatalogo {
 	
 	//costruttori
 	public ElementoCatalogo (IDEsternoElemento idEsternoElemento){
-		this.idEsternoElemento = idEsternoElemento;
-		ID = 1;
+		this.idEsternoElemento = idEsternoElemento;		
 	}
 	
 	public ElementoCatalogo(Integer ID, IDEsternoElemento idEsternoElemento){
@@ -39,10 +38,15 @@ public abstract class ElementoCatalogo {
 	
 	
 	public boolean equals(ElementoCatalogo elementoCatalogo){
+		if((this.idEsternoElemento.toString()).equals(elementoCatalogo.getIDEsternoElemento()))
+				return true;
+		return false;
+	}
+/*	public boolean equals(ElementoCatalogo elementoCatalogo){
 		if((this.ID).equals(elementoCatalogo.getID()))
 				return true;
 		return false;
 	}
-
-
-}
+*/
+	
+}	

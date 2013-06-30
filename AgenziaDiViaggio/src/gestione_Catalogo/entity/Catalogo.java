@@ -38,7 +38,11 @@ public class Catalogo {
 	
 	
 	public boolean verificaEsistenzaViaggio(Tratta tratta){
-		return listaTratte.contains(tratta);
+		for (Tratta t : listaTratte) {
+			if (t.equals(tratta)) 
+				return true;
+		}
+		return false;
 	}
 	
 	public boolean verificaEsistenzaOfferte(Tratta tratta){
@@ -68,8 +72,7 @@ public class Catalogo {
 	}
 	
 	
-
-
+	
 
 	public Set<String> getChiaviAmbienti() throws MappaException {
 		
@@ -86,7 +89,7 @@ public class Catalogo {
 		if (mappaCatalogo.containsKey(ambiente))
 			return mappaCatalogo.getElemento(ambiente).listaChiaviElementi();
 		else
-			throw new IDEsternoElementoException("Ambiente "+ambiente+" non presente in catalogo");
+			throw new IDEsternoElementoException("Ambiente "+ambiente+" non presente in catalogo.");
 		
 	}
 	
@@ -96,7 +99,7 @@ public class Catalogo {
 		if (elementoAmbiente.esistenzaElemento(mezzo))
 			return elementoAmbiente.getElemento(mezzo).listaChiaviElementi(); 
 		else
-			throw new IDEsternoElementoException("Mezzo "+mezzo+" non presente in catalogo");
+			throw new IDEsternoElementoException("Mezzo "+mezzo+" non presente in catalogo.");
 		
 	}
 	
@@ -107,7 +110,7 @@ public class Catalogo {
 		if (elementoMezzo.esistenzaElemento(partenza))
 			return elementoMezzo.getElemento(partenza).listaChiaviElementi();
 		else 
-			throw new IDEsternoElementoException("Citta' di partenza "+partenza+" non presente in catalogo");
+			throw new IDEsternoElementoException("Citta' di partenza "+partenza+" non presente in catalogo.");
 	
 	}
 	
@@ -116,43 +119,22 @@ public class Catalogo {
 		ElementoIntermedio elementoPartenza = mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza);
 		if (elementoPartenza.esistenzaElemento(arrivo)){
 			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
-		} else throw new IDEsternoElementoException("Citta' di arrivo "+arrivo+" non presente in catalogo");
+		} else throw new IDEsternoElementoException("Citta' di arrivo "+arrivo+" non presente in catalogo.");
 		
 	}
 	
-	public Tratta getTrattaByValue(String ambiente, String mezzo, String partenza, String arrivo, String via) throws TrattaException{
+	
+	public Tratta getTrattaByValue(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException{
 		for (Tratta tratta : listaTratte) {
-			if (tratta.getAmbiente().getIDEsternoElemento().equalsIgnoreCase(ambiente))
-				if (tratta.getMezzo().getIDEsternoElemento().equalsIgnoreCase(mezzo))
-					if (tratta.getPartenza().getIDEsternoElemento().equalsIgnoreCase(partenza))
-						if (tratta.getArrivo().getIDEsternoElemento().equalsIgnoreCase(arrivo))
-							if (tratta.getVia().getIDEsternoElemento().equalsIgnoreCase(via))
-								return tratta;
-		}
-		throw new TrattaException("Tratta non esistente");
-
-	}
-	
-	
-	/*
-	 * Questo getTrattaByValue dovrebbe avere come parametri solo stringhe!
-	 * Ogni volta che creo un qualsiasi oggetto, automaticamente il rispettivo dao della sua classe lo salva in db ...
-	 * (metodo insert del DAO nel costruttore di ogni oggetto...)
-	 * In questo caso, dal metodo getTratta del controllore creo degli oggetti soltanto per prendermi l'id della tratta
-	 * Per di più il metodo getTratta viene usato per cancellare una tratta.... creo oggetti per cancellarli?
-	 */
-	
-	public Tratta getTrattaByValue(Ambiente ambiente, Mezzo mezzo, Citta cittaPartenza, Citta cittaArrivo, Via via) throws TrattaException{
-		for (Tratta tratta : listaTratte) {
-			if (tratta.verifyExistance(ambiente, mezzo, cittaPartenza, cittaArrivo,
+			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo,
 					via))
 				return tratta;
 		}
-		throw new TrattaException("Tratta non esistente");
+		throw new TrattaException("Tratta non esistente.");
 	}
+
 	
-	
-	
+
 	private void aggiungiInMappaCatalogo(Tratta tratta) {
 		
 		Ambiente ambiente = tratta.getAmbiente();
@@ -181,15 +163,15 @@ public class Catalogo {
 	
 	
 	private void rimuoviDaMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
-		
+
 		ElementoIntermedio elementoAmbiente = mappaCatalogo.getElemento(tratta.getAmbiente().getIDEsternoElemento());
-		ElementoIntermedio elementoMezzo = mappaCatalogo.getElemento(tratta.getMezzo().getIDEsternoElemento());
-		ElementoIntermedio elementoPartenza = mappaCatalogo.getElemento(tratta.getPartenza().getIDEsternoElemento());
-		ElementoIntermedio elementoArrivo = mappaCatalogo.getElemento(tratta.getArrivo().getIDEsternoElemento());
+		ElementoIntermedio elementoMezzo = elementoAmbiente.getElemento(tratta.getMezzo().getIDEsternoElemento());
+		ElementoIntermedio elementoPartenza = elementoMezzo.getElemento(tratta.getPartenza().getIDEsternoElemento());
+		ElementoIntermedio elementoArrivo = elementoPartenza.getElemento(tratta.getArrivo().getIDEsternoElemento());
 
 		// Rimuovo via dalla mappa
 		elementoArrivo.rimuoviElemento(tratta.getVia().getIDEsternoElemento());
-		
+
 		// Se la mappa della citta' di arrivo non ha elementi, rimuovo la citta' di arrivo;
 		if (elementoArrivo.listaChiaviElementi().isEmpty())
 			elementoPartenza.rimuoviElemento(tratta.getArrivo().getIDEsternoElemento());
@@ -207,7 +189,6 @@ public class Catalogo {
 			mappaCatalogo.rimuoviElemento(tratta.getAmbiente().getIDEsternoElemento());
 
 		//System.out.println("Viaggio Rimosso");
-	
 		
 	}
 }
