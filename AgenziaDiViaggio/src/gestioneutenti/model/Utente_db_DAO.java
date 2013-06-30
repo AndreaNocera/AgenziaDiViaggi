@@ -51,17 +51,17 @@ public class Utente_db_DAO implements utente_DAO {
 
 	}
 
-	public Utente_db_DAO(Utente nuovo_utente) {
+	public Utente_db_DAO(Utente nuovo_utente) throws LoginInconsistenteException {
 		openhelper=Utenti_table__DAO.getinstance();
 		this.nome=nuovo_utente.getDatiUtente().getNome();
 		this.cognome=nuovo_utente.getDatiUtente().getCognome();
-		this.citta= nuovo_utente.getDatiUtente().getCitta();
+		this.citta= nuovo_utente.getDatiUtente().getCittà();
 		this.sesso=nuovo_utente.getDatiUtente().getSesso();
 		this.nascita= nuovo_utente.getDatiUtente().getNascita().toString();
 		Login this_login= new Login(nuovo_utente.getLogin().getUsername(), nuovo_utente.getLogin().getPassword());
 		this.login=this_login;
 		this.ruolo=nuovo_utente.getRuolo().getId();
-		this.mail=nuovo_utente.getMail();
+		this.mail=nuovo_utente.getDatiUtente().getMail();
 	}
 
 	public String getNome() {
@@ -151,8 +151,7 @@ public class Utente_db_DAO implements utente_DAO {
 			this.ruolo=rs_db_utenti.getInt(config_db_utenti.INDICE_RUOLO);
 			this.login.setPassword(rs_db_utenti.getString(config_db_utenti.INDICE_PASSWORD));
 			this.login.setUsername(rs_db_utenti.getString(config_db_utenti.INDICE_USERNAME));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (SQLException | LoginInconsistenteException e) {
 			e.printStackTrace();
 		}
 		openhelper.close();

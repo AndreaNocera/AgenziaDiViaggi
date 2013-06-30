@@ -7,12 +7,12 @@ import java.util.GregorianCalendar;
 
 
 
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteEsistenteException;
 import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
-import gestioneutenti.model.utente_DAO;
 
 import gestioneutenti.model.Utente_db_DAO;
 import gestioneutenti.model.ruoli.Amministratore;
@@ -32,7 +32,7 @@ public class TestDatabaseUtenti {
 
 	static ArrayList <Utente_db_DAO> lista_utenti_dao;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
 
 		db_utenti_helper.createDb();
 
@@ -78,7 +78,7 @@ public class TestDatabaseUtenti {
 
 
 
-		DatiUtente dati_nuovo_utente= new DatiUtente("Ludovi", "William", "Roma", "Uomo");
+		DatiUtente dati_nuovo_utente= new DatiUtente("Ludovi", "William", "Roma", "Uomo", new GregorianCalendar(27,6,1990), "email");
 		Ruolo ruolo_nuovo_utente= Amministratore.getInstance();
 
 		Utente nuovo_utente= new Utente(dati_nuovo_utente, ruolo_nuovo_utente, cevalloslogin);
