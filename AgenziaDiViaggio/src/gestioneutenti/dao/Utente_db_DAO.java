@@ -1,12 +1,13 @@
-package gestioneutenti.model;
+package gestioneutenti.dao;
 
 
-import gestioneutenti.view.Utenti_table__DAO;
-import gestioneutenti.view.config_db_utenti;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import gestioneutenti.exception.*;
+import gestioneutenti.model.Login;
+import gestioneutenti.model.Utente;
 
 
 

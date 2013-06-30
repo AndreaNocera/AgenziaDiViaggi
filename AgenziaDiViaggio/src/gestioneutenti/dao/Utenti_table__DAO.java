@@ -1,9 +1,8 @@
-package gestioneutenti.view;
+package gestioneutenti.dao;
 
 
 
 import gestioneutenti.model.Login;
-import gestioneutenti.model.Utente_db_DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package gestioneutenti.view;
+package gestioneutenti.dao;
 
 
 /**

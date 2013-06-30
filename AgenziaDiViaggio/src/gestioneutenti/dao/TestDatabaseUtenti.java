@@ -1,4 +1,4 @@
-package gestioneutenti.test;
+package gestioneutenti.dao;
 
 
 import java.sql.*;
@@ -14,10 +14,8 @@ import gestioneutenti.model.DatiUtente;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
 
-import gestioneutenti.model.Utente_db_DAO;
 import gestioneutenti.model.ruoli.Amministratore;
 import gestioneutenti.model.ruoli.Ruolo;
-import gestioneutenti.view.Utenti_table__DAO;
 
 /**
  * @author <GRUPPO 9>

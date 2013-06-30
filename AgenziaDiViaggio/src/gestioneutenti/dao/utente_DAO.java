@@ -1,5 +1,6 @@
-package gestioneutenti.model;
+package gestioneutenti.dao;
 import gestioneutenti.exception.*;
+import gestioneutenti.model.Login;
 
 /**
  * @author <GRUPPO 9>
