@@ -8,16 +8,16 @@ public class DatiUtente {
 	
 	private String nome;
 	private String cognome;
-	private String città;
+	private String citta;
 	private GregorianCalendar nascita;
 	private String sesso;	
 	private String mail;
 
-	public DatiUtente(String nome, String cognome, String mail, String città, GregorianCalendar nascita, String sesso) throws DatiUtenteInconsistentiException {
+	public DatiUtente(String nome, String cognome, String mail, String citta, GregorianCalendar nascita, String sesso) throws DatiUtenteInconsistentiException {
 		this.setNome(nome);
 		this.setCognome(cognome);
 		this.setMail(mail);
-		this.setCittà(città);
+		this.setcitta(citta);
 		this.setNascita(nascita);
 		this.setSesso(sesso);			
 	}
@@ -58,16 +58,16 @@ public class DatiUtente {
 		this.mail = mail;
 	}
 
-	public String getCittà() {
-		return città;
+	public String getcitta() {
+		return citta;
 	}
 
-	public void setCittà(String città) throws DatiUtenteInconsistentiException {
-		if (città.isEmpty()) {
+	public void setcitta(String citta) throws DatiUtenteInconsistentiException {
+		if (citta.isEmpty()) {
 			throw new DatiUtenteInconsistentiException();
 		}
 		
-		this.città = città;
+		this.citta = citta;
 	}
 
 	public GregorianCalendar getNascita() {
@@ -89,6 +89,8 @@ public class DatiUtente {
 		
 		this.sesso = sesso;
 	}
+
+	
 
 
 
