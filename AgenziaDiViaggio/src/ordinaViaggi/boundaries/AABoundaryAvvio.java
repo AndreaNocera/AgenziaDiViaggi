@@ -133,7 +133,7 @@ import javax.swing.WindowConstants;
 				}
 				else if(e.getSource() == cliente){
 					pannello.setVisible(false);
-					//new BoundaryCliente();
+					new BoundaryCliente();
 				}
 				else if(e.getSource() == progettista){
 					pannello.setVisible(false);

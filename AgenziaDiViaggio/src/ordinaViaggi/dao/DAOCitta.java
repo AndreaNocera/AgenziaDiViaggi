@@ -13,13 +13,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
+/**
+ * <!-- begin-UML-doc --> <!-- end-UML-doc -->
+ * 
  * @author Gambella
- * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ * @generated 
+ *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
-public class DAOCitta extends DAO{
+public class DAOCitta extends DAO {
 	private static DAOCitta istance = null;
 
 	private static final String getListaCittaQuery = "SELECT * FROM `citta` WHERE 1";
@@ -35,15 +36,14 @@ public class DAOCitta extends DAO{
 			+ "citta WHERE id=?";
 	private static final String findQuery = "SELECT * FROM citta "
 			+ "WHERE id=?";
-	
-	/*private static final String findExistsQuery = 
-			"SELECT EXISTS( " +
-			"SELECT * FROM Citta " +
-			"WHERE value = ?)";
-	*/
-	
+
+	/*
+	 * private static final String findExistsQuery = "SELECT EXISTS( " +
+	 * "SELECT * FROM Citta " + "WHERE value = ?)";
+	 */
+
 	private static final String dropQuery = "DROP TABLE 'citta'";
-	
+
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
 	private static ResultSet rs = null;
@@ -83,14 +83,14 @@ public class DAOCitta extends DAO{
 		Citta citta;
 		try {
 			citta = (Citta) obj;
-			
+
 			System.out.println("Citta da inserire: " + citta.getValore());
-			//Situazione 1. Tabella vuota. Inserisco.
-			
+			// Situazione 1. Tabella vuota. Inserisco.
+
 			conn = getConnection(usr, pass);
 			ps = conn.prepareStatement(getListaCittaQuery);
 			rs = ps.executeQuery();
-			if(!rs.next()){
+			if (!rs.next()) {
 				ps = conn.prepareStatement(insertQuery);
 
 				ps.setInt(1, citta.getId());
@@ -98,27 +98,27 @@ public class DAOCitta extends DAO{
 
 				ps.executeUpdate();
 			}
-			
-			//Situazione 2. Elemento non presente.
+
+			// Situazione 2. Elemento non presente.
 			ps = conn.prepareStatement(findQuery);
 
 			ps.setInt(1, citta.getId());
-			
+
 			rs = ps.executeQuery();
-			
-			if(!rs.next()){
+
+			if (!rs.next()) {
 				ps = conn.prepareStatement(insertQuery);
-	
+
 				ps.setInt(1, citta.getId());
 				ps.setString(2, citta.getValore());
-				
+
 				System.out.println("Inserisco citta: " + citta.getValore());
-				
+
 				ps.executeUpdate();
 			}
-			//Situazione 3.Elemento Presente. Non inserisco.
+			// Situazione 3.Elemento Presente. Non inserisco.
 			System.out.println("Elemento presente: " + citta.getValore());
-			
+
 		} catch (ClassCastException e) {
 			throw new DAOException("Errore in insert ClassCastException.");
 		} catch (SQLException e) {
@@ -206,32 +206,6 @@ public class DAOCitta extends DAO{
 		}
 	}
 
-	/*private boolean isInDatabase(Object obj) throws DAOException {
-		// TODO Auto-generated method stub
-		Citta citta;
-		try {
-			citta = (Citta) obj;
-
-			conn = getConnection(usr, pass);
-
-			ps = conn.prepareStatement(findExistsQuery);
-
-			ps.setString(1, citta.getValore());
-
-			rs = ps.executeQuery();
-			
-			rs.next();
-			if((rs.getString(1)).equals("1"))
-				return true;
-			return false;
-
-		} catch (ClassCastException e) {
-			throw new DAOException("Errore in delete.");
-		} catch (SQLException e) {
-			throw new DAOException("Errore in delete.");
-		}
-	}*/
-
 	public void printListaCitta() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
@@ -251,42 +225,41 @@ public class DAOCitta extends DAO{
 			closeResource();
 		}
 	}
-	
-	
+
 	public Citta getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `citta` WHERE `value` = ?";
 		ResultSet rs = null;
 		Citta citta;
 		try {
 			conn = getConnection(usr, pass);
-			//Situazione 1. Tabella Vuota. Id da ritornare 1.
+			// Situazione 1. Tabella Vuota. Id da ritornare 1.
 			ps = conn.prepareStatement(getListaCittaQuery);
 			rs = ps.executeQuery();
-			if(!rs.next()){
-				//Elemento non esistente. Creazione e salvataggio nel DB.
-				citta = new Citta(1,valore);
-				citta.save();
+			if (!rs.next()) {
+				// Elemento non esistente. Creazione e salvataggio nel DB.
+				citta = new Citta(1, valore);
+				insert(citta);
 				return citta;
 			}
-			//Situazione 2. Elemento presente
-			
+			// Situazione 2. Elemento presente
+
 			ps = conn.prepareStatement(query);
 
 			ps.setString(1, valore);
 
 			rs = ps.executeQuery();
-			if(rs.next()){
-				return new Citta(rs.getInt(1),valore); 
+			if (rs.next()) {
+				return new Citta(rs.getInt(1), valore);
 			}
-			
+
 			// Situazione 3. Elemento non presente.
 			ps = conn.prepareStatement(getListaCittaQuery);
-			
+
 			rs = ps.executeQuery();
 			rs.last();
-			//Elemento non esistente. Creazione e salvataggio nel DB.
-			citta = new Citta((rs.getInt(1) + 1),valore);
-			citta.save();
+			// Elemento non esistente. Creazione e salvataggio nel DB.
+			citta = new Citta((rs.getInt(1) + 1), valore);
+			insert(citta);
 			return citta;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
@@ -298,27 +271,28 @@ public class DAOCitta extends DAO{
 			closeResource();
 		}
 	}
-	
+
 	/**
 	 * Se l'id passato non esiste lancia un'eccezione.
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public String getValueById(Integer id) throws DAOException{
+	public String getValueById(Integer id) throws DAOException {
 		String query = "SELECT * FROM `citta` WHERE `id` = ?";
 		ResultSet rs = null;
 		try {
-			//Situazione 2. Elemento presente
-			
+			// Situazione 2. Elemento presente
+
 			ps = conn.prepareStatement(query);
 
 			ps.setInt(1, id);
 
 			rs = ps.executeQuery();
-			if(rs.next()){
-				return rs.getString(2); 
+			if (rs.next()) {
+				return rs.getString(2);
 			}
-			
+
 			throw new DAOException("Errore in getValue.");
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
@@ -329,7 +303,7 @@ public class DAOCitta extends DAO{
 		} finally {
 			closeResource();
 		}
-		
+
 	}
 
 	public void dropTable() throws DAOException {

@@ -52,7 +52,7 @@ public class MapOfferta extends TreeMap<Integer, Offerta> {
 	 * Rimuove un offerta.
 	 */
 
-	public void removeRecord(String key) throws MapException {
+	public void removeRecord(Integer key) throws MapException {
 		// TODO Auto-generated method stub
 		if (!containsKey(key)) {
 			throw new MapException("Errore in rimozione. Chiave non presente.");

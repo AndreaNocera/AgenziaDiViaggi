@@ -194,26 +194,6 @@ public class DAOVia extends DAO{
 		}
 	}
 
-	/*
-	 * private boolean isInDatabase(Object obj) throws DAOException { // TODO
-	 * Auto-generated method stub Via via; try { via = (Via)
-	 * obj;
-	 * 
-	 * conn = getConnection(usr, pass);
-	 * 
-	 * ps = conn.prepareStatement(findExistsQuery);
-	 * 
-	 * ps.setString(1, via.getValore());
-	 * 
-	 * rs = ps.executeQuery();
-	 * 
-	 * rs.next(); if((rs.getString(1)).equals("1")) return true; return false;
-	 * 
-	 * } catch (ClassCastException e) { throw new
-	 * DAOException("Errore in delete."); } catch (SQLException e) { throw new
-	 * DAOException("Errore in delete."); } }
-	 */
-
 	public void printListaVia() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
@@ -244,7 +224,7 @@ public class DAOVia extends DAO{
 			if(!rs.next()){
 				//Elemento non esistente. Creazione e salvataggio nel DB.
 				via = new Via(1,valore);
-				via.save();
+				insert(via);
 				return via;
 			}
 			//Situazione 2. Elemento presente
@@ -265,7 +245,7 @@ public class DAOVia extends DAO{
 			rs.last();
 			//Elemento non esistente. Creazione e salvataggio nel DB.
 			via = new Via((rs.getInt(1) + 1), valore);
-			via.save();
+			insert(via);
 			return via;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
