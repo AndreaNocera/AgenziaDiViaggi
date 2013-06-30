@@ -51,7 +51,7 @@ public class Catalogo {
 	}
 	
 	
-	public void aggiungiViaggioAlCatalogo(Tratta tratta){
+	public void aggiungiViaggioAlCatalogo(Tratta tratta) throws IDEsternoElementoException{
 		
 		listaTratte.add(tratta);
 		
@@ -75,52 +75,27 @@ public class Catalogo {
 	
 
 	public Set<String> getChiaviAmbienti() throws MappaException {
-		
 		Set<String> ambienti = mappaCatalogo.keySet();
 		if (ambienti.isEmpty())
 			throw new MappaException("Non sono presenti Viaggi nel Catalogo.");
 		else
 			return ambienti;
-		
 	}
 	
 	public Set<String> getChiaviMezzi(String ambiente) throws IDEsternoElementoException {
-		
-		if (mappaCatalogo.containsKey(ambiente))
-			return mappaCatalogo.getElemento(ambiente).listaChiaviElementi();
-		else
-			throw new IDEsternoElementoException("Ambiente "+ambiente+" non presente in catalogo.");
-		
+		return mappaCatalogo.getElemento(ambiente).listaChiaviElementi();	
 	}
 	
 	public Set<String> getChiaviCittaDiPartenza(String ambiente, String mezzo) throws IDEsternoElementoException {
-		
-		ElementoIntermedio elementoAmbiente = mappaCatalogo.getElemento(ambiente);
-		if (elementoAmbiente.esistenzaElemento(mezzo))
-			return elementoAmbiente.getElemento(mezzo).listaChiaviElementi(); 
-		else
-			throw new IDEsternoElementoException("Mezzo "+mezzo+" non presente in catalogo.");
-		
+		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).listaChiaviElementi(); 
 	}
 	
-	
 	public Set<String> getChiaviCittaDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
-		
-		ElementoIntermedio elementoMezzo = mappaCatalogo.getElemento(ambiente).getElemento(mezzo);
-		if (elementoMezzo.esistenzaElemento(partenza))
-			return elementoMezzo.getElemento(partenza).listaChiaviElementi();
-		else 
-			throw new IDEsternoElementoException("Citta' di partenza "+partenza+" non presente in catalogo.");
-	
+		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).listaChiaviElementi();
 	}
 	
 	public Set<String> getChiaviVia(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
-		
-		ElementoIntermedio elementoPartenza = mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza);
-		if (elementoPartenza.esistenzaElemento(arrivo)){
-			return  elementoPartenza.getElemento(arrivo).listaChiaviElementi();
-		} else throw new IDEsternoElementoException("Citta' di arrivo "+arrivo+" non presente in catalogo.");
-		
+		return  mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).listaChiaviElementi();
 	}
 	
 	
@@ -135,7 +110,7 @@ public class Catalogo {
 
 	
 
-	private void aggiungiInMappaCatalogo(Tratta tratta) {
+	private void aggiungiInMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
 		
 		Ambiente ambiente = tratta.getAmbiente();
 		Mezzo mezzo = tratta.getMezzo();

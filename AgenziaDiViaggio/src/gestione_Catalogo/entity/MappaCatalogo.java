@@ -21,12 +21,19 @@ public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
 	}
 	
 	
-	public ElementoIntermedio getElemento(String k){
+	public ElementoIntermedio getElemento(String k) throws IDEsternoElementoException{
+		if (!containsKey(k)){
+			throw new IDEsternoElementoException("Elemento \""+k+"\" non presente.");
+		}
 		return (ElementoIntermedio) super.get(k);
 	}
 	
-	public ElementoFinale getElementoFinale(String k){
+	public ElementoFinale getElementoFinale(String k) throws IDEsternoElementoException{
+		if (!containsKey(k)){
+			throw new IDEsternoElementoException("Elemento \""+k+"\" non presente.");
+		}
 		return (ElementoFinale) super.get(k);
+
 	}
 	
 	public void aggiungiElemento(String k, ElementoCatalogo e){
@@ -37,7 +44,7 @@ public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
 	
 	public void rimuoviElemento(String k) throws IDEsternoElementoException{
 		if(!containsKey(k)){
-			throw new IDEsternoElementoException("Elemento non presente");
+			throw new IDEsternoElementoException("Errore in rimozione. Elemento \""+k+"\" non presente.");
 		}
 		super.remove(k);
 		

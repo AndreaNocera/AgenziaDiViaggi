@@ -31,7 +31,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	
 	
 	//metodi
-	public void aggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws TrattaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void aggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws TrattaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IDEsternoElementoException {
 		
 		Tratta nuovaTratta = creaTratta(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info);
 		
@@ -63,32 +63,20 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	}
 	
 
-
 	public Set<String> mostraAmbientiInCatalogo() throws MappaException {
-		
 		return catalogo.getChiaviAmbienti();
-		
 	}
-
 	
 	public Set<String> mostraMezziInCatalogo(String ambiente) throws IDEsternoElementoException {
-		
 		return catalogo.getChiaviMezzi(ambiente);
-		
 	}
-	
 
 	public Set<String> mostraCittaDiPartenzaInCatalogo(String ambiente, String mezzo) throws IDEsternoElementoException {
-		
-		return catalogo.getChiaviCittaDiPartenza(ambiente, mezzo);
-				
+		return catalogo.getChiaviCittaDiPartenza(ambiente, mezzo);		
 	}
 
-
 	public Set<String> mostraCittaDiArrivoInCatalogo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
-
 		return catalogo.getChiaviCittaDiArrivo(ambiente, mezzo, partenza);
-		
 	}
 	
 	public Set<String> mostraViaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{

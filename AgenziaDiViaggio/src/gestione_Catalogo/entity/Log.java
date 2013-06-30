@@ -16,8 +16,6 @@ import gestione_Catalogo.exception.FileInesistenteException;
  */
 public class Log {
 	
-	//attributi di classe
-	private static Log istanza;
 	
 	//attributi d'istanza
 	private Data data;
@@ -25,19 +23,11 @@ public class Log {
 	
 	
 	//costruttore
-	private Log() {
+	public Log() {
 		data = new Data();
 		log = "";
 	}
 	
-	// metodi
-	public static Log getIstanza(){
-		if (istanza == null){
-			istanza = new Log();
-		}
-		return istanza;
-	}
-
 	
 	//Metodi
 	public void aggiornaLogAggiungiViaggio(Tratta tratta){

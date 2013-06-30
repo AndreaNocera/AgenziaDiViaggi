@@ -29,11 +29,11 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 
 	
 	//metodi
-	public ElementoIntermedio getElemento(String k){   
+	public ElementoIntermedio getElemento(String k) throws IDEsternoElementoException{   
 		return mappaCatalogo.getElemento(k);
 	}
 	
-	public ElementoFinale getElementoFinale(String k){
+	public ElementoFinale getElementoFinale(String k) throws IDEsternoElementoException{
 		return mappaCatalogo.getElementoFinale(k);
 	}
 	
@@ -61,7 +61,5 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 	}
 	
 
-		
-	
 
 }

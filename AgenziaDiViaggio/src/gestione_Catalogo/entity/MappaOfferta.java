@@ -7,7 +7,7 @@ import java.util.TreeMap;
  * Remo Sperlongano
  * Ivan Torre
  */
-public class MappaOfferta extends TreeMap<Data,Offerta>{
+public class MappaOfferta extends TreeMap<Integer,Offerta>{
 
 	private static final long serialVersionUID = 1L;
 

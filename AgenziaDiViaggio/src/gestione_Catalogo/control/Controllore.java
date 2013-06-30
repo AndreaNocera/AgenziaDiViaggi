@@ -12,13 +12,13 @@ public abstract class Controllore {
 
 	//attributi di classe
 	protected static Catalogo catalogo;
-	protected static Log log;
+	protected Log log;
 	
 	//costruttore
 	public Controllore() {
 		
 		catalogo = Catalogo.getIstanza();
-		log = Log.getIstanza();
+		log = new Log();
 		
 	}
 	
