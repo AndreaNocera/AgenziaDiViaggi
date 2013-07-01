@@ -7,14 +7,6 @@ package gestione_Catalogo.entity;
  */
 public class Via extends ElementoFinale  {
 	
-	public Via(){
-		super(new IDEsternoElemento("(Diretto)"));
-	}
-	
-	public Via(Integer ID){
-		super(ID, new IDEsternoElemento("(Diretto)"));
-	}
-	
 	public Via(IDEsternoElemento idEsternoElemento){
 		super(idEsternoElemento);
 	}

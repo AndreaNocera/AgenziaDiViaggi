@@ -45,6 +45,15 @@ public class Catalogo {
 		return false;
 	}
 	
+	
+	public boolean verificaEsistenzaViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) {
+		for (Tratta tratta : listaTratte){
+			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
+				return true;
+		}
+		return false;
+	}
+	
 	public boolean verificaEsistenzaOfferte(Tratta tratta){
 		return false;
 		
@@ -58,9 +67,8 @@ public class Catalogo {
 		aggiungiInMappaCatalogo(tratta);
 	}
 	
-
-
-
+	
+	
 
 	public void rimuoviViaggioDalCatalogo(Tratta tratta) throws IDEsternoElementoException{
 		
@@ -73,6 +81,13 @@ public class Catalogo {
 	
 	
 	
+	
+	public void caricaCatalogo() throws IDEsternoElementoException{
+		for (Tratta tratta : listaTratte){
+			aggiungiInMappaCatalogo(tratta);
+		}
+	}
+
 
 	public Set<String> getChiaviAmbienti() throws MappaException {
 		Set<String> ambienti = mappaCatalogo.keySet();
@@ -101,8 +116,7 @@ public class Catalogo {
 	
 	public Tratta getTrattaByValue(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException{
 		for (Tratta tratta : listaTratte) {
-			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo,
-					via))
+			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
 				return tratta;
 		}
 		throw new TrattaException("Tratta non esistente.");
@@ -118,20 +132,43 @@ public class Catalogo {
 		Citta arrivo = tratta.getArrivo();
 		Via via = tratta.getVia();
 		
-		//Aggiungo l'ambiente in mappaCatalogo
-		mappaCatalogo.aggiungiElemento(ambiente.getIDEsternoElemento(), ambiente);
+		/*
+		 * Bisogna sempre verificare, prima di aggiungere un elemento alla tabella, se questo elemento e' gia' presente!
+		 */
 		
-		//Aggiungo il mezzo nella mappa dell'ambiente prima aggiunto
-		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).aggiungiElemento(mezzo.getIDEsternoElemento(), mezzo);
-		
-		//Aggiungo cittaPartenza nella mappa del mezzo prima aggiunto
-		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).aggiungiElemento(partenza.getIDEsternoElemento(), partenza);
+		//FASE 1: Aggiungo l'ambiente in mappaCatalogo
+		if (!mappaCatalogo.esistenzaElemento(ambiente)){
 			
-		//Aggiungo stazioneArrivo nella mappa della cittaPartenza prima aggiunta
-		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).getElemento(partenza.getIDEsternoElemento()).aggiungiElemento(arrivo.getIDEsternoElemento(), arrivo);
+			//Se non c'e', lo aggiungo
+			mappaCatalogo.aggiungiElemento(ambiente.getIDEsternoElemento(), ambiente);
+		}
+		
+		//FASE 2: Aggiungo il mezzo nella mappa dell'ambiente prima aggiunto
+		if (!mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).esistenzaElemento(mezzo)){
 	
-		//Aggiungo via nella mappa delle citta' di Arrivo
+			//se non c'e' lo aggiungo
+			mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).aggiungiElemento(mezzo.getIDEsternoElemento(), mezzo);
+		}
+		
+		//FASE 3: Aggiungo cittaPartenza nella mappa del mezzo prima aggiunto
+		if (!mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).esistenzaElemento(partenza)){
+			
+			//se non c'e' lo aggiungo
+			mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).aggiungiElemento(partenza.getIDEsternoElemento(), partenza);
+			
+		}
+		
+		//FASE 4: Aggiungo stazioneArrivo nella mappa della cittaPartenza prima aggiunta
+		if (!mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).getElemento(partenza.getIDEsternoElemento()).esistenzaElemento(arrivo)){
+			//se non c'e' lo aggiungo
+			mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).getElemento(partenza.getIDEsternoElemento()).aggiungiElemento(arrivo.getIDEsternoElemento(), arrivo);
+		}
+		
+		
+		//FASE 5: Aggiungo via nella mappa delle citta' di Arrivo
+		//non c'e' bisogno di controllo, so gia' che non c'e' (verificaEsistenzaViaggio());
 		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).getElemento(partenza.getIDEsternoElemento()).getElemento(arrivo.getIDEsternoElemento()).aggiungiElemento(via.getIDEsternoElemento(), via);
+
 		//System.out.println("Viaggio Aggiunto");
 		
 	}
@@ -166,5 +203,8 @@ public class Catalogo {
 		//System.out.println("Viaggio Rimosso");
 		
 	}
+
+
+
 }
 

@@ -33,16 +33,17 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	//metodi
 	public void aggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws TrattaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IDEsternoElementoException {
 		
-		Tratta nuovaTratta = creaTratta(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info);
+	
 		
 		//verifico l'esistenza del viaggio nel catalogo
-		if (catalogo.verificaEsistenzaViaggio(nuovaTratta)){
+		if (catalogo.verificaEsistenzaViaggio(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info)){
 			//System.out.println("Viaggio gia' presente");
 			throw new TrattaException("Il viaggio e' gia' presente nel catalogo!");
 		} else {
+			Tratta nuovaTratta = creaTratta(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info);
 			//aggiungo il viaggio
 			catalogo.aggiungiViaggioAlCatalogo(nuovaTratta);
-			log.aggiornaLogAggiungiViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
+			log.aggiornaLogAggiungiViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,nuovaTratta.getVia().getIDEsternoElemento());
 		}
 	}
 
@@ -56,9 +57,8 @@ public class ControlloreGestioneCatalogo extends Controllore {
 			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
 		} else { //rimuovo il viaggio
 			catalogo.rimuoviViaggioDalCatalogo(tratta);
-			log.aggiornaLogRimuoviViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
+			log.aggiornaLogRimuoviViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,tratta.getVia().getIDEsternoElemento());
 		}
-		
 		
 	}
 	
@@ -394,12 +394,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		Mezzo mt = new Mezzo(new IDEsternoElemento(mezzo));
 		Citta cp = new Citta(new IDEsternoElemento(cittaPartenza));
 		Citta ca = new Citta(new IDEsternoElemento(cittaArrivo));
-		Via v;
-		if (via.equalsIgnoreCase("")){
-				v = new Via();
-		} else {
-				v = new Via(new IDEsternoElemento(via));
-		}
+		Via v = new Via(new IDEsternoElemento(via));
 		
 		Info i;
 		if (info.equalsIgnoreCase("")){

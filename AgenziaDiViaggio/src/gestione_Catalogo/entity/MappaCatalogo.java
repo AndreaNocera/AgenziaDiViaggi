@@ -49,4 +49,8 @@ public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
 		super.remove(k);
 		
 	}
+	
+	public boolean esistenzaElemento(ElementoCatalogo e){  // se in parametro gli passo un elemento
+		return super.containsKey(e.getIDEsternoElemento());
+	}
 }
