@@ -703,17 +703,12 @@ public class BoundaryPromotore_GestioneCatalogo {
 	}
 	
 	private void controlloSintatticoDati(String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException{
-
 		
 		if (mezzo.equals("")||partenza.equals("")||arrivo.equals(""))
 			throw new IDEsternoElementoException("I campi con * sono obbligatori.");
 		
-		String s = mezzo+partenza+arrivo;
 		
-		if (!via.equals("(Diretto)")){
-			s+=via;
-		}
-	
+		String s = mezzo+partenza+arrivo+via;
 		for (int i = 0; i < s.length(); i++){
 			char c = s.charAt(i);
 			if (!Character.isLetter(s.charAt(i))&&!Character.isWhitespace(c))
@@ -1115,12 +1110,8 @@ public class BoundaryPromotore_GestioneCatalogo {
 					cittaArrivo = (String) tendinaCittaeArrivoPannello4.getSelectedItem();
 				}
 			
-				if (campoViaPannello4.getText().equals("")){
-					via = "(Diretto)";
-				} else {
-					via = uppercaseFirstLetters(campoViaPannello4.getText());
-				}
-
+				via = uppercaseFirstLetters(campoViaPannello4.getText());
+				
 				info = uppercaseFirstLetters(campoInfoPannello4.getText()); 
 				
 						

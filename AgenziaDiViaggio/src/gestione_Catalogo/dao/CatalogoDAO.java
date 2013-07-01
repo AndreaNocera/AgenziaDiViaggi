@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -180,9 +181,7 @@ public class CatalogoDAO extends DAO {
 				info = new Info(rs.getString(7));
 				
 				//creo l'oggetto per la data
-				
 				data = new Data(rs.getTimestamp(8));
-				
 				
 				//creo l'oggetto tratta e l'aggiungo
 				Tratta tratta = new Tratta(idTratta, ambiente, mezzo, cittaPartenza, cittaArrivo, via, info, data);

@@ -32,8 +32,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 	
 	//metodi
 	public void aggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) throws TrattaException, ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IDEsternoElementoException {
-		
-	
+		if (via.equals("")) via = Via.DIRETTO;
 		
 		//verifico l'esistenza del viaggio nel catalogo
 		if (catalogo.verificaEsistenzaViaggio(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info)){
@@ -43,12 +42,13 @@ public class ControlloreGestioneCatalogo extends Controllore {
 			Tratta nuovaTratta = creaTratta(ambiente, mezzo, cittaPartenza, cittaArrivo, via, info);
 			//aggiungo il viaggio
 			catalogo.aggiungiViaggioAlCatalogo(nuovaTratta);
-			log.aggiornaLogAggiungiViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,nuovaTratta.getVia().getIDEsternoElemento());
+			log.aggiornaLogAggiungiViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 		}
 	}
 
 	
 	public void rimuoviViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException, OffertaException, IDEsternoElementoException {
+		if (via.equals("")) via = Via.DIRETTO;
 		
 		Tratta tratta = catalogo.getTrattaByValue(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 
@@ -57,7 +57,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
 		} else { //rimuovo il viaggio
 			catalogo.rimuoviViaggioDalCatalogo(tratta);
-			log.aggiornaLogRimuoviViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,tratta.getVia().getIDEsternoElemento());
+			log.aggiornaLogRimuoviViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 		}
 		
 	}
@@ -397,7 +397,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		Via v = new Via(new IDEsternoElemento(via));
 		
 		Info i;
-		if (info.equalsIgnoreCase("")){
+		if (info.equals("")){
 			i = new Info();
 		} else {
 			i = new Info(info);

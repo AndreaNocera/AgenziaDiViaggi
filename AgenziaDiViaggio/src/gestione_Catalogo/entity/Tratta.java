@@ -34,13 +34,15 @@ public class Tratta {
 		this.partenza = partenza;
 		this.arrivo = arrivo;
 		this.via = via;
-		this.setInfo(info);
+		this.info = info;
 		dataInserimento = new Data();
+		
+		this.info.updateInfo("--- Inserito il " + dataInserimento.stampaData());
+		
 		
 		//salvo tratta su db
 		dao.insert(this);
 		
-		this.info.updateInfo("--- Inserito il " + dataInserimento.stampaData());
 	}
 
 	
@@ -52,9 +54,10 @@ public class Tratta {
 		this.partenza = partenza;
 		this.arrivo = arrivo;
 		this.via = via;
-		this.setInfo(info);
+		this.info = info;
 		
 		this.dataInserimento = dataInserimento;
+		System.out.println(this.dataInserimento.stampaData());
 
 	}
 

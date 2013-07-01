@@ -179,7 +179,7 @@ public class TrattaDAO extends DAO {
 			Info info = new Info(rs.getString(7));
 			
 			Data data = new Data(rs.getTimestamp(8));
-
+		
 			closeResource();
 			return new Tratta(id, ambiente, mezzo, cittaPartenza, cittaArrivo, via, info, data );
 
