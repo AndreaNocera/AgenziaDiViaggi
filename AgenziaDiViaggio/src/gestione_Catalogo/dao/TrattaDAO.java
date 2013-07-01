@@ -24,7 +24,7 @@ public class TrattaDAO extends DAO {
 	
 	private static final String createQuery = 
 			"CREATE TABLE IF NOT EXISTS CATALOGO(" +
-					"ID INTEGER PRIMARY KEY, " +
+					"ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
 					"AMBIENTE INTEGER, " +
 					"MEZZO INTEGER, " +
 					"CITTAPARTENZA INTEGER, " +
@@ -116,7 +116,7 @@ public class TrattaDAO extends DAO {
 			ps.setInt(6, tratta.getVia().getID());
 			ps.setString(7, tratta.getInfo());
 			ps.setTimestamp(8, tratta.getDataInserimento().getDataForDB());
-
+			System.out.println(ps.toString());
 			ps.executeUpdate();
 
 		} catch (ClassCastException e) {

@@ -744,9 +744,9 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private void caricaCatalogo(){
 		
 		boolean b = true;
-	/*	try {
+		/*try {
 			controllore.carica();
-		} catch (DeserializzazioneException e) {
+		} catch (DeserializzazioneException e) {*/
 			JOptionPane.showMessageDialog(null, "Non e' stato ancora salvato un catalogo.  Faccio partire il thread.");
 			avviaThread();
 			b = false;
@@ -754,7 +754,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		
 		if (b){
 			JOptionPane.showMessageDialog(null, "E' stato caricato il catalogo", "Catalogo Caricato", JOptionPane.INFORMATION_MESSAGE);
-		}*/
+		}
 		
 	}
 	

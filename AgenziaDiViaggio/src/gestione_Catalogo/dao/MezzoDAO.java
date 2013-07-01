@@ -23,13 +23,19 @@ public class MezzoDAO extends DAO {
 
 	private static final String createQuery = 
 			"CREATE TABLE IF NOT EXISTS MEZZO(" +
-					"ID INTEGER PRIMARY KEY, " +
-					"IDESTERNOELEMENTO VARCHAR(30) " +
+					"ID INTEGER NOT NULL AUTO_INCREMENT, " +
+					"IDESTERNOELEMENTO VARCHAR(30), " +
+					"PRIMARY KEY (`ID`)" + 
 					")";
 
 	private static final String insertQuery = 
 			"INSERT INTO MEZZO " +
 			"VALUES(?, ?)";
+	
+	private static final String insertByValueQuery = 
+		"INSERT INTO MEZZO(IDESTERNOELEMENTO) " +
+		"VALUES(?)";
+	
 	private static final String updateQuery = 
 			"UPDATE MEZZO SET " +
 			"IDESTERNOELEMENTO=? " +
@@ -84,79 +90,49 @@ public class MezzoDAO extends DAO {
 	 * Questa particolare insert mi deve ritornare l'id da associare all'oggetto appena creato
 	 */
 	public Integer insertAndReturnId(IDEsternoElemento idEsternoElemento) {
-		// TODO Auto-generated method stub
 		ResultSet rs;
 		try {
-			//Situazione 1. Tabella vuota. Inserisco con ID 1.
-			
 			conn = getConnection(usr, pass);
-			ps = conn.prepareStatement(getListaMezziQuery);
+			ps = conn.prepareStatement(findByValueQuery);
+			ps.setString(1, idEsternoElemento.toString());
 			rs = ps.executeQuery();
-			if(!rs.next()){
-				ps = conn.prepareStatement(insertQuery);
-
-				ps.setInt(1, 1);
-				ps.setString(2, idEsternoElemento.toString());
-
-				ps.executeUpdate();
+			if(rs.next()) { // elemento già presente, ritorno direttamente l'ID. 
+				Integer a = rs.getInt(1);
 				closeResource();
-				return 1;
-			} else {
-				
-				//Situazione 2. Elemento non presente. Inserisco con l'id successivo all'ultimo elemento
+				return a;
+			} else { // elemento non presente: inserisco, inizialmente, solo il valore associato
+				ps = conn.prepareStatement(insertByValueQuery);
+				ps.setString(1,idEsternoElemento.toString());
+				System.out.println("prova " +ps.toString());
+				//ps.setInt(1, 1);
+				ps.executeUpdate();
+				System.out.println("prova " +idEsternoElemento.toString());
+				// ora che l'elemento è inserito, richiedo l'ID associato e lo ritorno.
 				ps = conn.prepareStatement(findByValueQuery);
-
-				ps.setString(1, idEsternoElemento.toString());
-				
+				ps.setString(1,idEsternoElemento.toString());
+				System.out.println("prova");
 				rs = ps.executeQuery();
-				
-				if(!rs.next()){
-					//prima prendo l'id successivo all'ultimo elemento
-					ps = conn.prepareStatement(getListaMezziQuery);
-					
-					rs = ps.executeQuery();
-					
-					rs.last();
-					
-					Integer id = rs.getInt(1)+1;
-					
-					ps = conn.prepareStatement(insertQuery);
-		
-					ps.setInt(1, id);
-					ps.setString(2, idEsternoElemento.toString());
-		
-					ps.executeUpdate();
-					closeResource();
-					return id;
-				} else {
-					
-					//Situazione 3.Elemento Presente. Non inserisco, ma ritorno il suo id.
-					ps = conn.prepareStatement(findByValueQuery);
-
-					ps.setString(1, idEsternoElemento.toString());
-					
-					rs = ps.executeQuery();
-					
-					rs.next(); //Lo sposto avanti alla prima, e unica, riga
-					
+				if(rs.next()) { // elemento già presente, ritorno direttamente l'ID. 
 					Integer a = rs.getInt(1);
+					System.out.println("prova return:" + a);
 					closeResource();
 					return a;
-									
-				}			
-				
-			}			
-
+				} else {
+					closeResource();
+					System.out.println("prova null");
+					return null;
+				}
+			}
 		} catch (ClassCastException e) {
 			e.printStackTrace();
+			closeResource();
 			return null;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
-		}finally {
 			closeResource();
+			return null;
 		}
-
 	}
 	
 	/*
@@ -165,33 +141,28 @@ public class MezzoDAO extends DAO {
 	 * Questa particolare read, mi torna solo il valore, l'id l'ho preso dal CatalogoDAO
 	 */
 
-	public IDEsternoElemento readOnlyValue(Integer id){
-		
+	public IDEsternoElemento readOnlyValue(Integer id) {
+		String s;
 		try {
 			conn = getConnection(usr, pass);
-
 			ps = conn.prepareStatement(findQuery);
-
 			ps.setInt(1, id);
-
 			rs = ps.executeQuery();
-
-			rs.next();
-			String s =rs.getString(2);
+			if (rs.next()) {
+				s = rs.getString(2);
+			} else { 
+				s = null;
+			}
 			closeResource();
-
 			return new IDEsternoElemento(s);
-
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
-		}finally {
-			closeResource();
 		}
+		return null;
 	}
+	
 	
 	/*
 	 * CRUD - Update
@@ -222,7 +193,7 @@ public class MezzoDAO extends DAO {
 
 	/*
 	 * CRUD - Delete
-	 * Da Invocare (probabilmente) alla rimozione di una tratta, quando non vi sono pi� Ambienti uguali
+	 * Da Invocare (probabilmente) alla rimozione di una tratta, quando non vi sono pi� Ambienti uguali
 	 */
 	public void delete(Mezzo mezzo){
 		// TODO Auto-generated method stub

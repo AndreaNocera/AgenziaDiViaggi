@@ -14,8 +14,9 @@ public class Mezzo extends ElementoIntermedio {
 		
 		//Salvo l'oggetto che sto creando in DB e ritorno l'id per l'oggetto
 				MezzoDAO dao = MezzoDAO.getIstanza();
-				Integer id = dao.insertAndReturnId(idEsternoElemento);
-				setID(id);
+				//setID(null);
+				this.setID(dao.insertAndReturnId(idEsternoElemento));
+				//setID(id);
 	}
 	
 	public Mezzo(Integer ID, IDEsternoElemento idEsternoElemento){

@@ -43,7 +43,7 @@ public class DBTest {
 		System.out.println("Creo Tabella AMBIENTE");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS AMBIENTE(" +
-						"ID INTEGER PRIMARY KEY, " +
+						"ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
 						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
@@ -56,7 +56,7 @@ public class DBTest {
 		System.out.println("Creo Tabella MEZZO");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS MEZZO(" +
-						"ID INTEGER PRIMARY KEY, " +
+						"ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
 						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
@@ -68,7 +68,7 @@ public class DBTest {
 		System.out.println("Creo Tabella CITTA");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS CITTA(" +
-						"ID INTEGER PRIMARY KEY, " +
+						"ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
 						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
@@ -80,7 +80,7 @@ public class DBTest {
 		System.out.println("Creo Tabella VIA");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS VIA(" +
-						"ID INTEGER PRIMARY KEY, " +
+						"ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
 						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
@@ -93,7 +93,7 @@ public class DBTest {
 		System.out.println("Creo Tabella CATALOGO");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS CATALOGO(" +
-						"ID INTEGER PRIMARY KEY, " +
+						"ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
 						"AMBIENTE INTEGER, " +
 						"MEZZO INTEGER, " +
 						"CITTAPARTENZA INTEGER, " +
