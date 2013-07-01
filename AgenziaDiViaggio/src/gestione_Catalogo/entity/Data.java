@@ -2,6 +2,7 @@ package gestione_Catalogo.entity;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -16,12 +17,19 @@ public class Data {
 	
 	//costruttore
 	public Data(){
-		data = new GregorianCalendar();	
-		
+		data = new GregorianCalendar();		
 	}
 	
-	public Data(int giorno, int mese, int anno){
-		data = new GregorianCalendar(giorno, mese-1,anno);
+	public Data(Date date){
+		data.setTime(date);
+	}
+	
+	public Data(int anno, int mese, int giorno){
+		data = new GregorianCalendar(anno, mese-1,giorno);
+	}
+	
+	public Data(int anno, int mese, int giorno, int ora, int minuti){
+		data = new GregorianCalendar(anno, mese-1,giorno, ora, minuti);
 	}
 	
 	
@@ -43,6 +51,15 @@ public class Data {
 		data.add(GregorianCalendar.MINUTE, minuti);
 	}
 	
+	public void aggiungiOre(int ore){
+		data.add(GregorianCalendar.HOUR_OF_DAY, ore);
+	}
+	
+	public void aggiungiOreMinuti(int ore, int minuti){
+		data.add(GregorianCalendar.HOUR_OF_DAY, ore);
+		data.add(GregorianCalendar.HOUR_OF_DAY, minuti);
+	}
+	
 	//altri metodi
 	public String stampaData(){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
@@ -58,5 +75,5 @@ public class Data {
 		
 		return dataEora;
 	}
-
+	
 }
