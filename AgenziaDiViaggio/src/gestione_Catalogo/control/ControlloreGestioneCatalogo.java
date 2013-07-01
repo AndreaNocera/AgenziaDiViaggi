@@ -42,7 +42,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		} else {
 			//aggiungo il viaggio
 			catalogo.aggiungiViaggioAlCatalogo(nuovaTratta);
-			log.aggiornaLogAggiungiViaggio(nuovaTratta);
+			log.aggiornaLogAggiungiViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class ControlloreGestioneCatalogo extends Controllore {
 			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
 		} else { //rimuovo il viaggio
 			catalogo.rimuoviViaggioDalCatalogo(tratta);
-			log.aggiornaLogRimuoviViaggio(tratta);
+			log.aggiornaLogRimuoviViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 		}
 		
 		
@@ -156,10 +156,9 @@ public class ControlloreGestioneCatalogo extends Controllore {
 							while(itVia.hasNext()){	//itero tutte le stazioni intermedie;
 								
 								v = itVia.next();
-								
-								Tratta t = catalogo.getTrattaByValue(amb,mez,cp,ca,v);
+
 								//Prendo le info memorizzate in tratta
-								info = t.getInfo();
+								info = catalogo.getTrattaByValue(amb,mez,cp,ca,v).getInfo();
 								
 								//Metto in stringa le informazioni di questo viaggio;
 								unViaggio = componiCatalogo(amb,mez,cp,ca,v,info);
@@ -211,9 +210,9 @@ public class ControlloreGestioneCatalogo extends Controllore {
 						while(itVia.hasNext()){	//itero tutte le stazioni intermedie;
 							
 							v = itVia.next();
-							Tratta t = catalogo.getTrattaByValue(ambiente,mez,cp,ca,v);
+
 							//Prendo le info memorizzate in tratta
-							info = t.getInfo();
+							info = catalogo.getTrattaByValue(ambiente,mez,cp,ca,v).getInfo();
 							
 							//Metto in stringa le informazioni di questo viaggio;
 							unViaggio = componiCatalogo(ambiente,mez,cp,ca,v,info);
@@ -255,9 +254,9 @@ public class ControlloreGestioneCatalogo extends Controllore {
 					while(itVia.hasNext()){	//itero tutte le stazioni intermedie;
 						
 						v = itVia.next();
-						Tratta t = catalogo.getTrattaByValue(ambiente,mezzo,cp,ca,v);
+
 						//Prendo le info memorizzate in tratta
-						info = t.getInfo();
+						info = catalogo.getTrattaByValue(ambiente,mezzo,cp,ca,v).getInfo();
 
 						//Metto in stringa le informazioni di questo viaggio;
 						unViaggio = componiCatalogo(ambiente, mezzo,cp,ca,v,info);
@@ -290,9 +289,9 @@ public class ControlloreGestioneCatalogo extends Controllore {
 				while(itVia.hasNext()){	//itero tutte le stazioni intermedie;
 					
 					v = itVia.next();
-					Tratta t = catalogo.getTrattaByValue(ambiente,mezzo,partenza,ca,v);
+
 					//Prendo le info memorizzate in tratta
-					info = t.getInfo();
+					info = catalogo.getTrattaByValue(ambiente,mezzo,partenza,ca,v).getInfo();
 
 					//Metto in stringa le informazioni di questo viaggio;
 					unViaggio = componiCatalogo(ambiente, mezzo, partenza,ca,v,info);
@@ -315,9 +314,9 @@ public class ControlloreGestioneCatalogo extends Controllore {
 			while(itVia.hasNext()){	//itero tutte le stazioni intermedie;
 					
 				v = itVia.next();
-				Tratta t = catalogo.getTrattaByValue(ambiente,mezzo,partenza,arrivo,v);
+
 				//Prendo le info memorizzate in tratta
-				info = t.getInfo();
+				info = catalogo.getTrattaByValue(ambiente,mezzo,partenza,arrivo,v).getInfo();
 
 				//Metto in stringa le informazioni di questo viaggio;
 				unViaggio = componiCatalogo(ambiente, mezzo, partenza, arrivo,v,info);
@@ -332,9 +331,8 @@ public class ControlloreGestioneCatalogo extends Controllore {
 		
 		
 		//caso f) non serve alcuna iterazione
-		Tratta t = catalogo.getTrattaByValue(ambiente,mezzo,partenza,arrivo,via);
 		//Prendo le info memorizzate in tratta
-		info = t.getInfo();
+		info = catalogo.getTrattaByValue(ambiente,mezzo,partenza,arrivo,via).getInfo();
 
 		return (componiCatalogo(ambiente,mezzo,partenza,arrivo,via,info));
 		

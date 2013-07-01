@@ -1,5 +1,6 @@
 package gestione_Catalogo.entity;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
@@ -25,13 +26,21 @@ public class Data {
 	
 	
 	//metodi accessori
-	public GregorianCalendar getData(){
+	public GregorianCalendar getDataGregorian(){
 		return data;
+	}
+	
+	public Timestamp getDataForDB(){
+		return new Timestamp(data.getTimeInMillis());
 	}
 	
 	//metodi mutatori
 	public void aggiornaData(){
 		data = new GregorianCalendar();
+	}
+	
+	public void aggiungiMinuti(int minuti){
+		data.add(GregorianCalendar.MINUTE, minuti);
 	}
 	
 	//altri metodi

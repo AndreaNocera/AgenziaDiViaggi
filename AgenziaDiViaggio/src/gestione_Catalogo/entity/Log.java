@@ -30,13 +30,7 @@ public class Log {
 	
 	
 	//Metodi
-	public void aggiornaLogAggiungiViaggio(Tratta tratta){
-		String ambiente = tratta.getAmbiente().getIDEsternoElemento();
-		String mezzo = tratta.getMezzo().getIDEsternoElemento();
-		String cittaPartenza = tratta.getPartenza().getIDEsternoElemento();
-		String cittaArrivo = tratta.getArrivo().getIDEsternoElemento();
-		String via = tratta.getVia().getIDEsternoElemento();
-		
+	public void aggiornaLogAggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via){
 		log = "[" + data.stampaDataAttuale() + "] AGGIUNTO Viaggio Via " + ambiente + ":\n" 									
 				+ mezzo + "  ->  " + cittaPartenza + " : " + cittaArrivo + "  ->  " + via + "\n";
 		System.out.println(log);
@@ -44,13 +38,7 @@ public class Log {
 	}
 	
 	//Metodi
-	public void aggiornaLogRimuoviViaggio(Tratta tratta){
-		String ambiente = tratta.getAmbiente().getIDEsternoElemento();
-		String mezzo = tratta.getMezzo().getIDEsternoElemento();
-		String cittaPartenza = tratta.getPartenza().getIDEsternoElemento();
-		String cittaArrivo = tratta.getArrivo().getIDEsternoElemento();
-		String via = tratta.getVia().getIDEsternoElemento();
-		
+	public void aggiornaLogRimuoviViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via){
 		log = "[" + data.stampaDataAttuale() + "] RIMOSSO Viaggio Via " + ambiente + ":\n" 									
 				+ mezzo + "  ->  " + cittaPartenza + " : " + cittaArrivo + "  ->  " + via + "\n";
 		System.out.println(log);
