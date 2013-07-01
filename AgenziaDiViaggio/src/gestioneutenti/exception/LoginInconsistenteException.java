@@ -1,5 +1,17 @@
-
 package gestioneutenti.exception;
+
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.exception
+ * 
+ * @name LoginInconsistenteException.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
 
 import gestioneutenti.model.Login;
 
@@ -10,7 +22,7 @@ public class LoginInconsistenteException extends Exception {
 	public LoginInconsistenteException() {}
 
 	public LoginInconsistenteException(Login login) {
-		super("Login inconsistente : " + login.getUsername() + " " + login.getPassword());
+		super("SignIn inconsistente : " + login.getUsername() + " " + login.getPassword());
 	}
 
 }

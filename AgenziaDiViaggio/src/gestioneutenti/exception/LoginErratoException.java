@@ -1,5 +1,18 @@
 package gestioneutenti.exception;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.exception
+ * 
+ * @name LoginErratoException.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 import gestioneutenti.model.Login;
 
 public class LoginErratoException extends Exception {
@@ -9,7 +22,7 @@ public class LoginErratoException extends Exception {
 	public LoginErratoException() {}
 
 	public LoginErratoException(Login login) {
-		super("Login errato : " + login.getUsername() + " " + login.getPassword());
+		super("SignIn errato : " + login.getUsername() + " " + login.getPassword());
 	}
 
 }

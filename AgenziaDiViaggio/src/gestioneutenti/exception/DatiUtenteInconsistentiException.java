@@ -1,5 +1,17 @@
-
 package gestioneutenti.exception;
+
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.exception
+ * 
+ * @name DatiUtenteInconsistentiException.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
 
 public class DatiUtenteInconsistentiException extends Exception {
 

@@ -1,6 +1,17 @@
-
 package gestioneutenti.exception;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.exception
+ * 
+ * @name UtenteEsistenteException.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
 
 public class UtenteEsistenteException extends Exception {
 

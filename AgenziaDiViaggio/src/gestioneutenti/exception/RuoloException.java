@@ -1,5 +1,18 @@
 package gestioneutenti.exception;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.exception
+ * 
+ * @name RuoloException.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 public class RuoloException extends Exception {
 
 	private static final long serialVersionUID = 1L;
