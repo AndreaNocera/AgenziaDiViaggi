@@ -9,7 +9,7 @@ import ordinaViaggi.exception.DAOException;
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
  * 
- * @author Gambella
+ * @author Gambella Riccardo
  * @generated 
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */

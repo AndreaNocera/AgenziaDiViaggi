@@ -1,6 +1,6 @@
 package ordinaViaggi.boundaries;
 
-import ordinaViaggi.control.ControlloreProgettista;
+import ordinaViaggi.control.ControlloreAmministratore;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
@@ -19,36 +19,34 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
  * 
- * @author Gambella Riccardo Boundary Progettista Gestione Offerta.
+ * @author Gambella Riccardo
+ * Boundary Cliente Ordina Viaggi.
  */
 
-public class BoundaryProgettistaGestioneOfferta extends JFrame {
+
+public class BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5561695135134299299L;
 
 	// Controllore associato
-	private ControlloreProgettista controlloreProgettista = null;
-	private BoundaryProgettistaGestioneOfferta boundaryProgettistaGestioneOfferta = null;
+	private ControlloreAmministratore controlloreAmministratore = null;
+	private BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta boundaryAmministratoreSceltaTratta = null;
 
-	public static JPanel pannelloGestoreOfferta;
+	public static JPanel pannelloAmministratoreSceltaTratta;
 	public JPanel panelTitolo;
 	public JPanel panelComboBox;
 
 	public JLabel titolo;
+	public JLabel labelScelta = new JLabel();
 	public JLabel labelComboBox;
 
-	private JTextArea areaVisualizzazione;
-
 	// Bottoni
-	public JButton visualizzaOfferta;
-	public JButton inserisciOfferta;
-	public JButton rimuoviOfferta;
+	public JButton next;
 	public JButton back;
 
 	// Bottoni
@@ -67,24 +65,24 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryProgettistaGestioneOfferta() throws DAOException,
+	public BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		this.controlloreProgettista = ControlloreProgettista.getIstance();
-		boundaryProgettistaGestioneOfferta = this;
+		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		boundaryAmministratoreSceltaTratta = this;
 
 		/*
 		 * Comparsa del pannello Ordina viaggio Aggiunge al frame il pannello
 		 * Ordina Viaggio e lo rende l'unico visibile.
 		 */
 
-		pannelloGestoreOfferta = new JPanel();
+		pannelloAmministratoreSceltaTratta = new JPanel();
 
 		/* Impostazioni pannelloSelezionaViaggioOfferta */
-		pannelloGestoreOfferta.setSize(AABoundaryAvvio.Frame.getWidth(),
+		pannelloAmministratoreSceltaTratta.setSize(AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
-		AABoundaryAvvio.Frame.add(pannelloGestoreOfferta);
-		pannelloGestoreOfferta.setLayout(null);
+		AABoundaryAvvio.Frame.add(pannelloAmministratoreSceltaTratta);
+		pannelloAmministratoreSceltaTratta.setLayout(null);
 
 		panelTitolo = new JPanel();
 		panelComboBox = new JPanel();
@@ -92,11 +90,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 		titolo = new JLabel();
 		labelComboBox = new JLabel();
 
-		areaVisualizzazione = new JTextArea();
-
-		visualizzaOfferta = new JButton("Visualizza Offerta");
-		inserisciOfferta = new JButton("Inserisci Offerta");
-		rimuoviOfferta = new JButton("Rimuovi offerta");
+		next = new JButton("Next");
 		back = new JButton("back");
 		/* Creazione delle ComboBox */
 		comboBoxAmbienti = new JComboBox<String>();
@@ -126,9 +120,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 		comboBoxCittaArrivo.addActionListener(comboBoxListener);
 		comboBoxVia.addActionListener(comboBoxListener);
 
-		visualizzaOfferta.addActionListener(buttonsListener);
-		inserisciOfferta.addActionListener(buttonsListener);
-		rimuoviOfferta.addActionListener(buttonsListener);
+		next.addActionListener(buttonsListener);
 		back.addActionListener(backListener);
 
 		/* Setting dei pannelli */
@@ -147,10 +139,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 		panelComboBox.add(comboBoxCittaArrivo);
 		panelComboBox.add(comboBoxVia);
 		panelComboBox.add(labelComboBox);
-		panelComboBox.add(areaVisualizzazione);
-		panelComboBox.add(visualizzaOfferta);
-		panelComboBox.add(inserisciOfferta);
-		panelComboBox.add(rimuoviOfferta);
+		panelComboBox.add(next);
 		panelComboBox.add(back);
 
 		/* Setting dei Componenti */
@@ -159,7 +148,14 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 		titolo.setSize(panelTitolo.getWidth(), 35);
 		titolo.setHorizontalAlignment(JLabel.CENTER);
 		titolo.setVerticalAlignment(JLabel.CENTER);
-		titolo.setText("Gestore Offerta.");
+		titolo.setText("Gestore Amministratore.");
+		
+		labelScelta.setFont(new Font("Arial", 0, 30));
+		labelScelta.setLocation(border, 30);
+		labelScelta.setSize(pannelloAmministratoreSceltaTratta.getWidth(), 35);
+		labelScelta.setHorizontalAlignment(JLabel.CENTER);
+		labelScelta.setVerticalAlignment(JLabel.CENTER);
+		labelScelta.setText("Scegli la tratta di cui visualizzare le prenotazioni.");
 
 		labelComboBox.setFont(new Font("Arial", 0, 30));
 		labelComboBox.setLocation(border, 30);
@@ -167,11 +163,6 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 		labelComboBox.setHorizontalAlignment(JLabel.CENTER);
 		labelComboBox.setVerticalAlignment(JLabel.CENTER);
 		labelComboBox.setText("Seleziona il viaggio dalla ComboBox.");
-
-		// Setting area
-		areaVisualizzazione.setLocation(10, 450);
-		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth(),
-				AABoundaryAvvio.Frame.getHeight());
 
 		/* Setting posizioni comboBox */
 		comboBoxAmbienti.setLocation(100, 100);
@@ -199,25 +190,17 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 		comboBoxVia.setSelectedIndex(0);
 		comboBoxVia.setEnabled(true);
 
-		visualizzaOfferta.setLocation(100, 200);
-		visualizzaOfferta.setSize(200, 35);
-		visualizzaOfferta.setFont(new Font("Arial", 0, 20));
-
-		inserisciOfferta.setLocation(100, 300);
-		inserisciOfferta.setSize(200, 35);
-		inserisciOfferta.setFont(new Font("Arial", 0, 20));
-
-		rimuoviOfferta.setLocation(100, 400);
-		rimuoviOfferta.setSize(200, 35);
-		rimuoviOfferta.setFont(new Font("Arial", 0, 20));
+		next.setLocation(100, 400);
+		next.setSize(200, 35);
+		next.setFont(new Font("Arial", 0, 20));
 
 		back.setLocation(500, 400);
 		back.setSize(200, 35);
 		back.setFont(new Font("Arial", 0, 20));
 
 		/* Add dei pannelli al pannello principale */
-		pannelloGestoreOfferta.add(panelTitolo);
-		pannelloGestoreOfferta.add(panelComboBox);
+		pannelloAmministratoreSceltaTratta.add(panelTitolo);
+		pannelloAmministratoreSceltaTratta.add(panelComboBox);
 
 	}
 
@@ -241,7 +224,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 					svuotaComboBox(comboBoxMezzi);
 
 				try {
-					selectedList = controlloreProgettista
+					selectedList = controlloreAmministratore
 							.estrazioneMezzi(selected);
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
@@ -281,7 +264,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 						svuotaComboBox(comboBoxCittaPartenza);
 
 					try {
-						selectedList = controlloreProgettista
+						selectedList = controlloreAmministratore
 								.estrazioneCittaPartenza(ambiente, mezzo);
 					} catch (DAOException e1) {
 						// TODO Auto-generated catch block
@@ -321,7 +304,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 						svuotaComboBox(comboBoxCittaArrivo);
 
 					try {
-						selectedList = controlloreProgettista
+						selectedList = controlloreAmministratore
 								.estrazioneCittaArrivo(ambiente, mezzo,
 										cittaPartenza);
 					} catch (DAOException e1) {
@@ -365,7 +348,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 						svuotaComboBox(comboBoxVia);
 
 					try {
-						selectedList = controlloreProgettista.estrazioneVia(
+						selectedList = controlloreAmministratore.estrazioneVia(
 								ambiente, mezzo, cittaPartenza, cittaArrivo);
 					} catch (DAOException e1) {
 						// TODO Auto-generated catch block
@@ -403,69 +386,22 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 
 	private class GestoreButtons implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			if (event.getSource() == visualizzaOfferta) {
+			if (event.getSource() == next) {
 
 				List<String> listaCatalogo = prelevaComboBoxCatalogo();
 				// Controllo sull'inserimento corretto dei dati
-				if (!controlloreProgettista.verificaDati(listaCatalogo)) {
-					areaVisualizzazione.setText("");
-					areaVisualizzazione.append("Seleziona la tratta.");
-				} else {
-					pannelloGestoreOfferta.setVisible(false);
+				if (!controlloreAmministratore.verificaDati(listaCatalogo))
+					System.out.println("Dati non inseriti totalmente");
+				else {
+					pannelloAmministratoreSceltaTratta.setVisible(false);
 					try {
-						new BoundaryProgettistaVisualizzazioneOfferta(
-								boundaryProgettistaGestioneOfferta);
+						new BoundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta(
+								boundaryAmministratoreSceltaTratta);
 					} catch (DAOException | MapException | SQLException
 							| DataException | OraException | CatalogoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
-			}
-
-			// Inserimento nell'offerta
-			else if (event.getSource() == inserisciOfferta) {
-
-				List<String> listaCatalogo = prelevaComboBoxCatalogo();
-
-				// Controllo sull'inserimento corretto dei dati
-				if (!controlloreProgettista.verificaDati(listaCatalogo)) {
-					areaVisualizzazione.setText("");
-					areaVisualizzazione.append("Seleziona la tratta.");
-				} else {
-					pannelloGestoreOfferta.setVisible(false);
-					try {
-						new BoundaryProgettistaInserimentoOfferta(
-								boundaryProgettistaGestioneOfferta);
-					} catch (DAOException | MapException | SQLException
-							| DataException | OraException | CatalogoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-			}
-
-			// Rimozione nell'offerta
-			else if (event.getSource() == rimuoviOfferta) {
-
-				List<String> listaCatalogo = prelevaComboBoxCatalogo();
-
-				// Controllo sull'inserimento corretto dei dati
-				if (!controlloreProgettista.verificaDati(listaCatalogo)) {
-					areaVisualizzazione.setText("");
-					areaVisualizzazione.append("Seleziona la tratta.");
-				} else {
-					pannelloGestoreOfferta.setVisible(false);
-					try {
-						new BoundaryProgettistaRimozioneOfferta(
-								boundaryProgettistaGestioneOfferta);
-					} catch (DAOException | MapException | SQLException
-							| DataException | OraException | CatalogoException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
 				}
 			}
 		}
@@ -474,8 +410,8 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 	private class GestoreBack implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			pannelloGestoreOfferta.setVisible(false);
-			BoundaryProgettista.pannelloProgettista.setVisible(true);
+			pannelloAmministratoreSceltaTratta.setVisible(false);
+			BoundaryAmministratore.pannelloAmministratore.setVisible(true);
 		}
 	}
 
@@ -484,12 +420,12 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 	 */
 	private void addComboBox(JComboBox<String> comboBox) {
 
-		// Richiama il metodo estrazione Mappa da ControlloreProgettista
+		// Richiama il metodo estrazione Mappa da controlloreCliente
 		List<String> selectedList = new ArrayList<String>();
 
 		// Estrae la mappa iniziale
 		try {
-			selectedList = controlloreProgettista.estrazioneAmbienti();
+			selectedList = controlloreAmministratore.estrazioneAmbienti();
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

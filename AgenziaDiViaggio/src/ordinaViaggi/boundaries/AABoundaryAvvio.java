@@ -141,7 +141,7 @@ import javax.swing.WindowConstants;
 				}
 				else if(e.getSource() == amministratore){
 					pannello.setVisible(false);
-					//new BoundaryAmministratore();
+					new BoundaryAmministratore();
 				}
 			}
 		}	

@@ -19,13 +19,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * 
- * @author Gambella Riccardo
- * Boundary Cliente Ordina Viaggi.
+ * @author Gambella Riccardo Boundary Cliente Ordina Viaggi.
  */
-
 
 public class BoundaryClienteOrdinaViaggi extends JFrame {
 	/**
@@ -48,6 +47,8 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 	public JButton prenotaViaggio;
 	public JButton back;
 
+	public JTextArea areaVisualizzazione;
+
 	// Bottoni
 	private GestoreButtons buttonsListener;
 	private GestoreBack backListener;
@@ -64,9 +65,8 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryClienteOrdinaViaggi() throws DAOException,
-			MapException, SQLException, DataException, OraException,
-			CatalogoException {
+	public BoundaryClienteOrdinaViaggi() throws DAOException, MapException,
+			SQLException, DataException, OraException, CatalogoException {
 		this.controlloreCliente = ControlloreCliente.getIstance();
 		boundaryClienteOrdinaViaggi = this;
 
@@ -88,6 +88,7 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 
 		titolo = new JLabel();
 		labelComboBox = new JLabel();
+		areaVisualizzazione = new JTextArea();
 
 		prenotaViaggio = new JButton("Prenotazione Viaggio");
 		back = new JButton("back");
@@ -137,6 +138,7 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 		panelComboBox.add(comboBoxCittaPartenza);
 		panelComboBox.add(comboBoxCittaArrivo);
 		panelComboBox.add(comboBoxVia);
+		panelComboBox.add(areaVisualizzazione);
 		panelComboBox.add(labelComboBox);
 		panelComboBox.add(prenotaViaggio);
 		panelComboBox.add(back);
@@ -147,7 +149,7 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 		titolo.setSize(panelTitolo.getWidth(), 35);
 		titolo.setHorizontalAlignment(JLabel.CENTER);
 		titolo.setVerticalAlignment(JLabel.CENTER);
-		titolo.setText("Gestore Offerta.");
+		titolo.setText("Gestore Cliente.");
 
 		labelComboBox.setFont(new Font("Arial", 0, 30));
 		labelComboBox.setLocation(border, 30);
@@ -181,6 +183,11 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 		comboBoxVia.setSize(100, 35);
 		comboBoxVia.setSelectedIndex(0);
 		comboBoxVia.setEnabled(true);
+
+		// Setting area
+		areaVisualizzazione.setLocation(10, 450);
+		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth(),
+				AABoundaryAvvio.Frame.getHeight());
 
 		prenotaViaggio.setLocation(100, 200);
 		prenotaViaggio.setSize(300, 35);
@@ -216,8 +223,7 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 					svuotaComboBox(comboBoxMezzi);
 
 				try {
-					selectedList = controlloreCliente
-							.estrazioneMezzi(selected);
+					selectedList = controlloreCliente.estrazioneMezzi(selected);
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -382,8 +388,10 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 
 				List<String> listaCatalogo = prelevaComboBoxCatalogo();
 				// Controllo sull'inserimento corretto dei dati
-				if (!controlloreCliente.verificaDati(listaCatalogo))
-					System.out.println("Dati non inseriti totalmente");
+				if (!controlloreCliente.verificaDati(listaCatalogo)){
+					areaVisualizzazione.setText("");
+					areaVisualizzazione.append("Dati non inseriti totalmente");
+				}
 				else {
 					pannelloGestoreOrdinaViaggi.setVisible(false);
 					try {

@@ -32,4 +32,8 @@ public class Ambiente extends ElementoIntermedio{
 		// TODO Auto-generated method stub
 		System.out.println(this.getId() + " " + this.getValore());
 	}
+	public static Ambiente getObjectByValue(String ambiente) throws DAOException{
+		DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
+		return daoAmbiente.getObjectByValue(ambiente);
+	}
 }

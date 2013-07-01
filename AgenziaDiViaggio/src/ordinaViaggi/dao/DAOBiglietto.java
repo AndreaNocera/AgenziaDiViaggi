@@ -7,9 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ordinaViaggi.entity.Biglietto;
-import ordinaViaggi.entity.DAO;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
 
@@ -17,7 +18,7 @@ import ordinaViaggi.exception.DAOException;
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
  * 
- * @author Gambella
+ * @author Gambella Riccardo
  * @generated 
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
@@ -27,6 +28,9 @@ public class DAOBiglietto extends DAO{
 
 	private static final String getBigliettiQuery = "SELECT *"
 			+ "FROM `biglietti`";
+	private static final String getListaBigliettiByIdPrenotazione = "SELECT *" +
+			"FROM `biglietti` WHERE idPrenotazione = ?";
+			
 
 	private static final String createQuery = "CREATE TABLE IF NOT EXISTS `biglietti`("
 			+ "idBiglietto INT(10) PRIMARY KEY, "
@@ -221,4 +225,40 @@ public class DAOBiglietto extends DAO{
 			throw new DAOException("Errore in getNextId.");
 		}
 	}
+
+	public List<Biglietto> getListaBigliettiByIdPrenotazione(Integer idPrenotazione) throws DAOException {
+		// TODO Auto-generated method stub
+		List<Biglietto> listaBiglietti = new ArrayList<Biglietto>();
+		DAOTraveler daoTraveler = DAOTraveler.getIstance();
+		try {
+			conn = getConnection(usr, pass);
+			ps = conn.prepareStatement(getListaBigliettiByIdPrenotazione);
+			ps.setInt(1,idPrenotazione);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				Biglietto biglietto = new Biglietto();
+				biglietto.setIdBiglietto(rs.getInt(1));
+				biglietto.setIdPrenotazione(rs.getInt(2));
+				biglietto.setTraveler(daoTraveler.read(rs.getInt(3)));
+				listaBiglietti.add(biglietto);
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Errore in getListaBigliettiByIdPrenotazione.");
+		}
+		return listaBiglietti;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

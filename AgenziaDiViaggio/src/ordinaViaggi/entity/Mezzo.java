@@ -28,5 +28,9 @@ public class Mezzo extends ElementoIntermedio{
 		DAOMezzo daoMezzo = DAOMezzo.getIstance();
 		daoMezzo.insert(this);
 	}
+	public static Mezzo getObjectByValue(String mezzo) throws DAOException{
+		DAOMezzo daoMezzo = DAOMezzo.getIstance();
+		return daoMezzo.getObjectByValue(mezzo);
+	}
 	
 }

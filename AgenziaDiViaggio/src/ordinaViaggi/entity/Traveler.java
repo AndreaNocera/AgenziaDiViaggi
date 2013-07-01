@@ -9,7 +9,7 @@ import ordinaViaggi.exception.DAOException;
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
- * @author Gambella
+ * @author Gambella Riccardo
  * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class Traveler {
@@ -71,5 +71,10 @@ public class Traveler {
 	public void print() {
 		// TODO Auto-generated method stub
 		System.out.println(idTraveler + " " + nome + " " + cognome + " " + email);
+	}
+	public static Traveler getObjectByValue(String nome, String cognome,
+			String email) throws DAOException {
+		DAOTraveler daoTraveler = DAOTraveler.getIstance();
+		return daoTraveler.getObjectByValue(nome, cognome, email);
 	}
 }

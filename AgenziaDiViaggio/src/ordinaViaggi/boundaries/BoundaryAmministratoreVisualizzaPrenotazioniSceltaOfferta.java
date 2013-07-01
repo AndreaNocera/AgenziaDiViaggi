@@ -1,6 +1,6 @@
 package ordinaViaggi.boundaries;
 
-import ordinaViaggi.control.ControlloreCliente;
+import ordinaViaggi.control.ControlloreAmministratore;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
@@ -23,17 +23,18 @@ import javax.swing.JTextField;
 /**
  * @author Gambella Riccardo Boundary ProgettistaInserimentoCatalogo.
  */
-public class BoundaryClienteVisualizzaOfferta extends JFrame {
+public class BoundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta extends
+		JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7497687086928751350L;
 
-	private ControlloreCliente controlloreCliente = null;
-	BoundaryClienteOrdinaViaggi boundaryClienteOrdinaViaggi = null;
-	BoundaryClienteVisualizzaOfferta boundaryClienteVisualizzaOfferta = null;
+	private ControlloreAmministratore controlloreAmministratore = null;
+	BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta = null;
+	BoundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta = null;
 
-	public static JPanel pannelloClienteVisualizzaOfferta;
+	public static JPanel pannelloAmministatoreSceltaOfferta;
 
 	// Testo di Presentazione
 	public static JLabel testoPresentazione = new JLabel();
@@ -45,7 +46,7 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 	public JLabel labelGiorno;
 	public JLabel labelMese;
 	public JLabel labelAnno;
-	public JLabel inserisciOfferta = new JLabel();
+	public JLabel labelPrenotazioni = new JLabel();
 
 	public JTextField giorno;
 	public JTextField mese;
@@ -56,7 +57,7 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 
 	// Bottone
 	public JButton visualizzaOfferte;
-	public JButton prenotazioneViaggio;
+	public JButton visualizzaPrenotazioni;
 	public JButton back;
 
 	private GestoreButtons buttonsListener;
@@ -65,22 +66,22 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryClienteVisualizzaOfferta(
-			BoundaryClienteOrdinaViaggi boundaryClienteOrdinaViaggi)
+	public BoundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta(
+			BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta)
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreCliente = ControlloreCliente.getIstance();
-		this.boundaryClienteOrdinaViaggi = boundaryClienteOrdinaViaggi;
-		this.boundaryClienteVisualizzaOfferta = this;
+		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		this.boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta = boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta;
+		this.boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta = this;
 
-		pannelloClienteVisualizzaOfferta = new JPanel();
+		pannelloAmministatoreSceltaOfferta = new JPanel();
 
-		pannelloClienteVisualizzaOfferta.setSize(
+		pannelloAmministatoreSceltaOfferta.setSize(
 				AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
-		AABoundaryAvvio.Frame.add(pannelloClienteVisualizzaOfferta);
-		pannelloClienteVisualizzaOfferta.setLayout(null);
+		AABoundaryAvvio.Frame.add(pannelloAmministatoreSceltaOfferta);
+		pannelloAmministatoreSceltaOfferta.setLayout(null);
 
 		panelTitolo.setLayout(null);
 		panelTitolo.setSize(AABoundaryAvvio.Frame.getWidth(), 45);
@@ -92,9 +93,9 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 		titolo.setSize(panelTitolo.getWidth(), 35);
 		titolo.setHorizontalAlignment(JLabel.CENTER);
 		titolo.setVerticalAlignment(JLabel.CENTER);
-		titolo.setText("Gestore Cliente");
+		titolo.setText("Gestore Amministratore");
 
-		pannelloClienteVisualizzaOfferta.add(panelTitolo);
+		pannelloAmministatoreSceltaOfferta.add(panelTitolo);
 
 		labelGiorno = new JLabel();
 		labelMese = new JLabel();
@@ -119,11 +120,12 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 		labelAnno.setSize(100, 35);
 		labelAnno.setText("AAAA:");
 
-		inserisciOfferta.setFont(new Font("Arial", 0, 18));
-		inserisciOfferta.setLocation(
+		labelPrenotazioni.setFont(new Font("Arial", 0, 18));
+		labelPrenotazioni.setLocation(
 				AABoundaryAvvio.Frame.getWidth() / 2 + 100, 200);
-		inserisciOfferta.setSize(300, 35);
-		inserisciOfferta.setText("Inserisci l'id dell'offerta:");
+		labelPrenotazioni.setSize(300, 35);
+		labelPrenotazioni
+				.setText("Inserisci l'id dell'offerta:");
 
 		// Setting delle textBox
 		giorno.setLocation(100, 100);
@@ -150,10 +152,10 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 		visualizzaOfferte.setSize(300, 35);
 		visualizzaOfferte.setFont(new Font("Arial", 0, 20));
 
-		prenotazioneViaggio = new JButton("Prenota viaggio.");
-		prenotazioneViaggio.setLocation(200, 400);
-		prenotazioneViaggio.setSize(panelTitolo.getWidth() / 4, 50);
-		prenotazioneViaggio.setFont(new Font("Arial", 0, 20));
+		visualizzaPrenotazioni = new JButton("Visualizza prenotazioni.");
+		visualizzaPrenotazioni.setLocation(100, 400);
+		visualizzaPrenotazioni.setSize(300, 50);
+		visualizzaPrenotazioni.setFont(new Font("Arial", 0, 20));
 
 		// Bottone back
 		back = new JButton("back");
@@ -163,7 +165,8 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 
 		// Area
 		areaVisualizzazione = new JTextArea();
-		areaVisualizzazione.setText("Inserire la data per ottenere le offerte.");
+		areaVisualizzazione
+				.setText("Inserire la data per ottenere le offerte.");
 		areaVisualizzazione.setLocation(10, 200);
 		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth() / 2, 200);
 
@@ -177,15 +180,15 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 		panelVisualizza.add(labelGiorno);
 		panelVisualizza.add(labelMese);
 		panelVisualizza.add(labelAnno);
-		panelVisualizza.add(inserisciOfferta);
+		panelVisualizza.add(labelPrenotazioni);
 		panelVisualizza.add(giorno);
 		panelVisualizza.add(mese);
 		panelVisualizza.add(anno);
 		panelVisualizza.add(offertaInserita);
-		panelVisualizza.add(prenotazioneViaggio);
+		panelVisualizza.add(visualizzaPrenotazioni);
 		panelVisualizza.add(areaVisualizzazione);
 
-		pannelloClienteVisualizzaOfferta.add(panelVisualizza);
+		pannelloAmministatoreSceltaOfferta.add(panelVisualizza);
 
 		// Istanziazione dei Listeners
 		buttonsListener = new GestoreButtons();
@@ -193,7 +196,7 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 
 		// Listener dei bottoni
 		visualizzaOfferte.addActionListener(buttonsListener);
-		prenotazioneViaggio.addActionListener(buttonsListener);
+		visualizzaPrenotazioni.addActionListener(buttonsListener);
 		back.addActionListener(backListener);
 	}
 
@@ -204,10 +207,12 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 			if (event.getSource() == visualizzaOfferte) {
 				// Chiama il controllore e ottiene il catalogo
 				List<String> listaOfferte;
-				if (!controlloreCliente.verificaData(giorno.getText(),
+				if (!controlloreAmministratore.verificaData(giorno.getText(),
 						mese.getText())) {
-					//Stampa di tutte le offerte disponibili in caso non si sia inserita la data.
-					listaOfferte = controlloreCliente.visualizzaOfferta(boundaryClienteOrdinaViaggi
+					// Stampa di tutte le offerte disponibili in caso non si sia
+					// inserita la data.
+					listaOfferte = controlloreAmministratore
+							.visualizzaOfferta(boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta
 									.prelevaComboBoxCatalogo());
 					areaVisualizzazione.setText("");
 					if (listaOfferte.isEmpty()) {
@@ -217,17 +222,17 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 						for (String offerta : listaOfferte)
 							areaVisualizzazione.append(offerta + '\n');
 					}
-					
+
 				} else {
-					//Stampa delle offerte relative alla data inserita.
+					// Stampa delle offerte relative alla data inserita.
 					Integer annoInteger;
 					if (anno.getText().equals("")) {
 						annoInteger = new Integer(2013);
 					} else {
 						annoInteger = new Integer(anno.getText());
 					}
-					listaOfferte = controlloreCliente.visualizzaOffertaByData(
-							boundaryClienteOrdinaViaggi
+					listaOfferte = controlloreAmministratore.visualizzaOffertaByData(
+							boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta
 									.prelevaComboBoxCatalogo(), new Integer(
 									giorno.getText()),
 							new Integer(mese.getText()), annoInteger);
@@ -242,20 +247,26 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 				}
 			}
 
-			else if (event.getSource() == prenotazioneViaggio) {
-				if (!controlloreCliente.verificaId(offertaInserita.getText())) {
+			else if (event.getSource() == visualizzaPrenotazioni) {
+				if (!controlloreAmministratore.verificaId(offertaInserita.getText())) {
+					areaVisualizzazione.setText("");
 					areaVisualizzazione.append("\n"
-							+ "Insersci id dell'offerta.");
+							+ "Inserisci id dell'offerta.");
 				} else {
 					try {
-						pannelloClienteVisualizzaOfferta.setVisible(false);
-						new BoundaryClientePrenotaViaggio(
-								boundaryClienteOrdinaViaggi,
-								boundaryClienteVisualizzaOfferta);
+						pannelloAmministatoreSceltaOfferta.setVisible(false);
+						new BoundaryAmministratoreVisualizzaPrenotazioni(
+								boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta,
+								boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta);
 					} catch (DAOException | MapException | SQLException
 							| DataException | OraException | CatalogoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (NullPointerException e){
+						BoundaryAmministratoreVisualizzaPrenotazioni.pannelloAmministratoreVisualizzaPrenotazioni.setVisible(false);
+						pannelloAmministatoreSceltaOfferta.setVisible(true);
+						areaVisualizzazione.setText("");
+						areaVisualizzazione.append("Id offerta non esistente. Inserire id corretto.");
 					}
 				}
 			}
@@ -264,13 +275,12 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 
 	private class GestoreBack implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			pannelloClienteVisualizzaOfferta.setVisible(false);
-			BoundaryClienteOrdinaViaggi.pannelloGestoreOrdinaViaggi
+			pannelloAmministatoreSceltaOfferta.setVisible(false);
+			BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta.pannelloAmministratoreSceltaTratta
 					.setVisible(true);
 		}
 	}
-	
-	
+
 	public Integer getIdOfferta() {
 		return new Integer(offertaInserita.getText());
 	}

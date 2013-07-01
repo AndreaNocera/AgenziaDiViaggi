@@ -3,7 +3,6 @@
  */
 package ordinaViaggi.dao;
 
-import ordinaViaggi.entity.DAO;
 import ordinaViaggi.entity.Data;
 import ordinaViaggi.entity.Offerta;
 import ordinaViaggi.entity.Ora;
@@ -31,6 +30,17 @@ public class DAOOfferta extends DAO {
 
 	private static final String getOffertaQuery = "SELECT * FROM `offerta`";
 
+	private static final String createQuery =  "CREATE TABLE IF NOT EXISTS `offerta`("
+			+ "idOfferta INT(10) PRIMARY KEY, "
+			+ "idTratta INT(10), "
+			+ "giorno INT(10),"
+			+ "mese INT(10),"
+			+ "anno INT(10),"
+			+ "ora INT(10),"
+			+ "minuti INT(10),"
+			+ "posti INT(10)"
+			+ ")";
+	
 	private static final String insertQuery = "INSERT INTO `offerta`(`idOfferta`, `idTratta`, `giorno`, `mese`, `anno`, `ora`, `minuti`, `posti`) "
 			+ "VALUES (?,?,?,?,?,?,?,?)";
 
@@ -50,8 +60,19 @@ public class DAOOfferta extends DAO {
 	private DAOOfferta() {
 		try {
 			Class.forName(driverName);
+			
+			conn = getConnection(usr, pass);
 
+			ps = conn.prepareStatement(createQuery);
+
+			ps.executeUpdate();
 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {

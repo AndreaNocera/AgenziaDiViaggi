@@ -6,7 +6,6 @@ import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
 import ordinaViaggi.exception.MapException;
 import ordinaViaggi.exception.OraException;
-import ordinaViaggi.exception.PostiException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -26,20 +25,20 @@ import javax.swing.JTextField;
 /**
  * @author Gambella Riccardo Boundary ProgettistaInserimentoCatalogo.
  */
-public class BoundaryClientePrenotaViaggio extends JFrame {
+public class BoundaryClienteAggiuntaBiglietti extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7497687086928751350L;
 
 	private ControlloreCliente controlloreCliente = null;
-	BoundaryClienteOrdinaViaggi boundaryClienteOrdinaViaggi = null;
-	BoundaryClienteVisualizzaOfferta boundaryClienteVisualizzaOfferta = null;
+	BoundaryClienteModificaPrenotazione boundaryClienteModificaPrenotazione = null;
 
-	public static JPanel pannelloClientePrenotaViaggio;
+	public static JPanel pannelloClienteAggiuntaBiglietti;
 
 	// Testo di Presentazione
 	private JLabel labelBigliettiInseriti;
+	public JLabel labelListaBiglietti;
 	public JLabel labelNome;
 	public JLabel labelCognome;
 	public JLabel labelEmail;
@@ -58,7 +57,7 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 
 	// Bottone
 	private JButton inserisciBiglietto;
-	private JButton prenotazioneViaggio;
+	private JButton aggiuntaBiglietti;
 	public JButton back;
 
 	private GestoreButtons buttonsListener;
@@ -68,26 +67,26 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 	private List<String> listaNomi = new ArrayList<String>();
 	private List<String> listaCognomi = new ArrayList<String>();
 	private List<String> listaEmail = new ArrayList<String>();
+	private List<String> listaBiglietti = new ArrayList<String>();
 
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryClientePrenotaViaggio(
-			BoundaryClienteOrdinaViaggi boundaryClienteOrdinaViaggi,
-			BoundaryClienteVisualizzaOfferta boundaryClienteVisualizzaOfferta)
+	public BoundaryClienteAggiuntaBiglietti(
+			BoundaryClienteModificaPrenotazione boundaryClienteModificaPrenotazione)
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
 		this.controlloreCliente = ControlloreCliente.getIstance();
-		this.boundaryClienteOrdinaViaggi = boundaryClienteOrdinaViaggi;
-		this.boundaryClienteVisualizzaOfferta = boundaryClienteVisualizzaOfferta;
+		this.boundaryClienteModificaPrenotazione = boundaryClienteModificaPrenotazione;
 
-		pannelloClientePrenotaViaggio = new JPanel();
+		pannelloClienteAggiuntaBiglietti = new JPanel();
 
-		pannelloClientePrenotaViaggio.setSize(AABoundaryAvvio.Frame.getWidth(),
+		pannelloClienteAggiuntaBiglietti.setSize(
+				AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
-		AABoundaryAvvio.Frame.add(pannelloClientePrenotaViaggio);
-		pannelloClientePrenotaViaggio.setLayout(null);
+		AABoundaryAvvio.Frame.add(pannelloClienteAggiuntaBiglietti);
+		pannelloClienteAggiuntaBiglietti.setLayout(null);
 
 		panelTitolo.setLayout(null);
 		panelTitolo.setSize(AABoundaryAvvio.Frame.getWidth(), 45);
@@ -101,9 +100,10 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		titolo.setVerticalAlignment(JLabel.CENTER);
 		titolo.setText("Inserire i dati del passeggero");
 
-		pannelloClientePrenotaViaggio.add(panelTitolo);
+		pannelloClienteAggiuntaBiglietti.add(panelTitolo);
 
 		labelBigliettiInseriti = new JLabel();
+		labelListaBiglietti = new JLabel();
 		labelNome = new JLabel();
 		labelCognome = new JLabel();
 		labelEmail = new JLabel();
@@ -114,28 +114,32 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 
 		// Setting area
 		areaVisualizzazione = new JTextArea();
-		areaVisualizzazione.setLocation(10, 500);
-		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth(),
-				AABoundaryAvvio.Frame.getHeight());
+		areaVisualizzazione.setLocation(10, 100);
+		areaVisualizzazione.setSize(300, 300);
 
 		// Setting label
 		labelBigliettiInseriti.setFont(new Font("Arial", 0, 18));
 		labelBigliettiInseriti.setLocation(600, 250);
 		labelBigliettiInseriti.setSize(200, 35);
 		labelBigliettiInseriti.setText("Biglietti inseriti:");
+		
+		labelListaBiglietti.setFont(new Font("Arial", 0, 18));
+		labelListaBiglietti.setLocation(100, 50);
+		labelListaBiglietti.setSize(200, 35);
+		labelListaBiglietti.setText("Lista biglietti:");
 
 		labelNome.setFont(new Font("Arial", 0, 18));
-		labelNome.setLocation(300, 50);
+		labelNome.setLocation(350, 50);
 		labelNome.setSize(200, 35);
 		labelNome.setText("Inserire il nome:");
 
 		labelCognome.setFont(new Font("Arial", 0, 18));
-		labelCognome.setLocation(300, 150);
+		labelCognome.setLocation(350, 150);
 		labelCognome.setSize(200, 35);
 		labelCognome.setText("Inserire il cognome:");
 
 		labelEmail.setFont(new Font("Arial", 0, 18));
-		labelEmail.setLocation(300, 250);
+		labelEmail.setLocation(350, 250);
 		labelEmail.setSize(200, 35);
 		labelEmail.setText("Inserire la mail:");
 
@@ -145,15 +149,15 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		bigliettiInseriti.setSize(200, 35);
 		bigliettiInseriti.setFont(new Font("Arial", 0, 18));
 
-		nome.setLocation(300, 100);
+		nome.setLocation(350, 100);
 		nome.setSize(200, 35);
 		nome.setFont(new Font("Arial", 0, 18));
 
-		cognome.setLocation(300, 200);
+		cognome.setLocation(350, 200);
 		cognome.setSize(200, 35);
 		cognome.setFont(new Font("Arial", 0, 18));
 
-		email.setLocation(300, 300);
+		email.setLocation(350, 300);
 		email.setSize(200, 35);
 		email.setFont(new Font("Arial", 0, 18));
 
@@ -164,14 +168,14 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		inserisciBiglietto.setSize(200, 50);
 		inserisciBiglietto.setFont(new Font("Arial", 0, 20));
 
-		prenotazioneViaggio = new JButton("Prenota viaggio.");
-		prenotazioneViaggio.setLocation(200, 400);
-		prenotazioneViaggio.setSize(panelTitolo.getWidth() / 4, 50);
-		prenotazioneViaggio.setFont(new Font("Arial", 0, 20));
+		aggiuntaBiglietti = new JButton("Prenota viaggio.");
+		aggiuntaBiglietti.setLocation(350, 400);
+		aggiuntaBiglietti.setSize(panelTitolo.getWidth() / 4, 50);
+		aggiuntaBiglietti.setFont(new Font("Arial", 0, 20));
 
 		// Bottone back
 		back = new JButton("back");
-		back.setLocation(500, 400);
+		back.setLocation(600, 400);
 		back.setSize(panelTitolo.getWidth() / 4, 50);
 		back.setFont(new Font("Arial", 0, 20));
 
@@ -183,17 +187,18 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		panelPrenotazione.add(labelNome);
 		panelPrenotazione.add(labelCognome);
 		panelPrenotazione.add(labelEmail);
+		panelPrenotazione.add(labelListaBiglietti);
 		panelPrenotazione.add(labelBigliettiInseriti);
 		panelPrenotazione.add(nome);
 		panelPrenotazione.add(cognome);
 		panelPrenotazione.add(email);
 		panelPrenotazione.add(bigliettiInseriti);
 		panelPrenotazione.add(inserisciBiglietto);
-		panelPrenotazione.add(prenotazioneViaggio);
+		panelPrenotazione.add(aggiuntaBiglietti);
 		panelPrenotazione.add(back);
 		panelPrenotazione.add(areaVisualizzazione);
 
-		pannelloClientePrenotaViaggio.add(panelPrenotazione);
+		pannelloClienteAggiuntaBiglietti.add(panelPrenotazione);
 
 		// Istanziazione dei Listeners
 		buttonsListener = new GestoreButtons();
@@ -202,7 +207,25 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		// Listener dei bottoni
 		back.addActionListener(backListener);
 		inserisciBiglietto.addActionListener(buttonsListener);
-		prenotazioneViaggio.addActionListener(buttonsListener);
+		aggiuntaBiglietti.addActionListener(buttonsListener);
+
+		// Inizializzazione dell'area visualizzazione
+
+		try {
+			listaBiglietti = controlloreCliente
+					.getListaBigliettiByIdPrenotazione(boundaryClienteModificaPrenotazione
+							.getIdPrenotazione());
+		} catch (CatalogoException e) {
+			// TODO Auto-generated catch block
+			pannelloClienteAggiuntaBiglietti.setVisible(false);
+			BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+					.setVisible(true);
+			boundaryClienteModificaPrenotazione.areaVisualizzazione
+					.setText("Id della prenotazione non presente.");
+		}
+		areaVisualizzazione.setText("");
+		for (String str : listaBiglietti)
+			areaVisualizzazione.append(str + "\n");
 	}
 
 	private class GestoreButtons implements ActionListener {
@@ -213,7 +236,7 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 			if (event.getSource() == inserisciBiglietto) {
 				if (!controlloreCliente.verificaDatiViaggiatore(nome.getText(),
 						cognome.getText(), email.getText()))
-					areaVisualizzazione.append("Inserire i dati del traveler.");
+					areaVisualizzazione.append("Inserire l'id del biglietto da rimuovere.");
 				else {
 					listaNomi.add(nome.getText());
 					listaCognomi.add(cognome.getText());
@@ -221,46 +244,54 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 					nome.setText("");
 					cognome.setText("");
 					email.setText("");
-					Integer bigliettiIncrementato = new Integer(bigliettiInseriti.getText()) + 1;
-					//Incrementa il numero di biglietti inseriti
+					Integer bigliettiIncrementato = new Integer(
+							bigliettiInseriti.getText()) + 1;
+					// Incrementa il numero di biglietti inseriti
 					bigliettiInseriti.setText(bigliettiIncrementato.toString());
 				}
 			}
 
-			else if (event.getSource() == prenotazioneViaggio) {
+			else if (event.getSource() == aggiuntaBiglietti) {
 				if (bigliettiInseriti.getText().equals("0"))
 					areaVisualizzazione
 							.append("Inserire almeno un biglietto per effettuare la prenotazione.");
 				else {
-					List<String> listaCatalogo = boundaryClienteOrdinaViaggi
-							.prelevaComboBoxCatalogo();
-					Integer idOfferta = boundaryClienteVisualizzaOfferta
-							.getIdOfferta();
+					Integer idPrenotazione = boundaryClienteModificaPrenotazione
+							.getIdPrenotazione();
 					// L'acquirente è lo username dell'utente. Può essere
 					// estratto dalle sue informazioni.
-					String acquirente = "Cliente";
 					try {
 
-						Integer idPrenotazione = controlloreCliente.inserimentoInPrenotazione(
-								listaCatalogo, idOfferta, acquirente,
+						controlloreCliente.aggiuntaBiglietti(idPrenotazione,
 								listaNomi, listaCognomi, listaEmail);
 						bigliettiInseriti.setText("0");
 						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
-								"Viaggio Prenotato.\nId della prenotazione: "
-										+ idPrenotazione);
+								"Biglietti aggiunti.");
+						
+						
+						
+						//Setting dell'area visualizzazione con la lista dei biglietti
+						try {
+							listaBiglietti = controlloreCliente
+									.getListaBigliettiByIdPrenotazione(boundaryClienteModificaPrenotazione
+											.getIdPrenotazione());
+						} catch (CatalogoException e) {
+							// TODO Auto-generated catch block
+							pannelloClienteAggiuntaBiglietti.setVisible(false);
+							BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+									.setVisible(true);
+							boundaryClienteModificaPrenotazione.areaVisualizzazione
+									.setText("Id della prenotazione non presente.");
+						}
+						areaVisualizzazione.setText("");
+						for (String str : listaBiglietti)
+							areaVisualizzazione.append(str + "\n");
 					} catch (DAOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (CatalogoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (MapException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (PostiException e){
-						JOptionPane.showMessageDialog(
-								AABoundaryAvvio.Frame,
-								"Posti non disponibili.");
 					}
 				}
 			}
@@ -269,8 +300,8 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 
 	private class GestoreBack implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			pannelloClientePrenotaViaggio.setVisible(false);
-			BoundaryClienteVisualizzaOfferta.pannelloClienteVisualizzaOfferta
+			pannelloClienteAggiuntaBiglietti.setVisible(false);
+			BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
 					.setVisible(true);
 		}
 	}

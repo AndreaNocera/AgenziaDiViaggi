@@ -1,16 +1,18 @@
 package ordinaViaggi.control;
 
-import ordinaViaggi.dao.DAOAmbiente;
-import ordinaViaggi.dao.DAOCatalogo;
-import ordinaViaggi.dao.DAOCitta;
-import ordinaViaggi.dao.DAOMezzo;
-import ordinaViaggi.dao.DAOVia;
+import ordinaViaggi.boundaries.AABoundaryAvvio;
+import ordinaViaggi.entity.Ambiente;
 import ordinaViaggi.entity.Catalogo;
+import ordinaViaggi.entity.Citta;
+import ordinaViaggi.entity.Mezzo;
+import ordinaViaggi.entity.Offerta;
 import ordinaViaggi.entity.Tratta;
+import ordinaViaggi.entity.Via;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.ControllerException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
+import ordinaViaggi.exception.GestoreEccezioniException;
 import ordinaViaggi.exception.MapException;
 import ordinaViaggi.exception.OraException;
 
@@ -19,6 +21,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 /**
  * @author Gambella Riccardo Controllore Promotore.
  */
@@ -26,78 +30,72 @@ import java.util.List;
 public class ControllorePromotore extends Controllore {
 	private static ControllorePromotore istance = null;
 	private static Catalogo catalogo = null;
-	private static DAOCatalogo daoCatalogo = null;
-	private static DAOAmbiente daoAmbiente = null;
-	private static DAOMezzo daoMezzo = null;
-	private static DAOCitta daoCitta = null;
-	private static DAOVia daoVia = null;
-	
-	public ControllorePromotore() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
+
+	public ControllorePromotore() throws DAOException, MapException,
+			SQLException, DataException, OraException, CatalogoException {
 		super();
 		catalogo = Catalogo.getIstance();
-		daoCatalogo = DAOCatalogo.getIstance();
-		daoAmbiente = DAOAmbiente.getIstance();
-		daoMezzo = DAOMezzo.getIstance();
-		daoCitta = DAOCitta.getIstance();
-		daoVia = DAOVia.getIstance();
 	}
 
-	public static ControllorePromotore getIstance() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
+	public static ControllorePromotore getIstance() throws DAOException,
+			MapException, SQLException, DataException, OraException,
+			CatalogoException {
 		if (istance == null)
 			istance = new ControllorePromotore();
 		return istance;
 	}
 
-	public void inserimentoCatalogo(String ambiente, String mezzo,
+	public Integer inserimentoCatalogo(String ambiente, String mezzo,
 			String cittaPartenza, String cittaArrivo, String via)
 			throws ControllerException, IOException, DAOException,
 			MapException, CatalogoException, SQLException, DataException,
 			OraException {
-		System.out.println("Inserimento nel catalogo");
-		// Richiesta inserimento di Ambiente, Mezzo, CittaPartenza, CittaArrivo
-		// da StdIn
 		Tratta tratta = new Tratta();
 
 		Integer id = null;
 
 		// Prende un nuovo id per la costruzione della tratta.
-		id = daoCatalogo.getNextId();
+		id = Catalogo.getNextIdTratta();
 		tratta.setId(id);
 		// Inserisce gli oggetti nella tratta, creandoli nel Db se non
 		// esistenti.
-		tratta.setAmbiente(daoAmbiente.getObjectByValue(ambiente));
-		tratta.setMezzo(daoMezzo.getObjectByValue(mezzo));
-		tratta.setCittaPartenza(daoCitta.getObjectByValue(cittaPartenza));
-		tratta.setCittaArrivo(daoCitta.getObjectByValue(cittaArrivo));
-		tratta.setVia(daoVia.getObjectByValue(via));
-
-		System.out.print("Tratta da inserire: ");
-		tratta.printTratta();
+		tratta.setAmbiente(Ambiente.getObjectByValue(ambiente));
+		tratta.setMezzo(Mezzo.getObjectByValue(mezzo));
+		tratta.setCittaPartenza(Citta.getObjectByValue(cittaPartenza));
+		tratta.setCittaArrivo(Citta.getObjectByValue(cittaArrivo));
+		tratta.setVia(Via.getObjectByValue(via));
 
 		catalogo.inserimentoInCatalogo(tratta);
+
+		return tratta.getId();
 	}
 
-	public void rimozioneInCatalogo(String ambiente, String mezzo,
-			String cittaPartenza, String cittaArrivo, String via)
+	public void rimozioneInCatalogo(Integer idTratta)
 			throws ControllerException, IOException, DAOException,
 			MapException, CatalogoException, SQLException, DataException,
-			OraException {
-		
+			OraException, GestoreEccezioniException {
+
 		System.out.println("Rimozione nel catalogo");
 
 		// Ottengo la tratta dal catalogo.
 		// Deve esistere oppure ci sono errori nelle comboBox.
-		Tratta tratta = catalogo.getTrattaByValue(
-				daoAmbiente.getObjectByValue(ambiente),
-				daoMezzo.getObjectByValue(mezzo),
-				daoCitta.getObjectByValue(cittaPartenza),
-				daoCitta.getObjectByValue(cittaArrivo),
-				daoVia.getObjectByValue(via));
+		Tratta tratta = catalogo.getTrattaById(idTratta);
 
-		System.out.println("Tratta da rimuovere.");
-		tratta.printTratta();
+		List<Offerta> listaOfferte = catalogo.getListaOfferte(tratta
+				.getAmbiente().getValore(), tratta.getMezzo().getValore(),
+				tratta.getCittaPartenza().getValore(), tratta.getCittaArrivo()
+						.getValore(), tratta.getVia().getValore());
 
-		catalogo.rimozioneInCatalogo(tratta);
+		if (!listaOfferte.isEmpty()) {
+			throw new GestoreEccezioniException(
+					"Impossibile rimuovere tratta.\nEsistono offerte relative alla tratta.");
+
+		} else {
+			catalogo.rimozioneInCatalogo(tratta);
+			// Devo rimuovere le prenotazioni relative all'offerta considerata.
+			JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
+					"Tratta rimossa.");
+		}
 	}
 
 	public List<String> visualizzaCatalogo() throws ControllerException,
@@ -119,6 +117,13 @@ public class ControllorePromotore extends Controllore {
 			return false;
 		return true;
 
+	}
+
+	public boolean verificaIdTratta(String idTratta) {
+		// TODO Auto-generated method stub
+		if (idTratta.equals(""))
+			return false;
+		return true;
 	}
 
 }

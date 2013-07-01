@@ -5,6 +5,7 @@ import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.ControllerException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
+import ordinaViaggi.exception.GestoreEccezioniException;
 import ordinaViaggi.exception.MapException;
 import ordinaViaggi.exception.OraException;
 
@@ -17,7 +18,9 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -34,29 +37,21 @@ public class BoundaryPromotoreRimozioneCatalogo extends JFrame {
 	public static JPanel pannelloPromotoreRimozioneCatalogo;
 
 	// Testo di Presentazione
-	public static JLabel testoPresentazione = new JLabel();
+	public JLabel labelRimozione = new JLabel();
 
 	public JPanel panelTitolo = new JPanel();
 	public JPanel panelButtons = new JPanel();
 
 	public JLabel titolo = new JLabel();
-	public JLabel labelAmbiente;
-	public JLabel labelMezzo;
-	public JLabel labelTipoMezzo;
-	public JLabel labelCittaPartenza;
-	public JLabel labelCittaArrivo;
-	public JLabel labelVia;
+	public JLabel labelIdTratta;
 
-	public JTextField ambiente;
-	public JTextField mezzo;
-	public JTextField tipoMezzo;
-	public JTextField cittaPartenza;
-	public JTextField cittaArrivo;
-	public JTextField via;
+	public JTextField tratta;
 
 	// Bottone
 	public JButton rimozioneCatalogo;
 	public JButton back;
+
+	public JTextArea areaVisualizzazione;
 
 	private GestoreButtons buttonsListener;
 	private GestoreBack backListener;
@@ -92,19 +87,9 @@ public class BoundaryPromotoreRimozioneCatalogo extends JFrame {
 
 		pannelloPromotoreRimozioneCatalogo.add(panelTitolo);
 
-		labelAmbiente = new JLabel();
-		labelMezzo = new JLabel();
-		labelTipoMezzo = new JLabel();
-		labelCittaPartenza = new JLabel();
-		labelCittaArrivo = new JLabel();
-		labelVia = new JLabel();
+		labelIdTratta = new JLabel();
 
-		ambiente = new JTextField("", 20);
-		mezzo = new JTextField("", 20);
-		tipoMezzo = new JTextField("", 20);
-		cittaPartenza = new JTextField("", 20);
-		cittaArrivo = new JTextField("", 20);
-		via = new JTextField("", 20);
+		tratta = new JTextField("", 20);
 
 		// Bottone back
 		back = new JButton("back");
@@ -119,79 +104,41 @@ public class BoundaryPromotoreRimozioneCatalogo extends JFrame {
 		rimozioneCatalogo.setFont(new Font("Arial", 0, 20));
 
 		// Setting Label
-		labelAmbiente.setFont(new Font("Arial", 0, 18));
-		labelAmbiente.setLocation(100, 100);
-		labelAmbiente.setSize(150, 35);
-		labelAmbiente.setText("Ambiente:");
+		labelRimozione.setFont(new Font("Arial", 0, 30));
+		labelRimozione.setLocation(border, 30);
+		labelRimozione.setSize(pannelloPromotoreRimozioneCatalogo.getWidth(),
+				35);
+		labelRimozione.setHorizontalAlignment(JLabel.CENTER);
+		labelRimozione.setVerticalAlignment(JLabel.CENTER);
+		labelRimozione.setText("Inserisci l'id della tratta da rimuovere.");
 
-		labelMezzo.setFont(new Font("Arial", 0, 18));
-		labelMezzo.setLocation(100, 140);
-		labelMezzo.setSize(150, 35);
-		labelMezzo.setText("Mezzo:");
-
-		labelTipoMezzo.setFont(new Font("Arial", 0, 18));
-		labelTipoMezzo.setLocation(100, 180);
-		labelTipoMezzo.setSize(150, 35);
-		labelTipoMezzo.setText("Tipo:");
-
-		labelCittaPartenza.setFont(new Font("Arial", 0, 18));
-		labelCittaPartenza.setLocation(100, 220);
-		labelCittaPartenza.setSize(150, 35);
-		labelCittaPartenza.setText("Citta di partenza:");
-
-		labelCittaArrivo.setFont(new Font("Arial", 0, 18));
-		labelCittaArrivo.setLocation(100, 260);
-		labelCittaArrivo.setSize(150, 35);
-		labelCittaArrivo.setText("Citta di arrivo:");
-
-		labelVia.setFont(new Font("Arial", 0, 18));
-		labelVia.setLocation(100, 300);
-		labelVia.setSize(150, 35);
-		labelVia.setText("Via:");
+		labelIdTratta.setFont(new Font("Arial", 0, 18));
+		labelIdTratta.setLocation(100, 100);
+		labelIdTratta.setSize(150, 35);
+		labelIdTratta.setText("Tratta:");
 
 		// Setting delle textBox
-		ambiente.setLocation(300, 100);
-		ambiente.setSize(200, 35);
-		ambiente.setFont(new Font("Arial", 0, 18));
+		tratta.setLocation(300, 100);
+		tratta.setSize(200, 35);
+		tratta.setFont(new Font("Arial", 0, 18));
 
-		mezzo.setLocation(300, 140);
-		mezzo.setSize(200, 35);
-		mezzo.setFont(new Font("Arial", 0, 18));
-
-		tipoMezzo.setLocation(300, 180);
-		tipoMezzo.setSize(200, 35);
-		tipoMezzo.setFont(new Font("Arial", 0, 18));
-
-		cittaPartenza.setLocation(300, 220);
-		cittaPartenza.setSize(200, 35);
-		cittaPartenza.setFont(new Font("Arial", 0, 18));
-
-		cittaArrivo.setLocation(300, 260);
-		cittaArrivo.setSize(200, 35);
-		cittaArrivo.setFont(new Font("Arial", 0, 18));
-
-		via.setLocation(300, 300);
-		via.setSize(200, 35);
-		via.setFont(new Font("Arial", 0, 18));
+		// Setting area
+		areaVisualizzazione = new JTextArea();
+		areaVisualizzazione.setText("");
+		areaVisualizzazione.setLocation(10, 400);
+		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth(),
+				AABoundaryAvvio.Frame.getHeight());
 
 		panelButtons.setLayout(null);
 		panelButtons.setSize(AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
 		panelButtons.setLocation(5, altezzaTitolo);
 
-		panelButtons.add(labelAmbiente);
-		panelButtons.add(labelMezzo);
-		panelButtons.add(labelTipoMezzo);
-		panelButtons.add(labelCittaPartenza);
-		panelButtons.add(labelCittaArrivo);
-		panelButtons.add(labelVia);
+		panelButtons.add(labelIdTratta);
 
-		panelButtons.add(ambiente);
-		panelButtons.add(mezzo);
-		panelButtons.add(tipoMezzo);
-		panelButtons.add(cittaPartenza);
-		panelButtons.add(cittaArrivo);
-		panelButtons.add(via);
+		panelButtons.add(tratta);
+		
+		panelButtons.add(areaVisualizzazione);
 
 		panelButtons.add(rimozioneCatalogo);
 
@@ -214,23 +161,24 @@ public class BoundaryPromotoreRimozioneCatalogo extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == rimozioneCatalogo) {
 
-				String mezzoConcatenato = mezzo.getText() + " "
-						+ tipoMezzo.getText();
-				if (!controllorePromotore.verificaDati(ambiente.getText(),
-						mezzoConcatenato, cittaPartenza.getText(),
-						cittaArrivo.getText(), via.getText())) {
-					System.out.println("Dati non inseriti totalmente");
+				if (!controllorePromotore.verificaIdTratta(tratta.getText())) {
+					areaVisualizzazione.setText("");
+					areaVisualizzazione.append("Dati non inseriti totalmente");
 				} else {
 					try {
-						controllorePromotore.rimozioneInCatalogo(
-								ambiente.getText(), mezzoConcatenato,
-								cittaPartenza.getText(), cittaArrivo.getText(),
-								via.getText());
+						controllorePromotore.rimozioneInCatalogo(new Integer(tratta.getText()));
 					} catch (ControllerException | IOException | DAOException
 							| MapException | CatalogoException | SQLException
 							| DataException | OraException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (GestoreEccezioniException e) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
+								"Impossibile rimuovere tratta.\nEsistono offerte relative alla tratta.");
 					}
 				}
 

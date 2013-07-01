@@ -18,7 +18,9 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -35,10 +37,9 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 
 	public static JPanel pannelloPromotoreInserimentoOfferta;
 
-	// Testo di Presentazione
-	public static JLabel testoPresentazione = new JLabel();
+	public JLabel labelInserimento = new JLabel();
 
-	public JPanel panelTitolo = new JPanel();
+	private JPanel panelTitolo = new JPanel();
 	public JPanel panelButtons = new JPanel();
 
 	public JLabel titolo = new JLabel();
@@ -56,6 +57,8 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 	public JTextField minuti;
 	public JTextField posti;
 
+	public JTextArea areaVisualizzazione;
+
 	// Bottone
 	public JButton inserisciOfferta;
 	public JButton back;
@@ -68,7 +71,8 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 
 	public BoundaryProgettistaInserimentoOfferta(
 			BoundaryProgettistaGestioneOfferta boundaryProgettistaGestioneOfferta)
-			throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
+			throws DAOException, MapException, SQLException, DataException,
+			OraException, CatalogoException {
 
 		this.controlloreProgettista = ControlloreProgettista.getIstance();
 		this.boundaryProgettistaGestioneOfferta = boundaryProgettistaGestioneOfferta;
@@ -95,6 +99,13 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 
 		pannelloPromotoreInserimentoOfferta.add(panelTitolo);
 
+		// Setting area
+		areaVisualizzazione = new JTextArea();
+		areaVisualizzazione.setText("");
+		areaVisualizzazione.setLocation(10, 400);
+		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth(),
+				AABoundaryAvvio.Frame.getHeight());
+
 		labelGiorno = new JLabel();
 		labelMese = new JLabel();
 		labelAnno = new JLabel();
@@ -120,6 +131,16 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 		inserisciOfferta.setLocation(100, 350);
 		inserisciOfferta.setSize(300, 50);
 		inserisciOfferta.setFont(new Font("Arial", 0, 20));
+
+		// Setting Label
+
+		labelInserimento.setFont(new Font("Arial", 0, 30));
+		labelInserimento.setLocation(border, 30);
+		labelInserimento.setSize(
+				pannelloPromotoreInserimentoOfferta.getWidth(), 35);
+		labelInserimento.setHorizontalAlignment(JLabel.CENTER);
+		labelInserimento.setVerticalAlignment(JLabel.CENTER);
+		labelInserimento.setText("Inserisci le informazioni sull'offerta.");
 
 		// Setting Label
 		labelGiorno.setFont(new Font("Arial", 0, 18));
@@ -196,6 +217,10 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 		panelButtons.add(minuti);
 		panelButtons.add(posti);
 
+		panelButtons.add(areaVisualizzazione);
+		
+		panelButtons.add(labelInserimento);
+
 		panelButtons.add(inserisciOfferta);
 
 		panelButtons.add(back);
@@ -223,19 +248,25 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 					if (!controlloreProgettista.verificaDati(giorno.getText(),
 							mese.getText(), ora.getText(), minuti.getText(),
 							posti.getText())) {
-						System.out.println("Dati non inseriti totalmente");
+						areaVisualizzazione.setText("");
+						areaVisualizzazione
+								.append("Dati non inseriti totalmente");
 					} else {
 						Integer annoInteger;
-						if (anno.getText().equals(""))
+						if (anno.getText().equals("")){
 							annoInteger = new Integer(2013);
-						else
+						}
+						else{
 							annoInteger = new Integer(anno.getText());
-
-						controlloreProgettista.inserimentoInOfferta(listaCatalogo, new Integer(
-								giorno.getText()), new Integer(mese.getText()),
-								annoInteger, new Integer(ora.getText()),
+						}
+						Integer idofferta = controlloreProgettista.inserimentoInOfferta(
+								listaCatalogo, new Integer(giorno.getText()),
+								new Integer(mese.getText()), annoInteger,
+								new Integer(ora.getText()),
 								new Integer(minuti.getText()), new Integer(
 										posti.getText()));
+						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
+								"Offerta inserita.\nId dell'offerta: " + idofferta);
 					}
 				} catch (ControllerException | IOException e) {
 					// TODO Auto-generated catch block

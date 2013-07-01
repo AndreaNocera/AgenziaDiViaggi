@@ -5,7 +5,6 @@ package ordinaViaggi.dao;
 
 import ordinaViaggi.entity.Ambiente;
 import ordinaViaggi.entity.Citta;
-import ordinaViaggi.entity.DAO;
 import ordinaViaggi.entity.Mezzo;
 import ordinaViaggi.entity.Tratta;
 import ordinaViaggi.entity.Via;

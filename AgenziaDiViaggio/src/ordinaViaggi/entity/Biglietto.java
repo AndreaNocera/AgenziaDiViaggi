@@ -9,7 +9,7 @@ import ordinaViaggi.exception.DAOException;
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
  * 
- * @author Gambella
+ * @author Gambella Riccardo
  * @generated 
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
@@ -68,5 +68,19 @@ public class Biglietto {
 	}
 	public void print(){
 		System.out.println(idBiglietto + " " + idPrenotazione + " " + traveler.getString());
+	}
+	public static Integer getNextId() throws DAOException {
+		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+		return daoBiglietto.getNextId();
+	}
+	public static Biglietto getObjectById(Integer idBiglietto) throws DAOException {
+		// TODO Auto-generated method stub
+		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+		return daoBiglietto.read(idBiglietto);
+	}
+	public boolean equals(Biglietto biglietto){
+		if(this.idBiglietto.equals(biglietto.getIdBiglietto()))
+			return true;
+		return false;
 	}
 }

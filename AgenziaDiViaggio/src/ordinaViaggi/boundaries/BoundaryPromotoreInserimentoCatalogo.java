@@ -17,7 +17,9 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -34,7 +36,7 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 	public static JPanel pannelloPromotoreInserimentoCatalogo;
 
 	// Testo di Presentazione
-	public static JLabel testoPresentazione = new JLabel();
+	public JLabel labelInserimento = new JLabel();
 
 	public JPanel panelTitolo = new JPanel();
 	public JPanel panelButtons = new JPanel();
@@ -57,6 +59,8 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 	// Bottone
 	public JButton inserisciCatalogo;
 	public JButton back;
+
+	public JTextArea areaVisualizzazione;
 
 	private GestoreButtons buttonsListener;
 	private GestoreBack backListener;
@@ -92,6 +96,13 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 
 		pannelloPromotoreInserimentoCatalogo.add(panelTitolo);
 
+		// Setting area
+		areaVisualizzazione = new JTextArea();
+		areaVisualizzazione.setText("");
+		areaVisualizzazione.setLocation(10, 400);
+		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth(),
+				AABoundaryAvvio.Frame.getHeight());
+
 		labelAmbiente = new JLabel();
 		labelMezzo = new JLabel();
 		labelTipoMezzo = new JLabel();
@@ -119,6 +130,14 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 		inserisciCatalogo.setFont(new Font("Arial", 0, 20));
 
 		// Setting Label
+
+		labelInserimento.setFont(new Font("Arial", 0, 30));
+		labelInserimento.setLocation(border, 30);
+		labelInserimento.setSize(pannelloPromotoreInserimentoCatalogo.getWidth(), 35);
+		labelInserimento.setHorizontalAlignment(JLabel.CENTER);
+		labelInserimento.setVerticalAlignment(JLabel.CENTER);
+		labelInserimento.setText("Inserisci le informazioni sulla tratta.");
+
 		labelAmbiente.setFont(new Font("Arial", 0, 18));
 		labelAmbiente.setLocation(100, 100);
 		labelAmbiente.setSize(150, 35);
@@ -179,6 +198,7 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 				AABoundaryAvvio.Frame.getHeight());
 		panelButtons.setLocation(5, altezzaTitolo);
 
+		panelButtons.add(labelInserimento);
 		panelButtons.add(labelAmbiente);
 		panelButtons.add(labelMezzo);
 		panelButtons.add(labelTipoMezzo);
@@ -192,6 +212,8 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 		panelButtons.add(cittaPartenza);
 		panelButtons.add(cittaArrivo);
 		panelButtons.add(via);
+
+		panelButtons.add(areaVisualizzazione);
 
 		panelButtons.add(inserisciCatalogo);
 
@@ -219,13 +241,17 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 				if (!controllorePromotore.verificaDati(ambiente.getText(),
 						mezzoConcatenato, cittaPartenza.getText(),
 						cittaArrivo.getText(), via.getText())) {
-					System.out.println("Dati non inseriti totalmente");
+					areaVisualizzazione.setText("");
+					areaVisualizzazione.append("Dati non inseriti totalmente.");
 				} else {
 					try {
-						controllorePromotore.inserimentoCatalogo(
+						Integer idTratta = controllorePromotore.inserimentoCatalogo(
 								ambiente.getText(), mezzoConcatenato,
 								cittaPartenza.getText(), cittaArrivo.getText(),
 								via.getText());
+						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
+								"Tratta inserita.\nId della tratta: " + idTratta);
+						
 					} catch (ControllerException | IOException | DAOException
 							| MapException | CatalogoException | SQLException
 							| DataException | OraException e) {

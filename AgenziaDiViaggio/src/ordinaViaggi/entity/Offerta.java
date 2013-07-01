@@ -129,5 +129,9 @@ public class Offerta {
 		DAOOfferta daoOfferta = DAOOfferta.getIstance();
 		daoOfferta.delete(this);
 	}
+	public static Integer getNextId() throws DAOException{
+		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		return daoOfferta.getNextId();
+	}
 
 }

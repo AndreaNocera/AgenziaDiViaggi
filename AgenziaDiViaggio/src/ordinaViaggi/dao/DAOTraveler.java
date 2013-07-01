@@ -3,7 +3,6 @@
  */
 package ordinaViaggi.dao;
 
-import ordinaViaggi.entity.DAO;
 import ordinaViaggi.entity.Traveler;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;

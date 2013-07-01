@@ -1,4 +1,4 @@
-package ordinaViaggi.entity;
+package ordinaViaggi.dao;
 
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
@@ -8,7 +8,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * 
+ * @author Gambella Riccardo
+ *
+ */
 public abstract class DAO {
 	protected static final String driverName = "com.mysql.jdbc.Driver";
 	protected static final String connectionURL = "jdbc:mysql:";

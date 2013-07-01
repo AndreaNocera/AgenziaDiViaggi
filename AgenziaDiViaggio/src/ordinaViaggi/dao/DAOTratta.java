@@ -2,7 +2,6 @@ package ordinaViaggi.dao;
 
 import ordinaViaggi.entity.Ambiente;
 import ordinaViaggi.entity.Citta;
-import ordinaViaggi.entity.DAO;
 import ordinaViaggi.entity.Mezzo;
 import ordinaViaggi.entity.Tratta;
 import ordinaViaggi.entity.Via;
@@ -17,7 +16,7 @@ import java.sql.SQLException;
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
  * 
- * @author Gambella
+ * @author Gambella Riccardo
  * @generated 
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */

@@ -1,5 +1,6 @@
 package ordinaViaggi.entity;
 
+import ordinaViaggi.dao.DAOBiglietto;
 import ordinaViaggi.dao.DAOPrenotazione;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.PrenotazioneException;
@@ -10,7 +11,7 @@ import java.util.List;
 public class Prenotazione {
 	/**
 	 * <!-- begin-UML-doc --> <!-- end-UML-doc -->
-	 * 
+	 * @author Gambella Riccardo
 	 * @generated 
 	 *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
@@ -82,6 +83,9 @@ public class Prenotazione {
 	public void addBiglietto(Biglietto biglietto) {
 		this.listaBiglietti.add(biglietto);
 	}
+	public void removeBiglietto(Biglietto biglietto) {
+		this.listaBiglietti.remove(biglietto);
+	}
 
 	public Biglietto getBigliettoById(Integer idBiglietto)
 			throws PrenotazioneException {
@@ -108,6 +112,12 @@ public class Prenotazione {
 
 	public void delete() throws DAOException {
 		// TODO Auto-generated method stub
+		//Cancellazione dei biglietti associati alla prenotazione
+		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+		List<Biglietto> listaBiglietti = daoBiglietto.getListaBigliettiByIdPrenotazione(this.idPrenotazione);
+		for(Biglietto biglietto : listaBiglietti){
+			biglietto.delete();
+		}
 		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getIstance();
 		daoPrenotazione.delete(this);
 	}
@@ -116,6 +126,24 @@ public class Prenotazione {
 		System.out.println(idPrenotazione + " " + idOfferta + " " + usernameAcquirente + ".");
 		for(Biglietto biglietto : listaBiglietti)
 			System.out.println("  " + biglietto.getString());
+	}
+	public String getString(){
+		String stringa = "";
+		for(Biglietto biglietto : listaBiglietti){
+			stringa += idPrenotazione + " ";
+			stringa += usernameAcquirente + " ";
+			stringa += biglietto.getTraveler().getNome() + " ";
+			stringa += biglietto.getTraveler().getCognome() + " ";
+			stringa += biglietto.getTraveler().getEmail();
+			stringa +="\n";
+		}
+		
+		return stringa;
+	}
+	
+	public static Integer getNextId() throws DAOException{
+		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getIstance();
+		return daoPrenotazione.getNextId();
 	}
 
 }

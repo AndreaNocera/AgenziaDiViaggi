@@ -3,8 +3,10 @@
  */
 package ordinaViaggi.entity;
 
+import ordinaViaggi.dao.DAOBiglietto;
 import ordinaViaggi.dao.DAOCatalogo;
 import ordinaViaggi.dao.DAOOfferta;
+import ordinaViaggi.dao.DAOPrenotazione;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
@@ -19,7 +21,7 @@ import java.util.Set;
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
  * 
- * @author Gambella
+ * @author Gambella Riccardo
  * @generated 
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
@@ -31,8 +33,10 @@ public class Catalogo {
 	 *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	private static Catalogo catalogo;
+	private static DAOCatalogo daoCatalogo;
 	private List<Tratta> tratte;
 	private List<Offerta> offerte;
+	private List<Prenotazione> prenotazioni;
 	private static MapCatalogo<ElementoCatalogo> mapCatalogo;
 
 	private Catalogo() throws DAOException, MapException, SQLException,
@@ -40,7 +44,8 @@ public class Catalogo {
 		/*
 		 * Fetch del catalogo dal database.
 		 */
-		DAOCatalogo daoCatalogo = DAOCatalogo.getIstance();
+		//Inizializzazione del DAOCatalogo
+		daoCatalogo = DAOCatalogo.getIstance();
 		// Creazione della lista
 		tratte = daoCatalogo.getCatalogo();
 		// Creazione della mapCatalogo, con fetch iniziale dal DB.
@@ -104,6 +109,22 @@ public class Catalogo {
 			offerta.print();
 	}
 
+	public void printListaPrenotazioni() {
+		for (Prenotazione prenotazione : prenotazioni)
+			prenotazione.print();
+	}
+
+	/**
+	 * Prende l'id successivo della tratta per inserimento.
+	 * 
+	 * @return
+	 * @throws DAOException 
+	 */
+	public static Integer getNextIdTratta() throws DAOException {
+		// TODO Auto-generated method stub
+		return daoCatalogo.getNextId();
+	}
+
 	public Tratta getTrattaById(Integer idTratta) throws CatalogoException {
 		for (Tratta tratta : tratte) {
 			if (tratta.getId().equals(idTratta))
@@ -123,6 +144,24 @@ public class Catalogo {
 		}
 		// Se la tratta non c'è errore nell'utilizzo
 		throw new CatalogoException("Errore in getTrattaByValue!!");
+	}
+
+	public Offerta getOffertaById(Integer idOfferta) throws CatalogoException {
+		for (Offerta offerta : offerte) {
+			if (offerta.getIdOfferta().equals(idOfferta))
+				return offerta;
+		}
+		// Se l'offerta non c'è errore nell'utilizzo
+		throw new CatalogoException("Errore in getOffertaById!!");
+	}
+	
+	public Prenotazione getPrenotazioneById(Integer idPrenotazione) throws CatalogoException {
+		for (Prenotazione prenotazione : prenotazioni) {
+			if (prenotazione.getIdPrenotazione().equals(idPrenotazione))
+				return prenotazione;
+		}
+		// Se l'offerta non c'è errore nell'utilizzo
+		throw new CatalogoException("Errore in getPrenotazioneById!!");
 	}
 
 	public Offerta getOffertaByValue(Integer idTratta, Integer giorno,
@@ -258,20 +297,45 @@ public class Catalogo {
 			String cittaArrivoSelezionata, String viaSelezionata) {
 		// TODO Auto-generated method stub
 		List<Offerta> listaOfferta = new ArrayList<Offerta>();
-		MapCatalogo<ElementoCatalogo> mapAmbiente = ((Ambiente) mapCatalogo
+		MapCatalogo<ElementoCatalogo> mapMezzo = ((Ambiente) mapCatalogo
 				.get(ambienteSelezionato)).getMapCatalogo();
-		MapCatalogo<ElementoCatalogo> mapMezzo = ((Mezzo) mapAmbiente
+		MapCatalogo<ElementoCatalogo> mapCittaPartenza = ((Mezzo) mapMezzo
 				.get(mezzoSelezionato)).getMapCatalogo();
-		MapCatalogo<ElementoCatalogo> mapCittaPartenza = ((Citta) mapMezzo
-				.get(cittaPartenzaSelezionata)).getMapCatalogo();
 		MapCatalogo<ElementoCatalogo> mapCittaArrivo = ((Citta) mapCittaPartenza
+				.get(cittaPartenzaSelezionata)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapVia = ((Citta) mapCittaArrivo
 				.get(cittaArrivoSelezionata)).getMapCatalogo();
-		MapOfferta mapVia = ((Via) mapCittaArrivo.get(viaSelezionata))
+		MapOfferta mapOfferta = ((Via) mapVia.get(viaSelezionata))
 				.getMapOfferta();
-		for (Integer key : mapVia.keySet()) {
-			listaOfferta.add(mapVia.get(key));
+		for (Integer key : mapOfferta.keySet()) {
+			listaOfferta.add(mapOfferta.get(key));
 		}
 		return listaOfferta;
+	}
+
+	public List<Prenotazione> getListaPrenotazioni(String ambienteSelezionato,
+			String mezzoSelezionato, String cittaPartenzaSelezionata,
+			String cittaArrivoSelezionata, String viaSelezionata,
+			Integer idOfferta) {
+		// TODO Auto-generated method stub
+		List<Prenotazione> listaPrenotazioni = new ArrayList<Prenotazione>();
+		MapCatalogo<ElementoCatalogo> mapMezzo = ((Ambiente) mapCatalogo
+				.get(ambienteSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaPartenza = ((Mezzo) mapMezzo
+				.get(mezzoSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaArrivo = ((Citta) mapCittaPartenza
+				.get(cittaPartenzaSelezionata)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapVia = ((Citta) mapCittaArrivo
+				.get(cittaArrivoSelezionata)).getMapCatalogo();
+		MapOfferta mapOfferta = ((Via) mapVia.get(viaSelezionata))
+				.getMapOfferta();
+		Offerta offerta = mapOfferta.get(idOfferta);
+		MapPrenotazioni mapPrenotazioni = offerta.getMapPrenotazioni();
+
+		for (Integer key : mapPrenotazioni.keySet()) {
+			listaPrenotazioni.add(mapPrenotazioni.get(key));
+		}
+		return listaPrenotazioni;
 	}
 
 	/**
@@ -303,11 +367,6 @@ public class Catalogo {
 			throws DAOException {
 		// TODO Auto-generated method stub
 
-		/*
-		 * if(catalogo.verificaEsistenzaPrenotazioni(offerta)) throw new
-		 * GestoreEccezioniException();
-		 */
-
 		offerte.remove(offerta);
 		// Rimozione dell'offerta sul database
 		offerta.delete();
@@ -317,6 +376,44 @@ public class Catalogo {
 	}
 
 	/**
+	 * Metodo di inserimento di un elemento nelle prenotazioni
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @param prenotazione
+	 * @throws DAOException
+	 */
+	public void inserimentoInPrenotazione(Tratta tratta, Offerta offerta,
+			Prenotazione prenotazione) throws DAOException {
+		// TODO Auto-generated method stub
+
+		// Inserimento della prenotazione nella lista locale
+		prenotazioni.add(prenotazione);
+		// Inserimento prenotazione sul database
+		prenotazione.save();
+		// Inserimento della prenotazione nella mappa
+		inserimentoInMapPrenotazione(tratta, offerta, prenotazione);
+	}
+	
+	/**
+	 * Metodo di rimozione di un elemento dalle prenotazioni
+	 * @param tratta
+	 * @param offerta
+	 * @param prenotazione
+	 * @throws DAOException
+	 * @throws MapException 
+	 */
+	public void rimozioneInPrenotazione(Tratta tratta, Offerta offerta,
+			Prenotazione prenotazione) throws DAOException, MapException {
+		//Rimozione della prenotazione dalla lista locale
+		prenotazioni.remove(prenotazione);
+		//Rimozione della prenotazione dal database
+		prenotazione.delete();
+		//Rimozione della prenotazione dalla mappa
+		deleteInMapPrenotazione(tratta, offerta, prenotazione);
+		}
+	
+	/**
 	 * Metodo di creazione della mappa associata al catalogo.
 	 * 
 	 * @throws MapException
@@ -324,19 +421,40 @@ public class Catalogo {
 	 * @throws DataException
 	 * @throws SQLException
 	 * @throws CatalogoException
+	 * @throws DAOException
 	 */
 	private void createMap() throws MapException, SQLException, DataException,
-			OraException, CatalogoException {
+			OraException, CatalogoException, DAOException {
 
 		mapCatalogo = new MapCatalogo<ElementoCatalogo>();
 
+		// Caricamento delle tratte nella mappa
 		for (Tratta tratta : tratte)
 			inserimentoInMap(tratta);
+
+		// Caricamento delle offerte nella mappa
 		DAOOfferta daoOfferta = DAOOfferta.getIstance();
 		offerte = daoOfferta.getListaOfferta();
 		for (Offerta offerta : offerte) {
 			inserimentoInMapOfferta(getTrattaById(offerta.getIdTratta()),
 					offerta);
+		}
+
+		// Caricamento delle prenotazioni nella mappa
+		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getIstance();
+		prenotazioni = daoPrenotazione.getListaPrenotazioni();
+		for (Prenotazione prenotazione : prenotazioni) {
+			Offerta offertaRelativa = getOffertaById(prenotazione
+					.getIdOfferta());
+			Tratta trattaRelativa = getTrattaById(offertaRelativa.getIdTratta());
+			// Caricamento dei biglietti relativi alla prenotazione
+			DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+			List<Biglietto> listaBiglietti = daoBiglietto
+					.getListaBigliettiByIdPrenotazione(prenotazione
+							.getIdPrenotazione());
+			prenotazione.setListaBiglietti(listaBiglietti);
+			inserimentoInMapPrenotazione(trattaRelativa, offertaRelativa,
+					prenotazione);
 		}
 		System.out.println("Caricamento iniziale della mappa completato!!");
 
@@ -419,6 +537,36 @@ public class Catalogo {
 	}
 
 	/**
+	 * Inserimento di una prenotazione nella mappa
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @param prenotazione
+	 */
+	private void inserimentoInMapPrenotazione(Tratta tratta,
+			Offerta offertaSelezionata, Prenotazione prenotazione) {
+		// TODO Auto-generated method stub
+		// Estrazione degli elementi dalla mappa.
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		Offerta offerta = (via.getMapOfferta()).get(offertaSelezionata
+				.getIdOfferta());
+		MapPrenotazioni mapPrenotazioni = offerta.getMapPrenotazioni();
+
+		// Inserimento della prenotazione nella mappa
+		mapPrenotazioni.insertRecord(prenotazione.getIdPrenotazione(),
+				prenotazione);
+	}
+
+	/**
 	 * Rimozione di un elemento dalla mappa.
 	 * 
 	 * @param tratta
@@ -462,7 +610,7 @@ public class Catalogo {
 
 	private void deleteInMapOfferta(Tratta tratta, Offerta offerta) {
 		// TODO Auto-generated method stub
-		// Estrazione mapAmbiente l'ambiente nella mappa
+		//Estrazione mappe
 		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
 				.getAmbiente().getValore());
 		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
@@ -477,6 +625,28 @@ public class Catalogo {
 		// Inserimento dell'offerta nella tratta associata
 		mapOfferta.remove(offerta.getIdOfferta());
 
+	}
+	
+	private void deleteInMapPrenotazione(Tratta tratta, Offerta offertaSelezionata,
+			Prenotazione prenotazione) throws MapException {
+		// TODO Auto-generated method stub
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		Offerta offerta = (via.getMapOfferta()).get(offertaSelezionata
+				.getIdOfferta());
+		MapPrenotazioni mapPrenotazioni = offerta.getMapPrenotazioni();
+
+		// Rimozione della prenotazione dalla mappa
+		mapPrenotazioni.removeRecord(prenotazione.getIdPrenotazione());
+		
 	}
 
 	/**
@@ -546,5 +716,50 @@ public class Catalogo {
 			}
 		}
 	}
+
+	public void printMapPrenotazioni() throws MapException {
+		System.out.println("Stampa mappa prenotazioni.");
+		// Stampa Ambienti e mezzi
+		Set<String> collection = mapCatalogo.keySet();
+		for (String ambiente : collection) {
+			System.out.println(ambiente);
+			MapCatalogo<ElementoCatalogo> mappaMezzi = ((ElementoIntermedio) mapCatalogo
+					.get(ambiente)).getMapCatalogo();
+			for (String mezzo : mappaMezzi.keySet()) {
+				System.out.println("  " + mezzo);
+				MapCatalogo<ElementoCatalogo> mappaCittaPartenza = ((ElementoIntermedio) mappaMezzi
+						.get(mezzo)).getMapCatalogo();
+				for (String cittaPartenza : mappaCittaPartenza.keySet()) {
+					System.out.println("    " + cittaPartenza);
+					MapCatalogo<ElementoCatalogo> mappaCittaArrivo = ((ElementoIntermedio) mappaCittaPartenza
+							.get(cittaPartenza)).getMapCatalogo();
+					for (String cittaArrivo : mappaCittaArrivo.keySet()) {
+						System.out.println("      " + cittaArrivo);
+						MapCatalogo<ElementoCatalogo> mappaVia = ((ElementoIntermedio) mappaCittaArrivo
+								.get(cittaArrivo)).getMapCatalogo();
+						for (String via : mappaVia.keySet()) {
+							System.out.println("        " + via);
+							MapOfferta mappaOfferta = ((ElementoFinale) mappaVia
+									.get(via)).getMapOfferta();
+							for (Integer idOfferta : mappaOfferta.keySet()) {
+								System.out.print("          ");
+								mappaOfferta.get(idOfferta).print();
+								MapPrenotazioni mappaPrenotazioni = (mappaOfferta
+										.get(idOfferta)).getMapPrenotazioni();
+								for (Integer idPrenotazione : mappaPrenotazioni
+										.keySet()) {
+									System.out.print("            ");
+									mappaPrenotazioni.get(idPrenotazione)
+											.print();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
 
 }

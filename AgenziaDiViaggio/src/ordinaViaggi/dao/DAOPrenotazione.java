@@ -1,6 +1,5 @@
 package ordinaViaggi.dao;
 
-import ordinaViaggi.entity.DAO;
 import ordinaViaggi.entity.Prenotazione;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
@@ -13,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Gambella Riccardo
+ */
 public class DAOPrenotazione extends DAO{
 
 	private static DAOPrenotazione istance = null;
@@ -215,7 +216,7 @@ public class DAOPrenotazione extends DAO{
 		}
 	}
 
-	public List<Prenotazione> getListaOfferta() throws SQLException, DataException, OraException {
+	public List<Prenotazione> getListaPrenotazioni() throws SQLException, DataException, OraException {
 		// TODO Auto-generated method stub
 		List<Prenotazione> listPrenotazioni = new ArrayList<Prenotazione>();
 

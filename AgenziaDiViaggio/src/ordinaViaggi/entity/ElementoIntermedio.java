@@ -1,5 +1,9 @@
 package ordinaViaggi.entity;
-
+/**
+ * 
+ * @author Gambella Riccardo
+ *
+ */
 public class ElementoIntermedio extends ElementoCatalogo{
 	private MapCatalogo<ElementoCatalogo> mapCatalogo;
 	

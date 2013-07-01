@@ -3,7 +3,6 @@
  */
 package ordinaViaggi.dao;
 
-import ordinaViaggi.entity.DAO;
 import ordinaViaggi.entity.Mezzo;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
@@ -16,7 +15,7 @@ import java.sql.SQLException;
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
  * 
- * @author Gambella
+ * @author Gambella Riccardo
  * @generated 
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */

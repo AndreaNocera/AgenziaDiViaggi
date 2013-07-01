@@ -28,9 +28,6 @@ public class BoundaryPromotore extends JFrame {
 
 	public static JPanel pannelloPromotore;
 
-	// Testo di Presentazione
-	public static JLabel testoPresentazione = new JLabel();
-
 	public JPanel panelTitolo = new JPanel();
 	public JPanel panelButtons = new JPanel();
 
@@ -71,6 +68,8 @@ public class BoundaryPromotore extends JFrame {
 		titolo.setText("Gestore promotore");
 
 		pannelloPromotore.add(panelTitolo);
+		
+		
 
 		// Bottone visualizzaCatalogo
 		visualizzaCatalogo = new JButton("Visualizza Catalogo");
@@ -83,6 +82,8 @@ public class BoundaryPromotore extends JFrame {
 		back.setLocation(500, 300);
 		back.setSize(panelTitolo.getWidth() / 4, 50);
 		back.setFont(new Font("Arial", 0, 20));
+		
+		
 
 		// Bottone inserisciCatalogo
 		inserisciCatalogo = new JButton("Inserisci in Catalogo");

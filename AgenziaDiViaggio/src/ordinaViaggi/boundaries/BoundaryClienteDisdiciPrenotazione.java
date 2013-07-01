@@ -1,41 +1,37 @@
 package ordinaViaggi.boundaries;
 
-import ordinaViaggi.control.ControlloreProgettista;
+import ordinaViaggi.control.ControlloreCliente;
 import ordinaViaggi.exception.CatalogoException;
-import ordinaViaggi.exception.ControllerException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
-import ordinaViaggi.exception.GestoreEccezioniException;
 import ordinaViaggi.exception.MapException;
 import ordinaViaggi.exception.OraException;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
  * @author Gambella Riccardo Boundary PromotoreInserimentoCatalogo.
  */
-public class BoundaryProgettistaRimozioneOfferta extends JFrame {
+public class BoundaryClienteDisdiciPrenotazione extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7497687086928751350L;
 
-	private ControlloreProgettista controlloreProgettista = null;
-	BoundaryProgettistaGestioneOfferta boundaryProgettistaGestioneOfferta = null;
+	private ControlloreCliente controlloreCliente = null;
 
-	public static JPanel pannelloPromotoreRimozioneOfferta;
+	public static JPanel pannelloDisdiciPrenotazione;
 
 	// Testo di Presentazione
 	public JLabel labelRimozione = new JLabel();
@@ -46,11 +42,13 @@ public class BoundaryProgettistaRimozioneOfferta extends JFrame {
 	public JLabel titolo = new JLabel();
 	public JLabel labelIdOfferta;
 
-	public JTextField offerta;
+	public JTextField prenotazione;
 
 	// Bottone
-	public JButton rimozioneOfferta;
+	public JButton disdiciPrenotazione;
 	public JButton back;
+
+	public JTextArea areaVisualizzazione;
 
 	private GestoreButtons buttonsListener;
 	private GestoreBack backListener;
@@ -58,21 +56,18 @@ public class BoundaryProgettistaRimozioneOfferta extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryProgettistaRimozioneOfferta(
-			BoundaryProgettistaGestioneOfferta boundaryProgettistaGestioneOfferta)
-			throws DAOException, MapException, SQLException, DataException,
-			OraException, CatalogoException {
+	public BoundaryClienteDisdiciPrenotazione() throws DAOException,
+			MapException, SQLException, DataException, OraException,
+			CatalogoException {
 
-		this.controlloreProgettista = ControlloreProgettista.getIstance();
-		this.boundaryProgettistaGestioneOfferta = boundaryProgettistaGestioneOfferta;
+		this.controlloreCliente = ControlloreCliente.getIstance();
 
-		pannelloPromotoreRimozioneOfferta = new JPanel();
+		pannelloDisdiciPrenotazione = new JPanel();
 
-		pannelloPromotoreRimozioneOfferta.setSize(
-				AABoundaryAvvio.Frame.getWidth(),
+		pannelloDisdiciPrenotazione.setSize(AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
-		AABoundaryAvvio.Frame.add(pannelloPromotoreRimozioneOfferta);
-		pannelloPromotoreRimozioneOfferta.setLayout(null);
+		AABoundaryAvvio.Frame.add(pannelloDisdiciPrenotazione);
+		pannelloDisdiciPrenotazione.setLayout(null);
 
 		panelTitolo.setLayout(null);
 		panelTitolo.setSize(AABoundaryAvvio.Frame.getWidth(), 45);
@@ -84,13 +79,13 @@ public class BoundaryProgettistaRimozioneOfferta extends JFrame {
 		titolo.setSize(panelTitolo.getWidth(), 35);
 		titolo.setHorizontalAlignment(JLabel.CENTER);
 		titolo.setVerticalAlignment(JLabel.CENTER);
-		titolo.setText("Gestore ProgettistaInserimentoOfferta");
+		titolo.setText("Gestore Cliente");
 
-		pannelloPromotoreRimozioneOfferta.add(panelTitolo);
+		pannelloDisdiciPrenotazione.add(panelTitolo);
 
 		labelIdOfferta = new JLabel();
 
-		offerta = new JTextField("", 20);
+		prenotazione = new JTextField("", 20);
 
 		// Bottone back
 		back = new JButton("back");
@@ -99,30 +94,36 @@ public class BoundaryProgettistaRimozioneOfferta extends JFrame {
 		back.setFont(new Font("Arial", 0, 20));
 
 		// Bottone rimozioneOfferta
-		rimozioneOfferta = new JButton("Rimuovi in Offerta");
-		rimozioneOfferta.setLocation(100, 350);
-		rimozioneOfferta.setSize(300, 50);
-		rimozioneOfferta.setFont(new Font("Arial", 0, 20));
-		
+		disdiciPrenotazione = new JButton("Disdici prenotazione");
+		disdiciPrenotazione.setLocation(100, 350);
+		disdiciPrenotazione.setSize(300, 50);
+		disdiciPrenotazione.setFont(new Font("Arial", 0, 20));
+
 		// Setting Label
 		labelRimozione.setFont(new Font("Arial", 0, 30));
 		labelRimozione.setLocation(border, 30);
-		labelRimozione.setSize(pannelloPromotoreRimozioneOfferta.getWidth(),
-				35);
+		labelRimozione.setSize(pannelloDisdiciPrenotazione.getWidth(), 35);
 		labelRimozione.setHorizontalAlignment(JLabel.CENTER);
 		labelRimozione.setVerticalAlignment(JLabel.CENTER);
-		labelRimozione.setText("Inserisci l'id dell'offerta da rimuovere.");
+		labelRimozione
+				.setText("Inserisci l'id dell'prenotazione da rimuovere.");
 
 		// Setting Label
 		labelIdOfferta.setFont(new Font("Arial", 0, 18));
 		labelIdOfferta.setLocation(100, 100);
 		labelIdOfferta.setSize(150, 35);
-		labelIdOfferta.setText("Offerta:");
+		labelIdOfferta.setText("Prenotazione:");
+
+		// Setting area
+		areaVisualizzazione = new JTextArea();
+		areaVisualizzazione.setLocation(10, 500);
+		areaVisualizzazione.setSize(AABoundaryAvvio.Frame.getWidth(),
+				AABoundaryAvvio.Frame.getHeight());
 
 		// Setting delle textBox
-		offerta.setLocation(300, 100);
-		offerta.setSize(200, 35);
-		offerta.setFont(new Font("Arial", 0, 18));
+		prenotazione.setLocation(300, 100);
+		prenotazione.setSize(200, 35);
+		prenotazione.setFont(new Font("Arial", 0, 18));
 
 		panelButtons.setLayout(null);
 		panelButtons.setSize(AABoundaryAvvio.Frame.getWidth(),
@@ -131,22 +132,24 @@ public class BoundaryProgettistaRimozioneOfferta extends JFrame {
 
 		panelButtons.add(labelIdOfferta);
 
-		panelButtons.add(offerta);
-		
+		panelButtons.add(prenotazione);
+
 		panelButtons.add(labelRimozione);
 
-		panelButtons.add(rimozioneOfferta);
+		panelButtons.add(areaVisualizzazione);
+
+		panelButtons.add(disdiciPrenotazione);
 
 		panelButtons.add(back);
 
-		pannelloPromotoreRimozioneOfferta.add(panelButtons);
+		pannelloDisdiciPrenotazione.add(panelButtons);
 
 		// Istanziazione dei Listeners
 		buttonsListener = new GestoreButtons();
 		backListener = new GestoreBack();
 
 		// Listener dei bottoni
-		rimozioneOfferta.addActionListener(buttonsListener);
+		disdiciPrenotazione.addActionListener(buttonsListener);
 		back.addActionListener(backListener);
 	}
 
@@ -154,22 +157,21 @@ public class BoundaryProgettistaRimozioneOfferta extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			if (event.getSource() == rimozioneOfferta) {
+			if (event.getSource() == disdiciPrenotazione) {
 
-				List<String> listaCatalogo = boundaryProgettistaGestioneOfferta
-						.prelevaComboBoxCatalogo();
 				try {
-					if (!controlloreProgettista.verificaDati(offerta.getText())) {
-						System.out.println("Dati non inseriti totalmente");
+					if (!controlloreCliente.verificaPrenotazione(prenotazione
+							.getText())) {
+						areaVisualizzazione.setText("");
+						areaVisualizzazione
+								.append("Inserire id della prenotazione.");
 					} else {
-						controlloreProgettista.rimozioneInOfferta(
-								listaCatalogo, new Integer(offerta.getText()));
+
+						controlloreCliente.rimozioneInPrenotazione(new Integer(
+								prenotazione.getText()));
 						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
-								"Offerta rimossa dal sistema.");
+								"Prenotazione disdetta.");
 					}
-				} catch (ControllerException | IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				} catch (DAOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -178,34 +180,17 @@ public class BoundaryProgettistaRimozioneOfferta extends JFrame {
 					e.printStackTrace();
 				} catch (CatalogoException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (DataException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (OraException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (GestoreEccezioniException e) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
-							"Impossibile rimuovere offerta.\nEsistono prenotazioni relative all'offerta.");
+					areaVisualizzazione.setText("");
+					areaVisualizzazione.append("Id della prenotazione non presente.");
 				}
-
 			}
-
 		}
 	}
 
 	private class GestoreBack implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			pannelloPromotoreRimozioneOfferta.setVisible(false);
-			BoundaryProgettistaGestioneOfferta.pannelloGestoreOfferta
+			pannelloDisdiciPrenotazione.setVisible(false);
+			BoundaryCliente.pannelloCliente
 					.setVisible(true);
 		}
 	}
