@@ -1,5 +1,18 @@
 package utils.swing;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package utils.swing
+ * 
+ * @name DatePicker.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -55,7 +68,7 @@ public class DatePicker extends JPanel{
 		comboYear.setSelectedItem(date.get(Calendar.YEAR));
 	}
 	
- 	public void buildPanel() {
+ 	private void buildPanel() {
 		buildComboChoices();
 		comboDay = new JComboBox<Integer>(DAY_CHOICES);
 		comboMonth = new JComboBox<Integer>(MONTH_CHOICES);
@@ -66,27 +79,27 @@ public class DatePicker extends JPanel{
 		this.add(comboYear);		
 	}	
 	
-	public void buildComboChoices() {
+	private void buildComboChoices() {
 		buildDayChoices();
 		buildMonthChoices();
 		buildYearChoices();
 	}
 	
-	public void buildDayChoices() {
+	private void buildDayChoices() {
 		
 		for (int i = 0; i < NUM_DAYS; i ++) {
 			DAY_CHOICES[i] = i + 1;
 		}
 	}
 	
-	public void buildMonthChoices() {
+	private void buildMonthChoices() {
 		
 		for (int i = 0; i < NUM_MONTHS; i ++) {
 			MONTH_CHOICES[i] = i + 1;
 		}
 	}
 	
-	public void buildYearChoices() {
+	private void buildYearChoices() {
 		
 		for (int i = 0; i < NUM_YEARS; i ++) {
 			YEAR_CHOICES[i] = CURRENT_YEAR - i;

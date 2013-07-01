@@ -1,5 +1,18 @@
 package utils.swing;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package utils.swing
+ * 
+ * @name GBCHelper.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 import java.awt.*;
 
 public class GBCHelper extends GridBagConstraints {
