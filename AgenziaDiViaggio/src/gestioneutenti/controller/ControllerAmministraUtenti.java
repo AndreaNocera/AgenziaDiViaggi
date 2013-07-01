@@ -1,5 +1,18 @@
 package gestioneutenti.controller;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.controller
+ * 
+ * @name ControllerAmministraUtenti.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 import gestioneutenti.exception.LoginErratoException;
 import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.RuoloException;

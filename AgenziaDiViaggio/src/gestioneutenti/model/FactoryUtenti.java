@@ -1,5 +1,18 @@
 package gestioneutenti.model;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.model
+ * 
+ * @name FactoryUtenti.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 import gestioneutenti.exception.RuoloException;
 import gestioneutenti.model.ruoli.FactoryRuoli;
 

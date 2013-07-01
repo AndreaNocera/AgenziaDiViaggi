@@ -1,5 +1,21 @@
 package gestioneutenti.model;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.model
+ * 
+ * @name Utente.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
+import gestioneutenti.dao.Utente_db_DAO;
+import gestioneutenti.exception.UtenteEsistenteException;
+import gestioneutenti.exception.UtenteNonEsistenteException;
 import gestioneutenti.model.ruoli.Ruolo;
 
 public class Utente implements Comparable<Utente> {
@@ -42,5 +58,33 @@ public class Utente implements Comparable<Utente> {
 	public Login getLogin() {
 		return this.login;
 	}	
+	
+	public void save() throws UtenteEsistenteException{
+		if(true){ //dipende dal tipo di persistenza
+			Utente_db_DAO utentedbDao= new Utente_db_DAO(this);
+			utentedbDao.save();
+		}else {
+			//Serializzazione
+		}
+	}	
+
+
+	public void delete() throws UtenteNonEsistenteException {
+		if(true){ //dipende dal tipo di persistenza
+			Utente_db_DAO utentedbDao= new Utente_db_DAO(this);
+			utentedbDao.delete();
+		}else{
+			//Serializzazione
+		}			
+	}
+
+	public void update() throws UtenteNonEsistenteException, UtenteEsistenteException {
+		if(true){ //dipende dal tipo di persistenza
+			Utente_db_DAO utentedbDao= new Utente_db_DAO(this);
+			utentedbDao.update();
+		}else{
+			//Serializzazione
+		}			
+	}
 
 }
