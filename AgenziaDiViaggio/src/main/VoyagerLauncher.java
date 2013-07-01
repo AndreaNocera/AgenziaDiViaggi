@@ -6,7 +6,6 @@ import gestioneutenti.view.BoundaryLogin;
 import java.awt.*;
 import javax.swing.*;
 
-
 public class VoyagerLauncher {
 
 	public static void main(String[] args) {

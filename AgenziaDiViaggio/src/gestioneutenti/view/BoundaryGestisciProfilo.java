@@ -106,7 +106,7 @@ public class BoundaryGestisciProfilo extends JPanel{
 		labelConfirmNewPassword = new JLabel("Conferma");
 		textfieldFirstname = new JTextField(dati.getNome(), 20);
 		textfieldLastname = new JTextField(dati.getCognome(), 20);
-		textfieldCity = new JTextField(dati.getCittà(), 20);
+		textfieldCity = new JTextField(dati.getCitta(), 20);
 		calendarBirth = new DatePicker(dati.getNascita());
 		comboGender = new JComboBox<String>(SEX_CHOICES);
 		comboGender.setSelectedItem(dati.getSesso());

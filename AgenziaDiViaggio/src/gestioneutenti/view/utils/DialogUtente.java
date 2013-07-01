@@ -214,7 +214,7 @@ public class DialogUtente extends JDialog{
 		
 		this.textfieldFirstname.setText(dati.getNome());
 		this.textfieldLastname.setText(dati.getCognome());
-		this.textfieldCity.setText(dati.getCittà());
+		this.textfieldCity.setText(dati.getCitta());
 		this.calendarBirth.setDateAsGregorianCalendar(dati.getNascita());
 		this.comboGender.setSelectedItem(dati.getSesso());
 		this.textfieldMail.setText(dati.getMail());

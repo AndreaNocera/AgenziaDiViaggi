@@ -17,7 +17,7 @@ public class DatiUtente {
 		this.setNome(nome);
 		this.setCognome(cognome);
 		this.setMail(mail);
-		this.setcitta(citta);
+		this.setCitta(citta);
 		this.setNascita(nascita);
 		this.setSesso(sesso);			
 	}
@@ -58,11 +58,11 @@ public class DatiUtente {
 		this.mail = mail;
 	}
 
-	public String getcitta() {
+	public String getCitta() {
 		return citta;
 	}
 
-	public void setcitta(String citta) throws DatiUtenteInconsistentiException {
+	public void setCitta(String citta) throws DatiUtenteInconsistentiException {
 		if (citta.isEmpty()) {
 			throw new DatiUtenteInconsistentiException();
 		}

@@ -55,7 +55,7 @@ public class Utente_db_DAO{
 
 			this.nome=nuovo_utente.getDatiUtente().getNome();
 			this.cognome=nuovo_utente.getDatiUtente().getCognome();
-			this.citta= nuovo_utente.getDatiUtente().getcitta();
+			this.citta= nuovo_utente.getDatiUtente().getCitta();
 			this.sesso=nuovo_utente.getDatiUtente().getSesso();
 			this.nascita=config_db_utenti.formattoDateTime.format(nuovo_utente.getDatiUtente().getNascita().getTime());
 			this.login= new Login(nuovo_utente.getLogin().getUsername(), nuovo_utente.getLogin().getPassword());

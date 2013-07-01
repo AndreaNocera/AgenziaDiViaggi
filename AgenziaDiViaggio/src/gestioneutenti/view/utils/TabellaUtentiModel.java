@@ -35,7 +35,7 @@ public class TabellaUtentiModel extends AbstractTableModel{
 		case 1:
 			return currUser.getDatiUtente().getCognome();
 		case 2:
-			return currUser.getDatiUtente().getCittà();
+			return currUser.getDatiUtente().getCitta();
 		case 3:
 			GregorianCalendar calendar = currUser.getDatiUtente().getNascita();
 			String calendarString = calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.YEAR);
