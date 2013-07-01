@@ -6,6 +6,7 @@ public class Data {
 	private Integer giorno;
 	private Integer mese;
 	private Integer anno;
+	
 	public Data(Integer giorno, Integer mese) throws DataException{
 		if(giorno < 1 || giorno > 31)
 			throw new DataException("Giorno non inserito correttamente");

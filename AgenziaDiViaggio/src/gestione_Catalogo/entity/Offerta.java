@@ -8,5 +8,5 @@ package gestione_Catalogo.entity;
 public class Offerta {
 	
 	private Prenotazione prenotazione;
-
+	
 }
