@@ -44,13 +44,11 @@ public class DBTest {
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS AMBIENTE(" +
 						"ID INTEGER PRIMARY KEY, " +
-						"IDESTERNO VARCHAR(30) " +
+						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
 		ps.executeUpdate();
-		
-		
 		
 		
 		
@@ -59,7 +57,7 @@ public class DBTest {
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS MEZZO(" +
 						"ID INTEGER PRIMARY KEY, " +
-						"IDESTERNO VARCHAR(30) " +
+						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
@@ -67,34 +65,23 @@ public class DBTest {
 		
 		
 		
-		System.out.println("Creo Tabella CITTAPARTENZA");
+		System.out.println("Creo Tabella CITTA");
 		createQuery = 
-				"CREATE TABLE IF NOT EXISTS CITTAPARTENZA(" +
+				"CREATE TABLE IF NOT EXISTS CITTA(" +
 						"ID INTEGER PRIMARY KEY, " +
-						"IDESTERNO VARCHAR(30) " +
+						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
 		ps.executeUpdate();
 		
-		
-		
-		System.out.println("Creo Tabella CITTAARRIVO");
-		createQuery = 
-				"CREATE TABLE IF NOT EXISTS CITTAARRIVO(" +
-						"ID INTEGER PRIMARY KEY, " +
-						"IDESTERNO VARCHAR(30) " +
-						")";
-		
-		ps = conn.prepareStatement(createQuery);
-		ps.executeUpdate();
 		
 		
 		System.out.println("Creo Tabella VIA");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS VIA(" +
 						"ID INTEGER PRIMARY KEY, " +
-						"IDESTERNO VARCHAR(30) " +
+						"IDESTERNOELEMENTO VARCHAR(30) " +
 						")";
 		
 		ps = conn.prepareStatement(createQuery);
@@ -107,16 +94,17 @@ public class DBTest {
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS CATALOGO(" +
 						"ID INTEGER PRIMARY KEY, " +
-						"AMBIENTE VARCHAR(30), " +
+						"AMBIENTE INTEGER, " +
 						"MEZZO INTEGER, " +
 						"CITTAPARTENZA INTEGER, " +
 						"CITTAARRIVO INTEGER, " +
 						"VIA INTEGER, " +
 						"INFO VARCHAR(100), " +
-						"DATA DATE, " +
+						"DATA DATETIME, " +
+						"FOREIGN KEY (AMBIENTE) REFERENCES AMBIENTE (ID), "   +
 						"FOREIGN KEY (MEZZO) REFERENCES MEZZO (ID), " +
-						"FOREIGN KEY (CITTAPARTENZA) REFERENCES CITTAPARTENZA (ID), " +
-						"FOREIGN KEY (CITTAARRIVO) REFERENCES CITTAARRIVO (ID), " +
+						"FOREIGN KEY (CITTAPARTENZA) REFERENCES CITTA (ID), " +
+						"FOREIGN KEY (CITTAARRIVO) REFERENCES CITTA (ID), " +
 						"FOREIGN KEY (VIA) REFERENCES VIA (ID) " +
 						")";
 		

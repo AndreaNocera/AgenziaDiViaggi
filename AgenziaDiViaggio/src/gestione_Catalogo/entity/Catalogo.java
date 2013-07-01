@@ -1,5 +1,7 @@
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.dao.CatalogoDAO;
+import gestione_Catalogo.dao.TrattaDAO;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.TrattaException;
@@ -25,6 +27,17 @@ public class Catalogo {
 	private Catalogo() {
 		listaTratte = new ArrayList<Tratta>();
 		mappaCatalogo = new MappaCatalogo(); //istanziato il catalogo, creo subito una mappa per gli ambienti
+		CatalogoDAO dao = CatalogoDAO.getIstanza();
+		listaTratte = dao.getCatalogo();
+		try {
+			
+			
+			caricaCatalogo();
+		} catch (IDEsternoElementoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -75,6 +88,9 @@ public class Catalogo {
 		listaTratte.remove(tratta);
 		
 		rimuoviDaMappaCatalogo(tratta);
+		
+		TrattaDAO dao = TrattaDAO.getIstanza();
+		dao.delete(tratta);
 		
 
 	}

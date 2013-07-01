@@ -1,5 +1,7 @@
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.dao.ViaDAO;
+
 /**
  * @authors 
  * Remo Sperlongano
@@ -9,6 +11,10 @@ public class Via extends ElementoFinale  {
 	
 	public Via(IDEsternoElemento idEsternoElemento){
 		super(idEsternoElemento);
+		//Salvo l'oggetto che sto creando in DB e ritorno l'id per l'oggetto
+				ViaDAO dao = ViaDAO.getIstanza();
+				Integer id = dao.insertAndReturnId(idEsternoElemento);
+				setID(id);
 	}
 	
 	public Via(Integer ID, IDEsternoElemento idEsternoElemento){

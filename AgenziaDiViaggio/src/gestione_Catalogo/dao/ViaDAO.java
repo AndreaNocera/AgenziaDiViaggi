@@ -2,7 +2,6 @@ package gestione_Catalogo.dao;
 
 import gestione_Catalogo.entity.Via;
 import gestione_Catalogo.entity.IDEsternoElemento;
-import gestione_Catalogo.exception.DAOException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,7 +85,7 @@ public class ViaDAO extends DAO{
 	 * Questa particolare insert mi deve ritornare l'id da associare all'oggetto appena creato
 	 */
 
-	public int insertAndReturnId(IDEsternoElemento idEsternoElemento) throws DAOException {
+	public Integer insertAndReturnId(IDEsternoElemento idEsternoElemento) {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		try {
@@ -102,6 +101,7 @@ public class ViaDAO extends DAO{
 				ps.setString(2, idEsternoElemento.toString());
 
 				ps.executeUpdate();
+				closeResource();
 				return 1;
 			} else {
 				
@@ -120,7 +120,7 @@ public class ViaDAO extends DAO{
 					
 					rs.last();
 					
-					int id = rs.getInt(1)+1;
+					Integer id = rs.getInt(1)+1;
 					
 					ps = conn.prepareStatement(insertQuery);
 		
@@ -128,6 +128,7 @@ public class ViaDAO extends DAO{
 					ps.setString(2, idEsternoElemento.toString());
 		
 					ps.executeUpdate();
+					closeResource();
 					return id;
 				} else {
 					
@@ -140,16 +141,20 @@ public class ViaDAO extends DAO{
 					
 					rs.next(); //Lo sposto avanti alla prima, e unica, riga
 					
-					return rs.getInt(1);
+					Integer a = rs.getInt(1);
+					closeResource();
+					return a;
 									
 				}			
 				
 			}			
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in insert ClassCastException.");
+			e.printStackTrace();
+			return null;
 		} catch (SQLException e) {
-			throw new DAOException("Errore in insert SQLException.");
+			e.printStackTrace();
+			return null;
 		}finally {
 			closeResource();
 		}
@@ -162,7 +167,7 @@ public class ViaDAO extends DAO{
 	 * Questa particolare read, mi torna solo il valore, l'id l'ho preso dal CatalogoDAO
 	 */
 
-	public IDEsternoElemento readOnlyValue(Integer id) throws DAOException {
+	public IDEsternoElemento readOnlyValue(Integer id){
 		
 		try {
 			conn = getConnection(usr, pass);
@@ -176,12 +181,15 @@ public class ViaDAO extends DAO{
 			rs.next();
 			String s =rs.getString(2);
 
+			closeResource();
 			return new IDEsternoElemento(s);
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in read.");
+			e.printStackTrace();
+			return null;
 		} catch (SQLException e) {
-			throw new DAOException("Errore in read.");
+			e.printStackTrace();
+			return null;
 		}finally {
 			closeResource();
 		}
@@ -192,7 +200,7 @@ public class ViaDAO extends DAO{
 	 * Da invocare nei metodo set di Via
 	 */
 
-	public void update(Via via) throws DAOException {
+	public void update(Via via) {
 		// TODO Auto-generated method stub
 		try {
 
@@ -206,9 +214,9 @@ public class ViaDAO extends DAO{
 			ps.executeUpdate();
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in update.");
+			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new DAOException("Errore in update.");
+			e.printStackTrace();
 		}finally {
 			closeResource();
 		}
@@ -220,7 +228,7 @@ public class ViaDAO extends DAO{
 	 * Da Invocare (probabilmente) alla rimozione di una tratta, quando non vi sono più Ambienti uguali
 	 */
 	
-	public void delete(Via via) throws DAOException {
+	public void delete(Via via) {
 		// TODO Auto-generated method stub
 		try {
 
@@ -233,9 +241,9 @@ public class ViaDAO extends DAO{
 			ps.executeUpdate();
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in delete.");
+			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new DAOException("Errore in delete.");
+			e.printStackTrace();
 		}finally {
 			closeResource();
 		}
@@ -243,7 +251,7 @@ public class ViaDAO extends DAO{
 	
 	
 	
-	public void dropTable() throws DAOException {
+	public void dropTable()  {
 		try {
 			conn = getConnection(usr, pass);
 
@@ -251,9 +259,9 @@ public class ViaDAO extends DAO{
 
 			ps.executeUpdate();
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in dropTable.");
+			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new DAOException("Errore in dropTable.");
+			e.printStackTrace();
 		}finally {
 			closeResource();
 		}

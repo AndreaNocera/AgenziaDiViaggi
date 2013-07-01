@@ -1,5 +1,7 @@
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.dao.TrattaDAO;
+
 /**
  * @authors 
  * Remo Sperlongano
@@ -24,14 +26,19 @@ public class Tratta {
 	
 	public Tratta(Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via, Info info){
 		
+		//necessito di un ID disponibile dal db
+		TrattaDAO dao = TrattaDAO.getIstanza();
+		ID = dao.getNextId();
 		this.ambiente = ambiente;
 		this.mezzo = mezzo;
 		this.partenza = partenza;
 		this.arrivo = arrivo;
 		this.via = via;
 		this.setInfo(info);
-		
 		dataInserimento = new Data();
+		
+		//salvo tratta su db
+		dao.insert(this);
 		
 		this.info.updateInfo("--- Inserito il " + dataInserimento.stampaData());
 	}
@@ -39,8 +46,7 @@ public class Tratta {
 	
 	public Tratta(Integer ID, Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via, Info info, Data dataInserimento){
 		
-		this.setID(ID);
-		
+		this.ID = ID;
 		this.ambiente = ambiente;
 		this.mezzo = mezzo;
 		this.partenza = partenza;

@@ -4,7 +4,6 @@
 package gestione_Catalogo.dao;
 
 import gestione_Catalogo.entity.IDEsternoElemento;
-import gestione_Catalogo.exception.DAOException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

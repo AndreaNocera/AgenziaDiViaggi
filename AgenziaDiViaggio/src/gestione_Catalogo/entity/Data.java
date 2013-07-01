@@ -21,7 +21,7 @@ public class Data {
 	}
 	
 	public Data(Date date){
-		data.setTime(date);
+		data = new GregorianCalendar();
 	}
 	
 	public Data(int anno, int mese, int giorno){

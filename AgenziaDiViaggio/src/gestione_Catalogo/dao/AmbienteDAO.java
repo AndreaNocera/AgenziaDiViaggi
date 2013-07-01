@@ -2,7 +2,6 @@ package gestione_Catalogo.dao;
 
 import gestione_Catalogo.entity.Ambiente;
 import gestione_Catalogo.entity.IDEsternoElemento;
-import gestione_Catalogo.exception.DAOException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +19,7 @@ public class AmbienteDAO extends DAO {
 
 	private static AmbienteDAO istanza = null;
 
-	private static final String getListaAmbientiQuery = "SELECT * FROM `ambienti` WHERE 1";
+	private static final String getListaAmbientiQuery = "SELECT * FROM AMBIENTE WHERE 1";
 
 	private static final String createQuery = 
 			"CREATE TABLE IF NOT EXISTS AMBIENTE(" +
@@ -88,7 +87,7 @@ public class AmbienteDAO extends DAO {
 	 * Questa particolare insert mi deve ritornare l'id da associare all'oggetto appena creato
 	 */
 
-	public int insertAndReturnId(IDEsternoElemento idEsternoElemento) throws DAOException {
+	public Integer insertAndReturnId(IDEsternoElemento idEsternoElemento){
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		try {
@@ -104,6 +103,7 @@ public class AmbienteDAO extends DAO {
 				ps.setString(2, idEsternoElemento.toString());
 
 				ps.executeUpdate();
+				closeResource();
 				return 1;
 			} else {
 				
@@ -122,7 +122,7 @@ public class AmbienteDAO extends DAO {
 					
 					rs.last();
 					
-					int id = rs.getInt(1)+1;
+					Integer id = rs.getInt(1)+1;
 					
 					ps = conn.prepareStatement(insertQuery);
 		
@@ -130,6 +130,7 @@ public class AmbienteDAO extends DAO {
 					ps.setString(2, idEsternoElemento.toString());
 		
 					ps.executeUpdate();
+					closeResource();
 					return id;
 				} else {
 					
@@ -142,16 +143,20 @@ public class AmbienteDAO extends DAO {
 					
 					rs.next(); //Lo sposto avanti alla prima, e unica, riga
 					
-					return rs.getInt(1);
+					Integer a = rs.getInt(1);
+					closeResource();
+					return a;
 									
 				}			
 				
 			}			
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in insert ClassCastException.");
+			e.printStackTrace();
+			return null;
 		} catch (SQLException e) {
-			throw new DAOException("Errore in insert SQLException.");
+			e.printStackTrace();
+			return null;
 		}finally {
 			closeResource();
 		}
@@ -164,7 +169,7 @@ public class AmbienteDAO extends DAO {
 	 * Questa particolare read, mi torna solo il valore, l'id l'ho preso dal CatalogoDAO
 	 */
 
-	public IDEsternoElemento readOnlyValue(Integer id) throws DAOException {
+	public IDEsternoElemento readOnlyValue(Integer id) {
 		
 		try {
 			conn = getConnection(usr, pass);
@@ -178,12 +183,15 @@ public class AmbienteDAO extends DAO {
 			rs.next();
 			String s =rs.getString(2);
 
+			closeResource();
 			return new IDEsternoElemento(s);
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in read.");
+			e.printStackTrace();
+			return null;
 		} catch (SQLException e) {
-			throw new DAOException("Errore in read.");
+			e.printStackTrace();
+			return null;
 		}finally {
 			closeResource();
 		}
@@ -195,7 +203,7 @@ public class AmbienteDAO extends DAO {
 	 */
 
 
-	public void update(Ambiente ambiente) throws DAOException {
+	public void update(Ambiente ambiente) {
 		// TODO Auto-generated method stub
 
 		try {
@@ -210,9 +218,9 @@ public class AmbienteDAO extends DAO {
 			ps.executeUpdate();
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in update.");
+			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new DAOException("Errore in update.");
+			e.printStackTrace();
 		}finally {
 			closeResource();
 		}
@@ -224,7 +232,7 @@ public class AmbienteDAO extends DAO {
 	 * Da Invocare (probabilmente) alla rimozione di una tratta, quando non vi sono più Ambienti uguali
 	 */
 
-	public void delete(Ambiente ambiente) throws DAOException {
+	public void delete(Ambiente ambiente){
 		// TODO Auto-generated method stub
 
 		try {
@@ -238,9 +246,9 @@ public class AmbienteDAO extends DAO {
 			ps.executeUpdate();
 
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in delete.");
+			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new DAOException("Errore in delete.");
+			e.printStackTrace();
 		}finally {
 			closeResource();
 		}
@@ -248,7 +256,7 @@ public class AmbienteDAO extends DAO {
 	
 	
 	
-	public void dropTable() throws DAOException {
+	public void dropTable() {
 		try {
 			conn = getConnection(usr, pass);
 
@@ -256,9 +264,9 @@ public class AmbienteDAO extends DAO {
 
 			ps.executeUpdate();
 		} catch (ClassCastException e) {
-			throw new DAOException("Errore in dropTable.");
+			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new DAOException("Errore in dropTable.");
+			e.printStackTrace();
 		}finally {
 			closeResource();
 		}

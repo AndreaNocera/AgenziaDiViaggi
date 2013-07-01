@@ -19,7 +19,7 @@ public abstract class ElementoCatalogo {
 	}
 	
 	public ElementoCatalogo(Integer ID, IDEsternoElemento idEsternoElemento){
-		this.setID(ID);
+		this.ID= ID;
 		this.idEsternoElemento = idEsternoElemento;
 	}
 	

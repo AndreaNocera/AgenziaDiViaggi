@@ -8,13 +8,15 @@ import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Mezzo;
 import gestione_Catalogo.entity.Tratta;
 import gestione_Catalogo.entity.Via;
-import gestione_Catalogo.exception.DAOException;
+
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,13 +43,15 @@ public class CatalogoDAO extends DAO {
 					"CITTAARRIVO INTEGER, " +
 					"VIA INTEGER, " +
 					"INFO VARCHAR(100), " +
-					"DATA DATE, " +
+					"DATA DATETIME, " +
+					"FOREIGN KEY (AMBIENTE) REFERENCES AMBIENTE (ID), "   +
 					"FOREIGN KEY (MEZZO) REFERENCES MEZZO (ID), " +
-					"FOREIGN KEY (CITTAPARTENZA) REFERENCES CITTAPARTENZA (ID), " +
-					"FOREIGN KEY (CITTAARRIVO) REFERENCES CITTAARRIVO (ID), " +
+					"FOREIGN KEY (CITTAPARTENZA) REFERENCES CITTA (ID), " +
+					"FOREIGN KEY (CITTAARRIVO) REFERENCES CITTA (ID), " +
 					"FOREIGN KEY (VIA) REFERENCES VIA (ID) " +
 					")";
 
+/*	SPOSTATE IN TRATTA DAO
 	private static final String insertQuery = 
 			"INSERT INTO CATALOGO " +
 			"VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
@@ -60,14 +64,14 @@ public class CatalogoDAO extends DAO {
 			"CATALOGO WHERE ID=?";
 	private static final String findQuery = 
 			"SELECT * FROM CATALOGO " +
-			"WHERE ID=?";
+			"WHERE ID=?";    */
 
 	private static final String dropQuery = 
-			"DROP TABLE CATALOGO IF EXISTS";
+			"DROP TABLE CATALOGO IF EXISTS";     
 
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
-	private static ResultSet rs = null;
+	private static ResultSet rs = null; 
 	
 	
 	private CatalogoDAO() {
@@ -106,8 +110,8 @@ public class CatalogoDAO extends DAO {
 	 * Terminato il resultSet, ritorna l'Arraylist
 	 */
 
-	public List<Tratta> getCatalogo() throws DAOException {
-		List<Tratta> tratte = new ArrayList<Tratta>();
+	public ArrayList<Tratta> getCatalogo(){
+		ArrayList<Tratta> tratte = new ArrayList<Tratta>();
 		try {
 			conn = getConnection(usr, pass);
 			ps = conn.prepareStatement(getCatalogoQuery);
@@ -123,7 +127,6 @@ public class CatalogoDAO extends DAO {
 				Data data;
 				
 				IDEsternoElemento valore;
-				String s;
 				Integer id;
 
 				//prendo l'id
@@ -174,10 +177,11 @@ public class CatalogoDAO extends DAO {
 
 				
 				//creo l'oggetto per le Info
-				s = rs.getString(7);
+				info = new Info(rs.getString(7));
 				
 				//creo l'oggetto per la data
-				data = rs.getDate(8);
+				
+				data = new Data(rs.getTimestamp(8));
 				
 				
 				//creo l'oggetto tratta e l'aggiungo
@@ -186,16 +190,49 @@ public class CatalogoDAO extends DAO {
 				
 			}
 
+			closeResource();
 			return tratte;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new DAOException("Errore in SQL.");
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			closeResource();
 		}
 
 	}
 
 
+	/* SPOSTATO IN TRATTA DAO
 	public Integer getNextId() throws DAOException {
 		try {
 			// Situazione 1. Tabella Vuota. Id da ritornare 1.
@@ -213,5 +250,5 @@ public class CatalogoDAO extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in getNextID.");
 		}
-	}
+	}   */
 }
