@@ -63,16 +63,12 @@ public class Data extends GregorianCalendar {
 	//altri metodi
 	public String stampaData(){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-		String dataEora = sdf.format(super.getTime());
-		
-		return dataEora;
+		return sdf.format(super.getTime());
 	}
 	
-	public String stampaDataAttuale(){ //Formato es. 10/01/2012 - 21:10:35
+	public static String stampaDataAttuale(){ //Formato es. 10/01/2012 - 21:10:35
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-		String dataEora = sdf.format(super.getInstance().getTime());
-		
-		return dataEora;
+		return sdf.format(getInstance().getTime());
 	}
 	
 }

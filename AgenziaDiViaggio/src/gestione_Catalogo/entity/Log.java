@@ -18,20 +18,19 @@ public class Log {
 	
 	
 	//attributi d'istanza
-	private Data data;
 	private String log;
 	
 	
 	//costruttore
 	public Log() {
-		data = new Data();
+	//	data = new Data();
 		log = "";
 	}
 	
 	
 	//Metodi
 	public void aggiornaLogAggiungiViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via){
-		log = "[" + data.stampaDataAttuale() + "] AGGIUNTO Viaggio Via " + ambiente + ":\n" 									
+		log = "[" + Data.stampaDataAttuale() + "] AGGIUNTO Viaggio Via " + ambiente + ":\n" 									
 				+ mezzo + "  ->  " + cittaPartenza + " : " + cittaArrivo + "  ->  " + via + "\n";
 		System.out.println(log);
 		salvaLog(log); 
@@ -39,7 +38,7 @@ public class Log {
 	
 	//Metodi
 	public void aggiornaLogRimuoviViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via){
-		log = "[" + data.stampaDataAttuale() + "] RIMOSSO Viaggio Via " + ambiente + ":\n" 									
+		log = "[" + Data.stampaDataAttuale() + "] RIMOSSO Viaggio Via " + ambiente + ":\n" 									
 				+ mezzo + "  ->  " + cittaPartenza + " : " + cittaArrivo + "  ->  " + via + "\n";
 		System.out.println(log);
 		salvaLog(log); 
