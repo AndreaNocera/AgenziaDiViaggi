@@ -213,10 +213,10 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	}
 
 	@Override
-	public synchronized UtenteBean findByLogin(LoginBean login) throws UtenteInesistenteException {
+	public synchronized UtenteBean findByLogin(LoginBean loginBean) throws UtenteInesistenteException {
 		String SQL_FIND_BY_LOGIN = "SELECT * FROM `utenti` " +
-				"WHERE `username` = \"" + login.getUsername() + "\" " + 
-				"and `password` = \"" + login.getPassword() + "\"";
+				"WHERE `username` = \"" + loginBean.getUsername() + "\" " + 
+				"and `password` = \"" + loginBean.getPassword() + "\"";
 		
 		this.connection = this.connectionManager.getConnection();
 		Statement statement = null;
@@ -255,6 +255,35 @@ public class UtenteJdbcDAO implements UtenteDAO{
 		}
 		
 		return utenteBean;
+	}
+
+	@Override
+	public boolean verifyLogin(LoginBean loginBean)	throws UtenteInesistenteException {
+		String SQL_FIND_BY_LOGIN = "SELECT * FROM `utenti` " +
+				"WHERE `username` = \"" + loginBean.getUsername() + "\" " + 
+				"and `password` = \"" + loginBean.getPassword() + "\"";
+		
+		this.connection = this.connectionManager.getConnection();
+		Statement statement = null;
+		ResultSet result = null;
+		
+		try {
+			
+			statement = connection.createStatement();
+			result = statement.executeQuery(SQL_FIND_BY_LOGIN);
+			
+			if(result.next()) {
+				return true;
+			} else {
+				throw new UtenteInesistenteException();
+			}
+			
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+			return false;
+		} finally {
+			this.connectionManager.close(this.connection, statement, result);
+		}
 	}
 
 }

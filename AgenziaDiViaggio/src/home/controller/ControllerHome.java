@@ -23,12 +23,22 @@ import gestioneutenti.view.BoundaryLogin;
 
 public class ControllerHome {
 	
-	public JPanel getBoundary(UtenteBean utenteBean, int competenza) {
+	private static ControllerHome singletonControllerHome = null;
+	
+	private ControllerHome() {}
+	
+	public static synchronized ControllerHome getInstance() {
+		if(singletonControllerHome == null) {
+			singletonControllerHome = new ControllerHome();
+		}
+		
+		return singletonControllerHome;
+	}
+	
+	public synchronized JPanel getBoundary(UtenteBean utenteBean, int competenza) {
 		switch(competenza) {
 		case Competenza.GESTIONE_PROFILO:
-			BoundaryGestisciProfilo boundary = new BoundaryGestisciProfilo();
-			boundary.setUtente(utenteBean);
-			return new BoundaryGestisciProfilo();
+			return new BoundaryGestisciProfilo(utenteBean);
 		case Competenza.AMMINISTRAZIONE_UTENTI:
 			return new BoundaryAmministraUtenti();
 		case Competenza.GESTIONE_CATALOGO:
@@ -40,7 +50,7 @@ public class ControllerHome {
 		}
 	}
 	
-	public void logout() {
+	public synchronized void logout() {
 		BoundaryLogin boundary = new BoundaryLogin();
 		boundary.setVisible(true);
 	}

@@ -13,6 +13,10 @@ package gestioneutenti.view;
  * 
  */
 
+import gestioneutenti.controller.ControllerGestisciProfilo;
+import gestioneutenti.exception.PasswordNonCoincidentiException;
+import gestioneutenti.exception.UtenteInesistenteException;
+import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -48,9 +52,7 @@ public class BoundaryGestisciProfilo extends JPanel{
 	private JLabel labelMail;
 	private JLabel labelRuolo;
 	private JLabel labelUsername;
-	private JLabel labelPasswordCorrente;
-	private JLabel labelNuovaPassword;
-	private JLabel labelConfermaNuovaPassword;
+	private JLabel labelPassword;
 	private JTextField textfieldNome;
 	private JTextField textfieldCognome;
 	private JTextField textfieldCitta;
@@ -60,42 +62,41 @@ public class BoundaryGestisciProfilo extends JPanel{
 	private JLabel labelContenutoRuolo;
 	private JLabel labelContenutoUsername;
 	private JCheckBox checkboxCambiaPassword;
-	private JPasswordField passwordfieldPasswordCorrente;
-	private JPasswordField passwordfieldNuovaPassword;
-	private JPasswordField passwordfieldConfermaNuovaPassword;
+	private JPasswordField passwordfieldPassword;
 	private JButton buttonOk;
 	private JButton buttonAnnulla;
 	
 	private UtenteBean utenteBean;
 	
 	private boolean passwordModificata;
+	
+	private ControllerGestisciProfilo controllerGestisciProfilo;
 		
-	public BoundaryGestisciProfilo() {
+	public BoundaryGestisciProfilo(UtenteBean utenteBean) {
+		this.controllerGestisciProfilo = ControllerGestisciProfilo.getInstance();
+		this.utenteBean = utenteBean;
 		this.panelMe = this;
 		this.passwordModificata = false;
 		buildDialog();		
-	}	
-	
-	public void setUtente(UtenteBean utenteBean) {
-		this.utenteBean = utenteBean;
-		this.addAncestorListener(new RefreshListener());
 	}
 	
 	private void aggiornaUI() {
-		this.textfieldNome.setText(utenteBean.getNome());
-		this.textfieldCognome.setText(utenteBean.getCognome());
-		this.textfieldCitta.setText(utenteBean.getCitta());
-		this.calendarNascita.setDateAsGregorianCalendar(utenteBean.getNascita());
-		this.comboSesso.setSelectedItem(utenteBean.getSesso());
-		this.textfieldMail.setText(utenteBean.getMail());
-		this.labelContenutoRuolo.setText(utenteBean.getRuolo().asString());
-		this.labelContenutoUsername.setText(utenteBean.getUsername());			
+		this.textfieldNome.setText(this.utenteBean.getNome());
+		this.textfieldCognome.setText(this.utenteBean.getCognome());
+		this.textfieldCitta.setText(this.utenteBean.getCitta());
+		this.calendarNascita.setDateAsGregorianCalendar(this.utenteBean.getNascita());
+		this.comboSesso.setSelectedItem(this.utenteBean.getSesso());
+		this.textfieldMail.setText(this.utenteBean.getMail());
+		this.labelContenutoRuolo.setText(this.utenteBean.getRuolo().asString());
+		this.labelContenutoUsername.setText(this.utenteBean.getUsername());	
+		this.passwordfieldPassword.setText(this.utenteBean.getPassword());
 	}
 	
 	private void buildDialog() {
 		
 		//Initialization
 		this.setLayout(new GridBagLayout());
+		this.addAncestorListener(new RefreshListener());
 				
 		//Panel Title
 		this.panelTitolo = new JPanel();
@@ -114,9 +115,7 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.labelMail = new JLabel("Mail");
 		this.labelRuolo = new JLabel("Ruolo");		
 		this.labelUsername = new JLabel("Username");
-		this.labelPasswordCorrente = new JLabel("Password");
-		this.labelNuovaPassword = new JLabel("Nuova Password");
-		this.labelConfermaNuovaPassword = new JLabel("Conferma");
+		this.labelPassword = new JLabel("Nuova Password");
 		this.textfieldNome = new JTextField("", 20);
 		this.textfieldCognome = new JTextField("", 20);
 		this.textfieldCitta = new JTextField("", 20);
@@ -128,12 +127,8 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.labelContenutoUsername = new JLabel("");
 		this.checkboxCambiaPassword = new JCheckBox("Cambia password", false);
 		this.checkboxCambiaPassword.addActionListener(new CambiaPasswordListener());
-		this.passwordfieldPasswordCorrente = new JPasswordField("", 20);
-		this.passwordfieldPasswordCorrente.setEditable(false);
-		this.passwordfieldNuovaPassword = new JPasswordField("", 20);
-		this.passwordfieldNuovaPassword.setEditable(false);
-		this.passwordfieldConfermaNuovaPassword = new JPasswordField("", 20);
-		this.passwordfieldConfermaNuovaPassword.setEditable(false);
+		this.passwordfieldPassword = new JPasswordField("", 20);
+		this.passwordfieldPassword.setEditable(false);
 		
 		this.panelMain.add(this.labelNome, new GBCHelper(0, 0).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(15, 15, 10, 15));
 		this.panelMain.add(this.labelCognome, new GBCHelper(0, 1).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
@@ -143,9 +138,7 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.panelMain.add(this.labelMail, new GBCHelper(0, 5).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.labelRuolo, new GBCHelper(0, 6).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.labelUsername, new GBCHelper(0, 7).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.labelPasswordCorrente, new GBCHelper(0, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.labelNuovaPassword, new GBCHelper(0, 10).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.labelConfermaNuovaPassword, new GBCHelper(0, 11).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
+		this.panelMain.add(this.labelPassword, new GBCHelper(0, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
 		
 		this.panelMain.add(this.textfieldNome, new GBCHelper(1, 0).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(15, 15, 10, 15));
 		this.panelMain.add(this.textfieldCognome, new GBCHelper(1, 1).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
@@ -156,16 +149,14 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.panelMain.add(this.labelContenutoRuolo, new GBCHelper(1, 6).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.labelContenutoUsername, new GBCHelper(1, 7).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.checkboxCambiaPassword, new GBCHelper(1, 8).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.passwordfieldPasswordCorrente, new GBCHelper(1, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.passwordfieldNuovaPassword, new GBCHelper(1, 10).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.passwordfieldConfermaNuovaPassword, new GBCHelper(1, 11).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
+		this.panelMain.add(this.passwordfieldPassword, new GBCHelper(1, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
 		
 		//Panel Button
 		this.panelBottoni = new JPanel();
 		this.panelBottoni.setLayout(new GridLayout(1, 2, 5, 5));
 		this.buttonOk = new JButton("Ok");
 		this.buttonOk.addActionListener(new OkListener());
-		this.buttonAnnulla = new JButton("Cancel");
+		this.buttonAnnulla = new JButton("Annulla");
 		this.buttonAnnulla.addActionListener(new AnnullaListener());
 		this.panelBottoni.add(this.buttonAnnulla);
 		this.panelBottoni.add(this.buttonOk);
@@ -179,8 +170,16 @@ public class BoundaryGestisciProfilo extends JPanel{
 	private class RefreshListener implements AncestorListener {
 
 		@Override
-		public void ancestorAdded(AncestorEvent event) {
-			//utenteBean = retrieveUtente(utenteBean.getUsername());
+		public void ancestorAdded(AncestorEvent event) {		
+
+			String username = utenteBean.getUsername();
+			
+			try {
+				utenteBean = controllerGestisciProfilo.findByUsername(username);
+			} catch (UtenteInesistenteException e) {
+				e.printStackTrace();
+			}
+			
 			aggiornaUI();			
 		}
 
@@ -201,18 +200,12 @@ public class BoundaryGestisciProfilo extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (checkboxCambiaPassword.isSelected()) {
-				passwordfieldPasswordCorrente.setEditable(true);
-				passwordfieldNuovaPassword.setEditable(true);
-				passwordfieldConfermaNuovaPassword.setEditable(true);
+				passwordfieldPassword.setEditable(true);
 				setHasModifiedPassword(true);				
 				
 			} else {
-				passwordfieldPasswordCorrente.setText("");
-				passwordfieldNuovaPassword.setText("");
-				passwordfieldConfermaNuovaPassword.setText("");
-				passwordfieldPasswordCorrente.setEditable(false);
-				passwordfieldNuovaPassword.setEditable(false);
-				passwordfieldConfermaNuovaPassword.setEditable(false);
+				passwordfieldPassword.setText(utenteBean.getPassword());
+				passwordfieldPassword.setEditable(false);
 				setHasModifiedPassword(false);
 			}			
 		}		
@@ -222,14 +215,9 @@ public class BoundaryGestisciProfilo extends JPanel{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (checkFormDataCompleteness()) {
-				if (!hasModifiedPassword() || hasModifiedPassword() && checkPassword()) {
-					//if(controller.updateProfile(getUserData()) {
-					JOptionPane.showMessageDialog(getParent(), "Profilo correttamente aggiornato!", "Gestione Profilo", JOptionPane.INFORMATION_MESSAGE);		
-					//dialogMain.setVisible(false);
-				}									
-			}			
-		}		
+			aggiornaProfilo();		
+		}
+		
 	}
 	
 	private class AnnullaListener implements ActionListener {
@@ -240,64 +228,38 @@ public class BoundaryGestisciProfilo extends JPanel{
 		}		
 	}
 	
-	public boolean checkFormDataCompleteness() {
-		for (Object info : getFormData()) {
-			if (info.toString().isEmpty() || info == null) {
-				JOptionPane.showMessageDialog(getParent(), "Oops! Dati mancanti!", "Warning", JOptionPane.WARNING_MESSAGE);
-				return false;
+	private void aggiornaProfilo() {
+		UtenteBean nUtenteBean = new UtenteBean();
+		nUtenteBean.setNome(this.textfieldNome.getText().toString());
+		nUtenteBean.setCognome(this.textfieldCognome.getText().toString());
+		nUtenteBean.setCitta(this.textfieldCitta.getText().toString());
+		nUtenteBean.setNascita(this.calendarNascita.getDateAsGregorianCalendar());
+		nUtenteBean.setSesso(String.valueOf(this.comboSesso.getSelectedItem()));
+		nUtenteBean.setMail(this.textfieldMail.getText().toString());
+		nUtenteBean.setUsername(this.utenteBean.getUsername());
+		nUtenteBean.setRuolo(this.utenteBean.getRuolo());
+		nUtenteBean.setPassword(String.valueOf(this.passwordfieldPassword.getPassword()));
+		
+		try {
+			String password = JOptionPane.showInputDialog(this, "Inserisci la password", "Gestione Profilo", JOptionPane.OK_CANCEL_OPTION);
+			LoginBean loginBean = new LoginBean().setUsername(this.utenteBean.getUsername()).setPassword(password);
+
+			if (hasModifiedPassword()) {
+				String confermaNuovaPassword = JOptionPane.showInputDialog(null, "Conferma la nuova password", "Gestione Profilo", JOptionPane.OK_CANCEL_OPTION);
+				nUtenteBean.setPassword(String.valueOf(this.passwordfieldPassword.getPassword()));
+				this.controllerGestisciProfilo.aggiornaProfilo(loginBean, nUtenteBean, confermaNuovaPassword);
+			} else {
+				this.controllerGestisciProfilo.aggiornaProfilo(loginBean, nUtenteBean);
 			}
-		}
-		
-		return true;
-	}
-	
-	public boolean checkPassword() {
-		if (!hasModifiedPassword() || (checkCurrentPassword() && checkNewPasswordConfirmation())) return true;
-		return false;
-	}
-	
-	public boolean checkNewPasswordConfirmation() {
-		String newPassword = new String(passwordfieldNuovaPassword.getPassword());
-		String confirmNewPassword = new String(passwordfieldConfermaNuovaPassword.getPassword());
-		
-		if (!confirmNewPassword.equals(newPassword)) {
+			
+			this.utenteBean = nUtenteBean;
+
+		} catch (PasswordNonCoincidentiException exc) {
 			JOptionPane.showMessageDialog(getParent(), "Oops! Password non confermata!", "Warning", JOptionPane.WARNING_MESSAGE);
-			return false;
+		} catch (UtenteInesistenteException e) {
+			JOptionPane.showMessageDialog(getParent(), "Oops! Login errato!", "Warning", JOptionPane.WARNING_MESSAGE);
 		}
 		
-		return true;
-	}
-	
-	public boolean checkCurrentPassword() {
-		String currentPassword = this.utenteBean.getPassword();
-		String password = new String(passwordfieldPasswordCorrente.getPassword());
-		
-		if (!password.equals(currentPassword)) {
-			JOptionPane.showMessageDialog(getParent(), "Oops! Password non corretta!", "Warning", JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public Object[] getFormData() {
-		String firstname = textfieldNome.getText().toString();
-		String lastname = textfieldCognome.getText().toString();
-		String city = textfieldCitta.getText().toString();
-		GregorianCalendar birth = calendarNascita.getDateAsGregorianCalendar();
-		String sex = comboSesso.getSelectedItem().toString();
-		String mail = textfieldMail.getText().toString();
-		if (hasModifiedPassword()) {
-			String currentPassword = new String(passwordfieldPasswordCorrente.getPassword());
-			String newPassword = new String(passwordfieldNuovaPassword.getPassword());
-			String confirmNewPassword = new String(passwordfieldConfermaNuovaPassword.getPassword());
-			Object[] data = {firstname, lastname, city, birth, sex, mail, currentPassword, newPassword, confirmNewPassword};
-			return data;			
-		} else {
-			String password = this.utenteBean.getPassword();
-			Object[] data = {firstname, lastname, city, birth, sex, mail, password};	
-			return data;
-		}		
 	}
 	
 	public boolean hasModifiedPassword() {
