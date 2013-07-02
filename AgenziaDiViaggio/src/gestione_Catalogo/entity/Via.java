@@ -9,7 +9,7 @@ import gestione_Catalogo.dao.ViaDAO;
  */
 public class Via extends ElementoFinale  {
 	
-	final public static String DIRETTO = "(DIRETTO)";
+	final public static String DIRETTO = "(Diretto)";
 	
 	public Via(IDEsternoElemento idEsternoElemento){
 		super(idEsternoElemento);

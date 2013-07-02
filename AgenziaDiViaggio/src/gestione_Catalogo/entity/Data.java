@@ -22,7 +22,6 @@ public class Data extends GregorianCalendar {
 	}
 	
 	public Data(Date date){
-		super();
 		super.setTime(date);
 	}
 	
@@ -38,6 +37,8 @@ public class Data extends GregorianCalendar {
 		super(anno, mese-1,giorno, ora, minuti, secondi);
 	}
 		
+	
+	//metodi accessori
 	public Timestamp getDataForDB(){
 		return new Timestamp(super.getTimeInMillis());
 	}
@@ -55,7 +56,7 @@ public class Data extends GregorianCalendar {
 	
 	public void aggiungiOreMinuti(int ore, int minuti){
 		super.add(GregorianCalendar.HOUR_OF_DAY, ore);
-		super.add(GregorianCalendar.HOUR_OF_DAY, minuti);
+		super.add(GregorianCalendar.MINUTE, minuti);
 	}
 	
 	

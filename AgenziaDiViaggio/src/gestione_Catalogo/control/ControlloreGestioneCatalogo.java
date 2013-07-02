@@ -48,7 +48,6 @@ public class ControlloreGestioneCatalogo extends Controllore {
 
 	
 	public void rimuoviViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException, OffertaException, IDEsternoElementoException {
-		if (via.equals("")) via = Via.DIRETTO;
 		
 		Tratta tratta = catalogo.getTrattaByValue(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 
