@@ -277,6 +277,17 @@ public class ControlloreAmministratore extends Controllore {
 		}
 		return lista;
 	}
+	
+	public List<String> visualizzaPrenotazioni(List<String> listaCatalogo, Integer idOfferta){
+		List<Prenotazione> listaPrenotazioni = catalogo.getListaPrenotazioni(listaCatalogo.get(0),
+				listaCatalogo.get(1), listaCatalogo.get(2),
+				listaCatalogo.get(3), listaCatalogo.get(4), idOfferta);
+		List<String> prenotazioni = new ArrayList<String>();
+		for(Prenotazione prenotazione : listaPrenotazioni){
+			prenotazioni.add(prenotazione.getString());
+		}
+		return prenotazioni;
+	}
 
 	public boolean verificaId(String offertaInserita) {
 		// TODO Auto-generated method stub
