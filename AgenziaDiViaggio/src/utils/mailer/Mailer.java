@@ -1,5 +1,18 @@
 package utils.mailer;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package utils.mailer
+ * 
+ * @name Mailer.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -28,7 +41,7 @@ public final class Mailer {
 		return singletonMailer;
 	}
 	
-	public void inviaMail(String mailDestinatario, String oggetto, String messaggio ) {
+	public void inviaMail(String mailDestinatario, String oggetto, String messaggio) {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");

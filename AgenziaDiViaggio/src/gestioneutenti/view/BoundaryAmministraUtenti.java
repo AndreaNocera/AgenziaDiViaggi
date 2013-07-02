@@ -14,13 +14,17 @@ package gestioneutenti.view;
  */
 
 import gestioneutenti.controller.ControllerAmministraUtenti;
-import gestioneutenti.model.Utente;
+import gestioneutenti.model.bean.UtenteBean;
+import gestioneutenti.view.utils.DialogModificaUtente;
 import gestioneutenti.view.utils.TabellaUtenti;
-import gestioneutenti.view.utils.DialogUtente;
+import gestioneutenti.view.utils.DialogNuovoUtente;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -59,6 +63,7 @@ public class BoundaryAmministraUtenti extends JPanel{
 		
 		//Initialization
 		this.setLayout(new GridBagLayout());
+		this.addAncestorListener(new RefreshListener());
 				
 		//Panel Title
 		this.panelTitolo = new JPanel();		
@@ -75,16 +80,7 @@ public class BoundaryAmministraUtenti extends JPanel{
 				
 		//Panel Table
 		this.tabellaUtenti = new TabellaUtenti(this.controllerAmministraUtenti.getUtenti());
-		this.tabellaUtenti.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				buttonModifica.setEnabled(true);
-				buttonRimuovi.setEnabled(true);
-			}
-			
-		});
-		
+		this.tabellaUtenti.getSelectionModel().addListSelectionListener(new UtenteSelezionatoListener());
 		this.panelTabella = new JScrollPane(tabellaUtenti);
 				
 		//Panel Button
@@ -95,10 +91,10 @@ public class BoundaryAmministraUtenti extends JPanel{
 		this.buttonModifica.setEnabled(false);
 		this.buttonRimuovi = new JButton("Rimuovi");	
 		this.buttonRimuovi.setEnabled(false);
-		this.buttonNuovo.addActionListener(new NewListener());
-		this.buttonModifica.addActionListener(new EditListener());
-		this.buttonRimuovi.addActionListener(new DeleteListener());
-		this.buttonCerca.addActionListener(new SearchListener());	
+		this.buttonNuovo.addActionListener(new NuovoListener());
+		this.buttonModifica.addActionListener(new ModificaListener());
+		this.buttonRimuovi.addActionListener(new RimuoviListener());
+		this.buttonCerca.addActionListener(new CercaListener());	
 		this.panelBottoni.add(this.buttonNuovo, new GBCHelper(0, 0).setWeight(100, 0).setFill(GridBagConstraints.HORIZONTAL).setInsets(0, 0, 10, 0));
 		this.panelBottoni.add(this.buttonModifica, new GBCHelper(0, 1).setWeight(100, 0).setFill(GridBagConstraints.HORIZONTAL).setInsets(0, 0, 10, 0));
 		this.panelBottoni.add(this.buttonRimuovi, new GBCHelper(0, 2).setWeight(100, 0).setFill(GridBagConstraints.HORIZONTAL).setInsets(0, 0, 0, 0));	
@@ -110,66 +106,103 @@ public class BoundaryAmministraUtenti extends JPanel{
 		this.add(this.panelBottoni, new GBCHelper(1, 2).setWeight(0, 100).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.NORTH).setInsets(10, 5, 0, 10));		
 	}
 	
-	private class NewListener implements ActionListener {
+	private class RefreshListener implements AncestorListener {
+
+		@Override
+		public void ancestorAdded(AncestorEvent event) {		
+
+			aggiornaTabellaUtenti();		
+		}
+
+		@Override
+		public void ancestorMoved(AncestorEvent event) {
+			
+		}
+
+		@Override
+		public void ancestorRemoved(AncestorEvent event) {
+			
+		}
+		
+	}
+	
+	private void aggiornaTabellaUtenti() {
+		this.tabellaUtenti.aggiornaTabella(this.controllerAmministraUtenti.getUtenti());
+	}
+
+	private class UtenteSelezionatoListener implements ListSelectionListener {
+
+		@Override
+		public void valueChanged(ListSelectionEvent event) {
+			buttonModifica.setEnabled(true);
+			buttonRimuovi.setEnabled(true);
+		}
+		
+	}
+	
+	private class NuovoListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			DialogUtente dialog = new DialogUtente((JFrame)SwingUtilities.getWindowAncestor(panelMe));
+			DialogNuovoUtente dialog = new DialogNuovoUtente((JFrame)SwingUtilities.getWindowAncestor(panelMe));
 			dialog.setVisible(true);
-			if (dialog.hasValidData()) {
-				newUser(dialog.getUtente());
+			if (dialog.datiValidi()) {
+				nuovo(dialog.getUtenteBean());
+				aggiornaTabellaUtenti();
+			}
+		}		
+	}
+		
+	private class ModificaListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			UtenteBean utenteBean = tabellaUtenti.getUtenteSelezionato();
+			DialogModificaUtente dialog = new DialogModificaUtente((JFrame)SwingUtilities.getWindowAncestor(panelMe), utenteBean);
+			dialog.setVisible(true);
+			if (dialog.datiValidi()) {
+				modifica(dialog.getUtenteBean());
+				aggiornaTabellaUtenti();
 			}
 		}		
 	}
 	
-	private class EditListener implements ActionListener {
+	private class RimuoviListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Utente user = tabellaUtenti.getSelectedUser();
-			DialogUtente dialog = new DialogUtente((JFrame)SwingUtilities.getWindowAncestor(panelMe), user);
-			dialog.setVisible(true);
-			if (dialog.hasValidData()) {
-				editUser(dialog.getUtente());
-			}
-		}		
-	}
-	
-	private class DeleteListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Utente user = tabellaUtenti.getSelectedUser();
-			int choice = JOptionPane.showConfirmDialog(getParent(), "Sei sicuro di voler rimuovere " + user.getLogin().getUsername() + "?", "Conferma Rimozione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			UtenteBean utenteBean = tabellaUtenti.getUtenteSelezionato();
+			int choice = JOptionPane.showConfirmDialog(getParent(), "Sei sicuro di voler rimuovere " + utenteBean.getUsername() + "?", "Conferma Rimozione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (choice == JOptionPane.YES_OPTION) {
-				deleteUser(user.getLogin().getUsername());
+				rimuovi(utenteBean);
+				aggiornaTabellaUtenti();
 			}
 		}
 	}
 	
-	private class SearchListener implements ActionListener {
+	private class CercaListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String query = textfieldCerca.getText().toString();
-			searchUser(query);
+			cerca(query);
 		}
 	}
 	
-	private void newUser(Utente utente) {
-		this.controllerAmministraUtenti.creaUtente(utente);
+	private void nuovo(UtenteBean utenteBean) {
+		this.controllerAmministraUtenti.nuovo(utenteBean);
 	}
 	
-	private void editUser(Utente utente) {		
-		this.controllerAmministraUtenti.modificaUtente(utente);
+	private void modifica(UtenteBean utenteBean) {		
+		this.controllerAmministraUtenti.modifica(utenteBean);
 	}
 	
-	private void deleteUser(String username) {
-		this.controllerAmministraUtenti.rimuoviUtente(username);
+	private void rimuovi(UtenteBean utenteBean) {
+		this.controllerAmministraUtenti.rimuovi(utenteBean);
 	}
 	
-	private void searchUser(String query) {
-		this.controllerAmministraUtenti.cercaUtente(query);
+	private void cerca(String query) {
+		this.controllerAmministraUtenti.cerca(query);
 	}		
 	
 }

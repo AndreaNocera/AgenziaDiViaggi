@@ -13,34 +13,26 @@ package gestioneutenti.controller;
  * 
  */
 
-import gestioneutenti.exception.LoginErratoException;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.RuoloException;
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-import gestioneutenti.model.DatiUtente;
-import gestioneutenti.model.FactoryUtenti;
-import gestioneutenti.model.Login;
-import gestioneutenti.model.Utente;
-import gestioneutenti.model.ruoli.Ruolo;
-
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import javax.swing.JOptionPane;
+import utils.mailer.Mailer;
+
+import gestioneutenti.dao.UtenteDAO;
+import gestioneutenti.dao.UtenteJdbcDAO;
+import gestioneutenti.model.FactoryPassword;
+import gestioneutenti.model.bean.UtenteBean;
 
 public class ControllerAmministraUtenti {
 	
-	FactoryUtenti fu = FactoryUtenti.getInstance();
-	
-	Utente[] utenti = new Utente[5];
-	
 	private static ControllerAmministraUtenti singletonControllerAmministraUtenti = null;
+	private UtenteDAO utenteDAO;
+	private FactoryPassword factoryPassword;
 
 	private ControllerAmministraUtenti() {
-		try {
-			inizializzaUtentiProva();
-		} catch (RuoloException | DatiUtenteInconsistentiException | LoginErratoException | LoginInconsistenteException exc) {
-			exc.printStackTrace();
-		}
+		this.utenteDAO = UtenteJdbcDAO.getInstance();
+		this.factoryPassword = FactoryPassword.getInstance();
 	}
 
 	public static synchronized ControllerAmministraUtenti getInstance() {
@@ -50,38 +42,59 @@ public class ControllerAmministraUtenti {
 		}
 		
 		return singletonControllerAmministraUtenti;
+	}
+	
+	public void nuovo(UtenteBean utenteBean) {
+		this.utenteDAO.save(utenteBean);
+		inviaDatiUtente(utenteBean);
+	}
+	
+	
+
+	public void modifica(UtenteBean utenteBean) {
+		this.utenteDAO.update(utenteBean);	
+		inviaDatiUtente(utenteBean);
+	}
+
+	public void rimuovi(UtenteBean utenteBean) {
+		this.utenteDAO.delete(utenteBean);
+		notificaRimozione(utenteBean);
 	}	
 	
-	private void inizializzaUtentiProva() throws RuoloException, DatiUtenteInconsistentiException, LoginErratoException, LoginInconsistenteException {
-		utenti[0] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.AMMINISTRATORE, new Login("amministratore", "password"));
-		utenti[1] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.PROMOTORE, new Login("promotore", "password"));
-		utenti[2] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.PROGETTISTA, new Login("progettista", "password"));
-		utenti[3] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.VENDITORE, new Login("venditore", "password"));
-		utenti[4] = fu.creaUtente(new DatiUtente("Giacomo", "Marciani", "Roma", "giacomo.marciani@gmail.com", new GregorianCalendar(1990, 06, 27), "Uomo"), Ruolo.CLIENTE, new Login("cliente", "password"));
+	private void inviaDatiUtente(UtenteBean utenteBean) {
+		String mail = utenteBean.getMail();
+		GregorianCalendar cal = utenteBean.getNascita();
+		String data = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH); 
+		Mailer mailer = Mailer.getInstance();
+		mailer.inviaMail(mail, "Voyager", "Ciao " + utenteBean.getUsername() + "!" +
+				"\n\nEcco i tuoi dati di registrazione:\n" + 
+				"\tNome: " + utenteBean.getNome() + "\n" +
+				"\tCognome: " + utenteBean.getCognome() + "\n" +
+				"\tCittà: " + utenteBean.getCitta() + "\n" +
+				"\tNascita: " + data + "\n" +
+				"\tSesso: " + utenteBean.getSesso() + "\n" +
+				"\tMail: " + utenteBean.getMail() + "\n" +
+				"\tUsername: " + utenteBean.getUsername() + "\n" +
+				"\tPassword: " + utenteBean.getPassword() + "\n" +
+				"\n\nSaluti dal team di Voyager.");
 	}
 
-	public void rimuoviUtente(String username) {
-		JOptionPane.showMessageDialog(null, "Oops! Not implemented function!", "Info", JOptionPane.INFORMATION_MESSAGE);
-		
+	private void notificaRimozione(UtenteBean utenteBean) {
+		String mail = utenteBean.getMail();
+		Mailer mailer = Mailer.getInstance();
+		mailer.inviaMail(mail, "Voyager", "Ciao " + utenteBean.getUsername() + "!\n\nQuesta email è per notificarti della tua eliminazione dal sistema Voyager.\n\nSaluti dal team di Voyager.");
 	}
 
-	public void modificaUtente(Utente utente) {
-		JOptionPane.showMessageDialog(null, "Oops! Not implemented function!", "Info", JOptionPane.INFORMATION_MESSAGE);
-		
-	}
-
-	public void creaUtente(Utente utente) {
-		JOptionPane.showMessageDialog(null, "Oops! Not implemented function!", "Info", JOptionPane.INFORMATION_MESSAGE);
-		
-	}
-
-	public void cercaUtente(String query) {
-		JOptionPane.showMessageDialog(null, "Oops! Not implemented function!", "Info", JOptionPane.INFORMATION_MESSAGE);
-		
+	public void cerca(String query) {
+		//
 	}	
 
-	public Utente[] getUtenti() {
-		return utenti;
+	public List<UtenteBean> getUtenti() {
+		return this.utenteDAO.findAll();
+	}
+
+	public String generaPassword() {
+		return this.factoryPassword.creaPassword();
 	}
 
 }

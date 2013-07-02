@@ -49,7 +49,9 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	}
 
 	@Override
-	public synchronized boolean save(UtenteBean utenteBean) {		
+	public synchronized boolean save(UtenteBean utenteBean) {	
+		GregorianCalendar cal = utenteBean.getNascita();
+		String data = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
 		String SQL_INSERT = "INSERT INTO `utenti` " +
 				"(`username`, `password`, `ruolo`, `nome`, `cognome`, `citta`, `nascita`, `sesso`, `mail`) " +
 				"VALUES (\"" + utenteBean.getUsername() + "\", " +
@@ -58,7 +60,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 						"\"" + utenteBean.getNome() + "\", " +
 						"\"" + utenteBean.getCognome() + "\", " +
 						"\"" + utenteBean.getCitta() + "\", " +
-						"\"" + utenteBean.getNascita() + "\", " +
+						"\"" + data + "\", " +
 						"\"" + utenteBean.getSesso() + "\", " +
 						"\"" + utenteBean.getMail() + "\")";
 		
@@ -81,12 +83,12 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	@Override
 	public synchronized boolean update(UtenteBean utenteBean) {
 		GregorianCalendar cal = utenteBean.getNascita();
-		String date = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
+		String data = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
 		String SQL_INSERT = "UPDATE `utenti` SET " +
 				"`nome` = \"" + utenteBean.getNome() + "\", " +
 				"`cognome` =  \"" + utenteBean.getCognome() + "\", " +
 				"`citta` = \"" + utenteBean.getCitta() + "\", " +
-				"`nascita` = \"" + date + "\", " +
+				"`nascita` = \"" + data + "\", " +
 				"`sesso` = \"" + utenteBean.getSesso() + "\", " +
 				"`mail` = \"" + utenteBean.getMail() + "\", " +
 				"`ruolo` = " + utenteBean.getRuolo().getId() + ", " +
@@ -111,7 +113,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 
 	@Override
 	public synchronized boolean delete(UtenteBean utenteBean) {
-		String SQL_DELETE = "DELETE FROM `utenti` WHERE `username` = " + utenteBean.getUsername();
+		String SQL_DELETE = "DELETE FROM `utenti` WHERE `username` = \"" + utenteBean.getUsername() + "\"";
 		
 		this.connection = this.connectionManager.getConnection();
 		Statement statement = null;
@@ -132,7 +134,6 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	@Override
 	public synchronized List<UtenteBean> findAll() {
 		List<UtenteBean> listaUtenti = new ArrayList<UtenteBean>();
-		UtenteBean utenteBean = new UtenteBean();
 		String SQL_FIND_ALL = "SELECT * FROM `utenti`";
 		
 		this.connection = this.connectionManager.getConnection();
@@ -144,6 +145,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			result = statement.executeQuery(SQL_FIND_ALL);
 			
 			while(result.next()) {
+				UtenteBean utenteBean = new UtenteBean();
 				utenteBean.setNome(result.getString("nome"));
 				utenteBean.setCognome(result.getString("cognome"));
 				utenteBean.setCitta(result.getString("citta"));

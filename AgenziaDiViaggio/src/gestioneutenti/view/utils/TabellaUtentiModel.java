@@ -1,9 +1,23 @@
 package gestioneutenti.view.utils;
 
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.view.utils
+ * 
+ * @name TabellaUtentiModel.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import gestioneutenti.model.Utente;
+import gestioneutenti.model.bean.UtenteBean;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -12,14 +26,14 @@ public class TabellaUtentiModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	
 	private static final String[] COLUMNS = {"Nome", "Cognome", "Città", "Data di Nascita", "Sesso", "Mail", "Ruolo", "Username", "Password"};
-	private Utente[] userList;	
+	private List<UtenteBean> listaUtenti;	
 	
-	public TabellaUtentiModel(Utente[] userList) {
-		this.userList = userList;
+	public TabellaUtentiModel(List<UtenteBean> listaUtenti) {
+		this.listaUtenti = listaUtenti;
 	}
 	
 	public int getRowCount() {
-		return this.userList.length;
+		return this.listaUtenti.size();
 	}
 	
 	public int getColumnCount() {
@@ -27,29 +41,29 @@ public class TabellaUtentiModel extends AbstractTableModel{
 	}
 	
 	public Object getValueAt(int row, int column) {
-		Utente currUser = this.userList[row];
+		UtenteBean currUtenteBean = this.listaUtenti.get(row);
 		
 		switch(column) {
 		case 0:
-			return currUser.getDatiUtente().getNome();
+			return currUtenteBean.getNome();
 		case 1:
-			return currUser.getDatiUtente().getCognome();
+			return currUtenteBean.getCognome();
 		case 2:
-			return currUser.getDatiUtente().getCitta();
+			return currUtenteBean.getCitta();
 		case 3:
-			GregorianCalendar calendar = currUser.getDatiUtente().getNascita();
+			GregorianCalendar calendar = currUtenteBean.getNascita();
 			String calendarString = calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.YEAR);
 			return calendarString;
 		case 4:
-			return currUser.getDatiUtente().getSesso();
+			return currUtenteBean.getSesso();
 		case 5:
-			return currUser.getDatiUtente().getMail();
+			return currUtenteBean.getMail();
 		case 6:
-			return currUser.getRuolo().asString();
+			return currUtenteBean.getRuolo().asString();
 		case 7:
-			return currUser.getLogin().getUsername();
+			return currUtenteBean.getUsername();
 		case 8:
-			return currUser.getLogin().getPassword();
+			return currUtenteBean.getPassword();
 		default:
 			return "";
 		}
@@ -59,7 +73,8 @@ public class TabellaUtentiModel extends AbstractTableModel{
 		return COLUMNS[column];
 	}
 	
-	public Utente[] getUserList() {
-		return this.userList;
+	public List<UtenteBean> getListaUtenti() {
+		return this.listaUtenti;
 	}
+	
 }
