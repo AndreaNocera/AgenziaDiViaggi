@@ -14,7 +14,7 @@ package gestioneutenti.view;
  */
 
 import gestioneutenti.controller.ControllerLogin;
-import gestioneutenti.exception.LoginErratoException;
+import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 
@@ -110,7 +110,7 @@ public class BoundaryLogin extends JFrame{
 			UtenteBean utenteBean = this.controllerLogin.login(new LoginBean().setUsername(username).setPassword(password));
 			this.controllerLogin.home(utenteBean);
 			this.setVisible(false);
-		} catch (LoginErratoException exc) {
+		} catch (UtenteInesistenteException exc) {
 			JOptionPane.showMessageDialog(getParent(), "Oops! Non sei stato riconosciuto!" + username + password, "Info", JOptionPane.INFORMATION_MESSAGE);		
 		}			
 	}

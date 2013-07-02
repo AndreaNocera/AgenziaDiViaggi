@@ -1,6 +1,17 @@
 package gestioneutenti.model.ruoli;
 
-import gestioneutenti.exception.RuoloException;
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.model.ruoli
+ * 
+ * @name FactoryRuoli.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
 
 public final class FactoryRuoli {
 	
@@ -17,7 +28,7 @@ public final class FactoryRuoli {
 		return singletonFactoryRuoli;
 	}
 	
-	public Ruolo assegnaRuolo(int ruolo) throws RuoloException {
+	public Ruolo assegnaRuolo(int ruolo) {
 		switch(ruolo) {
 		case Ruolo.AMMINISTRATORE:
 			return Amministratore.getInstance();
@@ -32,7 +43,7 @@ public final class FactoryRuoli {
 		case Ruolo.VISITATORE:
 			return Visitatore.getInstance();
 		default:
-			throw new RuoloException(ruolo);
+			return null;
 		}		
 	}
 

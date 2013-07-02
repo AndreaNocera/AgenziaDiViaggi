@@ -5,7 +5,7 @@ package gestioneutenti.exception;
  * 
  * @package gestioneutenti.exception
  * 
- * @name UtenteNonEsistenteException.java
+ * @name UtenteInesistenteException.java
  *
  * @description
  *
@@ -13,10 +13,11 @@ package gestioneutenti.exception;
  * 
  */
 
-public class UtenteNonEsistenteException extends Exception {
+public class UtenteInesistenteException extends Exception {
+	
 	private static final long serialVersionUID = 19898L;
 
-	public UtenteNonEsistenteException(String message) {
-		super(message);
-		}
+	public UtenteInesistenteException() {
+		super();
+	}
 }
