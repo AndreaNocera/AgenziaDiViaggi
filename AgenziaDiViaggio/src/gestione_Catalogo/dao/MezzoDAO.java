@@ -75,7 +75,6 @@ public class MezzoDAO extends DAO {
 			closeResource();
 		}
 	}
-
 	
 	public static MezzoDAO getIstanza() {
 		if (istanza == null)

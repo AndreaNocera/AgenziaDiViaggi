@@ -30,7 +30,7 @@ public abstract class ElementoCatalogo {
 	}
 
 	public void setID(Integer iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 
 	public String getIDEsternoElemento() {
@@ -42,6 +42,11 @@ public abstract class ElementoCatalogo {
 		if((this.idEsternoElemento.toString()).equals(elementoCatalogo.getIDEsternoElemento()))
 				return true;
 		return false;
+	}
+	
+	public void print() {
+		System.out.println(this.getClass().getSimpleName() + " " + this.getID().toString() + " " +  this.getIDEsternoElemento().toString());
+		
 	}
 /*	public boolean equals(ElementoCatalogo elementoCatalogo){
 		if((this.ID).equals(elementoCatalogo.getID()))

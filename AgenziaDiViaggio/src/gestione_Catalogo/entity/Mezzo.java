@@ -1,6 +1,6 @@
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.dao.MezzoDAO;
+import gestione_Catalogo.dao_new.MezzoDAO;
 
 /**
  * @authors 
@@ -13,14 +13,17 @@ public class Mezzo extends ElementoIntermedio {
 		super(idEsternoElemento);
 		
 		//Salvo l'oggetto che sto creando in DB e ritorno l'id per l'oggetto
-				MezzoDAO dao = MezzoDAO.getIstanza();
-				//setID(null);
-				this.setID(dao.insertAndReturnId(idEsternoElemento));
-				//setID(id);
+		MezzoDAO dao = MezzoDAO.getIstanza();
+		this.setID(dao.insertAndReturnId(idEsternoElemento));
 	}
 	
 	public Mezzo(Integer ID, IDEsternoElemento idEsternoElemento){
 		super(ID, idEsternoElemento);
+	}
+	
+	public void cancellaPersistenza() {
+		MezzoDAO dao = MezzoDAO.getIstanza();
+		dao.delete(this.getID());
 	}
 
 

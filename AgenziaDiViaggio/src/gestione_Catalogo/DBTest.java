@@ -39,7 +39,6 @@ public class DBTest {
 		
 		
 		
-		
 		System.out.println("Creo Tabella AMBIENTE");
 		createQuery = 
 				"CREATE TABLE IF NOT EXISTS AMBIENTE(" +
