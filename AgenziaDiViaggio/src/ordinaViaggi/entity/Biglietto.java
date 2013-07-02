@@ -78,7 +78,11 @@ public class Biglietto {
 		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
 		return daoBiglietto.read(idBiglietto);
 	}
-	public boolean equals(Biglietto biglietto){
+	@Override
+	public boolean equals(Object obj){
+		if(!(obj instanceof Biglietto))
+			return false;
+		Biglietto biglietto = (Biglietto)obj;
 		if(this.idBiglietto.equals(biglietto.getIdBiglietto()))
 			return true;
 		return false;

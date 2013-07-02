@@ -37,9 +37,11 @@ import javax.swing.WindowConstants;
 		public JLabel titolo = new JLabel();
 		//Bottoni/
 		public JButton cliente = new JButton("Gestione Cliente");
+		public JButton gestoreEccezioni = new JButton("Gestione Eccezioni");
 		public JButton promotore = new JButton("Gestione Promotore"); 
 		public JButton progettista = new JButton("Gestione Progettista"); 
 		public JButton amministratore = new JButton("Gestione Amministratore");
+		
 		 
 		
 		// Ascoltatori di bottoni e relative azioni
@@ -91,14 +93,18 @@ import javax.swing.WindowConstants;
 	        panelButtons.setSize(getWidth(), getHeight());
 	        panelButtons.setLocation(5, altezzaTitolo);
 	        
+	        panelButtons.add(cliente);
+	        panelButtons.add(gestoreEccezioni);
 	        panelButtons.add(promotore);
 	        panelButtons.add(progettista);
-	        panelButtons.add(cliente);
+	        
 	        panelButtons.add(amministratore);
-	        promotore.setBounds(100, 100, 200, 60);
-	        progettista.setBounds(100, 200, 200, 60);
-	        cliente.setBounds(100, 300, 200, 60);
-	        amministratore.setBounds(100, 400, 200, 60);
+	        cliente.setBounds(100, 100, 200, 60);
+	        gestoreEccezioni.setBounds(400, 100, 200, 60);
+	        promotore.setBounds(100, 200, 200, 60);
+	        progettista.setBounds(400, 200, 200, 60);
+	      
+	        amministratore.setBounds(100, 300, 200, 60);
 	            
 	        /* Add panel of title and buttons*/
 	        pannello.add(panelTitolo);
@@ -110,6 +116,7 @@ import javax.swing.WindowConstants;
 		
 			
 		    // Associa ascoltatori e bottoni
+			gestoreEccezioni.addActionListener(gestoreListener);
 			promotore.addActionListener(gestoreListener);
 			progettista.addActionListener(gestoreListener);
 			cliente.addActionListener(gestoreListener);
@@ -127,13 +134,18 @@ import javax.swing.WindowConstants;
 		private class Gestore implements ActionListener
 		{
 			public void actionPerformed(ActionEvent e){
-				if(e.getSource() == promotore){
-					pannello.setVisible(false);
-					new BoundaryPromotore();	
-				}
-				else if(e.getSource() == cliente){
+		
+				if(e.getSource() == cliente){
 					pannello.setVisible(false);
 					new BoundaryCliente();
+				}
+				else if(e.getSource() == gestoreEccezioni){
+					pannello.setVisible(false);
+					new BoundaryGestoreEccezioni();	
+				}
+				else if(e.getSource() == promotore){
+					pannello.setVisible(false);
+					new BoundaryPromotore();	
 				}
 				else if(e.getSource() == progettista){
 					pannello.setVisible(false);

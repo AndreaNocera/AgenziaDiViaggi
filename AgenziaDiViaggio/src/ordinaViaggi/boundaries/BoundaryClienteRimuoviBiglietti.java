@@ -179,9 +179,9 @@ public class BoundaryClienteRimuoviBiglietti extends JFrame {
 		visualizzaBiglietti.addActionListener(buttonsListener);
 		inserisciBigliettoDaRimuovere.addActionListener(buttonsListener);
 		rimozioneBiglietti.addActionListener(buttonsListener);
-		
-		//Inizializzazione dell'area visualizzazione
-		
+
+		// Inizializzazione dell'area visualizzazione
+
 		try {
 			listaBiglietti = controlloreCliente
 					.getListaBigliettiByIdPrenotazione(boundaryClienteModificaPrenotazione
@@ -189,12 +189,14 @@ public class BoundaryClienteRimuoviBiglietti extends JFrame {
 		} catch (CatalogoException e) {
 			// TODO Auto-generated catch block
 			pannelloClienteRimuoviBiglietti.setVisible(false);
-			BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione.setVisible(true);
-			boundaryClienteModificaPrenotazione.areaVisualizzazione.setText("Id della prenotazione non presente.");
+			BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+					.setVisible(true);
+			boundaryClienteModificaPrenotazione.areaVisualizzazione
+					.setText("Id della prenotazione non presente.");
 		}
 		areaVisualizzazione.setText("");
-		for(String str : listaBiglietti)
-			areaVisualizzazione.append(str+"\n");
+		for (String str : listaBiglietti)
+			areaVisualizzazione.append(str + "\n");
 	}
 
 	private class GestoreButtons implements ActionListener {
@@ -210,11 +212,12 @@ public class BoundaryClienteRimuoviBiglietti extends JFrame {
 				} catch (CatalogoException e) {
 					// TODO Auto-generated catch block
 					pannelloClienteRimuoviBiglietti.setVisible(false);
-					BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione.setVisible(true);
+					BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+							.setVisible(true);
 				}
 				areaVisualizzazione.setText("");
-				for(String str : listaBiglietti)
-					areaVisualizzazione.append(str+"\n");
+				for (String str : listaBiglietti)
+					areaVisualizzazione.append(str + "\n");
 
 			} else if (event.getSource() == inserisciBigliettoDaRimuovere) {
 				if (!controlloreCliente.verificaId(idbiglietto.getText()))
@@ -237,19 +240,48 @@ public class BoundaryClienteRimuoviBiglietti extends JFrame {
 					Integer idPrenotazione = boundaryClienteModificaPrenotazione
 							.getIdPrenotazione();
 					try {
-						controlloreCliente.rimozioneBiglietti(idPrenotazione,listaBigliettiDaRimuovere);
-					} catch (DAOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						boolean prenotazioneCancellata = controlloreCliente
+								.rimozioneBiglietti(idPrenotazione,
+										listaBigliettiDaRimuovere);
+						// Il cliente ha rimosso tutti i biglietti dalla
+						// prenotazione.
+						if (prenotazioneCancellata) {
+							JOptionPane
+									.showMessageDialog(AABoundaryAvvio.Frame,
+											"Tutti i biglietti sono stati rimossi.\nPrenotazione cancellata.");
+							pannelloClienteRimuoviBiglietti.setVisible(false);
+							BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+									.setVisible(true);
+							return;
+						}
+
+						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
+								"Biglietti rimossi.");
+						// Modifica biglietti rimossi a 0
+						bigliettiRimossi.setText("0");
+						
+						// Modifica dell'area visualizzazione
+
+						listaBiglietti = controlloreCliente
+								.getListaBigliettiByIdPrenotazione(boundaryClienteModificaPrenotazione
+										.getIdPrenotazione());
 					} catch (CatalogoException e) {
+						// TODO Auto-generated catch block
+						pannelloClienteRimuoviBiglietti.setVisible(false);
+						BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+								.setVisible(true);
+						boundaryClienteModificaPrenotazione.areaVisualizzazione
+								.setText("Id della prenotazione non presente.");
+					} catch (DAOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (MapException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
-							"Biglietti rimossi.");
+					areaVisualizzazione.setText("");
+					for (String str : listaBiglietti)
+						areaVisualizzazione.append(str + "\n");
 				}
 			}
 		}

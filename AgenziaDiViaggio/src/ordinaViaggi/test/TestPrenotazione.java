@@ -14,12 +14,9 @@ public class TestPrenotazione {
 		biglietto.save();
 		Prenotazione prenotazione = new Prenotazione(1, 1, "cliente");
 		prenotazione.addBiglietto(biglietto);
-		prenotazione.save();
-		Biglietto bigliettoRead = prenotazione.getBigliettoById(1);
-		bigliettoRead.print();
-		bigliettoRead = prenotazione.getBigliettoByValue(traveler);
-		bigliettoRead.print();
-		
+		prenotazione.print();
+		prenotazione.removeBiglietto(biglietto);
+		prenotazione.print();
 		
 	}
 }

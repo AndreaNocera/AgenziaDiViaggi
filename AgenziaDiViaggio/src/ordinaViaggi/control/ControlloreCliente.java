@@ -273,6 +273,47 @@ public class ControlloreCliente extends Controllore {
 			biglietto.save();
 		}
 	}
+	
+	/**
+	 * Rimozione dei biglietti da modifica prenotazione
+	 * @param idPrenotazione
+	 * @param listaBigliettiDaRimuovere
+	 * @throws DAOException
+	 * @throws CatalogoException
+	 * @throws MapException
+	 */
+	public boolean rimozioneBiglietti(Integer idPrenotazione,
+			List<String> listaBigliettiDaRimuovere) throws DAOException,
+			CatalogoException, MapException {
+		// TODO Auto-generated method stub
+		Prenotazione prenotazione = catalogo
+				.getPrenotazioneById(idPrenotazione);
+		while (!listaBigliettiDaRimuovere.isEmpty()) {
+			Integer idBiglietto = new Integer(
+					listaBigliettiDaRimuovere.remove(0));
+			System.out.println("Biglietto di cui prendere id: " + idBiglietto);
+			Biglietto biglietto = Biglietto.getObjectById(idBiglietto);
+			// Rimuovi il biglietto dalla prenotazione e cancellalo dal database.
+			biglietto.print();
+			prenotazione.removeBiglietto(biglietto);
+			/*
+			 * Problema: Dopo la rimozione del biglietto la prenotazione rimane la stessa.
+			 * Vedere bene la removeBiglietto
+			 */
+			biglietto.delete();
+		}
+
+		// Cancello la prenotazione se non ho più biglietti associati.
+		if (prenotazione.getListaBiglietti().isEmpty()){
+			Offerta offerta = catalogo.getOffertaById(prenotazione.getIdOfferta());
+			Tratta tratta = catalogo.getTrattaById(offerta.getIdTratta());
+			catalogo.rimozioneInPrenotazione(tratta, offerta, prenotazione);
+			prenotazione.delete();
+			return true;
+		}
+		return false;
+	}
+
 
 	public boolean verificaData(String giorno, String mese) {
 		// TODO Auto-generated method stub
@@ -362,37 +403,6 @@ public class ControlloreCliente extends Controllore {
 					+ traveler.getEmail());
 		}
 		return listaBiglietti;
-	}
-
-	public void rimozioneBiglietti(Integer idPrenotazione,
-			List<String> listaBigliettiDaRimuovere) throws DAOException,
-			CatalogoException, MapException {
-		// TODO Auto-generated method stub
-		Prenotazione prenotazione = catalogo
-				.getPrenotazioneById(idPrenotazione);
-		while (!listaBigliettiDaRimuovere.isEmpty()) {
-			Integer idBiglietto = new Integer(
-					listaBigliettiDaRimuovere.remove(0));
-			System.out.println("Biglietto di cui prendere id: " + idBiglietto);
-			Biglietto biglietto = Biglietto.getObjectById(idBiglietto);
-			// Rimuovi il biglietto dalla prenotazione e cancellalo dal database.
-			biglietto.print();
-			prenotazione.removeBiglietto(biglietto);
-			/*
-			 * Problema: Dopo la rimozione del biglietto la prenotazione rimane la stessa.
-			 * Vedere bene la removeBiglietto
-			 */
-			prenotazione.print();
-			biglietto.delete();
-		}
-
-		// Cancello la prenotazione se non ho più biglietti associati.
-		if (prenotazione.getListaBiglietti().isEmpty()){
-			Offerta offerta = catalogo.getOffertaById(prenotazione.getIdOfferta());
-			Tratta tratta = catalogo.getTrattaById(offerta.getIdTratta());
-			catalogo.rimozioneInPrenotazione(tratta, offerta, prenotazione);
-			prenotazione.delete();
-		}
 	}
 
 }

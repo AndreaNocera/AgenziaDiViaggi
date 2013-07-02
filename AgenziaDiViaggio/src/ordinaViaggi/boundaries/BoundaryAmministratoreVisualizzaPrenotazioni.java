@@ -1,7 +1,6 @@
 package ordinaViaggi.boundaries;
 
-import ordinaViaggi.entity.Catalogo;
-import ordinaViaggi.entity.Prenotazione;
+import ordinaViaggi.control.ControlloreAmministratore;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
@@ -31,6 +30,7 @@ public class BoundaryAmministratoreVisualizzaPrenotazioni extends JFrame {
 
 	BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta = null;
 	BoundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta = null;
+	ControlloreAmministratore controlloreAmministratore = null;
 
 	public static JPanel pannelloAmministratoreVisualizzaPrenotazioni;
 
@@ -60,6 +60,7 @@ public class BoundaryAmministratoreVisualizzaPrenotazioni extends JFrame {
 
 		this.boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta = boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta;
 		this.boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta = boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta;
+		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
 
 		pannelloAmministratoreVisualizzaPrenotazioni = new JPanel();
 
@@ -111,17 +112,17 @@ public class BoundaryAmministratoreVisualizzaPrenotazioni extends JFrame {
 		back.addActionListener(backListener);
 
 		// Inizializzazione dell'area visualizzazione
-		Catalogo catalogo = Catalogo.getIstance();
+
 		List<String> listaCatalogo = boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta
 				.prelevaComboBoxCatalogo();
 		Integer idOfferta = boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta
 				.getIdOfferta();
-		List<Prenotazione> listaPrenotazioni = catalogo.getListaPrenotazioni(listaCatalogo.get(0),
-				listaCatalogo.get(1), listaCatalogo.get(2),
-				listaCatalogo.get(3), listaCatalogo.get(4), idOfferta);
-		for(Prenotazione prenotazione : listaPrenotazioni){
-			areaVisualizzazione.append(prenotazione.getString());
+		List<String> prenotazioni = controlloreAmministratore
+				.visualizzaPrenotazioni(listaCatalogo, idOfferta);
+		for (String prenotazione : prenotazioni) {
+			areaVisualizzazione.append(prenotazione);
 		}
+
 	}
 
 	private class GestoreBack implements ActionListener {

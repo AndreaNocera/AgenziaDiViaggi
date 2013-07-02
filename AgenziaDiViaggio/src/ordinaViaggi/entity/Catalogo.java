@@ -337,6 +337,15 @@ public class Catalogo {
 		}
 		return listaPrenotazioni;
 	}
+	
+	public List<Prenotazione> getListaPrenotazioniByidOfferta(Integer idOfferta) {
+		List<Prenotazione> listaPrenotazioni = new ArrayList<Prenotazione>();
+		for(Prenotazione prenotazione : prenotazioni){
+			if(prenotazione.getIdOfferta().equals(idOfferta))
+				listaPrenotazioni.add(prenotazione);
+		}
+		return listaPrenotazioni;
+	}
 
 	/**
 	 * Metodo di inserimento di un elemento nell'offerta.
