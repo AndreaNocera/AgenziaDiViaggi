@@ -32,5 +32,7 @@ public interface UtenteDAO {
 	public UtenteBean findByLogin(LoginBean login) throws UtenteInesistenteException;
 	
 	public UtenteBean findByUsername(String username) throws UtenteInesistenteException;
+	
+	public boolean verifyLogin(LoginBean loginBean) throws UtenteInesistenteException;
 
 }

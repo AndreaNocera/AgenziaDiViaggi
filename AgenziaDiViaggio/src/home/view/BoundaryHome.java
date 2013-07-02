@@ -26,7 +26,6 @@ import java.util.Calendar;
 import gestioneutenti.model.bean.UtenteBean;
 import gestioneutenti.model.competenze.Competenza;
 import home.controller.ControllerHome;
-
 import javax.swing.*;
 
 import utils.swing.FrameClosingListener;
@@ -42,6 +41,7 @@ public class BoundaryHome extends JFrame{
 	
 	private JPanel panelHome;
 	private JPanel panelFunzioni;
+	private JPanel cardHome;
 	
 	private JLabel labelVoyager;
 	private JLabel labelBenvenuto;
@@ -54,14 +54,14 @@ public class BoundaryHome extends JFrame{
 
 	public BoundaryHome(UtenteBean utenteBean) {
 		this.utenteBean = utenteBean;
-		this.controllerHome = new ControllerHome();
+		this.controllerHome = ControllerHome.getInstance();
 		buildFrame();
 	}
 	
 	private void buildFrame() {
 		
 		//Initialization
-		this.setTitle(TITOLO);	
+		this.setTitle(TITOLO);
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setResizable(true);
@@ -80,17 +80,21 @@ public class BoundaryHome extends JFrame{
 			panelHome.add(button, new GBCHelper(0, counter).setWeight(0, 0).setFill(GridBagConstraints.HORIZONTAL).setInsets(0, 0, 20, 0));
 			counter ++;
 		}	
+		
+		//Card Home
+		this.cardHome = new JPanel();
+		this.cardHome.setLayout(new GridBagLayout());
+		//cardHome.add(comp);
 				
 		//Panel Func
 		this.panelFunzioni = new JPanel();
 		this.panelFunzioni.setLayout(new CardLayout());
 		this.panelFunzioni.setBorder(BorderFactory.createEtchedBorder());
 		
-		counter = 0;
+		this.panelFunzioni.add(cardHome, "Home");
 		for (Competenza competenza : this.utenteBean.getRuolo().getCompetenze()) {
 			JPanel card = this.controllerHome.getBoundary(utenteBean, competenza.getId());
 			this.panelFunzioni.add(card, competenza.asString());
-			counter ++;
 		}	
 				
 		//Frame Packing
