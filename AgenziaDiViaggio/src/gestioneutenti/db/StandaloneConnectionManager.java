@@ -1,11 +1,7 @@
 package gestioneutenti.db;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,17 +10,18 @@ public class StandaloneConnectionManager implements ConnectionManager {
 	
 	private static StandaloneConnectionManager singletonConnectionManager = null;
 	
-	private DataSource dataSource;
-    private Connection connection;
+	private static final String URL = "jdbc:mysql://localhost:3306/Voyager";
+	private static final String USER = "root";
+	private static final String PASSWORD = "password";
+	
+	private String url = null;
+	private String user = null;
+	private String password = null;
 
 	private StandaloneConnectionManager() {
-		try {
-            Context initContext  = new InitialContext();
-            Context envContext  = (Context) initContext.lookup("java:/comp/env");
-            dataSource = (DataSource) envContext.lookup("jdbc/VoyagerUtentiDB");             
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
+		this.url = URL;
+		this.user = USER;
+		this.password = PASSWORD;
 	}
 	
 	public static synchronized StandaloneConnectionManager getInstance() {
@@ -36,42 +33,14 @@ public class StandaloneConnectionManager implements ConnectionManager {
 	}
 	
 	@Override
-	public Connection getConnection() {
+	public synchronized Connection getConnection() {
 		try {
-			connection = dataSource.getConnection();
+			return DriverManager.getConnection(this.url, this.user, this.password);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-		
-		return connection;
-	}
-	
-	@Override
-	public void createDB() {
-		String SQL_CREA_DATABASE = "CREATE DATABASE `VoyagerUtenti`";
-		String SQL_CREA_TABELLA_UTENTI = "CREATE TABLE `VoyagerUtenti`.`utenti` ( " +
-				"username VARCHAR(20) PRIMARY KEY UNIQUE, " +
-				"password VARCHAR(20), " + 
-				"nome VARCHAR(20), " + 
-				"cognome VARCHAR(20), " + 
-				"citta VARCHAR(20), " + 
-				"nascita VARCHAR(20), " + 
-				"sesso VARCHAR(20), " + 
-				"mail VARCHAR(20), " + 
-				"ruolo VARCHAR(20), " + 
-				"attr VARCHAR(20))";				
-				
-		Statement statement = null;
-		try {
-			statement = connection.createStatement();
-			statement.executeUpdate(SQL_CREA_DATABASE);
-			statement.executeUpdate(SQL_CREA_TABELLA_UTENTI);
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		} finally {
-			this.close(connection, statement);
-		}
-	}
+	}	
 	
 	@Override
 	public synchronized void close(Connection connection) {

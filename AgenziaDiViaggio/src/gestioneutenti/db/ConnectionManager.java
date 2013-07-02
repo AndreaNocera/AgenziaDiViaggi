@@ -9,8 +9,6 @@ public interface ConnectionManager {
 	
 	public Connection getConnection();
 	
-	public void createDB();
-	
 	public void close(Connection connection);
 	
 	public void close(Connection connection, Statement statement);

@@ -13,7 +13,6 @@ package gestioneutenti.model;
  * 
  */
 
-import gestioneutenti.exception.RuoloException;
 import gestioneutenti.model.ruoli.FactoryRuoli;
 
 public final class FactoryUtenti {
@@ -35,12 +34,7 @@ public final class FactoryUtenti {
 	
 	public Utente creaUtente(DatiUtente dati, int ruolo, Login login) {
 		factoryRuoli = FactoryRuoli.getInstance();
-		try {
-			return new Utente(dati, factoryRuoli.assegnaRuolo(ruolo), login);
-		} catch (RuoloException e) {
-			e.printStackTrace();
-			return null;
-		}				
+		return new Utente(dati, factoryRuoli.assegnaRuolo(ruolo), login);				
 	}
 
 }
