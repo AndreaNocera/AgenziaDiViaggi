@@ -25,15 +25,15 @@ public class Data extends GregorianCalendar {
 		super.setTime(date);
 	}
 	
-	public Data(int anno, int mese, int giorno){
+	public Data(int giorno, int mese, int anno){
 		super(anno, mese-1,giorno);
 	}
 	
-	public Data(int anno, int mese, int giorno, int ora, int minuti){
+	public Data(int giorno, int mese, int anno, int ora, int minuti){
 		super(anno, mese-1,giorno, ora, minuti);
 	}
 	
-	public Data(int anno, int mese, int giorno, int ora, int minuti, int secondi){
+	public Data(int giorno, int mese, int anno, int ora, int minuti, int secondi){
 		super(anno, mese-1,giorno, ora, minuti, secondi);
 	}
 		
@@ -45,7 +45,7 @@ public class Data extends GregorianCalendar {
 	
 	
 	
-	//metodi mutatori
+/*	//metodi mutatori
 	public void aggiungiMinuti(int minuti){
 		super.add(GregorianCalendar.MINUTE, minuti);
 	}
@@ -58,17 +58,31 @@ public class Data extends GregorianCalendar {
 		super.add(GregorianCalendar.HOUR_OF_DAY, ore);
 		super.add(GregorianCalendar.MINUTE, minuti);
 	}
-	
+*/	
 	
 	//altri metodi
 	public String stampaData(){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
 		return sdf.format(super.getTime());
 	}
 	
 	public static String stampaDataAttuale(){ //Formato es. 10/01/2012 - 21:10:35
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
 		return sdf.format(getInstance().getTime());
+	}
+	
+	
+	public Data getNuovaData(int minuti){
+		Data nuovaData = (Data) this.clone();
+		nuovaData.add(GregorianCalendar.MINUTE, minuti);
+		return nuovaData;
+	}
+	
+	public Data getNuovaData(int ore, int minuti){
+		Data nuovaData = (Data) this.clone();
+		nuovaData.add(GregorianCalendar.HOUR_OF_DAY, ore);
+		nuovaData.add(GregorianCalendar.MINUTE, minuti);
+		return nuovaData;
 	}
 	
 }

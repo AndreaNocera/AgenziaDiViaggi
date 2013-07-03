@@ -32,10 +32,7 @@ import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.TrattaException;
-
-
-
-
+import gestione_Catalogo.exception.TrattaInesistenteException;
 
 
 public class BoundaryPromotore_GestioneCatalogo {
@@ -613,7 +610,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 			areaTestoPannello3.setText(e.getMessage()+"\n");
 		} catch (IDEsternoElementoException e) {
 			areaTestoPannello3.setText(e.getMessage()+"\n");
-		} catch (TrattaException e) {
+		} catch (TrattaInesistenteException e) {
 			areaTestoPannello3.setText(e.getMessage()+"\n");
 		} 
 
@@ -1134,7 +1131,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 						areaTestoPannello3.setText(e1.getMessage()+"\n");
 					} catch (IDEsternoElementoException e1) {
 						areaTestoPannello3.setText(e1.getMessage()+"\n");
-					} catch (TrattaException e1) {
+					} catch (TrattaInesistenteException e1) {
 						areaTestoPannello3.setText(e1.getMessage()+"\n");
 					}
 	
@@ -1195,7 +1192,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaException e1) {
+				} catch (TrattaInesistenteException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				}
 						
@@ -1258,7 +1255,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaException e1) {
+				} catch (TrattaInesistenteException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				}
 			
@@ -1321,7 +1318,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");	
 				} catch (IDEsternoElementoException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaException e1) {
+				} catch (TrattaInesistenteException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				}
 			
@@ -1343,7 +1340,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaException e1) {
+				} catch (TrattaInesistenteException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				}
 				
@@ -1377,7 +1374,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				} catch (IDEsternoElementoException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaException e1) {
+				} catch (TrattaInesistenteException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				}
 				
@@ -1409,7 +1406,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 						aggiornaTendinePannello3();
 					} catch (IDEsternoElementoException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-					} catch (TrattaException e1) {
+					} catch (TrattaInesistenteException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 					} catch (OffertaException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);

@@ -98,22 +98,22 @@ public class BoundaryProgettista_GestioneOfferta {
 	private JLabel labelSlash1Pannello2;
 	
 	private JLabel labelMesePannello2;
-	private JComboBox<String> tendinaMesePannello2;
+	private JComboBox<Integer> tendinaMesePannello2;
 	
 	private JLabel labelSlash2Pannello2;
 	
 	private JLabel labelAnnoPannello2;
-	private JComboBox<String> tendinaAnnoPannello2;
+	private JComboBox<Integer> tendinaAnnoPannello2;
 	
 	private JLabel labelOraPannello2;
 	
 	private JLabel labelOrePannello2;
-	private JComboBox<String> tendinaOrePannello2;
+	private JComboBox<Integer> tendinaOrePannello2;
 	
 	private JLabel labelPuntiniPannello2;
 	
 	private JLabel labelMinutiPannello2;
-	private JComboBox<String> tendinaMinutoPannello2;
+	private JComboBox<Integer> tendinaMinutoPannello2;
 	
 	private JLabel labelDurataPannello2;
 	
@@ -394,20 +394,11 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		
 	
-		tendinaMesePannello2 = new JComboBox<String>(); //Tendina per mesi
+		tendinaMesePannello2 = new JComboBox<Integer>(); //Tendina per mesi
 		tendinaMesePannello2.setBackground(Color.WHITE);
-		tendinaMesePannello2.addItem("01");
-		tendinaMesePannello2.addItem("02");
-		tendinaMesePannello2.addItem("03");
-		tendinaMesePannello2.addItem("04");
-		tendinaMesePannello2.addItem("05");
-		tendinaMesePannello2.addItem("06");
-		tendinaMesePannello2.addItem("07");
-		tendinaMesePannello2.addItem("08");
-		tendinaMesePannello2.addItem("09");
-		tendinaMesePannello2.addItem("10");
-		tendinaMesePannello2.addItem("11");
-		tendinaMesePannello2.addItem("12");
+		for (int i=1; i<=12; i++){
+			tendinaMesePannello2.addItem(i);
+		}
 		tendinaMesePannello2.setBounds(panel2.getWidth()/24*13+95, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
 		tendinaMesePannello2.setEnabled(false);
 		panel2.add(tendinaMesePannello2);
@@ -428,13 +419,11 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		
 		
-		tendinaAnnoPannello2 = new JComboBox<String>(); //Tendina per anni
+		tendinaAnnoPannello2 = new JComboBox<Integer>(); //Tendina per anni
 		tendinaAnnoPannello2.setBackground(Color.WHITE);
-		tendinaAnnoPannello2.addItem("2013");
-		tendinaAnnoPannello2.addItem("2014");
-		tendinaAnnoPannello2.addItem("2015");
-		tendinaAnnoPannello2.addItem("2016");
-		tendinaAnnoPannello2.addItem("2017");
+		for (int i=2013; i<2020; i++){
+			tendinaAnnoPannello2.addItem(i);
+		}
 		tendinaAnnoPannello2.setBounds(panel2.getWidth()/24*13+150, panel2.getHeight()/6*2, panel2.getWidth()/18, 20);
 		tendinaAnnoPannello2.setEnabled(false);
 		panel2.add(tendinaAnnoPannello2);
@@ -455,16 +444,11 @@ public class BoundaryProgettista_GestioneOfferta {
 		panel2.add(labelOrePannello2);
 		
 		
-		tendinaOrePannello2 = new JComboBox<String>(); //Tendina per ore
+		tendinaOrePannello2 = new JComboBox<Integer>(); //Tendina per ore
 		tendinaOrePannello2.setBackground(Color.WHITE);
 		
 		for (int i=0; i<24; i++){
-			String n = "";
-			if (i < 10){
-				n = "0"; 
-			} 
-			n += Integer.toString(i);
-			tendinaOrePannello2.addItem(n);
+			tendinaOrePannello2.addItem(i);
 		}
 		tendinaOrePannello2.setBounds(panel2.getWidth()/24*19+50, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
 		tendinaOrePannello2.setEnabled(false);
@@ -487,15 +471,10 @@ public class BoundaryProgettista_GestioneOfferta {
 		
    	
 		
-		tendinaMinutoPannello2 = new JComboBox<String>(); //Tendina per ore
+		tendinaMinutoPannello2 = new JComboBox<Integer>(); //Tendina per ore
 		tendinaMinutoPannello2.setBackground(Color.WHITE);
 		for (int i=0; i<60; i++){
-			String n = "";
-			if (i < 10){
-				n = "0"; 
-			} 
-			n += Integer.toString(i);
-			tendinaMinutoPannello2.addItem(n);
+			tendinaMinutoPannello2.addItem(i);
 		}
 		tendinaMinutoPannello2.setBounds(panel2.getWidth()/24*19+105, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
 		tendinaMinutoPannello2.setEnabled(false);
@@ -846,7 +825,14 @@ public class BoundaryProgettista_GestioneOfferta {
     		} 
 
     	}
+    	
+    	
     
+		private void controlloSintatticoDati() {
+			// TODO Auto-generated method stub
+			
+		}
+		
     
     
     
@@ -1141,73 +1127,100 @@ public class BoundaryProgettista_GestioneOfferta {
 			campoDurataPannello2.setEditable(true);
 			campoPostiPannello2.setEditable(true);
 			
-			//Modifico la stringa da immettere nella textArea (DA ECCEZIONE PERCHé ANDREBBE DENTRO!!!)
-			if (!viaScelta.equals("---")){
-				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
-				areaTestoPannello2.setText(areaTestoImp + areaTestoCatalogo);
-			}
-			
-			
-			/*DA REIMPLEMENTARE
-			if (tendinaViaPannello2.getItemCount() != 0) {
-				//Aggiorno l'area testo che mostra il catalogo
-				try {
-					
-					areaTestoOfferta = controllore.mostraCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
-					areaTestoPannello2.setText(areaTestoImp + areaTestoOfferta);
-					areaTestoPannello2.setCaretPosition(0);
-				} catch (MappaException e1) {
-					areaTestoPannello2.setText(e1.getMessage()+"\n");
-				} catch (IDEsternoElementoException e1) {
-					areaTestoPannello2.setText(e1.getMessage()+"\n");
-				} catch (TrattaException e1) {
-					areaTestoPannello2.setText(e1.getMessage()+"\n");
-				}
-				
-			} */
-			
-		}
-		
-	}
-	
-	
-	private class AggiungiAA implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-		
-			/* DA IMPLEMENTARE
+			//Modifico la stringa da immettere nella textArea (DA SISTEMARE!!!)	
 			if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
-				
 				String via = (String) tendinaViaPannello2.getSelectedItem();
 				
-				// chiedo conferma
-				int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
-				if (conferma == JOptionPane.YES_OPTION){
-					
-					// rimuovo il viaggio
+				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
+				areaTestoPannello2.setText(areaTestoImp + areaTestoCatalogo);
+				
 					try {
-						controllore.rimuoviViaggio(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
-						JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
-						//aggiorno tutti i campi dopo aver rimosso il viaggio
-						aggiornaTendinePannello2();
+						Set<Integer> s = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
+						Iterator<Integer> it = s.iterator();
+						while (it.hasNext()){
+							areaTestoOfferta+= Integer.toString(it.next())+"\n";
+						}
 					} catch (IDEsternoElementoException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-					} catch (TrattaException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-					} catch (OffertaException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
 					}
-					
-				}
-					
-			} else {
-				JOptionPane.showMessageDialog(null, "Nessun viaggio selezionato!");
-			} */
+			
+			}
 			
 		}
 		
 	}
+	
+	
+		private class AggiungiAA implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
+					String via = (String) tendinaViaPannello2.getSelectedItem();
+					
+					int giorno = Integer.parseInt(campoGiornoPannello2.getText());
+					int mese = (int) tendinaMesePannello2.getSelectedItem();
+					int anno = (int) tendinaAnnoPannello2.getSelectedItem();
+					int ora = (int) tendinaOrePannello2.getSelectedItem();
+					int minuto = (int) tendinaMinutoPannello2.getSelectedItem();
+					int durata = Integer.parseInt(campoDurataPannello2.getText());
+					int posti = Integer.parseInt(campoPostiPannello2.getText());
+					
+					
+					Integer[] data = new Integer[5];
+					data[0]=giorno;
+					data[1]=mese;
+					data[2]=anno;
+					data[3]=ora;
+					data[4]=minuto;
+					
+					
+					controlloSintatticoDati();
+					
+					// chiedo conferma
+					int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
+					if (conferma == JOptionPane.YES_OPTION){
+						
+						//aggiungo l'offerta
+						
+						
+					}
+				}
+				
+			
+				/* DA IMPLEMENTARE
+				if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
+					
+					String via = (String) tendinaViaPannello2.getSelectedItem();
+					
+					// chiedo conferma
+					int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
+					if (conferma == JOptionPane.YES_OPTION){
+						
+						// rimuovo il viaggio
+						try {
+							controllore.rimuoviViaggio(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
+							JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
+							//aggiorno tutti i campi dopo aver rimosso il viaggio
+							aggiornaTendinePannello2();
+						} catch (IDEsternoElementoException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+						} catch (TrattaException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+						} catch (OffertaException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
+						}
+						
+					}
+						
+				} else {
+					JOptionPane.showMessageDialog(null, "Nessun viaggio selezionato!");
+				} */
+				
+			}
+
+		}
 	
 	private class SvuotaPannello2AA implements ActionListener{
 		/*

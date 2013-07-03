@@ -23,7 +23,6 @@ public class Log {
 	
 	//costruttore
 	public Log() {
-	//	data = new Data();
 		log = "";
 	}
 	

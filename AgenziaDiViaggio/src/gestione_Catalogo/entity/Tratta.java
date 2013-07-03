@@ -57,7 +57,6 @@ public class Tratta {
 		this.info = info;
 		
 		this.dataInserimento = dataInserimento;
-		System.out.println(this.dataInserimento.stampaData());
 
 	}
 
@@ -114,12 +113,4 @@ public class Tratta {
 	}
 
 	
-	public boolean equals(Tratta t){
-		if (this.ambiente.equals(t.getAmbiente()) && this.mezzo.equals(t.getMezzo()) && this.partenza.equals(t.getPartenza())
-				&& this.arrivo.equals(t.getArrivo()) && this.via.equals(t.getVia()))
-			return true;
-		return false;
-	}
-	
-
 }

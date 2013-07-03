@@ -38,21 +38,9 @@ public abstract class ElementoCatalogo {
 	}
 	
 	
-	public boolean equals(ElementoCatalogo elementoCatalogo){
-		if((this.idEsternoElemento.toString()).equals(elementoCatalogo.getIDEsternoElemento()))
-				return true;
-		return false;
-	}
-	
 	public void print() {
 		System.out.println(this.getClass().getSimpleName() + " " + this.getID().toString() + " " +  this.getIDEsternoElemento().toString());
 		
 	}
-/*	public boolean equals(ElementoCatalogo elementoCatalogo){
-		if((this.ID).equals(elementoCatalogo.getID()))
-				return true;
-		return false;
-	}
-*/
 	
 }	

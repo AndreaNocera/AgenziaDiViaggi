@@ -4,7 +4,7 @@ import gestione_Catalogo.dao.CatalogoDAO;
 import gestione_Catalogo.dao.TrattaDAO;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
-import gestione_Catalogo.exception.TrattaException;
+import gestione_Catalogo.exception.TrattaInesistenteException;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -21,6 +21,9 @@ public class Catalogo {
 	
 	//attributi di istanza
 	private ArrayList<Tratta> listaTratte;
+	private ArrayList<Offerta> listaOfferte;
+	private ArrayList<Prenotazione> listaPrenotazioni;
+	
 	private MappaCatalogo mappaCatalogo;
 	
 	//costruttore
@@ -50,16 +53,7 @@ public class Catalogo {
 	}
 	
 	
-	public boolean verificaEsistenzaViaggio(Tratta tratta){
-		for (Tratta t : listaTratte) {
-			if (t.equals(tratta)) 
-				return true;
-		}
-		return false;
-	}
-	
-	
-	public boolean verificaEsistenzaViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via, String info) {
+	public boolean verificaEsistenzaViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) {
 		for (Tratta tratta : listaTratte){
 			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
 				return true;
@@ -67,9 +61,20 @@ public class Catalogo {
 		return false;
 	}
 	
-	public boolean verificaEsistenzaOfferte(Tratta tratta){
+
+	public boolean verificaEsistenzaOfferta(Integer idTratta, Integer[] data) {
 		return false;
 		
+	}
+
+	
+	
+	public boolean verificaEsistenzaOfferte(Integer idTratta){
+		for (Offerta offerta : listaOfferte){
+			if(offerta.verifyExistence(idTratta))
+				return true;
+		}
+		return false;
 	}
 	
 	
@@ -78,9 +83,8 @@ public class Catalogo {
 		listaTratte.add(tratta);
 		
 		aggiungiInMappaCatalogo(tratta);
+		
 	}
-	
-	
 	
 
 	public void rimuoviViaggioDalCatalogo(Tratta tratta) throws IDEsternoElementoException{
@@ -92,12 +96,18 @@ public class Catalogo {
 		TrattaDAO dao = TrattaDAO.getIstanza();
 		dao.delete(tratta);
 		
-
 	}
 	
 	
+	public void aggiungiOffertaAlCatalogo(Offerta offerta, Tratta tratta) throws IDEsternoElementoException{
+		listaOfferte.add(offerta);
+		
+		aggiungiInMappaOfferte(tratta, offerta);
+	}
 	
-	
+
+
+
 	public void caricaCatalogo() throws IDEsternoElementoException{
 		for (Tratta tratta : listaTratte){
 			aggiungiInMappaCatalogo(tratta);
@@ -130,16 +140,22 @@ public class Catalogo {
 	}
 	
 	
-	public Tratta getTrattaByValue(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaException{
+	public Set<Integer> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException {
+		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).listaChiaviElementi();
+	
+	}
+	
+	
+	public Tratta getTrattaByValue(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaInesistenteException{
 		for (Tratta tratta : listaTratte) {
 			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
 				return tratta;
 		}
-		throw new TrattaException("Tratta non esistente.");
+		throw new TrattaInesistenteException("Tratta non esistente.");
 	}
 
 	
-
+	
 	private void aggiungiInMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
 		/*
 		 * Il controllo con esistenzaElemento() qui non è più necessario, dal 
@@ -207,6 +223,18 @@ public class Catalogo {
 		//System.out.println("Viaggio Rimosso");
 		
 	}
+
+
+	private void aggiungiInMappaOfferte(Tratta tratta, Offerta offerta) throws IDEsternoElementoException {
+		String ambiente = tratta.getAmbiente().getIDEsternoElemento();
+		String mezzo = tratta.getMezzo().getIDEsternoElemento();
+		String partenza = tratta.getPartenza().getIDEsternoElemento();
+		String arrivo = tratta.getArrivo().getIDEsternoElemento();
+		String via = tratta.getVia().getIDEsternoElemento();
+		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).aggiungiOfferta(offerta.getIdOfferta(), offerta);
+		
+	}
+
 
 
 
