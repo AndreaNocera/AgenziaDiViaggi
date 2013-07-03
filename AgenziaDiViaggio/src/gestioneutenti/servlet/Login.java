@@ -1,10 +1,23 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.servlet
+ * 
+ * @name Login.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 package gestioneutenti.servlet;
 
 import gestioneutenti.controller.ControllerLogin;
-import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.LoginErratoException;
-import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
+import gestioneutenti.model.bean.UtenteBean;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -15,24 +28,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/Login")
+public class Login extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private ControllerLogin controllerLogin;
 
-    public LoginServlet() {
+    public Login() {
         this.controllerLogin = ControllerLogin.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Login login;
-		Utente utente;
+		
 		try {
-			login = new Login(username, password);
-			utente = this.controllerLogin.login(login);
+			Utente utente = this.controllerLogin.login(new UtenteBean().setUsername(username).setPassword(password));
+			
 			HttpSession session = request.getSession(true);
             session.setAttribute("utente", utente);
             
@@ -40,12 +53,12 @@ public class LoginServlet extends HttpServlet {
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/Home.jsp");
                 request.setAttribute("utente", utente);
                 rd.forward(request, response);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception exc) {
+            	exc.printStackTrace();
             }
-		} catch (LoginInconsistenteException | LoginErratoException e) {
+		} catch (LoginErratoException exc) {
 			response.sendRedirect("Login.jsp");
-			e.printStackTrace();
+			exc.printStackTrace();
 		}		
 	}
 

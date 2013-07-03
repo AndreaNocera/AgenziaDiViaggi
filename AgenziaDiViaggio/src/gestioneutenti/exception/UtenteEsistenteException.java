@@ -1,5 +1,3 @@
-package gestioneutenti.exception;
-
 /**
  * @project WebVoyager
  * 
@@ -12,6 +10,8 @@ package gestioneutenti.exception;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.exception;
 
 public class UtenteEsistenteException extends Exception {
 

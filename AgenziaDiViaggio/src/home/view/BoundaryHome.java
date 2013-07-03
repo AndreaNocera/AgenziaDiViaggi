@@ -1,5 +1,3 @@
-package home.view;
-
 /**
  * @project WebVoyager
  * 
@@ -9,9 +7,11 @@ package home.view;
  *
  * @description
  *
- * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * @author TEAM 9: Giacomo Marciani
  * 
  */
+
+package home.view;
 
 import java.awt.CardLayout;
 import java.awt.Font;

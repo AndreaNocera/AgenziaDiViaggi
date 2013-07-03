@@ -1,5 +1,3 @@
-package gestioneutenti.view;
-
 /**
  * @project WebVoyager
  * 
@@ -12,6 +10,8 @@ package gestioneutenti.view;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.view;
 
 import gestioneutenti.controller.ControllerLogin;
 import gestioneutenti.exception.UtenteInesistenteException;

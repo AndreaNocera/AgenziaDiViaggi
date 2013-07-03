@@ -1,3 +1,16 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.model.ruoli
+ * 
+ * @name AbstractRuolo.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 package gestioneutenti.model.ruoli;
 
 import gestioneutenti.model.competenze.Competenza;

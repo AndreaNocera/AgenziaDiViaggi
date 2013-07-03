@@ -1,5 +1,3 @@
-package utils.swing;
-
 /**
  * @project WebVoyager
  * 
@@ -9,9 +7,11 @@ package utils.swing;
  *
  * @description
  *
- * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * @author TEAM 9: Giacomo Marciani
  * 
  */
+
+package utils.swing;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

@@ -1,5 +1,3 @@
-package gestioneutenti.model.bean;
-
 /**
  * @project WebVoyager
  * 
@@ -12,6 +10,8 @@ package gestioneutenti.model.bean;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.model.bean;
 
 import gestioneutenti.model.ruoli.Ruolo;
 

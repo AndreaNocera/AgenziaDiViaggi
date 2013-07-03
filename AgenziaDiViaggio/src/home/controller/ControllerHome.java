@@ -1,5 +1,3 @@
-package home.controller;
-
 /**
  * @project WebVoyager
  * 
@@ -9,9 +7,11 @@ package home.controller;
  *
  * @description
  *
- * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * @author TEAM 9: Giacomo Marciani
  * 
  */
+
+package home.controller;
 
 import javax.swing.JPanel;
 

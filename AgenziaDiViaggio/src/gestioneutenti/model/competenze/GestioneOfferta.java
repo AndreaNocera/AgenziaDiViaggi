@@ -1,3 +1,16 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.model.competenze
+ * 
+ * @name GestioneOfferta.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 package gestioneutenti.model.competenze;
 
 public class GestioneOfferta extends AbstractCompetenza {

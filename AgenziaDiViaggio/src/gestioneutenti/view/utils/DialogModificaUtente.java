@@ -1,17 +1,17 @@
-package gestioneutenti.view.utils;
-
 /**
  * @project WebVoyager
  * 
  * @package gestioneutenti.view.utils
  * 
- * @name DialogNuovoUtente.java
+ * @name DialogModificaUtente.java
  *
  * @description
  *
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.view.utils;
 
 import utils.swing.DatePicker;
 import utils.swing.GBCHelper;

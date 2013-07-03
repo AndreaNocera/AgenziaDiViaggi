@@ -1,3 +1,16 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.db
+ * 
+ * @name StandaloneConnectionManager.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 package gestioneutenti.db;
 
 import java.sql.Connection;

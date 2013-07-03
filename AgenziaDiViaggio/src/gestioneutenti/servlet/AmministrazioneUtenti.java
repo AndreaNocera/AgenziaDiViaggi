@@ -1,3 +1,16 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.servlet
+ * 
+ * @name AmministrazioneUtenti.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 package gestioneutenti.servlet;
 
 import java.io.IOException;

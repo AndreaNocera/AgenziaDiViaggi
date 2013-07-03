@@ -1,5 +1,3 @@
-package gestioneutenti.model.ruoli;
-
 /**
  * @project WebVoyager
  * 
@@ -12,6 +10,8 @@ package gestioneutenti.model.ruoli;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.model.ruoli;
 
 public final class FactoryRuoli {
 	

@@ -1,3 +1,16 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.db
+ * 
+ * @name WebConnectionManager.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 package gestioneutenti.db;
 
 import javax.naming.Context;

@@ -1,10 +1,23 @@
-package main;
+/**
+ * @project WebVoyager
+ * 
+ * @package main
+ * 
+ * @name VoyagerLauncher.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani
+ * 
+ */
 
+package main;
 
 import gestioneutenti.view.BoundaryLogin;
 
 import java.awt.*;
 import javax.swing.*;
+
 
 public class VoyagerLauncher {
 

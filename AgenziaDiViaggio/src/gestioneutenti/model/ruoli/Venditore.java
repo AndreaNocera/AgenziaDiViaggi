@@ -1,8 +1,21 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package gestioneutenti.model.ruoli
+ * 
+ * @name Venditore.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * 
+ */
+
 package gestioneutenti.model.ruoli;
 
 import gestioneutenti.model.competenze.Competenza;
 import gestioneutenti.model.competenze.GestioneProfilo;
-import gestioneutenti.model.competenze.Login;
+import gestioneutenti.model.competenze.SignIn;
 
 public class Venditore extends AbstractRuolo{
 	
@@ -10,7 +23,7 @@ public class Venditore extends AbstractRuolo{
 	
 	private static int ID = Ruolo.VENDITORE;
 	private static String STRING = "Venditore";
-	private static Competenza[] COMPETENZE = {GestioneProfilo.getInstance(), Login.getInstance()};
+	private static Competenza[] COMPETENZE = {GestioneProfilo.getInstance(), SignIn.getInstance()};
 
 	protected Venditore(int id, String string, Competenza[] competenze) {
 		super(id, string, competenze);

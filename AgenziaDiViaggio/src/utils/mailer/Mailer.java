@@ -1,5 +1,3 @@
-package utils.mailer;
-
 /**
  * @project WebVoyager
  * 
@@ -9,9 +7,11 @@ package utils.mailer;
  *
  * @description
  *
- * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * @author TEAM 9: Giacomo Marciani
  * 
  */
+
+package utils.mailer;
 
 import java.util.Properties;
 

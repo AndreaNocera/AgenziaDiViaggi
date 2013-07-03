@@ -1,5 +1,3 @@
-package home.exception;
-
 /**
  * @project WebVoyager
  * 
@@ -9,9 +7,11 @@ package home.exception;
  *
  * @description
  *
- * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
+ * @author TEAM 9: Giacomo Marciani
  * 
  */
+
+package home.exception;
 
 public class HomeException extends Exception {
 

@@ -1,5 +1,3 @@
-package gestioneutenti.model;
-
 /**
  * @project WebVoyager
  * 
@@ -12,6 +10,8 @@ package gestioneutenti.model;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.model;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

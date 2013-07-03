@@ -1,3 +1,16 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package home.servlet
+ * 
+ * @name HomeServlet.java
+ *
+ * @description
+ *
+ * @author TEAM 9: Giacomo Marciani
+ * 
+ */
+
 package home.servlet;
 
 import gestioneutenti.controller.ControllerAmministraUtenti;
@@ -20,7 +33,7 @@ public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String JSP_AMMINISTRAZIONE_UTENTI = "/AmministraUtenti.jsp";
-	private static final String JSP_LOGIN = "/Login.jsp";
+	private static final String JSP_LOGIN = "/SignIn.jsp";
 
     public HomeServlet() {
         super();

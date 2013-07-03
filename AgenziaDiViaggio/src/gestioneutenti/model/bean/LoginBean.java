@@ -7,7 +7,7 @@
  *
  * @description
  *
- * @author Giacomo
+ * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
 

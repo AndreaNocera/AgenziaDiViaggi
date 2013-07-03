@@ -1,5 +1,3 @@
-package gestioneutenti.view.utils;
-
 /**
  * @project WebVoyager
  * 
@@ -12,6 +10,8 @@ package gestioneutenti.view.utils;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.view.utils;
 
 import java.util.List;
 

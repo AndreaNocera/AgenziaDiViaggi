@@ -1,12 +1,3 @@
-package gestioneutenti.controller;
-
-import gestioneutenti.dao.UtenteDAO;
-import gestioneutenti.dao.UtenteJdbcDAO;
-import gestioneutenti.exception.PasswordNonCoincidentiException;
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.bean.LoginBean;
-import gestioneutenti.model.bean.UtenteBean;
-
 /**
  * @project WebVoyager
  * 
@@ -19,6 +10,15 @@ import gestioneutenti.model.bean.UtenteBean;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.controller;
+
+import gestioneutenti.dao.UtenteDAO;
+import gestioneutenti.dao.UtenteJdbcDAO;
+import gestioneutenti.exception.PasswordNonCoincidentiException;
+import gestioneutenti.exception.UtenteInesistenteException;
+import gestioneutenti.model.bean.LoginBean;
+import gestioneutenti.model.bean.UtenteBean;
 
 public class ControllerGestisciProfilo {
 	

@@ -1,5 +1,3 @@
-package gestioneutenti.controller;
-
 /**
  * @project WebVoyager
  * 
@@ -12,6 +10,8 @@ package gestioneutenti.controller;
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.controller;
 
 import javax.swing.JFrame;
 import utils.mailer.Mailer;

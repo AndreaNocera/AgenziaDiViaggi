@@ -1,17 +1,17 @@
-package gestioneutenti.model;
-
 /**
  * @project WebVoyager
  * 
  * @package gestioneutenti.model
  * 
- * @name FactoryResetCode.java
+ * @name FactoryPassword.java
  *
  * @description
  *
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
+
+package gestioneutenti.model;
 
 import java.util.Random;
 
