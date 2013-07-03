@@ -191,7 +191,7 @@ public class BoundaryProgettista_GestioneOfferta {
 		areaTestoOfferta = null;
 		controllore = new ControlloreGestioneOfferta();
 		
-		areaTestoImp = "Offerte per il viaggo: \t";
+		areaTestoImp = "Offerte per il viaggo:   ";
 		
 		/*
 		 * 
@@ -457,30 +457,15 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		tendinaOrePannello2 = new JComboBox<String>(); //Tendina per ore
 		tendinaOrePannello2.setBackground(Color.WHITE);
-		tendinaOrePannello2.addItem("00");
-		tendinaOrePannello2.addItem("01");
-		tendinaOrePannello2.addItem("02");
-		tendinaOrePannello2.addItem("03");
-		tendinaOrePannello2.addItem("04");
-		tendinaOrePannello2.addItem("05");
-		tendinaOrePannello2.addItem("06");
-		tendinaOrePannello2.addItem("07");
-		tendinaOrePannello2.addItem("08");
-		tendinaOrePannello2.addItem("09");
-		tendinaOrePannello2.addItem("10");
-		tendinaOrePannello2.addItem("11");
-		tendinaOrePannello2.addItem("12");
-		tendinaOrePannello2.addItem("13");
-		tendinaOrePannello2.addItem("14");
-		tendinaOrePannello2.addItem("15");
-		tendinaOrePannello2.addItem("16");
-		tendinaOrePannello2.addItem("17");
-		tendinaOrePannello2.addItem("18");
-		tendinaOrePannello2.addItem("19");
-		tendinaOrePannello2.addItem("20");
-		tendinaOrePannello2.addItem("21");
-		tendinaOrePannello2.addItem("22");
-		tendinaOrePannello2.addItem("23");
+		
+		for (int i=0; i<24; i++){
+			String n = "";
+			if (i < 10){
+				n = "0"; 
+			} 
+			n += Integer.toString(i);
+			tendinaOrePannello2.addItem(n);
+		}
 		tendinaOrePannello2.setBounds(panel2.getWidth()/24*19+50, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
 		tendinaOrePannello2.setEnabled(false);
 		panel2.add(tendinaOrePannello2);
@@ -504,66 +489,14 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		tendinaMinutoPannello2 = new JComboBox<String>(); //Tendina per ore
 		tendinaMinutoPannello2.setBackground(Color.WHITE);
-		tendinaMinutoPannello2.addItem("00");
-		tendinaMinutoPannello2.addItem("01");
-		tendinaMinutoPannello2.addItem("02");
-		tendinaMinutoPannello2.addItem("03");
-		tendinaMinutoPannello2.addItem("04");
-		tendinaMinutoPannello2.addItem("05");
-		tendinaMinutoPannello2.addItem("06");
-		tendinaMinutoPannello2.addItem("07");
-		tendinaMinutoPannello2.addItem("08");
-		tendinaMinutoPannello2.addItem("09");
-		tendinaMinutoPannello2.addItem("10");
-		tendinaMinutoPannello2.addItem("11");
-		tendinaMinutoPannello2.addItem("12");
-		tendinaMinutoPannello2.addItem("13");
-		tendinaMinutoPannello2.addItem("14");
-		tendinaMinutoPannello2.addItem("15");
-		tendinaMinutoPannello2.addItem("16");
-		tendinaMinutoPannello2.addItem("17");
-		tendinaMinutoPannello2.addItem("18");
-		tendinaMinutoPannello2.addItem("19");
-		tendinaMinutoPannello2.addItem("20");
-		tendinaMinutoPannello2.addItem("21");
-		tendinaMinutoPannello2.addItem("22");
-		tendinaMinutoPannello2.addItem("23");
-		tendinaMinutoPannello2.addItem("24");
-		tendinaMinutoPannello2.addItem("25");
-		tendinaMinutoPannello2.addItem("26");
-		tendinaMinutoPannello2.addItem("27");
-		tendinaMinutoPannello2.addItem("28");
-		tendinaMinutoPannello2.addItem("29");
-		tendinaMinutoPannello2.addItem("30");
-		tendinaMinutoPannello2.addItem("31");
-		tendinaMinutoPannello2.addItem("32");
-		tendinaMinutoPannello2.addItem("33");
-		tendinaMinutoPannello2.addItem("34");
-		tendinaMinutoPannello2.addItem("35");
-		tendinaMinutoPannello2.addItem("36");
-		tendinaMinutoPannello2.addItem("37");
-		tendinaMinutoPannello2.addItem("38");
-		tendinaMinutoPannello2.addItem("39");
-		tendinaMinutoPannello2.addItem("40");
-		tendinaMinutoPannello2.addItem("41");
-		tendinaMinutoPannello2.addItem("42");
-		tendinaMinutoPannello2.addItem("43");
-		tendinaMinutoPannello2.addItem("44");
-		tendinaMinutoPannello2.addItem("45");
-		tendinaMinutoPannello2.addItem("46");
-		tendinaMinutoPannello2.addItem("47");
-		tendinaMinutoPannello2.addItem("48");
-		tendinaMinutoPannello2.addItem("49");
-		tendinaMinutoPannello2.addItem("50");
-		tendinaMinutoPannello2.addItem("51");
-		tendinaMinutoPannello2.addItem("52");
-		tendinaMinutoPannello2.addItem("53");
-		tendinaMinutoPannello2.addItem("54");
-		tendinaMinutoPannello2.addItem("55");
-		tendinaMinutoPannello2.addItem("56");
-		tendinaMinutoPannello2.addItem("57");
-		tendinaMinutoPannello2.addItem("58");
-		tendinaMinutoPannello2.addItem("59");
+		for (int i=0; i<60; i++){
+			String n = "";
+			if (i < 10){
+				n = "0"; 
+			} 
+			n += Integer.toString(i);
+			tendinaMinutoPannello2.addItem(n);
+		}
 		tendinaMinutoPannello2.setBounds(panel2.getWidth()/24*19+105, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
 		tendinaMinutoPannello2.setEnabled(false);
 		panel2.add(tendinaMinutoPannello2);
@@ -593,14 +526,14 @@ public class BoundaryProgettista_GestioneOfferta {
 	    
 	    labelPostiPannello2 = new JLabel();	//Etichetta elementi ora
 	    labelPostiPannello2.setFont(new Font("Arial", 0, 15));
-	    labelPostiPannello2.setBounds(panel2.getWidth()/24*19, panel2.getHeight()/6*3-20, panel2.getWidth()/10, 20);
+	    labelPostiPannello2.setBounds(panel2.getWidth()/24*19, panel2.getHeight()/6*3-20, panel2.getWidth()/8, 20);
 	    labelPostiPannello2.setText("Posti Disponibili");
 		panel2.add(labelPostiPannello2);
 		
 		
 	    campoPostiPannello2 = new JTextField (panel2.getWidth()/6); //Campo per stazioni intermedie
 	    campoPostiPannello2.setFont(new Font("Arial", 0, 18));
-	    campoPostiPannello2.setBounds(panel2.getWidth()/24*19, panel2.getHeight()/6*3, panel2.getWidth()/10, 20);
+	    campoPostiPannello2.setBounds(panel2.getWidth()/24*19, panel2.getHeight()/6*3, panel2.getWidth()/8, 20);
 	    campoPostiPannello2.setEditable(false);
 	    panel2.add(campoPostiPannello2); 
 	    

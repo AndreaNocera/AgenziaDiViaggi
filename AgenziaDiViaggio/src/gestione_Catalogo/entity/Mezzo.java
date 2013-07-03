@@ -1,6 +1,6 @@
 package gestione_Catalogo.entity;
 
-import gestione_Catalogo.dao_new.MezzoDAO;
+import gestione_Catalogo.dao.MezzoDAO;
 
 /**
  * @authors 
@@ -21,10 +21,10 @@ public class Mezzo extends ElementoIntermedio {
 		super(ID, idEsternoElemento);
 	}
 	
-	public void cancellaPersistenza() {
+	/*public void cancellaPersistenza() {
 		MezzoDAO dao = MezzoDAO.getIstanza();
 		dao.delete(this.getID());
-	}
+	}*/
 
 
 }
