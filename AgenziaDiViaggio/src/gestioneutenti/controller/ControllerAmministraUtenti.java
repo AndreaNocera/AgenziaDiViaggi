@@ -18,6 +18,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import utils.mailer.Mailer;
+import utils.mailer.StandaloneMailer;
+import utils.mailer.WebMailer;
 
 import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
@@ -29,6 +31,7 @@ public class ControllerAmministraUtenti {
 	private static ControllerAmministraUtenti singletonControllerAmministraUtenti = null;
 	private static UtenteDAO utenteDAO;
 	private FactoryPassword factoryPassword;
+	private static Mailer mailer = null;
 
 	private ControllerAmministraUtenti() {}
 
@@ -38,6 +41,7 @@ public class ControllerAmministraUtenti {
 		}
 		
 		utenteDAO = UtenteJdbcDAO.getInstance();
+		mailer = StandaloneMailer.getInstance();
 		
 		return singletonControllerAmministraUtenti;
 	}
@@ -48,6 +52,7 @@ public class ControllerAmministraUtenti {
 		}
 		
 		utenteDAO = UtenteJdbcDAO.getWebInstance();
+		mailer = WebMailer.getInstance();
 		
 		return singletonControllerAmministraUtenti;
 	}
@@ -73,7 +78,6 @@ public class ControllerAmministraUtenti {
 		String mail = utenteBean.getMail();
 		GregorianCalendar cal = utenteBean.getNascita();
 		String data = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH); 
-		Mailer mailer = Mailer.getInstance();
 		mailer.inviaMail(mail, "Voyager", "Ciao " + utenteBean.getUsername() + "!" +
 				"\n\nEcco i tuoi dati di registrazione:\n" + 
 				"\tNome: " + utenteBean.getNome() + "\n" +
@@ -89,7 +93,6 @@ public class ControllerAmministraUtenti {
 
 	private void notificaRimozione(UtenteBean utenteBean) {
 		String mail = utenteBean.getMail();
-		Mailer mailer = Mailer.getInstance();
 		mailer.inviaMail(mail, "Voyager", "Ciao " + utenteBean.getUsername() + "!\n\nQuesta email è per notificarti della tua eliminazione dal sistema Voyager.\n\nSaluti dal team di Voyager.");
 	}
 

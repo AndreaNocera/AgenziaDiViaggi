@@ -1,17 +1,7 @@
-/**
- * @project WebVoyager
- * 
- * @package gestioneutenti.servlet
- * 
- * @name AmministrazioneUtenti.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package gestioneutenti.servlet;
+
+import gestioneutenti.controller.ControllerLogin;
+import gestioneutenti.exception.UtenteInesistenteException;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -20,16 +10,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/AmministrazioneUtenti")
-public class AmministrazioneUtenti extends HttpServlet {
+@WebServlet("/ResetCode")
+public class ResetCode extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
+	private ControllerLogin controllerLogin;
        
-    public AmministrazioneUtenti() {
-        super();
+    public ResetCode() {
+    	super();
+    	this.controllerLogin = ControllerLogin.getWebInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String username = request.getParameter("username");
+		
+		try {
+			this.controllerLogin.impostaResetCode(username);
+		} catch (UtenteInesistenteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

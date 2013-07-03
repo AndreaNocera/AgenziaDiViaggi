@@ -15,7 +15,7 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
-<%@ page import = "gestioneutenti.model.Utente" %>
+<%@ page import = "gestioneutenti.model.bean.UtenteBean" %>
 <%@ page import = "gestioneutenti.model.ruoli.*" %>
 <%@ page import = "gestioneutenti.model.competenze.*" %>
 <%@ page import = "java.util.Calendar" %>
@@ -32,6 +32,9 @@
 		<link rel = "stylesheet" href = "css/Main.css" >
 		<script src = "Script/jquery-ui/js/jquery-1.9.1.js"></script>
 		<script src = "Script/jquery-ui/js/jquery-ui-1.10.3.custom.js"></script>
+		
+		<link href = "img/favicon.ico" rel = "icon" type = "image/x-icon" />
+        <link href = "img/favicon.ico" rel = "shortcut icon" type = "image/x-icon" />
 		
 		<script>
 		
@@ -72,18 +75,28 @@
 			<img class = "logo" id = "logoVoyager" border = "0" src = "img/Voyager.png" >
 		</div>
 	
-		<% Utente utente = (Utente) request.getAttribute("utente");
-		String WELCOME_MESSAGE_AM_PM = (Calendar.getInstance().get(Calendar.AM_PM) == Calendar.AM) ? "Buongiorno" : "Buonasera";%>
+		<% 
+		UtenteBean utenteBean = (UtenteBean) request.getAttribute("utente");		
+		String WELCOME_MESSAGE_AM_PM = (Calendar.getInstance().get(Calendar.AM_PM) == Calendar.AM) ? "Buongiorno" : "Buonasera";
+		%>
 		
 		<div class = "panelMain" id = "panelCompetenze" align = "center">
 			<p class = "title" id = "titleHome">HOME</p>
-			<% out.println("<p class = \"subtitle\" id = \"subtitleWelcomeMessage\">" + WELCOME_MESSAGE_AM_PM + " " + utente.getDatiUtente().getNome() + "</p>"); %>
+			
+			<% 
+			out.println("<p class = \"subtitle\" id = \"subtitleWelcomeMessage\">" + WELCOME_MESSAGE_AM_PM + " " + utenteBean.getNome() + "</p>"); 
+			%>
+			
 			<form name = "formCompetenze" action = "HomeServlet" method = "GET">
-				<%Ruolo ruolo = utente.getRuolo();
+			
+				<%
+				Ruolo ruolo = utenteBean.getRuolo();
 				Competenza[] competenze = ruolo.getCompetenze();
 				for (Competenza c : competenze) {
 					out.println("<p><button class = \"buttonCompetenza\" id = \"button" + c.getId() + "\" name = \"competenza\" value = \"" + c.getId() + "\" type = \"submit\">" + c.asString() + "</button></p>");
-				} %>
+				} 
+				%>
+				
 			</form>
 			
 		</div>	

@@ -14,7 +14,10 @@
 package gestioneutenti.controller;
 
 import javax.swing.JFrame;
+
 import utils.mailer.Mailer;
+import utils.mailer.StandaloneMailer;
+import utils.mailer.WebMailer;
 import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
 import gestioneutenti.exception.UtenteInesistenteException;
@@ -28,10 +31,9 @@ public class ControllerLogin {
 		
 	private static ControllerLogin singletonControllerLogin = null;
 	private static UtenteDAO utenteDAO = null;
+	private static Mailer mailer = null;
 
-	private ControllerLogin() {
-		
-	}
+	private ControllerLogin() {}
 
 	public static synchronized ControllerLogin getInstance() {
 		if (singletonControllerLogin == null) {
@@ -39,6 +41,7 @@ public class ControllerLogin {
 		}
 		
 		utenteDAO = UtenteJdbcDAO.getInstance();
+		mailer = StandaloneMailer.getInstance();
 		
 		return singletonControllerLogin;
 	}
@@ -49,6 +52,7 @@ public class ControllerLogin {
 		}
 		
 		utenteDAO = UtenteJdbcDAO.getWebInstance();
+		mailer = WebMailer.getInstance();
 		
 		return singletonControllerLogin;
 	}
@@ -75,7 +79,6 @@ public class ControllerLogin {
 		ResetCode resetCode = factoryResetCode.creaResetCode();
 		utenteDAO.update(utenteBean.setPassword(String.valueOf(resetCode.getCodice())));
 		String mail = utenteBean.getMail();
-		Mailer mailer = Mailer.getInstance();
 		mailer.inviaMail(mail, "Voyager ResetCode", "Ciao " + username + "!\n\nLa tua password provvisoria è: " + resetCode.getCodice() + "\n\nSaluti dal team di Voyager.");
 	}	
 

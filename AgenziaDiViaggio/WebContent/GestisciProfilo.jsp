@@ -28,6 +28,9 @@
 		<script src = "Script/jquery-ui/js/jquery-1.9.1.js"></script>
 		<script src = "Script/jquery-ui/js/jquery-ui-1.10.3.custom.js"></script>
 		
+		<link href = "img/favicon.ico" rel = "icon" type = "image/x-icon" />
+        <link href = "img/favicon.ico" rel = "shortcut icon" type = "image/x-icon" />
+		
 		<script>
 		
 			window.onload = function() {

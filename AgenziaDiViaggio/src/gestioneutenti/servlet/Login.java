@@ -14,12 +14,10 @@
 package gestioneutenti.servlet;
 
 import gestioneutenti.controller.ControllerLogin;
-import gestioneutenti.exception.LoginErratoException;
-import gestioneutenti.model.Utente;
+import gestioneutenti.exception.UtenteInesistenteException;
+import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
-
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,30 +34,30 @@ public class Login extends HttpServlet {
 	private ControllerLogin controllerLogin;
 
     public Login() {
-        this.controllerLogin = ControllerLogin.getInstance();
+    	super();
+        this.controllerLogin = ControllerLogin.getWebInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
+		LoginBean loginBean = new LoginBean().setUsername(username).setPassword(password);
+		
+		UtenteBean utenteBean;
+		
 		try {
-			Utente utente = this.controllerLogin.login(new UtenteBean().setUsername(username).setPassword(password));
-			
+			utenteBean = this.controllerLogin.login(loginBean);
 			HttpSession session = request.getSession(true);
-            session.setAttribute("utente", utente);
-            
-            try {
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/Home.jsp");
-                request.setAttribute("utente", utente);
-                rd.forward(request, response);
-            } catch (Exception exc) {
-            	exc.printStackTrace();
-            }
-		} catch (LoginErratoException exc) {
-			response.sendRedirect("Login.jsp");
-			exc.printStackTrace();
-		}		
+	        session.setAttribute("utente", utenteBean);
+	        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Home.jsp");
+            request.setAttribute("utente", utenteBean);
+            rd.forward(request, response);
+		} catch (UtenteInesistenteException e) {
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login.jsp");
+            request.setAttribute("status", "failed");
+            rd.forward(request, response);
+		}        
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
