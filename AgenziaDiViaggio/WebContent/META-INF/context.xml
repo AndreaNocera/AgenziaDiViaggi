@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+/**
+ * @project WebVoyager
+ * 
+ * @package WebContent/META-INF
+ * 
+ * @name context.xml
+ *
+ * @description
+ *
+ * @author Giacomo Marciani (TEAM 9)
+ * 
+ */
+ -->
+
+<Context>
+	
+	<Resource name = "jdbc/VoyagerDB" 
+		auth = "Container" 
+		type = "javax.sql.DataSource"
+		maxActive = "100" 
+		maxIdle = "30" 
+		maxWait = "10000"
+		username = "giacomo.marciani" 
+		password = "password" 
+		driverClassName = "com.mysql.jdbc.Driver"
+		url = "jdbc:mysql://localhost:3306/voyager"/>
+
+</Context>

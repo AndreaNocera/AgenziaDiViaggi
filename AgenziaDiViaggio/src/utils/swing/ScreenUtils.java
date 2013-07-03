@@ -7,7 +7,7 @@
  *
  * @description
  *
- * @author TEAM 9: Giacomo Marciani
+ * @author Giacomo Marciani (TEAM 9)
  * 
  */
 

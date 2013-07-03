@@ -1,5 +1,20 @@
 @CHARSET "ISO-8859-1";
 
+<!-- 
+/**
+ * @project WebVoyager
+ * 
+ * @package WebContent/css
+ * 
+ * @name Main.css
+ *
+ * @description
+ *
+ * @author Giacomo Marciani (TEAM 9)
+ * 
+ */
+ -->
+
 body{
 	background: #fbfbfb;
 	font: 62.5% "Trebuchet MS", sans-serif;
