@@ -23,33 +23,43 @@ import gestioneutenti.model.bean.UtenteBean;
 public class ControllerGestisciProfilo {
 	
 	private static ControllerGestisciProfilo singletonControllerGestisciProfilo = null;
-	private UtenteDAO utenteDAO = null;
+	private static UtenteDAO utenteDAO = null;
 	
-	private ControllerGestisciProfilo() {
-		this.utenteDAO = UtenteJdbcDAO.getInstance();
-	}
+	private ControllerGestisciProfilo() {}
 	
 	public static synchronized ControllerGestisciProfilo getInstance() {
 		if(singletonControllerGestisciProfilo == null) {
 			singletonControllerGestisciProfilo = new ControllerGestisciProfilo();
 		}
 		
+		utenteDAO = UtenteJdbcDAO.getInstance();
+		
+		return singletonControllerGestisciProfilo;
+	}
+	
+	public static synchronized ControllerGestisciProfilo getWebInstance() {
+		if(singletonControllerGestisciProfilo == null) {
+			singletonControllerGestisciProfilo = new ControllerGestisciProfilo();
+		}
+		
+		utenteDAO = UtenteJdbcDAO.getWebInstance();
+		
 		return singletonControllerGestisciProfilo;
 	}
 
 	public UtenteBean findByUsername(String username) throws UtenteInesistenteException {
-		return this.utenteDAO.findByUsername(username);
+		return utenteDAO.findByUsername(username);
 	}
 
 	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean) throws UtenteInesistenteException {
-		if (this.utenteDAO.verifyLogin(loginBean)) {
-			this.utenteDAO.update(nUtenteBean);
+		if (utenteDAO.verifyLogin(loginBean)) {
+			utenteDAO.update(nUtenteBean);
 		}
 	}
 	
 	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean, String confermaNuovaPassword) throws UtenteInesistenteException, PasswordNonCoincidentiException {
-		if (this.utenteDAO.verifyLogin(loginBean) && matchPassword(nUtenteBean.getPassword(), confermaNuovaPassword)) {
-			this.utenteDAO.update(nUtenteBean);
+		if (utenteDAO.verifyLogin(loginBean) && matchPassword(nUtenteBean.getPassword(), confermaNuovaPassword)) {
+			utenteDAO.update(nUtenteBean);
 		}				
 	}
 	

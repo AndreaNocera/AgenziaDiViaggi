@@ -34,7 +34,7 @@ public class WebConnectionManager implements ConnectionManager {
 		try {
             Context initContext  = new InitialContext();
             Context envContext  = (Context) initContext.lookup("java:/comp/env");
-            dataSource = (DataSource) envContext.lookup("jdbc/VoyagerUtentiDB");             
+            dataSource = (DataSource) envContext.lookup("jdbc/VoyagerDB");             
         } catch (NamingException e) {
             e.printStackTrace();
         }

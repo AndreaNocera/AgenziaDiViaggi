@@ -24,6 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import gestioneutenti.db.ConnectionManager;
 import gestioneutenti.db.StandaloneConnectionManager;
+import gestioneutenti.db.WebConnectionManager;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
@@ -33,17 +34,27 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	
 	private static UtenteJdbcDAO singletonUtenteDAO = null; 
 	
-	private ConnectionManager connectionManager = null;
-	private Connection connection = null;	
+	private static ConnectionManager connectionManager = null;
+	//private Connection connection = null;
 	
-	private UtenteJdbcDAO() {
-		this.connectionManager = StandaloneConnectionManager.getInstance();		
-	}
+	private UtenteJdbcDAO() {}
 	
 	public static synchronized UtenteDAO getInstance() {
 		if(singletonUtenteDAO == null) {
 			singletonUtenteDAO = new UtenteJdbcDAO();
 		}
+		
+		connectionManager = StandaloneConnectionManager.getInstance();	
+		
+		return singletonUtenteDAO;
+	}
+	
+	public static synchronized UtenteDAO getWebInstance() {
+		if(singletonUtenteDAO == null) {
+			singletonUtenteDAO = new UtenteJdbcDAO();
+		}
+		
+		connectionManager = WebConnectionManager.getInstance();
 		
 		return singletonUtenteDAO;
 	}
@@ -64,7 +75,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 						"\"" + utenteBean.getSesso() + "\", " +
 						"\"" + utenteBean.getMail() + "\")";
 		
-		this.connection = this.connectionManager.getConnection();
+		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
 		
 		try {
@@ -74,7 +85,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			exc.printStackTrace();
 			return false;
 		} finally {
-			this.connectionManager.close(this.connection, statement);
+			connectionManager.close(connection, statement);
 		}
 		
 		return true;
@@ -95,7 +106,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 				"`password` = \"" + utenteBean.getPassword() + "\" " + 
 				"WHERE `username` = \"" + utenteBean.getUsername() + "\"";
 		
-		this.connection = this.connectionManager.getConnection();
+		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
 		
 		try {
@@ -105,7 +116,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			exc.printStackTrace();
 			return false;
 		} finally {
-			this.connectionManager.close(this.connection, statement);
+			connectionManager.close(connection, statement);
 		}
 		
 		return true;
@@ -115,7 +126,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	public synchronized boolean delete(UtenteBean utenteBean) {
 		String SQL_DELETE = "DELETE FROM `utenti` WHERE `username` = \"" + utenteBean.getUsername() + "\"";
 		
-		this.connection = this.connectionManager.getConnection();
+		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
 		
 		try {
@@ -125,7 +136,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			exc.printStackTrace();
 			return false;
 		} finally {
-			this.connectionManager.close(this.connection, statement);
+			connectionManager.close(connection, statement);
 		}
 		
 		return true;
@@ -136,7 +147,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 		List<UtenteBean> listaUtenti = new ArrayList<UtenteBean>();
 		String SQL_FIND_ALL = "SELECT * FROM `utenti`";
 		
-		this.connection = this.connectionManager.getConnection();
+		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
 		ResultSet result = null;
 		
@@ -165,7 +176,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			exc.printStackTrace();
 			return null;
 		} finally {
-			this.connectionManager.close(this.connection, statement, result);
+			connectionManager.close(connection, statement, result);
 		}
 		
 		return listaUtenti;
@@ -175,7 +186,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	public synchronized UtenteBean findByUsername(String username) throws UtenteInesistenteException {
 		String SQL_FIND_BY_USERNAME = "SELECT * FROM `utenti` WHERE `username` = \"" + username + "\"";
 		
-		this.connection = this.connectionManager.getConnection();
+		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
 		ResultSet result = null;
 		
@@ -210,7 +221,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			exc.printStackTrace();
 			return null;
 		} finally {
-			this.connectionManager.close(this.connection, statement, result);
+			connectionManager.close(connection, statement, result);
 		}				
 	}
 
@@ -220,7 +231,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 				"WHERE `username` = \"" + loginBean.getUsername() + "\" " + 
 				"and `password` = \"" + loginBean.getPassword() + "\"";
 		
-		this.connection = this.connectionManager.getConnection();
+		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
 		ResultSet result = null;
 		
@@ -253,7 +264,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			exc.printStackTrace();
 			return null;
 		} finally {
-			this.connectionManager.close(this.connection, statement, result);
+			connectionManager.close(connection, statement, result);
 		}
 		
 		return utenteBean;
@@ -265,7 +276,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 				"WHERE `username` = \"" + loginBean.getUsername() + "\" " + 
 				"and `password` = \"" + loginBean.getPassword() + "\"";
 		
-		this.connection = this.connectionManager.getConnection();
+		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
 		ResultSet result = null;
 		
@@ -284,7 +295,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			exc.printStackTrace();
 			return false;
 		} finally {
-			this.connectionManager.close(this.connection, statement, result);
+			connectionManager.close(connection, statement, result);
 		}
 	}
 

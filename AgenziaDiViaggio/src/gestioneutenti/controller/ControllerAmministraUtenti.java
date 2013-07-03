@@ -27,37 +27,45 @@ import gestioneutenti.model.bean.UtenteBean;
 public class ControllerAmministraUtenti {
 	
 	private static ControllerAmministraUtenti singletonControllerAmministraUtenti = null;
-	private UtenteDAO utenteDAO;
+	private static UtenteDAO utenteDAO;
 	private FactoryPassword factoryPassword;
 
-	private ControllerAmministraUtenti() {
-		this.utenteDAO = UtenteJdbcDAO.getInstance();
-		this.factoryPassword = FactoryPassword.getInstance();
-	}
+	private ControllerAmministraUtenti() {}
 
 	public static synchronized ControllerAmministraUtenti getInstance() {
 		if (singletonControllerAmministraUtenti == null) {
 			singletonControllerAmministraUtenti = new ControllerAmministraUtenti();
-			return singletonControllerAmministraUtenti;
 		}
+		
+		utenteDAO = UtenteJdbcDAO.getInstance();
+		
+		return singletonControllerAmministraUtenti;
+	}
+	
+	public static synchronized ControllerAmministraUtenti getWebInstance() {
+		if (singletonControllerAmministraUtenti == null) {
+			singletonControllerAmministraUtenti = new ControllerAmministraUtenti();
+		}
+		
+		utenteDAO = UtenteJdbcDAO.getWebInstance();
 		
 		return singletonControllerAmministraUtenti;
 	}
 	
 	public void nuovo(UtenteBean utenteBean) {
-		this.utenteDAO.save(utenteBean);
+		utenteDAO.save(utenteBean);
 		inviaDatiUtente(utenteBean);
 	}
 	
 	
 
 	public void modifica(UtenteBean utenteBean) {
-		this.utenteDAO.update(utenteBean);	
+		utenteDAO.update(utenteBean);	
 		inviaDatiUtente(utenteBean);
 	}
 
 	public void rimuovi(UtenteBean utenteBean) {
-		this.utenteDAO.delete(utenteBean);
+		utenteDAO.delete(utenteBean);
 		notificaRimozione(utenteBean);
 	}	
 	
@@ -90,10 +98,11 @@ public class ControllerAmministraUtenti {
 	}	
 
 	public List<UtenteBean> getUtenti() {
-		return this.utenteDAO.findAll();
+		return utenteDAO.findAll();
 	}
 
 	public String generaPassword() {
+		this.factoryPassword = FactoryPassword.getInstance();
 		return this.factoryPassword.creaPassword();
 	}
 
