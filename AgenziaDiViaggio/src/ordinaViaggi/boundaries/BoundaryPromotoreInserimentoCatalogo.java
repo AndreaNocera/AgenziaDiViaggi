@@ -251,6 +251,12 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 								via.getText());
 						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
 								"Tratta inserita.\nId della tratta: " + idTratta);
+						ambiente.setText("");
+						mezzo.setText("");
+						tipoMezzo.setText("");
+						cittaPartenza.setText("");
+						cittaArrivo.setText("");
+						via.setText("");
 						
 					} catch (ControllerException | IOException | DAOException
 							| MapException | CatalogoException | SQLException

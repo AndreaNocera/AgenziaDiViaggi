@@ -7,9 +7,10 @@ import ordinaViaggi.entity.Mezzo;
 import ordinaViaggi.entity.Tratta;
 import ordinaViaggi.entity.Via;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 
 public class TestTratta {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DataException {
 		DAOTratta daoTratta = DAOTratta.getIstance();
 		Ambiente ambiente;
 		Mezzo mezzo;

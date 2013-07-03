@@ -38,10 +38,8 @@ public class TestRimozioneCatalogo {
 		tratta.printTratta();
 		
 		System.out.println("Rimozione della tratta nel catalogo.");
-		catalogo.printMapCatalogo();
 		
 		catalogo.rimozioneInCatalogo(tratta);
-		catalogo.printMapCatalogo();
 	}
 
 }

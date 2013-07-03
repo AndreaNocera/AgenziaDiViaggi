@@ -38,11 +38,16 @@ public class DAOOfferta extends DAO {
 			+ "anno INT(10),"
 			+ "ora INT(10),"
 			+ "minuti INT(10),"
-			+ "posti INT(10)"
+			+ "posti INT(10),"
+			+ "giornoInserimento INT(10),"
+			+ "meseInserimento INT(10),"
+			+ "annoInserimento INT(10)"
 			+ ")";
 	
-	private static final String insertQuery = "INSERT INTO `offerta`(`idOfferta`, `idTratta`, `giorno`, `mese`, `anno`, `ora`, `minuti`, `posti`) "
-			+ "VALUES (?,?,?,?,?,?,?,?)";
+	private static final String insertQuery = "INSERT INTO `offerta`(`idOfferta`, `idTratta`, " +
+			"`giorno`, `mese`, `anno`, `ora`, `minuti`, `posti`, " +
+			"giornoInserimento, meseInserimento, annoInserimento) "
+			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
 	private static final String deleteQuery = "DELETE FROM `offerta` WHERE `idOfferta`=?";
 
@@ -108,6 +113,9 @@ public class DAOOfferta extends DAO {
 			ps.setInt(6, offerta.getOra().getOra());
 			ps.setInt(7, offerta.getOra().getMinuti());
 			ps.setInt(8, offerta.getPosti());
+			ps.setInt(9, offerta.getDataInserimento().getGiorno());
+			ps.setInt(10, offerta.getDataInserimento().getMese());
+			ps.setInt(11, offerta.getDataInserimento().getAnno());
 
 			ps.executeUpdate();
 
@@ -120,7 +128,7 @@ public class DAOOfferta extends DAO {
 	}
 
 	@Override
-	public Offerta read(Integer id) throws DAOException {
+	public Offerta read(Integer id) throws DAOException, DataException {
 		Offerta offerta = new Offerta();
 		try {
 			conn = getConnection(usr, pass);
@@ -137,6 +145,8 @@ public class DAOOfferta extends DAO {
 			offerta.setData(new Data(rs.getInt(3), rs.getInt(4), rs.getInt(5)));
 			offerta.setOra(new Ora(rs.getInt(6), rs.getInt(7)));
 			offerta.setPosti(rs.getInt(8));
+			Data data = new Data(rs.getInt(9),rs.getInt(10),rs.getInt(11));
+			offerta.setDataInserimento(data);
 
 			return offerta;
 
@@ -222,6 +232,8 @@ public class DAOOfferta extends DAO {
 			offerta.setData(new Data(rs.getInt(3), rs.getInt(4), rs.getInt(5)));
 			offerta.setOra(new Ora(rs.getInt(6), rs.getInt(7)));
 			offerta.setPosti(rs.getInt(8));
+			Data data = new Data(rs.getInt(9),rs.getInt(10),rs.getInt(11));
+			offerta.setDataInserimento(data);
 			listOfferte.add(offerta);
 		}
 		return listOfferte;

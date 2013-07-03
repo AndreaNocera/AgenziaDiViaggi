@@ -2,6 +2,7 @@ package ordinaViaggi.dao;
 
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -63,7 +64,7 @@ public abstract class DAO {
 			}
 	}
 	public abstract void insert(Object obj) throws DAOException;
-	public abstract Object read(Integer id) throws DAOException;
+	public abstract Object read(Integer id) throws DAOException, DataException;
 	public abstract void update(Object obj) throws DAOException;
 	public abstract void delete(Object obj) throws DAOException, SQLException;
 }

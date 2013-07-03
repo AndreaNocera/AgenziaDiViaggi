@@ -5,11 +5,13 @@ package ordinaViaggi.dao;
 
 import ordinaViaggi.entity.Ambiente;
 import ordinaViaggi.entity.Citta;
+import ordinaViaggi.entity.Data;
 import ordinaViaggi.entity.Mezzo;
 import ordinaViaggi.entity.Tratta;
 import ordinaViaggi.entity.Via;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,7 +39,10 @@ public class DAOCatalogo extends DAO {
 			+ "idMezzo INT(10), "
 			+ "idCittaPartenza INT(10), "
 			+ "idCittaArrivo INT(10), " 
-			+ "idVia INT(10)" 
+			+ "idVia INT(10)," 
+			+ "giornoInserimento INT(10),"
+			+ "meseInserimento INT(10),"
+			+ "annoInserimento INT(10)"
 			+ ")";
 
 	private static Connection conn = null;
@@ -74,7 +79,7 @@ public class DAOCatalogo extends DAO {
 		return istance;
 	}
 
-	public List<Tratta> getCatalogo() throws DAOException {
+	public List<Tratta> getCatalogo() throws DAOException, DataException {
 		List<Tratta> tratte = new ArrayList<Tratta>();
 		try {
 			conn = getConnection(usr, pass);
@@ -120,7 +125,9 @@ public class DAOCatalogo extends DAO {
 				valore = daoVia.getValueById(id);
 				via = new Via(id, valore);
 				tratta.setVia(via);
-
+				
+				Data data = new Data(rs.getInt(7), rs.getInt(8), rs.getInt(9));
+				tratta.setDataInserimento(data);
 				tratte.add(tratta);
 			}
 

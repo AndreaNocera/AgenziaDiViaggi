@@ -3,6 +3,7 @@
  */
 package ordinaViaggi.entity;
 
+import ordinaViaggi.exception.DataException;
 import ordinaViaggi.exception.MapException;
 
 import java.util.TreeMap;
@@ -30,8 +31,9 @@ public class MapOfferta extends TreeMap<Integer, Offerta> {
 
 	/**
 	 * Inserisce la chiave istanziando un Offerta.
+	 * @throws DataException 
 	 */
-	public void insertRecord(Integer key) {
+	public void insertRecord(Integer key) throws DataException {
 		// TODO Auto-generated method stub
 		if (!containsKey(key)) {
 			super.put(key, new Offerta());

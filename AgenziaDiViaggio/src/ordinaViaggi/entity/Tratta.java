@@ -5,6 +5,7 @@ package ordinaViaggi.entity;
 
 import ordinaViaggi.dao.DAOTratta;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
@@ -20,23 +21,26 @@ public class Tratta {
 	private Citta cittaPartenza;
 	private Citta cittaArrivo;
 	private Via via;
+	private Data dataInserimentoTratta;
 
-	public Tratta() {
+	public Tratta() throws DataException {
 		ambiente = new Ambiente();
 		mezzo = new Mezzo();
 		cittaPartenza = new Citta();
 		cittaArrivo = new Citta();
 		via = new Via();
+		dataInserimentoTratta = new Data(Data.generaGiorno(),Data.generaMese());
 	}
 
 	public Tratta(Integer id, Ambiente ambiente, Mezzo mezzo,
-			Citta cittaPartenza, Citta cittaArrivo, Via via) {
+			Citta cittaPartenza, Citta cittaArrivo, Via via) throws DataException {
 		this.id = id;
 		this.ambiente = ambiente;
 		this.mezzo = mezzo;
 		this.cittaPartenza = cittaPartenza;
 		this.cittaArrivo = cittaArrivo;
 		this.via = via;
+		dataInserimentoTratta = new Data(Data.generaGiorno(),Data.generaMese());
 	}
 
 	public Integer getId() {
@@ -78,6 +82,12 @@ public class Tratta {
 	public void setCittaArrivo(Citta cittaArrivo) {
 		this.cittaArrivo = cittaArrivo;
 	}
+	public Data getDataInserimento(){
+		return this.dataInserimentoTratta;
+	}
+	public void setDataInserimento(Data data){
+		this.dataInserimentoTratta = data;
+	}
 
 	public Via getVia() {
 		return via;
@@ -101,14 +111,14 @@ public class Tratta {
 	public String getString() {
 		return (id + " " + ambiente.getValore() + " " + mezzo.getValore() + " "
 				+ cittaPartenza.getValore() + " " + cittaArrivo.getValore()
-				+ " " + via.getValore() + ".");
+				+ " " + via.getValore() + " " + dataInserimentoTratta.getString() + ".");
 
 	}
 
 	public void printTratta() {
 		System.out.println(id + " " + ambiente.getValore() + " "
 				+ mezzo.getValore() + " " + cittaPartenza.getValore() + " "
-				+ cittaArrivo.getValore() + " " + via.getValore() + ".");
+				+ cittaArrivo.getValore() + " " + via.getValore() + " " + dataInserimentoTratta.getString() + ".");
 	}
 
 	public boolean contains(Ambiente ambiente, Mezzo mezzo,

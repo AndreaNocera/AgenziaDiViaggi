@@ -5,6 +5,7 @@ package ordinaViaggi.entity;
 
 import ordinaViaggi.dao.DAOOfferta;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
@@ -26,23 +27,28 @@ public class Offerta {
 	private Ora ora;
 	private Integer posti;
 	private MapPrenotazioni mapPrenotazioni;
+	private Data dataInserimentoOfferta;
 
-	public Offerta() {
+	public Offerta() throws DataException {
 		setIdOfferta(0);
 		setData(null);
 		setOra(null);
 		setPosti(0);
 		mapPrenotazioni = new MapPrenotazioni();
+		dataInserimentoOfferta = new Data(Data.generaGiorno(),
+				Data.generaMese());
 	}
 
 	public Offerta(Integer idOfferta, Integer idTratta, Data data, Ora ora,
-			Integer posti) {
+			Integer posti) throws DataException {
 		this.setIdOfferta(idOfferta);
 		this.setIdTratta(idTratta);
 		this.setData(data);
 		this.setOra(ora);
 		this.setPosti(posti);
 		this.mapPrenotazioni = new MapPrenotazioni();
+		dataInserimentoOfferta = new Data(Data.generaGiorno(),
+				Data.generaMese());
 	}
 
 	public Integer getIdOfferta() {
@@ -85,6 +91,14 @@ public class Offerta {
 		this.posti = posti;
 	}
 
+	public Data getDataInserimento() {
+		return this.dataInserimentoOfferta;
+	}
+
+	public void setDataInserimento(Data data) {
+		this.dataInserimentoOfferta = data;
+	}
+
 	public MapPrenotazioni getMapPrenotazioni() {
 		return mapPrenotazioni;
 	}
@@ -94,7 +108,8 @@ public class Offerta {
 	}
 
 	public String getString() {
-		return idOfferta + " " + data.getString() + " " + ora.getString() + " " + posti;
+		return idOfferta + " " + data.getString() + " " + ora.getString() + " "
+				+ posti + " " + dataInserimentoOfferta.getString();
 	}
 
 	public boolean contains(Integer idTratta, Integer giorno, Integer mese,
@@ -111,7 +126,9 @@ public class Offerta {
 		System.out.print(idOfferta + " ");
 		data.print();
 		ora.print();
-		System.out.println(posti);
+		System.out.print(posti + " ");
+		dataInserimentoOfferta.print();
+		System.out.println();
 	}
 
 	/**
@@ -129,7 +146,8 @@ public class Offerta {
 		DAOOfferta daoOfferta = DAOOfferta.getIstance();
 		daoOfferta.delete(this);
 	}
-	public static Integer getNextId() throws DAOException{
+
+	public static Integer getNextId() throws DAOException {
 		DAOOfferta daoOfferta = DAOOfferta.getIstance();
 		return daoOfferta.getNextId();
 	}

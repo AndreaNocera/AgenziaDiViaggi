@@ -9,12 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-/**
- * 
- * @author Gambella Riccardo And Luca Paoli
- *
- */
 public class IndiciDAO{
 	
 	/*Costanti per la connessione al DB MySQL*/

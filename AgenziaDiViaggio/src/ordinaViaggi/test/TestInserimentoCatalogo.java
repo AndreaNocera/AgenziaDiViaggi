@@ -47,9 +47,7 @@ public class TestInserimentoCatalogo {
 		tratta.printTratta();
 		System.out.println("Inserimento della tratta nel catalogo.");
 		Catalogo catalogo = Catalogo.getIstance();
-		catalogo.printMapCatalogo();
 		catalogo.inserimentoInCatalogo(tratta);
-		catalogo.printMapCatalogo();
 	}
 
 }

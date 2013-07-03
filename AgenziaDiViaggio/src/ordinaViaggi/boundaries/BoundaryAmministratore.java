@@ -23,12 +23,13 @@ import javax.swing.JPanel;
  */
 
 public class BoundaryAmministratore extends JFrame {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3260609773601731127L;
 
 	public static JPanel pannelloAmministratore;
-
-	// Testo di Presentazione
-	public static JLabel testoPresentazione = new JLabel();
 
 	public JPanel panelTitolo = new JPanel();
 	public JPanel panelButtons = new JPanel();
@@ -37,7 +38,8 @@ public class BoundaryAmministratore extends JFrame {
 
 	// Bottone
 	public JButton visualizzaPrenotazioni;
-
+	public JButton gestioneUtenti;
+	
 	public JButton back;
 
 	private GestoreButtons buttonsListener;
@@ -74,10 +76,15 @@ public class BoundaryAmministratore extends JFrame {
 		visualizzaPrenotazioni.setLocation(100, 100);
 		visualizzaPrenotazioni.setSize(300, 50);
 		visualizzaPrenotazioni.setFont(new Font("Arial", 0, 20));
+		
+		gestioneUtenti = new JButton("Gestione utenti");
+		gestioneUtenti.setLocation(100, 200);
+		gestioneUtenti.setSize(300, 50);
+		gestioneUtenti.setFont(new Font("Arial", 0, 20));
 
 		// Bottone back
 		back = new JButton("back");
-		back.setLocation(100, 200);
+		back.setLocation(100, 300);
 		back.setSize(panelTitolo.getWidth() / 4, 50);
 		back.setFont(new Font("Arial", 0, 20));
 
@@ -86,6 +93,7 @@ public class BoundaryAmministratore extends JFrame {
 		panelButtons.setLocation(5, altezzaTitolo);
 
 		panelButtons.add(visualizzaPrenotazioni);
+		panelButtons.add(gestioneUtenti);
 		panelButtons.add(back);
 
 		pannelloAmministratore.add(panelButtons);
@@ -96,6 +104,7 @@ public class BoundaryAmministratore extends JFrame {
 
 		// Listener dei bottoni
 		visualizzaPrenotazioni.addActionListener(buttonsListener);
+		gestioneUtenti.addActionListener(buttonsListener);
 		back.addActionListener(backListener);
 	}
 
@@ -116,6 +125,10 @@ public class BoundaryAmministratore extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			else if(event.getSource() ==gestioneUtenti){
+				pannelloAmministratore.setVisible(false);
+				new BoundaryAmministratoreGestioneUtenti();
 			}
 		}
 	}

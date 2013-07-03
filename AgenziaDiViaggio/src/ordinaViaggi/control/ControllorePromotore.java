@@ -1,6 +1,5 @@
 package ordinaViaggi.control;
 
-import ordinaViaggi.boundaries.AABoundaryAvvio;
 import ordinaViaggi.entity.Ambiente;
 import ordinaViaggi.entity.Catalogo;
 import ordinaViaggi.entity.Citta;
@@ -92,9 +91,6 @@ public class ControllorePromotore extends Controllore {
 
 		} else {
 			catalogo.rimozioneInCatalogo(tratta);
-			// Devo rimuovere le prenotazioni relative all'offerta considerata.
-			JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
-					"Tratta rimossa.");
 		}
 	}
 

@@ -267,6 +267,12 @@ public class BoundaryProgettistaInserimentoOfferta extends JFrame {
 										posti.getText()));
 						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
 								"Offerta inserita.\nId dell'offerta: " + idofferta);
+						giorno.setText("");
+						mese.setText("");
+						anno.setText("");
+						ora.setText("");
+						minuti.setText("");
+						posti.setText("");
 					}
 				} catch (ControllerException | IOException e) {
 					// TODO Auto-generated catch block

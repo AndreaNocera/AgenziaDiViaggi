@@ -61,5 +61,19 @@ public class Data {
 		System.out.print(giorno + "/" + mese + "/" + anno + " ");
 	}
 	
+	//Genera un numero random tra 1,28
+	public static Integer generaGiorno(){
+		int Min = 1;
+		int Max = 28;
+		return (Min + (int)(Math.random() * ((Max - Min) + 1)));
+	}
+	
+	//Genera un numero random tra 1,12
+	public static Integer generaMese(){
+		int Min = 1;
+		int Max = 12;
+		return (Min + (int)(Math.random() * ((Max - Min) + 1)));
+	}
+	
 	
 }

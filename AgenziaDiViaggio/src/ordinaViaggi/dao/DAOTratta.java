@@ -2,11 +2,13 @@ package ordinaViaggi.dao;
 
 import ordinaViaggi.entity.Ambiente;
 import ordinaViaggi.entity.Citta;
+import ordinaViaggi.entity.Data;
 import ordinaViaggi.entity.Mezzo;
 import ordinaViaggi.entity.Tratta;
 import ordinaViaggi.entity.Via;
 import ordinaViaggi.exception.ConnectionException;
 import ordinaViaggi.exception.DAOException;
+import ordinaViaggi.exception.DataException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,8 +27,9 @@ public class DAOTratta extends DAO {
 	private static DAOTratta istance = null;
 
 	private static final String insertQuery = "INSERT INTO `catalogo`"
-			+ "(`idTratta`, `idAmbiente`, `idMezzo`, `idCittaPartenza`, `idCittaArrivo`, `idVia`) "
-			+ "VALUES (?,?,?,?,?,?)";
+			+ "(`idTratta`, `idAmbiente`, `idMezzo`, `idCittaPartenza`, `idCittaArrivo`," +
+			" `idVia`, giornoInserimento, meseInserimento, annoInserimento) "
+			+ "VALUES (?,?,?,?,?,?,?,?,?)";
 
 	private static final String deleteQuery = "DELETE FROM `catalogo` WHERE `idTratta`=?";
 
@@ -36,7 +39,6 @@ public class DAOTratta extends DAO {
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
 	private static ResultSet rs = null;
-
 
 	/**
 	 * La tratta non si occupa della gestione della tabella del Catalogo. Queste
@@ -82,6 +84,9 @@ public class DAOTratta extends DAO {
 			ps.setInt(4, tratta.getCittaPartenza().getId());
 			ps.setInt(5, tratta.getCittaArrivo().getId());
 			ps.setInt(6, tratta.getVia().getId());
+			ps.setInt(7, tratta.getDataInserimento().getGiorno());
+			ps.setInt(8, tratta.getDataInserimento().getMese());
+			ps.setInt(9, tratta.getDataInserimento().getAnno());
 
 			ps.executeUpdate();
 
@@ -94,7 +99,7 @@ public class DAOTratta extends DAO {
 	}
 
 	@Override
-	public Tratta read(Integer id) throws DAOException {
+	public Tratta read(Integer id) throws DAOException, DataException {
 		Tratta tratta = new Tratta();
 		String valore;
 		try {
@@ -122,6 +127,9 @@ public class DAOTratta extends DAO {
 
 			valore = readValue("via", rs.getInt(6));
 			tratta.setVia(new Via(rs.getInt(6), valore));
+			
+			Data data = new Data(rs.getInt(7), rs.getInt(8), rs.getInt(9));
+			tratta.setDataInserimento(data);
 
 			return tratta;
 
@@ -149,10 +157,10 @@ public class DAOTratta extends DAO {
 			ps = conn.prepareStatement(deleteQuery);
 			System.out.println("Cancellazione della tratta nel db.");
 			tratta.printTratta();
-			
+
 			ps.setInt(1, tratta.getId());
 			ps.executeUpdate();
-			
+
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

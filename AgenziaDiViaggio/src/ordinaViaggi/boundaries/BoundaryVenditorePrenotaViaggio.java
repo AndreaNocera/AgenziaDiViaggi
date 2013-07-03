@@ -1,6 +1,6 @@
 package ordinaViaggi.boundaries;
 
-import ordinaViaggi.control.ControlloreCliente;
+import ordinaViaggi.control.ControlloreVenditore;
 import ordinaViaggi.exception.CatalogoException;
 import ordinaViaggi.exception.DAOException;
 import ordinaViaggi.exception.DataException;
@@ -26,17 +26,17 @@ import javax.swing.JTextField;
 /**
  * @author Gambella Riccardo Boundary ProgettistaInserimentoCatalogo.
  */
-public class BoundaryClientePrenotaViaggio extends JFrame {
+public class BoundaryVenditorePrenotaViaggio extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7497687086928751350L;
 
-	private ControlloreCliente controlloreCliente = null;
-	BoundaryClienteOrdinaViaggi boundaryClienteOrdinaViaggi = null;
-	BoundaryClienteVisualizzaOfferta boundaryClienteVisualizzaOfferta = null;
+	private ControlloreVenditore controlloreVenditore = null;
+	BoundaryVenditoreOrdinaViaggi boundaryVenditoreOrdinaViaggi = null;
+	BoundaryVenditoreVisualizzaOfferta boundaryVenditoreVisualizzaOfferta = null;
 
-	public static JPanel pannelloClientePrenotaViaggio;
+	public static JPanel pannelloVenditorePrenotaViaggio;
 
 	// Testo di Presentazione
 	private JLabel labelBigliettiInseriti;
@@ -72,22 +72,22 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 	int border = 5;
 	int altezzaTitolo = 30;
 
-	public BoundaryClientePrenotaViaggio(
-			BoundaryClienteOrdinaViaggi boundaryClienteOrdinaViaggi,
-			BoundaryClienteVisualizzaOfferta boundaryClienteVisualizzaOfferta)
+	public BoundaryVenditorePrenotaViaggio(
+			BoundaryVenditoreOrdinaViaggi boundaryVenditoreOrdinaViaggi,
+			BoundaryVenditoreVisualizzaOfferta boundaryVenditoreVisualizzaOfferta)
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreCliente = ControlloreCliente.getIstance();
-		this.boundaryClienteOrdinaViaggi = boundaryClienteOrdinaViaggi;
-		this.boundaryClienteVisualizzaOfferta = boundaryClienteVisualizzaOfferta;
+		this.controlloreVenditore = ControlloreVenditore.getIstance();
+		this.boundaryVenditoreOrdinaViaggi = boundaryVenditoreOrdinaViaggi;
+		this.boundaryVenditoreVisualizzaOfferta = boundaryVenditoreVisualizzaOfferta;
 
-		pannelloClientePrenotaViaggio = new JPanel();
+		pannelloVenditorePrenotaViaggio = new JPanel();
 
-		pannelloClientePrenotaViaggio.setSize(AABoundaryAvvio.Frame.getWidth(),
+		pannelloVenditorePrenotaViaggio.setSize(AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
-		AABoundaryAvvio.Frame.add(pannelloClientePrenotaViaggio);
-		pannelloClientePrenotaViaggio.setLayout(null);
+		AABoundaryAvvio.Frame.add(pannelloVenditorePrenotaViaggio);
+		pannelloVenditorePrenotaViaggio.setLayout(null);
 
 		panelTitolo.setLayout(null);
 		panelTitolo.setSize(AABoundaryAvvio.Frame.getWidth(), 45);
@@ -101,7 +101,7 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		titolo.setVerticalAlignment(JLabel.CENTER);
 		titolo.setText("Inserire i dati del passeggero");
 
-		pannelloClientePrenotaViaggio.add(panelTitolo);
+		pannelloVenditorePrenotaViaggio.add(panelTitolo);
 
 		labelBigliettiInseriti = new JLabel();
 		labelNome = new JLabel();
@@ -193,7 +193,7 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		panelPrenotazione.add(back);
 		panelPrenotazione.add(areaVisualizzazione);
 
-		pannelloClientePrenotaViaggio.add(panelPrenotazione);
+		pannelloVenditorePrenotaViaggio.add(panelPrenotazione);
 
 		// Istanziazione dei Listeners
 		buttonsListener = new GestoreButtons();
@@ -211,7 +211,7 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == inserisciBiglietto) {
-				if (!controlloreCliente.verificaDatiViaggiatore(nome.getText(),
+				if (!controlloreVenditore.verificaDatiViaggiatore(nome.getText(),
 						cognome.getText(), email.getText()))
 					areaVisualizzazione.append("Inserire i dati del traveler.");
 				else {
@@ -232,16 +232,16 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 					areaVisualizzazione
 							.append("Inserire almeno un biglietto per effettuare la prenotazione.");
 				else {
-					List<String> listaCatalogo = boundaryClienteOrdinaViaggi
+					List<String> listaCatalogo = boundaryVenditoreOrdinaViaggi
 							.prelevaComboBoxCatalogo();
-					Integer idOfferta = boundaryClienteVisualizzaOfferta
+					Integer idOfferta = boundaryVenditoreVisualizzaOfferta
 							.getIdOfferta();
 					// L'acquirente è lo username dell'utente. Può essere
 					// estratto dalle sue informazioni.
 					String acquirente = AABoundaryAvvio.username;
 					try {
 
-						Integer idPrenotazione = controlloreCliente.inserimentoInPrenotazione(
+						Integer idPrenotazione = controlloreVenditore.inserimentoInPrenotazione(
 								listaCatalogo, idOfferta, acquirente,
 								listaNomi, listaCognomi, listaEmail);
 						bigliettiInseriti.setText("0");
@@ -269,8 +269,8 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 
 	private class GestoreBack implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			pannelloClientePrenotaViaggio.setVisible(false);
-			BoundaryClienteVisualizzaOfferta.pannelloClienteVisualizzaOfferta
+			pannelloVenditorePrenotaViaggio.setVisible(false);
+			BoundaryVenditoreVisualizzaOfferta.pannelloVenditoreVisualizzaOfferta
 					.setVisible(true);
 		}
 	}
