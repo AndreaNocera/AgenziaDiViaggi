@@ -27,6 +27,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/Home")
 public class Home extends HttpServlet {
@@ -34,6 +35,7 @@ public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String JSP_AMMINISTRAZIONE_UTENTI = "/AmministraUtenti.jsp";
+	private static final String JSP_GESTIONE_PROFILO = "/GestisciProfilo.jsp";
 	private static final String JSP_LOGIN = "/Login.jsp";
 
     public Home() {
@@ -59,7 +61,16 @@ public class Home extends HttpServlet {
 		case Competenza.GESTIONE_OFFERTA:
 			return;
 		case Competenza.GESTIONE_PROFILO:
-			return;
+			try {
+				HttpSession session = request.getSession(true);
+		        UtenteBean utenteBean = (UtenteBean) session.getAttribute("utente");
+	            RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_GESTIONE_PROFILO);
+	            request.setAttribute("utente", utenteBean);
+	            rd.forward(request, response);
+	            return;
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	         }
 		case Competenza.LOGIN:
 			try {
                 RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_LOGIN);
