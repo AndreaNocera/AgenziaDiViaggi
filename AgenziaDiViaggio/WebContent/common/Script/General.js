@@ -62,6 +62,7 @@ $(function() {
 	
 	$( ".dialogMessaggio" ).dialog({
 		autoOpen: false,
+		draggable: false,
 		modal: true,
 		buttons: {
 			Ok: function() {
