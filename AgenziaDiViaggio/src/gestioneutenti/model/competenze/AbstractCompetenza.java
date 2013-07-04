@@ -17,10 +17,12 @@ public abstract class AbstractCompetenza implements Competenza {
 	
 	private int ID;
 	private String STRING = new String();
+	private String COMPACT_STRING = new String();
 
 	protected AbstractCompetenza(int id, String string) {
 		this.ID = id;
 		this.STRING = string;
+		this.COMPACT_STRING = string.replaceAll("\\s","");
 	}
 
 	@Override
@@ -32,5 +34,10 @@ public abstract class AbstractCompetenza implements Competenza {
 	public String asString() {
 		return STRING;
 	}
+	
+	@Override
+	public String asCompactString() {
+		return COMPACT_STRING;
+	}	
 
 }

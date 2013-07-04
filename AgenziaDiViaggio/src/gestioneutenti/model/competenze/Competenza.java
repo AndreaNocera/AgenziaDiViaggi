@@ -25,4 +25,6 @@ public interface Competenza {
 	
 	String asString();
 	
+	String asCompactString();
+	
 }

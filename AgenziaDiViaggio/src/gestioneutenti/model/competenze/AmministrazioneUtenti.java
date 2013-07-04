@@ -18,7 +18,7 @@ public class AmministrazioneUtenti extends AbstractCompetenza {
 	private static AmministrazioneUtenti singletonAmministrazioneUtenti;
 	
 	private static int ID = Competenza.AMMINISTRAZIONE_UTENTI;
-	private static String STRING = "Amministra Utenti";
+	private static String STRING = "Amministrazione Utenti";
 
 	protected AmministrazioneUtenti(int id, String string) {
 		super(id, string);
