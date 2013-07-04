@@ -158,6 +158,22 @@ public class Catalogo {
 		}
 		throw new TrattaInesistenteException("Tratta non esistente.");
 	}
+	
+	public String getOffertePerLaTratta(Integer id){
+		String stringaOfferte = "";
+		for (Offerta offerta : listaOfferte){
+			if (offerta.getIdTratta().equals(id)){
+				//questa è un offerta per questo tratta
+				stringaOfferte += offerta.getData().stampaData() + "\t" + offerta.getDataArrivo().stampaData() + "\t" + offerta.getPosti() + "\n";
+			}
+		}
+		
+		if (stringaOfferte.equals("")){
+			stringaOfferte = "Non ci sono offerte per questa tratta";
+		}
+		
+		return stringaOfferte;
+	}
 
 	
 	

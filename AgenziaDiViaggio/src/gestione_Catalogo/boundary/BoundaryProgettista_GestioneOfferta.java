@@ -1134,18 +1134,19 @@ public class BoundaryProgettista_GestioneOfferta {
 				
 				
 				//Imposto areatestoCatalogo
-				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
+				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
+									"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
+									"-----------\t\t----------\t\t----------\n";
 				
 				//ImpostoareaTestoOfferta
-				areaTestoOfferta = "";
 				try {
-					Set<Data> s = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
-					Iterator<Data> it = s.iterator();
-					while (it.hasNext()){
-						areaTestoOfferta+= it.next().stampaData()+"\n";
-					}
+					
+						areaTestoOfferta = controllore.mostraOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
+					
 				} catch (IDEsternoElementoException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+				} catch (TrattaInesistenteException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				areaTestoPannello2.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
@@ -1567,8 +1568,6 @@ public class BoundaryProgettista_GestioneOfferta {
 						    	Data d = it.next();
 						    	//inserisco l'elemento in tendina
 						    	tendinaOffertaPannello3.addItem(d.stampaData());
-						    	//Per il momento, inserisco anche l'elemento sulla mappa (DA IMPLEMENTARE UN METODO COME MOSTRA CATALOGO
-						    	areaTestoOfferta+= d.stampaData()+"\n";
 						    }
 						    
 						    tendinaOffertaPannello3.setEnabled(true);
@@ -1578,13 +1577,28 @@ public class BoundaryProgettista_GestioneOfferta {
 						
 					}
 					
-					areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo +  areaTestoOfferta);
-					/*
-					areaTestoOfferta = controllore.mostraCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+
+					String via = (String) tendinaViaPannello2.getSelectedItem();
 					
-					areaTestoPannello3.setCaretPosition(0);*/
+					
+					//Imposto areatestoCatalogo
+					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
+										"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
+										"-----------\t\t----------\t\t----------\n";
+					
+					//ImpostoareaTestoOfferta
+					areaTestoOfferta = controllore.mostraOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+					
+					areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
+					
+						
+				
+				
+					
 				} catch (IDEsternoElementoException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
+				} catch (TrattaInesistenteException e) {
+					areaTestoPannello3.setText(e.getMessage()+"\n");
 				} 
 				
 			} 

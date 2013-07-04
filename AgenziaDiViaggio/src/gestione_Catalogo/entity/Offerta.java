@@ -48,4 +48,16 @@ public class Offerta {
 		return dataPartenza;
 	}
 	
+	public Data getDataArrivo(){
+		return dataArrivo;
+	}
+	
+	public Integer getIdTratta(){
+		return idTratta;
+	}
+	
+	public Integer getPosti(){
+		return posti;
+	}
+	
 }
