@@ -7,9 +7,12 @@ package gestione_Catalogo.boundary;
 
 
 import gestione_Catalogo.control.ControlloreGestioneOfferta;
+import gestione_Catalogo.entity.Data;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
+import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.TrattaException;
+import gestione_Catalogo.exception.TrattaInesistenteException;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -1131,18 +1134,25 @@ public class BoundaryProgettista_GestioneOfferta {
 			if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
 				String via = (String) tendinaViaPannello2.getSelectedItem();
 				
-				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
-				areaTestoPannello2.setText(areaTestoImp + areaTestoCatalogo);
 				
-					try {
-						Set<Integer> s = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
-						Iterator<Integer> it = s.iterator();
-						while (it.hasNext()){
-							areaTestoOfferta+= Integer.toString(it.next())+"\n";
-						}
-					} catch (IDEsternoElementoException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+				//Imposto areatestoCatalogo
+				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
+				
+				//ImpostoareaTestoOfferta
+				areaTestoOfferta = "";
+				try {
+					Set<Data> s = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
+					Iterator<Data> it = s.iterator();
+					while (it.hasNext()){
+						areaTestoOfferta+= it.next().stampaData()+"\n";
 					}
+				} catch (IDEsternoElementoException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				areaTestoPannello2.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
+				
+					
 			
 			}
 			
@@ -1179,44 +1189,24 @@ public class BoundaryProgettista_GestioneOfferta {
 					controlloSintatticoDati();
 					
 					// chiedo conferma
-					int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
+					int conferma = JOptionPane.showConfirmDialog(null, "Aggiungere l'offerta per il viaggio?", "Conferma Aggiunta Offerta", JOptionPane.YES_NO_OPTION);
 					if (conferma == JOptionPane.YES_OPTION){
 						
 						//aggiungo l'offerta
-						
-						
-					}
-				}
-				
-			
-				/* DA IMPLEMENTARE
-				if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
-					
-					String via = (String) tendinaViaPannello2.getSelectedItem();
-					
-					// chiedo conferma
-					int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
-					if (conferma == JOptionPane.YES_OPTION){
-						
-						// rimuovo il viaggio
 						try {
-							controllore.rimuoviViaggio(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
-							JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
-							//aggiorno tutti i campi dopo aver rimosso il viaggio
-							aggiornaTendinePannello2();
+							
+							controllore.aggiungiOfferta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via, data, durata, posti);
+							aggiornaTendinePannello2();   //aggiorno il pannello 2
+						} catch (TrattaInesistenteException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 						} catch (IDEsternoElementoException e1) {
 							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-						} catch (TrattaException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 						} catch (OffertaException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 						}
 						
 					}
-						
-				} else {
-					JOptionPane.showMessageDialog(null, "Nessun viaggio selezionato!");
-				} */
+				}
 				
 			}
 
@@ -1564,28 +1554,60 @@ public class BoundaryProgettista_GestioneOfferta {
 			*/
 			
 			//Modifico la stringa da immettere nella textArea    (DA ECCEZIONE PERCHé ANDREBBE DENTRO!!!)
-			if (!viaScelta.equals("---")){
-				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
-				areaTestoPannello2.setText(areaTestoImp + areaTestoCatalogo);
-			}
 			
-			/* DA REIMPLEMENTARE
+			System.out.println("Sono qui1");
+			
 			if (tendinaViaPannello3.getItemCount() != 0) {
-				//Aggiorno l'area testo che mostra il catalogo
+				System.out.println("Sono qui2");
+				//la tendina Offerta
 				try {
 					
+					if (!viaScelta.equals("-----")){
+						System.out.println("Sono qui3");
+						areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
+						System.out.println(areaTestoCatalogo);
+						
+						Set<Data> set = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, ambienteScelto, viaScelta);
+						if(set.size() == 0){	
+					    	areaTestoOfferta = "Non ci sono offerte per la tratta";
+					    } else {
+					    	
+					    	System.out.println("Sono qui4");
+						    Iterator<Data> it = set.iterator();
+						    if(set.size() > 1){
+						    	System.out.println("Sono anche qui");
+								//inserisco l'elemento neutro
+								tendinaOffertaPannello3.addItem("-----");
+							}
+						    
+						    while(it.hasNext()){
+						    	System.out.println("Sono nel ciclo");
+						    	Data d = it.next();
+						    	//inserisco l'elemento in tendina
+						    	tendinaOffertaPannello3.addItem(d.stampaData());
+						    	//Per il momento, inserisco anche l'elemento sulla mappa (DA IMPLEMENTARE UN METODO COME MOSTRA CATALOGO
+						    	areaTestoOfferta+= d.stampaData()+"\n";
+						    }
+						    
+						    System.out.println("Sono qui5");
+						    tendinaOffertaPannello3.setEnabled(true);
+						    tendinaOffertaPannello3.setSelectedIndex(0);
+					    }
+						
+						
+					}
+					
+					areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
+					/*
 					areaTestoOfferta = controllore.mostraCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
-					areaTestoPannello3.setText(areaTestoImp + areaTestoOfferta);
-					areaTestoPannello3.setCaretPosition(0);
-				} catch (MappaException e1) {
-					areaTestoPannello3.setText(e1.getMessage()+"\n");
+					
+					areaTestoPannello3.setCaretPosition(0);*/
 				} catch (IDEsternoElementoException e1) {
+					e1.printStackTrace();
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaException e1) {
-					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				}
+				} 
 				
-			} */
+			} 
 			
 		}
 		

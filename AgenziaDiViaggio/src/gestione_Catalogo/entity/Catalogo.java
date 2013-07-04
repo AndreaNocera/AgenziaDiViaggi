@@ -29,6 +29,7 @@ public class Catalogo {
 	//costruttore
 	private Catalogo() {
 		listaTratte = new ArrayList<Tratta>();
+		listaOfferte = new ArrayList<Offerta>();
 		mappaCatalogo = new MappaCatalogo(); //istanziato il catalogo, creo subito una mappa per gli ambienti
 		CatalogoDAO dao = CatalogoDAO.getIstanza();
 		listaTratte = dao.getCatalogo();
@@ -63,7 +64,11 @@ public class Catalogo {
 	
 
 	public boolean verificaEsistenzaOfferta(Integer idTratta, Integer[] data) {
-		return false;
+		for (Offerta offerta : listaOfferte) {
+			if (offerta.verifyExistence(idTratta, data)){
+				return true;
+			}
+		} return false;
 		
 	}
 
@@ -140,8 +145,8 @@ public class Catalogo {
 	}
 	
 	
-	public Set<Integer> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException {
-		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).listaChiaviElementi();
+	public Set<Data> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException {
+		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).listaChiaviOfferte();
 	
 	}
 	
@@ -231,7 +236,7 @@ public class Catalogo {
 		String partenza = tratta.getPartenza().getIDEsternoElemento();
 		String arrivo = tratta.getArrivo().getIDEsternoElemento();
 		String via = tratta.getVia().getIDEsternoElemento();
-		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).aggiungiOfferta(offerta.getIdOfferta(), offerta);
+		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).aggiungiOfferta(offerta.getData(), offerta);
 		
 	}
 

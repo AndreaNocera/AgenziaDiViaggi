@@ -22,13 +22,19 @@ public class Offerta {
 	}
 
 
-	public boolean verifyExistence(Integer idOfferta, Integer[] data){
-		return false;
+	public boolean verifyExistence(Integer idTratta, Integer[] data){
+		//serve per verificare se l'offerta da inserire è gia presente
+		Data nuovadata = new Data(data[0],data[1],data[2],data[3],data[4]);
+		if(this.idTratta.equals(idTratta) &&
+		   this.dataPartenza.equals(nuovadata)) return true;
+		else return false;
 		
 	}
 	
 	
 	public boolean verifyExistence(Integer idTratta) {
+		//serve per verificare se nella lista delle offerte, c'è una particolare tratta
+		//evita di eliminare quella tratta
 		if (this.idTratta.equals(idTratta))
 			return true;
 		return false;
@@ -36,6 +42,10 @@ public class Offerta {
 
 	public Integer getIdOfferta(){
 		return idOfferta;
+	}
+	
+	public Data getData(){
+		return dataPartenza;
 	}
 	
 }

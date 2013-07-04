@@ -16,23 +16,23 @@ public abstract class ElementoFinale extends ElementoCatalogo {
 	
 	public ElementoFinale(IDEsternoElemento idEsternoElemento) {
 		super(idEsternoElemento);
-		mappaOfferte = new MappaOfferte();
+		mappaOfferte = new MappaOfferte(new MappaOfferteComparator());
 
 	}
 
 	public ElementoFinale(Integer ID, IDEsternoElemento idEsternoElemento) {
 		super(ID, idEsternoElemento);
-		mappaOfferte = new MappaOfferte();
+		mappaOfferte = new MappaOfferte(new MappaOfferteComparator());
 
 	}
 	
 
-	public Set<Integer> listaChiaviElementi() {
+	public Set<Data> listaChiaviOfferte() {
 		return mappaOfferte.keySet();
 	}
 
 
-	public void aggiungiOfferta(Integer k, Offerta o){
+	public void aggiungiOfferta(Data k, Offerta o){
 		mappaOfferte.aggiungiOfferta(k, o);
 	}
 

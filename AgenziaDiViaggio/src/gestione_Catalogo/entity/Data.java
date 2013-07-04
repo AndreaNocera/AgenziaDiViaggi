@@ -85,4 +85,24 @@ public class Data extends GregorianCalendar {
 		return nuovaData;
 	}
 	
+	public int getAnno(){
+		return super.get(GregorianCalendar.YEAR);
+	}
+	
+	public int getMese(){
+		return super.get(GregorianCalendar.MONTH)+1;
+	}
+	
+	public int getGiorno(){
+		return super.get(GregorianCalendar.DAY_OF_MONTH);
+	}
+	
+	public int getOra(){
+		return super.get(GregorianCalendar.HOUR_OF_DAY);
+	}
+	
+	public int getMinuto(){
+		return super.get(GregorianCalendar.MINUTE);
+	}
+	
 }

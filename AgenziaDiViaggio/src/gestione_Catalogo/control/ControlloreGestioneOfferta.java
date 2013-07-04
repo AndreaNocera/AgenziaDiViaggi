@@ -8,6 +8,7 @@ import gestione_Catalogo.entity.Offerta;
 import gestione_Catalogo.entity.Tratta;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
+import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
 import java.util.Set;
@@ -48,17 +49,20 @@ public class ControlloreGestioneOfferta extends Controllore {
 		return catalogo.getChiaviVia(ambiente, mezzo, partenza, arrivo);
 	}
 		
-	public Set<Integer> mostraOffertePerLaTratta(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException{
+	public Set<Data> mostraOffertePerLaTratta(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException{
 		return catalogo.getChiaviOfferte(ambiente, mezzo, partenza, arrivo, via);
 	}
 	
 	
-	public void aggiungiOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, Integer[] data, int durata, int posti) throws TrattaInesistenteException, IDEsternoElementoException{
+	public void aggiungiOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, Integer[] data, int durata, int posti) throws TrattaInesistenteException, IDEsternoElementoException, OffertaException{
+		
 		Tratta tratta = catalogo.getTrattaByValue(ambiente, mezzo, partenza, arrivo, via);
 		Integer idTratta = tratta.getID();
+		
 		if (catalogo.verificaEsistenzaOfferta(idTratta, data)){
-			
+			throw new OffertaException("Offerta già esistente");
 		}
+		
 		Offerta nuovaOfferta = new Offerta(idTratta, new Data(data[0], data[1], data[2], data[3], data[4]), durata, posti);
 		catalogo.aggiungiOffertaAlCatalogo(nuovaOfferta, tratta);
 	}

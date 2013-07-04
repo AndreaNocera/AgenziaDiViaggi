@@ -7,15 +7,15 @@ import java.util.TreeMap;
  * Remo Sperlongano
  * Ivan Torre
  */
-public class MappaOfferte extends TreeMap<Integer,Offerta>{
+public class MappaOfferte extends TreeMap<Data,Offerta>{
 
 	private static final long serialVersionUID = 1L;
 
-	public MappaOfferte(){
-		super();
+	public MappaOfferte(MappaOfferteComparator moc){
+		super(moc);
 	}
 
-	public void aggiungiOfferta(Integer k, Offerta o){
+	public void aggiungiOfferta(Data k, Offerta o){
 		if(!containsKey(k))
 			super.put(k, o);
 	}
