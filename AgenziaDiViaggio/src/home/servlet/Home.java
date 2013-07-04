@@ -3,7 +3,7 @@
  * 
  * @package home.servlet
  * 
- * @name HomeServlet.java
+ * @name Home.java
  *
  * @description
  *
@@ -14,11 +14,12 @@
 package home.servlet;
 
 import gestioneutenti.controller.ControllerAmministraUtenti;
-import gestioneutenti.model.Utente;
+import gestioneutenti.model.bean.UtenteBean;
 import gestioneutenti.model.competenze.Competenza;
 import home.exception.HomeException;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,15 +28,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/HomeServlet")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/Home")
+public class Home extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private static final String JSP_AMMINISTRAZIONE_UTENTI = "/AmministraUtenti.jsp";
-	private static final String JSP_LOGIN = "/SignIn.jsp";
+	private static final String JSP_LOGIN = "/Login.jsp";
 
-    public HomeServlet() {
+    public Home() {
         super();
     }
     
@@ -44,18 +45,26 @@ public class HomeServlet extends HttpServlet {
 		switch(competenza) {
 		case Competenza.AMMINISTRAZIONE_UTENTI:
 			 try {
-				 ControllerAmministraUtenti controller = ControllerAmministraUtenti.getInstance();
-				 Utente[] utenti = controller.getUtenti();
+				 ControllerAmministraUtenti controller = ControllerAmministraUtenti.getWebInstance();
+				 List<UtenteBean> utenti = controller.getUtenti();
 	             RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_AMMINISTRAZIONE_UTENTI);
 	             request.setAttribute("utenti", utenti);
 	             rd.forward(request, response);
+	             return;
 	         } catch (Exception e) {
 	             e.printStackTrace();
 	         }
+		case Competenza.GESTIONE_CATALOGO:
+			return;
+		case Competenza.GESTIONE_OFFERTA:
+			return;
+		case Competenza.GESTIONE_PROFILO:
+			return;
 		case Competenza.LOGIN:
 			try {
                 RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_LOGIN);
                 rd.forward(request, response);
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
             }
