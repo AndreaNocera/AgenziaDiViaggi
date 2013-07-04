@@ -1540,48 +1540,34 @@ public class BoundaryProgettista_GestioneOfferta {
 			arrivoScelto = (String)tendinaCittaArrivoPannello3.getSelectedItem();
 			viaScelta = (String) tendinaViaPannello3.getSelectedItem();
 			
+			//Svuoto tutte le tendine e l'area testo
+			tendinaOffertaPannello3.removeAllItems();
+			tendinaOffertaPannello3.setEnabled(false);
+			
+			areaTestoPannello3.setText("");
+			areaTestoOfferta="";
 			
 			
-			/* DA REIMPLEMENTARE
-			campoGiornoPannello3.setEditable(true);
-			tendinaMesePannello3.setEnabled(true);
-			tendinaAnnoPannello3.setEnabled(true);
-			tendinaOrePannello3.setEnabled(true);
-			tendinaMinutoPannello3.setEnabled(true);
-			campoDurataPannello3.setEditable(true);
-			campoPostiPannello3.setEditable(true);
-			
-			*/
-			
-			//Modifico la stringa da immettere nella textArea    (DA ECCEZIONE PERCHé ANDREBBE DENTRO!!!)
-			
-			System.out.println("Sono qui1");
 			
 			if (tendinaViaPannello3.getItemCount() != 0) {
-				System.out.println("Sono qui2");
-				//la tendina Offerta
 				try {
 					
 					if (!viaScelta.equals("-----")){
-						System.out.println("Sono qui3");
 						areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
-						System.out.println(areaTestoCatalogo);
 						
-						Set<Data> set = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, ambienteScelto, viaScelta);
+						
+						Set<Data> set = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
 						if(set.size() == 0){	
 					    	areaTestoOfferta = "Non ci sono offerte per la tratta";
 					    } else {
 					    	
-					    	System.out.println("Sono qui4");
 						    Iterator<Data> it = set.iterator();
 						    if(set.size() > 1){
-						    	System.out.println("Sono anche qui");
 								//inserisco l'elemento neutro
 								tendinaOffertaPannello3.addItem("-----");
 							}
 						    
 						    while(it.hasNext()){
-						    	System.out.println("Sono nel ciclo");
 						    	Data d = it.next();
 						    	//inserisco l'elemento in tendina
 						    	tendinaOffertaPannello3.addItem(d.stampaData());
@@ -1589,7 +1575,6 @@ public class BoundaryProgettista_GestioneOfferta {
 						    	areaTestoOfferta+= d.stampaData()+"\n";
 						    }
 						    
-						    System.out.println("Sono qui5");
 						    tendinaOffertaPannello3.setEnabled(true);
 						    tendinaOffertaPannello3.setSelectedIndex(0);
 					    }
@@ -1597,13 +1582,12 @@ public class BoundaryProgettista_GestioneOfferta {
 						
 					}
 					
-					areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
+					areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo +  areaTestoOfferta);
 					/*
 					areaTestoOfferta = controllore.mostraCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
 					
 					areaTestoPannello3.setCaretPosition(0);*/
 				} catch (IDEsternoElementoException e1) {
-					e1.printStackTrace();
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				} 
 				
