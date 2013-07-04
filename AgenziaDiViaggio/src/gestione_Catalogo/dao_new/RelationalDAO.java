@@ -24,41 +24,41 @@ public class RelationalDAO {
 	
 	private static String tabella;
 	private Vector<String> fields;
+	private Vector<String> fields_attributes;
 	private String idField;
-	protected String createQuery, dropQuery, truncateQuery; 
+	protected String createQuery, dropQuery, truncateQuery;
 	protected String getListQuery, insertQuery, updateQuery, deleteQuery, findByIdQuery, findByValueQuery; 
 	
 	private String getStruttura() {
 		String struttura = "(" + idField + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " ;
 		Iterator<String> i = fields.listIterator();
+		Iterator<String> k = fields_attributes.listIterator();
 	    while (i.hasNext()) {
-	    	struttura += i.next() + " , " ;
+	    	struttura += i.next() + " " + k.next() + " , " ;
 	    }
-	    
-	    Iterator<String> i = fields.listIterator();
+	    i = fields.listIterator();
 	    while (i.hasNext()) {
-	    	struttura += i.next() + " , " ;
+	    	String campo = i.next();
+	    	struttura += i.next() + " , FOREIGN KEY ("+ campo + ") REFERENCES " + campo + "("+ idField + ")";
 	    }
 	    struttura += ") ";
-		
 		return struttura;
 	}
 	
 	protected RelationalDAO(String tabella) {
 		try {
-			createQuery = "CREATE TABLE IF NOT EXISTS " + tabella + this.getStructureBlock();
+			createQuery = "CREATE TABLE IF NOT EXISTS " + tabella + this.getStruttura();
 			findByIdQuery = "SELECT * FROM " + tabella + " WHERE id=? LIMIT 1";
-			findByValueQuery = "SELECT * FROM " + tabella + " WHERE idesternoelemento=? LIMIT 1";
+			findByValueQuery = "SELECT * FROM " + tabella + " WHERE ?=? LIMIT 1";
 			getListQuery = "SELECT * FROM " + tabella + " WHERE NOME=? LIMIT 1";
 			insertQuery = "INSERT INTO " + tabella + "(idesternoelemento) VALUES(?)";
-			updateQuery = "UPDATE " + tabella + " SET IDESTERNOELEMENTO=? WHERE id=? LIMIT 1";
-			deleteQuery = "DELETE FROM " + tabella + " WHERE id=? LIMIT 1";
+			updateQuery = "UPDATE " + tabella + " SET ?=? WHERE id=? LIMIT 1";
+			deleteQuery = "DELETE FROM " + tabella + " WHERE ID=? LIMIT 1";
 			dropQuery = "DROP TABLE " + tabella  + " IF EXISTS";
 			truncateQuery = "TRUNCATE TABLE " + tabella + "IF EXISTS";
 			conn = Persistenza.getConnection();
 			prepStat = conn.prepareStatement(createQuery);
 			prepStat.executeUpdate();
-			
 			System.out.println("creazione DAO");
 		} catch (SQLException e) {
 			e.printStackTrace();

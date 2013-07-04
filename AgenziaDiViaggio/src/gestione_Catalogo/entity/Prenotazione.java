@@ -6,7 +6,6 @@ package gestione_Catalogo.entity;
  * Ivan Torre
  */
 public class Prenotazione {
-	
 	private Biglietto biglietto;
 
 }

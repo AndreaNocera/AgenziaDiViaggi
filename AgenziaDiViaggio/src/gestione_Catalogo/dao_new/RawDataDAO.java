@@ -37,8 +37,6 @@ public class RawDataDAO {
 			conn = Persistenza.getConnection();
 			prepStat = conn.prepareStatement(createQuery);
 			prepStat.executeUpdate();
-			
-			System.out.println("creazione DAO");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

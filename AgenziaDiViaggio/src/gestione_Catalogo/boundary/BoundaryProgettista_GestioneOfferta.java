@@ -396,11 +396,11 @@ public class BoundaryProgettista_GestioneOfferta {
 		panel2.add(labelMesePannello2); 
 		
 		
-	
+		
 		tendinaMesePannello2 = new JComboBox<Integer>(); //Tendina per mesi
 		tendinaMesePannello2.setBackground(Color.WHITE);
 		for (int i=1; i<=12; i++){
-			tendinaMesePannello2.addItem(i);
+			tendinaMesePannello2.addItem(new Integer(i));
 		}
 		tendinaMesePannello2.setBounds(panel2.getWidth()/24*13+95, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
 		tendinaMesePannello2.setEnabled(false);
@@ -950,8 +950,6 @@ public class BoundaryProgettista_GestioneOfferta {
 	
 	
 	private class TendinaMezziPannello2AA implements ActionListener{
-		
-		
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -1160,7 +1158,6 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 	}
 	
-	
 		private class AggiungiAA implements ActionListener{
 
 			@Override
@@ -1170,13 +1167,12 @@ public class BoundaryProgettista_GestioneOfferta {
 					String via = (String) tendinaViaPannello2.getSelectedItem();
 					
 					int giorno = Integer.parseInt(campoGiornoPannello2.getText());
-					int mese = (int) tendinaMesePannello2.getSelectedItem();
-					int anno = (int) tendinaAnnoPannello2.getSelectedItem();
-					int ora = (int) tendinaOrePannello2.getSelectedItem();
-					int minuto = (int) tendinaMinutoPannello2.getSelectedItem();
+					int mese = (Integer) tendinaMesePannello2.getSelectedItem();
+					int anno = (Integer) tendinaAnnoPannello2.getSelectedItem();
+					int ora = (Integer) tendinaOrePannello2.getSelectedItem();
+					int minuto = (Integer) tendinaMinutoPannello2.getSelectedItem();
 					int durata = Integer.parseInt(campoDurataPannello2.getText());
 					int posti = Integer.parseInt(campoPostiPannello2.getText());
-					
 					
 					Integer[] data = new Integer[5];
 					data[0]=giorno;
