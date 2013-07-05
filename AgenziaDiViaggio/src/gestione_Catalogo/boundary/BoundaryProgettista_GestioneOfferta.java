@@ -11,6 +11,7 @@ import gestione_Catalogo.entity.Data;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
+import gestione_Catalogo.exception.OffertaInesistenteException;
 import gestione_Catalogo.exception.TrattaException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
@@ -1153,6 +1154,8 @@ public class BoundaryProgettista_GestioneOfferta {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 				} catch (TrattaInesistenteException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+				} catch (OffertaInesistenteException e) {
+					areaTestoOfferta = e.getMessage();
 				}
 				
 				areaTestoPannello2.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
@@ -1597,6 +1600,9 @@ public class BoundaryProgettista_GestioneOfferta {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				} catch (TrattaInesistenteException e) {
 					areaTestoPannello3.setText(e.getMessage()+"\n");
+				} catch (OffertaInesistenteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} 
 				
 			} 

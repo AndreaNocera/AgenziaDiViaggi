@@ -47,7 +47,7 @@ public class Offerta {
 	
 	
 	public boolean verifyExistence(Integer idTratta) {
-		//serve per verificare se nella lista delle offerte, c'è una particolare tratta
+		//serve per verificare se nella lista delle offerte, c'è almeno un offerta per una particolare tratta
 		//evita di eliminare quella tratta
 		if (this.idTratta.equals(idTratta))
 			return true;

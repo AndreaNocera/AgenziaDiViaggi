@@ -4,6 +4,7 @@ import gestione_Catalogo.dao.CatalogoDAO;
 import gestione_Catalogo.dao.TrattaDAO;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
+import gestione_Catalogo.exception.OffertaInesistenteException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
 import java.util.ArrayList;
@@ -159,22 +160,20 @@ public class Catalogo {
 		throw new TrattaInesistenteException("Tratta non esistente.");
 	}
 	
-	public String getListaOffertePerLaTratta(Integer id){
-		String stringaOfferte = "";
+	public Offerta getOffertaByData(Integer idTratta, Data dataPartenza) throws OffertaInesistenteException{
+		System.out.println("Sono in getOffertaByData");
+		Offerta o = null;
 		for (Offerta offerta : listaOfferte){
-			if (offerta.getIdTratta().equals(id)){
-				//questa è un offerta per questo tratta
-				stringaOfferte += offerta.getData().stampaData() + "\t" + offerta.getDataArrivo().stampaData() + "\t" + offerta.getPosti() + "\n";
+			System.out.println("Sono nel for di getOffertaByData");
+			if (offerta.getIdTratta().equals(idTratta) && offerta.getData().equals(dataPartenza));{
+				o = offerta;
 			}
 		}
 		
-		if (stringaOfferte.equals("")){
-			stringaOfferte = "Non ci sono offerte per questa tratta";
-		}
-		
-		return stringaOfferte;
+		if (o.equals(null)){
+			throw new OffertaInesistenteException("Non ci sono offerte per questa Tratta");
+		} else return o;
 	}
-
 	
 	
 	private void aggiungiInMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
