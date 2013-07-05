@@ -3,7 +3,7 @@
  * 
  * @package gestioneutenti.model
  * 
- * @name ResetCode.java
+ * @name ResetPassword.java
  *
  * @description
  *

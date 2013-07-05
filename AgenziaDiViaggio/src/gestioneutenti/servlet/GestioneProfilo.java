@@ -14,6 +14,8 @@
 package gestioneutenti.servlet;
 
 import gestioneutenti.controller.ControllerGestisciProfilo;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
@@ -53,7 +55,7 @@ public class GestioneProfilo extends HttpServlet {
 			session.setAttribute("nUtente", null);
 			session.setAttribute("utente", nUtenteBean);
 			return;
-		} catch (UtenteInesistenteException e) {
+		} catch (UtenteInesistenteException | LoginInconsistenteException | DatiUtenteInconsistentiException e) {
 			response.sendRedirect("FallimentoGestioneProfilo.jsp");
 			return;
 		}

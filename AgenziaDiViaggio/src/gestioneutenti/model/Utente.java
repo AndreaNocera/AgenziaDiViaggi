@@ -13,6 +13,9 @@
 
 package gestioneutenti.model;
 
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
+import gestioneutenti.model.bean.UtenteBean;
 import gestioneutenti.model.ruoli.Ruolo;
 
 public class Utente implements Comparable<Utente> {
@@ -25,6 +28,10 @@ public class Utente implements Comparable<Utente> {
 		this.setDatiUtente(dati);
 		this.setRuolo(ruolo);
 		this.setLogin(login);
+	}
+	
+	public Utente() {
+		
 	}
 
 	@Override
@@ -55,5 +62,12 @@ public class Utente implements Comparable<Utente> {
 	public Login getLogin() {
 		return this.login;
 	}	
+	
+	public Utente fromBean(UtenteBean bean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
+		DatiUtente bDati = new DatiUtente(bean.getNome(), bean.getCognome(), bean.getCitta(), bean.getSesso(), bean.getNascita(), bean.getMail());
+		Ruolo bRuolo = bean.getRuolo();
+		Login bLogin = new Login(bean.getUsername(), bean.getPassword());
+		return new Utente(bDati, bRuolo, bLogin);	
+	}
 
 }

@@ -75,6 +75,12 @@ $(function() {
 		autoOpen: false,
 		draggable: false,
 		modal: true,
+		show: {
+			effect: "blind"
+		},
+		hide: {
+			effect: "blind"
+		},
 		buttons: {
 			Ok: function() {
 				$( this ).dialog( "close" );

@@ -32,7 +32,6 @@
 		<jsp:useBean id = "utente" class = "gestioneutenti.model.bean.UtenteBean" scope = "session"></jsp:useBean>	
 		
 		<%
-			//UtenteBean utenteBean = (UtenteBean) session.getAttribute("utente");	
 			HelperHome helper = HelperHome.getInstance();
 		%>
   		
@@ -95,24 +94,22 @@
 	
 	<body>
 	
-		<div class = "panelLogo" id = "panelLogo" align = "center">
-		
-			<img class = "logo" id = "logoVoyager" border = "0" src = "common/img/Voyager.png" >
-			
-		</div>		
+		<%=
+			helper.getLogo()
+		%>				
 		
 		<div class = "panelMain" id = "panelCompetenze" align = "center">
 		
 			<p class = "title" id = "titleHome">HOME</p>
 			
-			<%				
-				out.println(helper.getWelcome(utente.getNome()));
+			<%= 
+				helper.getWelcome(utente.getNome()) 
 			%>			
 			
 			<form name = "formCompetenze" action = "Home" method = "POST">
 			
-				<%
-					out.println(helper.getHomePanel(utente.getRuolo()));
+				<%=
+					helper.getHomePanel(utente.getRuolo())
 				%>
 				
 			</form>

@@ -23,7 +23,10 @@ import utils.mailer.WebMailer;
 
 import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.model.FactoryPassword;
+import gestioneutenti.model.Utente;
 import gestioneutenti.model.bean.UtenteBean;
 
 public class ControllerAmministraUtenti {
@@ -57,43 +60,46 @@ public class ControllerAmministraUtenti {
 		return singletonControllerAmministraUtenti;
 	}
 	
-	public void nuovo(UtenteBean utenteBean) {
-		utenteDAO.save(utenteBean);
-		inviaDatiUtente(utenteBean);
+	public void nuovo(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
+		Utente utente = new Utente().fromBean(utenteBean);
+		utenteDAO.save(utente);
+		inviaDatiUtente(utente);
 	}
 	
 	
 
-	public void modifica(UtenteBean utenteBean) {
-		utenteDAO.update(utenteBean);	
-		inviaDatiUtente(utenteBean);
+	public void modifica(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
+		Utente utente = new Utente().fromBean(utenteBean);
+		utenteDAO.update(utente);	
+		inviaDatiUtente(utente);
 	}
 
-	public void rimuovi(UtenteBean utenteBean) {
-		utenteDAO.delete(utenteBean);
-		notificaRimozione(utenteBean);
+	public void rimuovi(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
+		Utente utente = new Utente().fromBean(utenteBean);
+		utenteDAO.delete(utente);
+		notificaRimozione(utente);
 	}	
 	
-	private void inviaDatiUtente(UtenteBean utenteBean) {
-		String mail = utenteBean.getMail();
-		GregorianCalendar cal = utenteBean.getNascita();
+	private void inviaDatiUtente(Utente utente) {
+		String mail = utente.getDatiUtente().getMail();
+		GregorianCalendar cal = utente.getDatiUtente().getNascita();
 		String data = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH); 
-		mailer.inviaMail(mail, "Voyager", "Ciao " + utenteBean.getUsername() + "!" +
+		mailer.inviaMail(mail, "Voyager", "Ciao " + utente.getLogin().getUsername() + "!" +
 				"\n\nEcco i tuoi dati di registrazione:\n" + 
-				"\tNome: " + utenteBean.getNome() + "\n" +
-				"\tCognome: " + utenteBean.getCognome() + "\n" +
-				"\tCittà: " + utenteBean.getCitta() + "\n" +
+				"\tNome: " + utente.getDatiUtente().getNome() + "\n" +
+				"\tCognome: " + utente.getDatiUtente().getCognome() + "\n" +
+				"\tCittà: " + utente.getDatiUtente().getCitta() + "\n" +
 				"\tNascita: " + data + "\n" +
-				"\tSesso: " + utenteBean.getSesso() + "\n" +
-				"\tMail: " + utenteBean.getMail() + "\n" +
-				"\tUsername: " + utenteBean.getUsername() + "\n" +
-				"\tPassword: " + utenteBean.getPassword() + "\n" +
+				"\tSesso: " + utente.getDatiUtente().getSesso() + "\n" +
+				"\tMail: " + utente.getDatiUtente().getMail() + "\n" +
+				"\tUsername: " + utente.getLogin().getUsername() + "\n" +
+				"\tPassword: " + utente.getLogin().getPassword() + "\n" +
 				"\n\nSaluti dal team di Voyager.");
 	}
 
-	private void notificaRimozione(UtenteBean utenteBean) {
-		String mail = utenteBean.getMail();
-		mailer.inviaMail(mail, "Voyager", "Ciao " + utenteBean.getUsername() + "!\n\nQuesta email è per notificarti della tua eliminazione dal sistema Voyager.\n\nSaluti dal team di Voyager.");
+	private void notificaRimozione(Utente utente) {
+		String mail = utente.getDatiUtente().getMail();
+		mailer.inviaMail(mail, "Voyager", "Ciao " + utente.getLogin().getUsername() + "!\n\nQuesta email è per notificarti della tua eliminazione dal sistema Voyager.\n\nSaluti dal team di Voyager.");
 	}
 
 	public void cerca(String query) {

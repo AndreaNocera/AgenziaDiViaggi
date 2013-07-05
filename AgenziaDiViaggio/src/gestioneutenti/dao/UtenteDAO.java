@@ -16,23 +16,24 @@ package gestioneutenti.dao;
 import java.util.List;
 
 import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.bean.LoginBean;
+import gestioneutenti.model.Login;
+import gestioneutenti.model.Utente;
 import gestioneutenti.model.bean.UtenteBean;
 
 public interface UtenteDAO {
 	
-	public boolean save(UtenteBean utenteBean);
+	public boolean save(Utente utente);
 	
-	public boolean update(UtenteBean utenteBean);
+	public boolean update(Utente utente);
 	
-	public boolean delete(UtenteBean utenteBean);
+	public boolean delete(Utente utente);
 	
 	public List<UtenteBean> findAll();
 	
-	public UtenteBean findByLogin(LoginBean login) throws UtenteInesistenteException;
+	public UtenteBean findByLogin(Login login) throws UtenteInesistenteException;
 	
 	public UtenteBean findByUsername(String username) throws UtenteInesistenteException;
 	
-	public boolean verifyLogin(LoginBean loginBean) throws UtenteInesistenteException;
+	public boolean verifyLogin(Login login) throws UtenteInesistenteException;
 
 }

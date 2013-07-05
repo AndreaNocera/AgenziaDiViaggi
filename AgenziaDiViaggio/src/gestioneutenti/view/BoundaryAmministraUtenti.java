@@ -14,6 +14,8 @@
 package gestioneutenti.view;
 
 import gestioneutenti.controller.ControllerAmministraUtenti;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.model.bean.UtenteBean;
 import gestioneutenti.view.utils.DialogModificaUtente;
 import gestioneutenti.view.utils.TabellaUtenti;
@@ -190,15 +192,27 @@ public class BoundaryAmministraUtenti extends JPanel{
 	}
 	
 	private void nuovo(UtenteBean utenteBean) {
-		this.controllerAmministraUtenti.nuovo(utenteBean);
+		try {
+			this.controllerAmministraUtenti.nuovo(utenteBean);
+		} catch (DatiUtenteInconsistentiException | LoginInconsistenteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void modifica(UtenteBean utenteBean) {		
-		this.controllerAmministraUtenti.modifica(utenteBean);
+		try {
+			this.controllerAmministraUtenti.modifica(utenteBean);
+		} catch (DatiUtenteInconsistentiException | LoginInconsistenteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void rimuovi(UtenteBean utenteBean) {
-		this.controllerAmministraUtenti.rimuovi(utenteBean);
+		try {
+			this.controllerAmministraUtenti.rimuovi(utenteBean);
+		} catch (DatiUtenteInconsistentiException | LoginInconsistenteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void cerca(String query) {

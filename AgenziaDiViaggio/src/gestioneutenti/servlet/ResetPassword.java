@@ -1,6 +1,8 @@
 package gestioneutenti.servlet;
 
 import gestioneutenti.controller.ControllerLogin;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteInesistenteException;
 
 import java.io.IOException;
@@ -32,7 +34,7 @@ public class ResetPassword extends HttpServlet {
 		try {
 			this.controllerLogin.impostaResetCode(username);
 			return;
-		} catch (UtenteInesistenteException e) {
+		} catch (UtenteInesistenteException | DatiUtenteInconsistentiException | LoginInconsistenteException e) {
 			return;
 		}
 	}

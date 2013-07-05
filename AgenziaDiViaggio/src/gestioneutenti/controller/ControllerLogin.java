@@ -20,6 +20,8 @@ import utils.mailer.StandaloneMailer;
 import utils.mailer.WebMailer;
 import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.*;
 import gestioneutenti.model.bean.LoginBean;
@@ -57,8 +59,9 @@ public class ControllerLogin {
 		return singletonControllerLogin;
 	}
 		
-	public synchronized UtenteBean login(LoginBean loginBean) throws UtenteInesistenteException {
-		UtenteBean utenteBean = utenteDAO.findByLogin(loginBean);
+	public synchronized UtenteBean login(LoginBean loginBean) throws UtenteInesistenteException, LoginInconsistenteException {
+		Login login = new Login().fromBean(loginBean);
+		UtenteBean utenteBean = utenteDAO.findByLogin(login);
 		
 		return utenteBean;
 	}
@@ -73,13 +76,14 @@ public class ControllerLogin {
 		dialog.setVisible(true);
 	}
 	
-	public synchronized void impostaResetCode(String username) throws UtenteInesistenteException {
-		UtenteBean utenteBean = utenteDAO.findByUsername(username);
+	public synchronized void impostaResetCode(String username) throws UtenteInesistenteException, DatiUtenteInconsistentiException, LoginInconsistenteException {		
 		FactoryResetCode factoryResetCode = FactoryResetCode.getInstance();
 		ResetCode resetCode = factoryResetCode.creaResetCode();
-		utenteDAO.update(utenteBean.setPassword(String.valueOf(resetCode.getCodice())));
-		String mail = utenteBean.getMail();
-		mailer.inviaMail(mail, "Voyager ResetCode", "Ciao " + username + "!\n\nLa tua password provvisoria è: " + resetCode.getCodice() + "\n\nSaluti dal team di Voyager.");
+		UtenteBean utenteBean = utenteDAO.findByUsername(username).setPassword(String.valueOf(resetCode.getCodice()));
+		Utente utente = new Utente().fromBean(utenteBean);
+		String mail = utente.getDatiUtente().getMail();
+		utenteDAO.update(utente);		
+		mailer.inviaMail(mail, "Voyager ResetPassword", "Ciao " + username + "!\n\nLa tua password provvisoria è: " + resetCode.getCodice() + "\n\nSaluti dal team di Voyager.");
 	}	
 
 }

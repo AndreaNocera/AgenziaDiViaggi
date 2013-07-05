@@ -16,6 +16,7 @@
 <%@ page language = "java" contentType = "text/html; charset=ISO-8859-1" pageEncoding = "ISO-8859-1" %>
 
 <%@ include file = "common/Head.jsp" %>
+<%@ page import = "home.helper.HelperHome" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -26,6 +27,10 @@
 		<meta http-equiv = "Content-Type" content = "text/html; charset = ISO-8859-1">
 		
 		<link href = "common/css/Login.css" type = "text/css" rel = "stylesheet">
+		
+		<%
+			HelperHome helper = HelperHome.getInstance();
+		%>
   		
 	</head>
 	
@@ -74,11 +79,9 @@
 	
 	<body>
 	
-		<div class = "panelLogo" id = "panelLogo" align = "center">
-		
-			<img class = "logo" id = "logoVoyager" border = "0" src = "common/img/Voyager.png">
-			
-		</div>
+		<%=
+			helper.getLogo()
+		%>
 		
 		<div class = "panelMain" id = "panelLogin" align = "center">
 				
