@@ -26,7 +26,8 @@ import gestioneutenti.db.ConnectionManager;
 import gestioneutenti.db.StandaloneConnectionManager;
 import gestioneutenti.db.WebConnectionManager;
 import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.bean.LoginBean;
+import gestioneutenti.model.Login;
+import gestioneutenti.model.Utente;
 import gestioneutenti.model.bean.UtenteBean;
 import gestioneutenti.model.ruoli.FactoryRuoli;
 
@@ -60,20 +61,20 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	}
 
 	@Override
-	public synchronized boolean save(UtenteBean utenteBean) {	
-		GregorianCalendar cal = utenteBean.getNascita();
+	public synchronized boolean save(Utente utente) {	
+		GregorianCalendar cal = utente.getDatiUtente().getNascita();
 		String data = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
 		String SQL_INSERT = "INSERT INTO `utenti` " +
 				"(`username`, `password`, `ruolo`, `nome`, `cognome`, `citta`, `nascita`, `sesso`, `mail`) " +
-				"VALUES (\"" + utenteBean.getUsername() + "\", " +
-						"\"" + utenteBean.getPassword() + "\", " +
-						"" + utenteBean.getRuolo().getId() + ", " +
-						"\"" + utenteBean.getNome() + "\", " +
-						"\"" + utenteBean.getCognome() + "\", " +
-						"\"" + utenteBean.getCitta() + "\", " +
+				"VALUES (\"" + utente.getLogin().getUsername() + "\", " +
+						"\"" + utente.getLogin().getPassword() + "\", " +
+						"" + utente.getRuolo().getId() + ", " +
+						"\"" + utente.getDatiUtente().getNome() + "\", " +
+						"\"" + utente.getDatiUtente().getCognome() + "\", " +
+						"\"" + utente.getDatiUtente().getCitta() + "\", " +
 						"\"" + data + "\", " +
-						"\"" + utenteBean.getSesso() + "\", " +
-						"\"" + utenteBean.getMail() + "\")";
+						"\"" + utente.getDatiUtente().getSesso() + "\", " +
+						"\"" + utente.getDatiUtente().getMail() + "\")";
 		
 		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
@@ -92,19 +93,19 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	}
 
 	@Override
-	public synchronized boolean update(UtenteBean utenteBean) {
-		GregorianCalendar cal = utenteBean.getNascita();
+	public synchronized boolean update(Utente utente) {
+		GregorianCalendar cal = utente.getDatiUtente().getNascita();
 		String data = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
 		String SQL_INSERT = "UPDATE `utenti` SET " +
-				"`nome` = \"" + utenteBean.getNome() + "\", " +
-				"`cognome` =  \"" + utenteBean.getCognome() + "\", " +
-				"`citta` = \"" + utenteBean.getCitta() + "\", " +
+				"`nome` = \"" + utente.getDatiUtente().getNome() + "\", " +
+				"`cognome` =  \"" + utente.getDatiUtente().getCognome() + "\", " +
+				"`citta` = \"" + utente.getDatiUtente().getCitta() + "\", " +
 				"`nascita` = \"" + data + "\", " +
-				"`sesso` = \"" + utenteBean.getSesso() + "\", " +
-				"`mail` = \"" + utenteBean.getMail() + "\", " +
-				"`ruolo` = " + utenteBean.getRuolo().getId() + ", " +
-				"`password` = \"" + utenteBean.getPassword() + "\" " + 
-				"WHERE `username` = \"" + utenteBean.getUsername() + "\"";
+				"`sesso` = \"" + utente.getDatiUtente().getSesso() + "\", " +
+				"`mail` = \"" + utente.getDatiUtente().getMail() + "\", " +
+				"`ruolo` = " + utente.getRuolo().getId() + ", " +
+				"`password` = \"" + utente.getLogin().getPassword() + "\" " + 
+				"WHERE `username` = \"" + utente.getLogin().getUsername() + "\"";
 		
 		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
@@ -123,8 +124,8 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	}
 
 	@Override
-	public synchronized boolean delete(UtenteBean utenteBean) {
-		String SQL_DELETE = "DELETE FROM `utenti` WHERE `username` = \"" + utenteBean.getUsername() + "\"";
+	public synchronized boolean delete(Utente utente) {
+		String SQL_DELETE = "DELETE FROM `utenti` WHERE `username` = \"" + utente.getLogin().getUsername() + "\"";
 		
 		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
@@ -226,10 +227,10 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	}
 
 	@Override
-	public synchronized UtenteBean findByLogin(LoginBean loginBean) throws UtenteInesistenteException {
+	public synchronized UtenteBean findByLogin(Login login) throws UtenteInesistenteException {
 		String SQL_FIND_BY_LOGIN = "SELECT * FROM `utenti` " +
-				"WHERE `username` = \"" + loginBean.getUsername() + "\" " + 
-				"and `password` = \"" + loginBean.getPassword() + "\"";
+				"WHERE `username` = \"" + login.getUsername() + "\" " + 
+				"and `password` = \"" + login.getPassword() + "\"";
 		
 		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
@@ -271,10 +272,10 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	}
 
 	@Override
-	public boolean verifyLogin(LoginBean loginBean)	throws UtenteInesistenteException {
+	public boolean verifyLogin(Login login)	throws UtenteInesistenteException {
 		String SQL_FIND_BY_LOGIN = "SELECT * FROM `utenti` " +
-				"WHERE `username` = \"" + loginBean.getUsername() + "\" " + 
-				"and `password` = \"" + loginBean.getPassword() + "\"";
+				"WHERE `username` = \"" + login.getUsername() + "\" " + 
+				"and `password` = \"" + login.getPassword() + "\"";
 		
 		Connection connection = connectionManager.getConnection();
 		Statement statement = null;

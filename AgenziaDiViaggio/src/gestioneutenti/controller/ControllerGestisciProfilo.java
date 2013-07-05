@@ -15,8 +15,12 @@ package gestioneutenti.controller;
 
 import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.PasswordNonCoincidentiException;
 import gestioneutenti.exception.UtenteInesistenteException;
+import gestioneutenti.model.Login;
+import gestioneutenti.model.Utente;
 import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 
@@ -51,15 +55,19 @@ public class ControllerGestisciProfilo {
 		return utenteDAO.findByUsername(username);
 	}
 
-	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean) throws UtenteInesistenteException {
-		if (utenteDAO.verifyLogin(loginBean)) {
-			utenteDAO.update(nUtenteBean);
+	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean) throws UtenteInesistenteException, LoginInconsistenteException, DatiUtenteInconsistentiException {
+		Login login = new Login().fromBean(loginBean);
+		Utente nUtente = new Utente().fromBean(nUtenteBean);
+		if (utenteDAO.verifyLogin(login)) {
+			utenteDAO.update(nUtente);
 		}
 	}
 	
-	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean, String confermaNuovaPassword) throws UtenteInesistenteException, PasswordNonCoincidentiException {
-		if (utenteDAO.verifyLogin(loginBean) && matchPassword(nUtenteBean.getPassword(), confermaNuovaPassword)) {
-			utenteDAO.update(nUtenteBean);
+	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean, String confermaNuovaPassword) throws UtenteInesistenteException, PasswordNonCoincidentiException, LoginInconsistenteException, DatiUtenteInconsistentiException {
+		Login login = new Login().fromBean(loginBean);
+		Utente nUtente = new Utente().fromBean(nUtenteBean);
+		if (utenteDAO.verifyLogin(login) && matchPassword(nUtente.getLogin().getPassword(), confermaNuovaPassword)) {
+			utenteDAO.update(nUtente);
 		}				
 	}
 	

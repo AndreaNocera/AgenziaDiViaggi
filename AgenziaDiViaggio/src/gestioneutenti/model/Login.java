@@ -14,6 +14,7 @@
 package gestioneutenti.model;
 
 import gestioneutenti.exception.LoginInconsistenteException;
+import gestioneutenti.model.bean.LoginBean;
 
 public class Login {
 	
@@ -23,6 +24,10 @@ public class Login {
 	public Login(String username, String password) throws LoginInconsistenteException {
 		this.setUsername(username);
 		this.setPassword(password);
+	}
+	
+	public Login() {
+		
 	}
 	
 	public boolean equals(Login other) {
@@ -51,5 +56,9 @@ public class Login {
 		}
 		
 		this.password = password;
+	}
+	
+	public Login fromBean(LoginBean bean) throws LoginInconsistenteException {
+		return new Login(bean.getUsername(), bean.getPassword());
 	}
 }

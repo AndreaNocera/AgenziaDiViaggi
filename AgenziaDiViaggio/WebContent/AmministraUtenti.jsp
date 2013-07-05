@@ -16,6 +16,7 @@
 <%@ page language = "java" contentType = "text/html; charset=ISO-8859-1" pageEncoding = "ISO-8859-1"%>
 
 <%@ include file = "common/Head.jsp" %>
+<%@ page import = "home.helper.HelperHome" %>
 
 <%@ page import = "java.util.List" %>
 <%@ page import = "gestioneutenti.model.bean.UtenteBean" %>
@@ -29,6 +30,10 @@
 		<meta http-equiv = "Content-Type" content = "text/html; charset=ISO-8859-1">
 		
 		<link href = "common/css/AmministraUtenti.css" type = "text/css" rel = "stylesheet">
+		
+		<%
+			HelperHome helper = HelperHome.getInstance();
+		%>
 				
 		<script>
 		
@@ -50,9 +55,9 @@
 	
 	<body>
 	
-		<div class = "panelLogo" align = "center">
-				<img class = "logo" border = "0" src = "common/img/Voyager.png" >
-		</div>
+		<%=
+			helper.getLogo()
+		%>
 		
 		<div class = "panelAmministrazioneUtenti" align = "center">
 			<p class = "title">AMMINISTRAZIONE UTENTI</p>

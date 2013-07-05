@@ -14,6 +14,8 @@
 package gestioneutenti.view;
 
 import gestioneutenti.controller.ControllerGestisciProfilo;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.PasswordNonCoincidentiException;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.LoginBean;
@@ -258,6 +260,12 @@ public class BoundaryGestisciProfilo extends JPanel{
 			JOptionPane.showMessageDialog(getParent(), "Oops! Password non confermata!", "Warning", JOptionPane.WARNING_MESSAGE);
 		} catch (UtenteInesistenteException e) {
 			JOptionPane.showMessageDialog(getParent(), "Oops! Login errato!", "Warning", JOptionPane.WARNING_MESSAGE);
+		} catch (LoginInconsistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DatiUtenteInconsistentiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}

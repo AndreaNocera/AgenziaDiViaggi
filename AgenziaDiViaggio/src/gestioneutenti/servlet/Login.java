@@ -14,6 +14,7 @@
 package gestioneutenti.servlet;
 
 import gestioneutenti.controller.ControllerLogin;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
@@ -54,7 +55,7 @@ public class Login extends HttpServlet {
 	        session.setAttribute("utente", utenteBean);
 	        response.sendRedirect("Home.jsp");
 	        return;
-		} catch (UtenteInesistenteException e) {
+		} catch (UtenteInesistenteException | LoginInconsistenteException e) {
 			response.sendRedirect("FallimentoLogin.jsp");
 			return;
 		} 

@@ -14,6 +14,8 @@
 package gestioneutenti.view.utils;
 
 import gestioneutenti.controller.ControllerLogin;
+import gestioneutenti.exception.DatiUtenteInconsistentiException;
+import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.exception.UtenteInesistenteException;
 
 import java.awt.*;
@@ -85,8 +87,8 @@ public class DialogReimpostaPassword extends JDialog{
 		String username = this.textfieldUsername.getText().toString();		
 		try {
 			this.controllerLogin.impostaResetCode(username);
-			JOptionPane.showMessageDialog(getParent(), "ResetCode inviato a " + username, "Info", JOptionPane.INFORMATION_MESSAGE);
-		} catch (UtenteInesistenteException exc) {
+			JOptionPane.showMessageDialog(getParent(), "ResetPassword inviato a " + username, "Info", JOptionPane.INFORMATION_MESSAGE);
+		} catch (UtenteInesistenteException | DatiUtenteInconsistentiException | LoginInconsistenteException exc) {
 			JOptionPane.showMessageDialog(getParent(), "Utente inesistente", "Info", JOptionPane.WARNING_MESSAGE);
 		}
 		
