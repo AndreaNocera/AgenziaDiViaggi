@@ -2,7 +2,18 @@ $(function() {
 
 	$( document ).tooltip();
 	
-	$( "button" ).button();
+	$( "button" ).button();	
+	
+	$( ".radio" ).buttonset();
+	
+	$( ".datepicker" ).datepicker( {
+		show: {
+			effect: "blind"
+		},
+		hide: {
+			effect: "blind"
+		}
+	});
 	
 	$( ".buttonOk" ).button({
 		icons: { primary: "ui-icon-check" }
@@ -70,5 +81,24 @@ $(function() {
 			}
 		}
 	}); 
+	
+	$( ".dialogMessaggioErrore" ).dialog({
+		autoOpen: true,
+		draggable: false,
+		modal: true,
+		show: {
+			effect: "shake"
+		},
+		hide: {
+			effect: "blind"
+		},
+		buttons: {
+			Ok: function() {
+				$( this ).hide();
+				parent.history.back();
+		        return false;
+			}
+		}
+	});
 	
 });
