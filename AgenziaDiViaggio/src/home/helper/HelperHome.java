@@ -21,6 +21,8 @@ import gestioneutenti.model.ruoli.Ruolo;
 public class HelperHome {
 	
 	private static HelperHome singletonHelperHome = null;
+	
+	private static String PATH_LOGO = "common/img/Voyager.png";
 
 	private HelperHome() {}
 	
@@ -30,6 +32,16 @@ public class HelperHome {
 		}
 		
 		return singletonHelperHome;
+	}
+	
+	public String getLogo() {
+		String html = new String();
+		
+		html += "<div class = \"panelLogo\" id = \"panelLogo\" align = \"center\">\n\n" +
+				"<img class = \"logo\" id = \"logoVoyager\" border = \"0\" src = \"" + PATH_LOGO + "\" >\n\n" +
+				"</div>";
+			
+		return html;
 	}
 	
 	public String getWelcome(String nome) {
