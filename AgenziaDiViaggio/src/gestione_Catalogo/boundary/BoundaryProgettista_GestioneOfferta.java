@@ -116,7 +116,7 @@ public class BoundaryProgettista_GestioneOfferta {
 	private JLabel labelPuntiniPannello2;
 	
 	private JLabel labelMinutiPannello2;
-	private JComboBox<Integer> tendinaMinutoPannello2;
+	private JComboBox<String> tendinaMinutoPannello2;
 	
 	private JLabel labelDurataPannello2;
 	
@@ -402,7 +402,7 @@ public class BoundaryProgettista_GestioneOfferta {
 		for (int i=1; i<=12; i++){
 			tendinaMesePannello2.addItem(new Integer(i));
 		}
-		tendinaMesePannello2.setBounds(panel2.getWidth()/24*13+95, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
+		tendinaMesePannello2.setBounds(panel2.getWidth()/24*13+95, panel2.getHeight()/6*2, panel2.getWidth()/24, 20);
 		tendinaMesePannello2.setEnabled(false);
 		panel2.add(tendinaMesePannello2);
 		
@@ -424,6 +424,7 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		tendinaAnnoPannello2 = new JComboBox<Integer>(); //Tendina per anni
 		tendinaAnnoPannello2.setBackground(Color.WHITE);
+
 		for (int i=2013; i<2020; i++){
 			tendinaAnnoPannello2.addItem(i);
 		}
@@ -453,7 +454,7 @@ public class BoundaryProgettista_GestioneOfferta {
 		for (int i=0; i<24; i++){
 			tendinaOrePannello2.addItem(i);
 		}
-		tendinaOrePannello2.setBounds(panel2.getWidth()/24*19+50, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
+		tendinaOrePannello2.setBounds(panel2.getWidth()/24*19+50, panel2.getHeight()/6*2, panel2.getWidth()/24, 20);
 		tendinaOrePannello2.setEnabled(false);
 		panel2.add(tendinaOrePannello2);
 		
@@ -474,12 +475,17 @@ public class BoundaryProgettista_GestioneOfferta {
 		
    	
 		
-		tendinaMinutoPannello2 = new JComboBox<Integer>(); //Tendina per ore
+		tendinaMinutoPannello2 = new JComboBox<String>(); //Tendina per ore
 		tendinaMinutoPannello2.setBackground(Color.WHITE);
 		for (int i=0; i<60; i++){
-			tendinaMinutoPannello2.addItem(i);
+			String min="";
+			if (i<10){
+				min = "0";
+			}
+			min+=i;
+			tendinaMinutoPannello2.addItem(min);
 		}
-		tendinaMinutoPannello2.setBounds(panel2.getWidth()/24*19+105, panel2.getHeight()/6*2, panel2.getWidth()/26, 20);
+		tendinaMinutoPannello2.setBounds(panel2.getWidth()/24*19+105, panel2.getHeight()/6*2, panel2.getWidth()/24, 20);
 		tendinaMinutoPannello2.setEnabled(false);
 		panel2.add(tendinaMinutoPannello2);
     
@@ -1171,16 +1177,11 @@ public class BoundaryProgettista_GestioneOfferta {
 					int mese = (Integer) tendinaMesePannello2.getSelectedItem();
 					int anno = (Integer) tendinaAnnoPannello2.getSelectedItem();
 					int ora = (Integer) tendinaOrePannello2.getSelectedItem();
-					int minuto = (Integer) tendinaMinutoPannello2.getSelectedItem();
+					int minuto = Integer.parseInt((String) tendinaMinutoPannello2.getSelectedItem());
 					int durata = Integer.parseInt(campoDurataPannello2.getText());
 					int posti = Integer.parseInt(campoPostiPannello2.getText());
 					
-					Integer[] data = new Integer[5];
-					data[0]=giorno;
-					data[1]=mese;
-					data[2]=anno;
-					data[3]=ora;
-					data[4]=minuto;
+					Integer[] data = {giorno, mese, anno, ora, minuto};
 					
 					
 					controlloSintatticoDati();
