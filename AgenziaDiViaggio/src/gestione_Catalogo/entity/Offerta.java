@@ -27,17 +27,19 @@ public class Offerta {
 		this.idOfferta = dao.insertAndReturnId(idTratta, dataPartenza, dataPartenza, posti);
 	}
 	
-	public Offerta(Integer idOfferta, Integer idTratta, Data dataPartenza, Integer durata, Integer posti){
+	
+	
+	public Offerta(Integer idOfferta, Integer idTratta, Data dataPartenza, Data dataArrivo, Integer posti){
 		this.idOfferta = idOfferta;
 		this.idTratta = idTratta;
 		this.dataPartenza = dataPartenza;
-		this.dataArrivo = dataPartenza.getNuovaData(durata);
+		this.dataArrivo = dataArrivo;
 		this.posti = posti;
 	}
 
 
 	public boolean verifyExistence(Integer idTratta, Integer[] data){
-		//serve per verificare se l'offerta da inserire è gia presente
+		//serve per verificare se l'offerta da inserire ï¿½ gia presente
 		Data nuovadata = new Data(data[0],data[1],data[2],data[3],data[4]);
 		if(this.idTratta.equals(idTratta) &&
 		   this.dataPartenza.equals(nuovadata)) return true;
@@ -47,7 +49,7 @@ public class Offerta {
 	
 	
 	public boolean verifyExistence(Integer idTratta) {
-		//serve per verificare se nella lista delle offerte, c'è almeno un offerta per una particolare tratta
+		//serve per verificare se nella lista delle offerte, c'ï¿½ almeno un offerta per una particolare tratta
 		//evita di eliminare quella tratta
 		if (this.idTratta.equals(idTratta))
 			return true;

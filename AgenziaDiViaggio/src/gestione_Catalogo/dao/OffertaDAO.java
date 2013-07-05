@@ -1,13 +1,22 @@
 package gestione_Catalogo.dao;
 
+import gestione_Catalogo.entity.Ambiente;
+import gestione_Catalogo.entity.Citta;
 import gestione_Catalogo.entity.Data;
 import gestione_Catalogo.entity.IDEsternoElemento;
+import gestione_Catalogo.entity.Info;
 import gestione_Catalogo.entity.Mezzo;
+import gestione_Catalogo.entity.Offerta;
+import gestione_Catalogo.entity.Tratta;
+import gestione_Catalogo.entity.Via;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * @authors 
@@ -169,7 +178,41 @@ public class OffertaDAO extends DAO {
 		return null;
 	}
 	
-	
+	public ArrayList<Offerta> getListaOfferte(){
+		ArrayList<Offerta> listaOfferte = new ArrayList<Offerta>();
+		try {
+			conn = getConnection(usr, pass);
+			ps = conn.prepareStatement(getListaOfferteQuery);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Integer idOfferta = rs.getInt(1);
+				Integer idTratta = rs.getInt(2);
+				Data dataPartenza = new Data(rs.getTimestamp(3));
+				Data dataArrivo = new Data(rs.getTimestamp(4));
+				Integer posti = rs.getInt(5);
+				Offerta offerta = new Offerta(idOfferta, idTratta, dataPartenza, dataArrivo, posti);
+				listaOfferte.add(offerta);
+			}
+
+			closeResource();
+			return listaOfferte;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (SecurityException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			closeResource();
+		}
+
+	}
+
+
 	/*
 	 * CRUD - Update
 	 * Da invocare nei metodo set di Mezzo

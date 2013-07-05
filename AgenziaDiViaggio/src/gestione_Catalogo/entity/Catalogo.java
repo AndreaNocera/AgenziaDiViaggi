@@ -152,7 +152,6 @@ public class Catalogo {
 	
 	}
 	
-	
 	public Tratta getTrattaByValue(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaInesistenteException{
 		for (Tratta tratta : listaTratte) {
 			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
@@ -162,15 +161,11 @@ public class Catalogo {
 	}
 	
 	public Offerta getOffertaByData(Integer idTratta, Data dataPartenza) throws OffertaInesistenteException{
-		System.out.println("Sono in getOffertaByData");
 		Offerta o = null;
 		for (Offerta offerta : listaOfferte){
-			System.out.println("Sono nel for di getOffertaByData " + offerta.getData().stampaData() + " con arrivo " + offerta.getDataArrivo().stampaData());
 			if (offerta.getIdTratta().equals(idTratta)){
-				System.out.println("Sono nel primo if");
 				if (offerta.getData().equals(dataPartenza)) {
 						o = offerta;
-						System.out.println("Sono nel secondo if");
 				}
 			}
 		}
