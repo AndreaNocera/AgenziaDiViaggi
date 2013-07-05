@@ -175,7 +175,7 @@ public class CatalogoDAO extends DAO {
 				id = rs.getInt(6);
 				valore = daoVia.readOnlyValue(id);
 				via = new Via(id, valore);
-
+				
 				
 				//creo l'oggetto per le Info
 				info = new Info(rs.getString(7));
@@ -188,7 +188,6 @@ public class CatalogoDAO extends DAO {
 				tratte.add(tratta);
 				
 			}
-
 			closeResource();
 			return tratte;
 

@@ -49,8 +49,8 @@ public class OffertaDAO extends DAO {
 			"WHERE ID=?";
 
 	private static final String findByValueQuery =
-			"SELECT * FROM OFFERTA" + 
-			"WHERE IDTRATTA=?";
+			"SELECT * FROM OFFERTA " + 
+			"WHERE IDTRATTA=? AND DATAPARTENZA=?";
 
 	private static final String dropQuery = "DROP TABLE OFFERTA IF EXISTS";
 	
@@ -96,6 +96,9 @@ public class OffertaDAO extends DAO {
 			conn = getConnection(usr, pass);
 			ps = conn.prepareStatement(findByValueQuery);
 			ps.setInt(1, idTratta);
+			ps.setTimestamp(2, dataPartenza.getDataForDB());
+			System.out.println(ps.toString());
+			
 			rs = ps.executeQuery();
 			if(rs.next()) { // elemento già presente, ritorno direttamente l'ID. 
 				Integer a = rs.getInt(1);
@@ -106,6 +109,7 @@ public class OffertaDAO extends DAO {
 				ps.setInt(1,idTratta);
 				ps.setTimestamp(2, dataPartenza.getDataForDB());
 				ps.setTimestamp(3, dataArrivo.getDataForDB());
+				//System.out.println(ps.toString());
 				ps.setInt(4, posti);
 				ps.executeUpdate();
 				
