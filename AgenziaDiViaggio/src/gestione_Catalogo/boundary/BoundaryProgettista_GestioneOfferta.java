@@ -1577,9 +1577,6 @@ public class BoundaryProgettista_GestioneOfferta {
 						
 					}
 					
-
-					String via = (String) tendinaViaPannello2.getSelectedItem();
-					
 					
 					//Imposto areatestoCatalogo
 					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +

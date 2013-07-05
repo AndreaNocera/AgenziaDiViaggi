@@ -110,6 +110,20 @@ public class DBTest {
 		ps = conn.prepareStatement(createQuery);
 		ps.executeUpdate();
 		
+		System.out.println("Creo Tabella OFFERTA");
+		createQuery = 
+				"CREATE TABLE IF NOT EXISTS OFFERTA(" +
+						"ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
+						"IDTRATTA INTEGER, " +
+						"DATAPARTENZA DATE, " +
+						"DATAARRIVO DATE, " +
+						"POSTI INTEGER, " +
+						"FOREIGN KEY (IDTRATTA) REFERENCES CATALOGO (ID) "   +
+						")";
+		
+		ps = conn.prepareStatement(createQuery);
+		ps.executeUpdate();
+		
 		
 		
 		
