@@ -15,6 +15,7 @@ package gestioneutenti.dao;
 
 import java.util.List;
 
+import gestioneutenti.exception.UtenteEsistenteException;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
@@ -22,9 +23,9 @@ import gestioneutenti.model.bean.UtenteBean;
 
 public interface UtenteDAO {
 	
-	public boolean save(Utente utente);
+	public boolean save(Utente utente) throws UtenteEsistenteException;
 	
-	public boolean update(Utente utente);
+	public boolean update(Utente utente) throws UtenteInesistenteException;
 	
 	public boolean delete(Utente utente);
 	

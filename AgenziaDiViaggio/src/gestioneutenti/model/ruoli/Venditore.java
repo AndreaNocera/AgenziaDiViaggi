@@ -19,6 +19,8 @@ import gestioneutenti.model.competenze.SignIn;
 
 public class Venditore extends AbstractRuolo{
 	
+	private static final long serialVersionUID = -8652891817729042532L;
+
 	private static Venditore singletonVenditore = null;
 	
 	private static int ID = Ruolo.VENDITORE;

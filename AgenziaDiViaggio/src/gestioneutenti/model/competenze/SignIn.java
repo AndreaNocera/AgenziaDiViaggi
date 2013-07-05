@@ -15,6 +15,8 @@ package gestioneutenti.model.competenze;
 
 public class SignIn extends AbstractCompetenza {
 	
+	private static final long serialVersionUID = -1388462606258006674L;
+
 	private static SignIn singletonLogin;
 	
 	private static int ID = Competenza.LOGIN;

@@ -15,6 +15,8 @@ package gestioneutenti.model.competenze;
 
 public class GestioneProfilo extends AbstractCompetenza {
 	
+	private static final long serialVersionUID = 9094593476038477719L;
+
 	private static GestioneProfilo singletonGestioneProfilo;
 	
 	private static int ID = Competenza.GESTIONE_PROFILO;

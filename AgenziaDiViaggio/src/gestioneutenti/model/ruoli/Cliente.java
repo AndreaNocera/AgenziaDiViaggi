@@ -19,6 +19,8 @@ import gestioneutenti.model.competenze.SignIn;
 
 public class Cliente extends AbstractRuolo {
 	
+	private static final long serialVersionUID = -1129588677063698702L;
+
 	private static Cliente singletonCliente = null;
 	
 	private static int ID = Ruolo.CLIENTE;

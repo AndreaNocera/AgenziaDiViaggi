@@ -13,11 +13,14 @@
 
 package gestioneutenti.model;
 
+import java.io.Serializable;
+
 import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.model.bean.LoginBean;
 
-public class Login {
+public class Login implements Serializable{
 	
+	private static final long serialVersionUID = 6529876722578192310L;
 	private String username;
 	private String password;
 	

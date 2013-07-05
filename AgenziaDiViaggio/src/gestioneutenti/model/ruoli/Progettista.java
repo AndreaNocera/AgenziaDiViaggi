@@ -19,6 +19,8 @@ import gestioneutenti.model.competenze.SignIn;
 
 public class Progettista extends AbstractRuolo{
 	
+	private static final long serialVersionUID = 5090500989459656610L;
+
 	private static Progettista singletonProgettista = null;
 	
 	private static int ID = Ruolo.PROGETTISTA;

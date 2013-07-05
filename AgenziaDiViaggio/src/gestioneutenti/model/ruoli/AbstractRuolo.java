@@ -13,10 +13,13 @@
 
 package gestioneutenti.model.ruoli;
 
+import java.io.Serializable;
+
 import gestioneutenti.model.competenze.Competenza;
 
-public abstract class AbstractRuolo implements Ruolo{
+public abstract class AbstractRuolo implements Ruolo, Serializable{
 	
+	private static final long serialVersionUID = 3429919301430824015L;
 	private int ID;
 	private String STRING = new String();
 	private Competenza[] COMPETENZE = null;

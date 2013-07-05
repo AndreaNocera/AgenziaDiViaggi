@@ -15,6 +15,8 @@ package gestioneutenti.model.competenze;
 
 public class GestioneCatalogo extends AbstractCompetenza {
 	
+	private static final long serialVersionUID = -75694672622471991L;
+
 	private static GestioneCatalogo singletonGestioneCatalogo;
 	
 	private static int ID = Competenza.GESTIONE_CATALOGO;

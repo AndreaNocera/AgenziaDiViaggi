@@ -15,6 +15,8 @@ package gestioneutenti.model.competenze;
 
 public class GestioneOfferta extends AbstractCompetenza {
 	
+	private static final long serialVersionUID = 3888367298128349885L;
+
 	private static GestioneOfferta singletonGestioneOfferta;
 	
 	private static int ID = Competenza.GESTIONE_OFFERTA;

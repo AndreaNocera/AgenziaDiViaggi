@@ -13,13 +13,16 @@
 
 package gestioneutenti.model;
 
+import java.io.Serializable;
+
 import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.exception.LoginInconsistenteException;
 import gestioneutenti.model.bean.UtenteBean;
 import gestioneutenti.model.ruoli.Ruolo;
 
-public class Utente implements Comparable<Utente> {
+public class Utente implements Comparable<Utente>, Serializable{
 	
+	private static final long serialVersionUID = -55053050119731434L;
 	private DatiUtente dati;
 	private Ruolo ruolo;
 	private Login login;
