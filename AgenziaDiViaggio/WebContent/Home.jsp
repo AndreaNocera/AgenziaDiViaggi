@@ -17,6 +17,7 @@
 
 <%@ include file = "common/Head.jsp" %>
 <%@ include file = "common/DialogGestioneProfilo.jsp" %>
+
 <%@ page import = "home.helper.HelperHome" %>
 <%@ page import = "gestioneutenti.model.bean.UtenteBean" %>
 
@@ -31,8 +32,8 @@
 		<link href = "common/css/Home.css" type = "text/css" rel = "stylesheet">
 		
 		<%
-			HelperHome helper = HelperHome.getInstance();	
-			UtenteBean utenteBean = (UtenteBean) request.getAttribute("utente");
+			UtenteBean utenteBean = (UtenteBean) session.getAttribute("utente");	
+			HelperHome helper = HelperHome.getInstance();
 		%>
   		
 	</head>
@@ -40,7 +41,9 @@
 	<body>
 	
 		<div class = "panelLogo" id = "panelLogo" align = "center">
+		
 			<img class = "logo" id = "logoVoyager" border = "0" src = "common/img/Voyager.png" >
+			
 		</div>		
 		
 		<div class = "panelMain" id = "panelCompetenze" align = "center">
@@ -51,7 +54,7 @@
 				out.println(helper.getWelcome(utenteBean.getNome()));
 			%>			
 			
-			<form name = "formCompetenze" action = "Home" method = "GET">
+			<form name = "formCompetenze" action = "Home" method = "POST">
 			
 				<%
 					out.println(helper.getHomePanel(utenteBean.getRuolo()));

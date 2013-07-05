@@ -41,14 +41,23 @@
 			$( "#dialogGestioneProfilo" ).dialog({    				
 				    autoOpen: false,
 				    draggable: false,
-				    height: 400,
-				    width: 350,
+				    height: 500,
+				    width: 600,
 				    modal: true,
 				    buttons: {
 					    "Ok": function() {
-			   			    var mUsername = $( "#username" ).val();
+					    	/*
+					    	var mNome = $( "#nome" ).val();
+					    	var mCognome = $( "#nome" ).val();
+					    	var mCitta = $( "#nome" ).val();
+					    	var mNascita = $( "#nome" ).val();
+					    	var mSesso = $( "#nome" ).val();
+					    	var mMail = $( "#nome" ).val();
+					    	var mRuolo = $( "#nome" ).val();
+					    	var mUsername = $( "#nome" ).val();
+					    	var mPassword = $( "#nome" ).val();
 			   			          
-			   			    $.get("http://localhost:8080/WebVoyager/ResetCode", {username : mUsername})
+			   			    $.get("http://localhost:8080/WebVoyager/GestioneProfilo", {username : mUsername})
 			   			    .done(function() {
 				   			    $( "#dialogMessaggioGestioneProfiloSuccesso" ).dialog( "open" );
 			   			    })
@@ -57,7 +66,7 @@
 			   			    })
 			   			    .always(function() {
 				   			    $( "#dialogGestioneProfilo" ).dialog( "close" );
-			   			    });    			          
+			   			    });  */  			          
 					    },
 					    "Annulla": function() {
 			   			    $( this ).dialog( "close" );
@@ -65,7 +74,7 @@
 				    }
 			});
 			
-			$( ".buttonApriDialogGestioneProfilo" ).click(function() {
+			$( "#buttonGestioneProfilo" ).click(function() {
 		        $( "#dialogGestioneProfilo" ).dialog( "open" );
 		        return false;
 		    });
@@ -79,30 +88,25 @@
 	<body>
 	
 		<div class = "dialogForm" id = "dialogGestioneProfilo" title = "Gestione Profilo">
-  			<p>Da qui puoi modificare i dettagli del tuo profilo.</p> 
+		
   			<form>
-  				<fieldset>
-    				<label for = "nome">Nome</label>
-    				<label for = "cognome">Cognome</label>
-    				<label for = "citta">Città</label>
-    				<label for = "nascita">Nascita</label>
-    				<label for = "sesso">Sesso</label>
-    				<label for = "mail">Mail</label>
-    				<label for = "ruolo">Ruolo</label>
-    				<label for = "username">Username</label>
-    				<label for = "password">Password</label>
+  			
+  				<fieldset>    				
     				
-    				<input class = "text ui-widget-content ui-corner-all" id = "nome" type = "text" name = "nome" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "cognome" type = "text" name = "cognome" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "citta" type = "text" name = "citta" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "nascita" type = "text" name = "nascita" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "sesso" type = "text" name = "sesso" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "mail" type = "text" name = "mail" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "ruolo" type = "text" name = "ruolo" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "username" type = "text" name = "username" />
-    				<input class = "text ui-widget-content ui-corner-all" id = "password" type = "text" name = "password" />
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "nome" type = "text" name = "nome" placeholder = "Nome"/>
+    				<input class = "text ui-widget-content ui-corner-all" id = "cognome" type = "text" name = "cognome" placeholder = "Cognome"/></p>
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "citta" type = "text" name = "citta" placeholder = "Città"/></p>
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "nascita" type = "text" name = "nascita" /></p>    				
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "sesso" type = "text" name = "sesso" /></p>    				
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "mail" type = "text" name = "mail" placeholder = "Mail"/></p>    				
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "ruolo" type = "text" name = "ruolo" /></p>    				
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "username" type = "text" name = "username" /></p>    				
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "password" type = "text" name = "password" placeholder = "Password"/></p>
+  				
   				</fieldset>
+  				
   			</form>
+  			
 		</div>
 		
 		<div class = "dialogMessaggio" id = "dialogMessaggioGestioneProfiloSuccesso" title = "Gestione Profilo">

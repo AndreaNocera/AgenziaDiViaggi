@@ -35,7 +35,6 @@ public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String JSP_AMMINISTRAZIONE_UTENTI = "/AmministraUtenti.jsp";
-	private static final String JSP_GESTIONE_PROFILO = "/GestisciProfilo.jsp";
 	private static final String JSP_LOGIN = "/Login.jsp";
 
     public Home() {
@@ -43,6 +42,10 @@ public class Home extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int competenza = (int) Integer.parseInt(request.getParameter("competenza"));	
 		switch(competenza) {
 		case Competenza.AMMINISTRAZIONE_UTENTI:
@@ -61,18 +64,11 @@ public class Home extends HttpServlet {
 		case Competenza.GESTIONE_OFFERTA:
 			return;
 		case Competenza.GESTIONE_PROFILO:
-			try {
-				HttpSession session = request.getSession(true);
-		        UtenteBean utenteBean = (UtenteBean) session.getAttribute("utente");
-	            RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_GESTIONE_PROFILO);
-	            request.setAttribute("utente", utenteBean);
-	            rd.forward(request, response);
-	            return;
-	         } catch (Exception e) {
-	             e.printStackTrace();
-	         }
+			return;
 		case Competenza.LOGIN:
 			try {
+				HttpSession session = request.getSession();
+				session.setAttribute("utente", null);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_LOGIN);
                 rd.forward(request, response);
                 return;
@@ -87,10 +83,6 @@ public class Home extends HttpServlet {
 			}
 		}
 		
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }
