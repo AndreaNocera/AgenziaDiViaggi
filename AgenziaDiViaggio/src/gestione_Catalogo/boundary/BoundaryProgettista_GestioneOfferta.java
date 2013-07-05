@@ -12,6 +12,7 @@ import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.OffertaInesistenteException;
+import gestione_Catalogo.exception.PrenotazioneException;
 import gestione_Catalogo.exception.TrattaException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
@@ -1616,6 +1617,36 @@ public class BoundaryProgettista_GestioneOfferta {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			if (tendinaViaPannello3.getItemCount() != 0 && !viaScelta.equals("-----")){
+				
+				String via = (String) tendinaViaPannello3.getSelectedItem();
+				Data dataPartenza = (Data) tendinaOffertaPannello3.getSelectedItem();
+				
+				// chiedo conferma
+				int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
+				if (conferma == JOptionPane.YES_OPTION){
+					
+					// rimuovo il viaggio
+					try {
+						controllore.rimuoviOfferta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via, dataPartenza);
+						JOptionPane.showMessageDialog(null, "L'offerta e' stato rimossa correttamente.", "Offerta Rimossa", JOptionPane.INFORMATION_MESSAGE);
+						aggiornaTendinePannello3();
+						
+					} catch (IDEsternoElementoException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
+					} catch (TrattaInesistenteException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+					} catch (OffertaInesistenteException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+					} catch (PrenotazioneException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
+
+					}
+					
+				}
+			}
+			
 		
 			/* DA IMPLEMENTARE
 			if (tendinaViaPannello3.getItemCount() != 0 && !viaScelta.equals("-----")){

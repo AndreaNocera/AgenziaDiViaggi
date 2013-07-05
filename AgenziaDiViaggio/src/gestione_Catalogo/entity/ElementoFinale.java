@@ -35,5 +35,9 @@ public abstract class ElementoFinale extends ElementoCatalogo {
 	public void aggiungiOfferta(Data k, Offerta o){
 		mappaOfferte.aggiungiOfferta(k, o);
 	}
+	
+	public void rimuoviOfferta(Data k){
+		mappaOfferte.remove(k);
+	}
 
 }

@@ -87,6 +87,11 @@ public class Catalogo {
 		return false;
 	}
 	
+	public boolean verificaEsistenzaPrenotazioni(){
+		return false;
+		
+	}
+	
 	
 	public void aggiungiViaggioAlCatalogo(Tratta tratta) throws IDEsternoElementoException{
 		
@@ -115,7 +120,13 @@ public class Catalogo {
 		aggiungiInMappaOfferte(tratta, offerta);
 	}
 	
-
+	
+	public void rimuoviOffertaDalCatalogo(Offerta offerta, Tratta tratta) throws IDEsternoElementoException {
+		listaOfferte.remove(offerta);
+		
+		rimuoviDaMappaOfferte(tratta, offerta);
+		
+	}
 
 
 	public void caricaCatalogo() throws IDEsternoElementoException{
@@ -261,6 +272,16 @@ public class Catalogo {
 		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).aggiungiOfferta(offerta.getData(), offerta);
 		
 	}
+
+	private void rimuoviDaMappaOfferte(Tratta tratta, Offerta offerta) throws IDEsternoElementoException {
+		String ambiente = tratta.getAmbiente().getIDEsternoElemento();
+		String mezzo = tratta.getMezzo().getIDEsternoElemento();
+		String partenza = tratta.getPartenza().getIDEsternoElemento();
+		String arrivo = tratta.getArrivo().getIDEsternoElemento();
+		String via = tratta.getVia().getIDEsternoElemento();
+		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).rimuoviOfferta(offerta.getData());
+	}
+
 
 
 

@@ -10,6 +10,7 @@ import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.OffertaInesistenteException;
+import gestione_Catalogo.exception.PrenotazioneException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
 import java.util.Iterator;
@@ -96,11 +97,23 @@ public class ControlloreGestioneOfferta extends Controllore {
 		Integer idTratta = tratta.getID();
 		
 		if (catalogo.verificaEsistenzaOfferta(idTratta, data)){
-			throw new OffertaException("Offerta gi� esistente");
+			throw new OffertaException("Offerta gia' esistente");
 		}
 		
 		Offerta nuovaOfferta = new Offerta(idTratta, new Data(data[0], data[1], data[2], data[3], data[4]), durata, posti);
 		catalogo.aggiungiOffertaAlCatalogo(nuovaOfferta, tratta);
+	}
+	
+	public void rimuoviOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, Data dataPartenza) throws TrattaInesistenteException, PrenotazioneException, OffertaInesistenteException, IDEsternoElementoException{
+		Tratta tratta = catalogo.getTrattaByValue(ambiente, mezzo, partenza, arrivo, via);
+		Integer idTratta = tratta.getID();
+		
+		if (catalogo.verificaEsistenzaPrenotazioni()){
+			throw new PrenotazioneException("Ci sono prenotazioni attive! L'offerta non puo' essere rimosso.");
+		}
+		
+		Offerta offerta = catalogo.getOffertaByData(idTratta, dataPartenza);
+		catalogo.rimuoviOffertaDalCatalogo(offerta, tratta);
 	}
 
 
