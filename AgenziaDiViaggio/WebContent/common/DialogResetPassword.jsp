@@ -44,6 +44,12 @@
 				    height: 200,
 				    width: 350,
 				    modal: true,
+				    show: {
+				    	effect: "blind"
+				    },
+				    hide: {
+				    	effect: "blind"
+				    },
 				    buttons: {
 					    "Ok": function() {
 			   			    var mUsername = $( "#usernameResetPassword" ).val();
@@ -51,9 +57,6 @@
 			   			    $.post("http://localhost:8080/WebVoyager/ResetPassword", {username : mUsername})
 			   			    .done(function() {
 				   			    $( "#dialogMessaggioResetPasswordSuccesso" ).dialog( "open" );
-			   			    })
-			   			    .fail(function() {
-				   			    $( "#dialogMessaggioResetPasswordFallimento" ).dialog( "open" );
 			   			    })
 			   			    .always(function() {
 				   			    $( "#dialogResetPassword" ).dialog( "close" );

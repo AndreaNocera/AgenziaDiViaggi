@@ -14,6 +14,8 @@
 package gestioneutenti.servlet;
 
 import gestioneutenti.controller.ControllerGestisciProfilo;
+import gestioneutenti.exception.UtenteInesistenteException;
+import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/GestioneProfilo")
 public class GestioneProfilo extends HttpServlet {
@@ -36,11 +39,24 @@ public class GestioneProfilo extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		UtenteBean utenteBean = (UtenteBean) session.getAttribute("utente");
+		UtenteBean nUtenteBean = (UtenteBean) session.getAttribute("nUtente");
+		LoginBean loginBean = new LoginBean().setUsername(utenteBean.getUsername()).setPassword(utenteBean.getPassword());
+		
+		try {
+			this.controllerGestisciProfilo.aggiornaProfilo(loginBean, nUtenteBean);
+			session.setAttribute("nUtente", null);
+			session.setAttribute("utente", nUtenteBean);
+			return;
+		} catch (UtenteInesistenteException e) {
+			response.sendRedirect("FallimentoGestioneProfilo.jsp");
+			return;
+		}
 	}
 
 }

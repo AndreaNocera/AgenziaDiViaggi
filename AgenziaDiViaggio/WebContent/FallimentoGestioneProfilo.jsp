@@ -4,7 +4,7 @@
  * 
  * @package WebContent
  * 
- * @name FallimentoLogin.jsp
+ * @name FallimentoGestioneProfilo.jsp
  *
  * @description
  *
@@ -33,10 +33,10 @@
 	
 	<body>
 		
-		<div class = "dialogMessaggioErrore" id = "dialogMessaggioFallimentoLogin" title = "Login Errato">
+		<div class = "dialogMessaggioErrore" id = "dialogMessaggioFallimentoGestioneProfilo" title = "Gestione Profilo">
 		
   			<p><span class = "ui-icon ui-icon-alert" style = "float: left; margin: 0 7px 50px 0;"></span>
-    			<b>Ooops!</b> Non sei stato riconosciuto!
+    			<b>Ooops!</b> Qualcosa è andato storto durante l'aggiornamento del tuo profilo! Riprova più tardi.
   			</p>
   			
 		</div>
