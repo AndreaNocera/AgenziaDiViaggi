@@ -40,17 +40,17 @@ public class OffertaDAO extends DAO {
 	private static final String updateQuery = 
 			"UPDATE OFFERTA SET " +
 			"IDTRATTA=?, DATAPARTENZA=?, DATAARRIVO=?, POSTI=? " +
-			"WHERE ID=?";
+			"WHERE ID=? LIMIT 1";
 	private static final String deleteQuery = 
 			"DELETE FROM " +
-			"OFFERTA WHERE ID=?";
+			"OFFERTA WHERE ID=? LIMIT 1";
 	private static final String findQuery = 
 			"SELECT * FROM OFFERTA " +
-			"WHERE ID=?";
+			"WHERE ID=? LIMIT 1";
 
 	private static final String findByValueQuery =
 			"SELECT * FROM OFFERTA " + 
-			"WHERE IDTRATTA=? AND DATAPARTENZA=?";
+			"WHERE IDTRATTA=? AND DATAPARTENZA=? LIMIT 1";
 
 	private static final String dropQuery = "DROP TABLE OFFERTA IF EXISTS";
 	

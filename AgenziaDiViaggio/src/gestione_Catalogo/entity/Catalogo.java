@@ -165,24 +165,31 @@ public class Catalogo {
 		System.out.println("Sono in getOffertaByData");
 		Offerta o = null;
 		for (Offerta offerta : listaOfferte){
-			System.out.println("Sono nel for di getOffertaByData");
-			if (offerta.getIdTratta().equals(idTratta) && offerta.getData().equals(dataPartenza));{
-				o = offerta;
+			System.out.println("Sono nel for di getOffertaByData " + offerta.getData().stampaData() + " con arrivo " + offerta.getDataArrivo().stampaData());
+			if (offerta.getIdTratta().equals(idTratta)){
+				System.out.println("Sono nel primo if");
+				if (offerta.getData().equals(dataPartenza)) {
+						o = offerta;
+						System.out.println("Sono nel secondo if");
+				}
 			}
 		}
 		
 		if (o.equals(null)){
 			throw new OffertaInesistenteException("Non ci sono offerte per questa Tratta");
-		} else return o;
+		} else {
+			System.out.println("Sto per ritornare " + o.getData().stampaData() + " con arrivo " + o.getDataArrivo().stampaData());
+			return o;
+		}
 	}
 	
 	
 	private void aggiungiInMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
 		/*
-		 * Il controllo con esistenzaElemento() qui non è più necessario, dal 
+		 * Il controllo con esistenzaElemento() qui non ï¿½ piï¿½ necessario, dal 
 		 * momento che il metodo aggiungiElemento() in MappaCatalogo (a sua 
 		 * volta richiamato dal metodo aggiungiElemento() in ElementoIntermedio) 
-		 * aggiunge un elemento solo se la chiave non esiste già. 
+		 * aggiunge un elemento solo se la chiave non esiste giï¿½. 
 		 */
 		
 		Ambiente ambiente = tratta.getAmbiente();

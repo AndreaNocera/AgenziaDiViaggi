@@ -17,6 +17,7 @@ import java.sql.SQLException;
  * Ivan Torre
  * Francesco Tomei
  */
+
 public class CittaDAO extends RawDataDAO{
 	private static CittaDAO istanza = null;
 	private static String tabella = "citta";
