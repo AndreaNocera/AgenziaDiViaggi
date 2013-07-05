@@ -1141,7 +1141,7 @@ public class BoundaryProgettista_GestioneOfferta {
 				//ImpostoareaTestoOfferta
 				try {
 					
-						areaTestoOfferta = controllore.mostraOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
+						areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
 					
 				} catch (IDEsternoElementoException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
@@ -1584,7 +1584,7 @@ public class BoundaryProgettista_GestioneOfferta {
 										"-----------\t\t----------\t\t----------\n";
 					
 					//ImpostoareaTestoOfferta
-					areaTestoOfferta = controllore.mostraOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
 					
 					areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
 					
