@@ -14,6 +14,7 @@ import java.util.Set;
  * @authors 
  * Remo Sperlongano
  * Ivan Torre
+ * A
  */
 public class Catalogo {
 	
