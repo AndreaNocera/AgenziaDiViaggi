@@ -1,6 +1,7 @@
 package gestione_Catalogo.entity;
 
 import gestione_Catalogo.dao.CatalogoDAO;
+import gestione_Catalogo.dao.OffertaDAO;
 import gestione_Catalogo.dao.TrattaDAO;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
@@ -35,6 +36,8 @@ public class Catalogo {
 		mappaCatalogo = new MappaCatalogo(); //istanziato il catalogo, creo subito una mappa per gli ambienti
 		CatalogoDAO dao = CatalogoDAO.getIstanza();
 		listaTratte = dao.getCatalogo();
+		OffertaDAO offertaDao = OffertaDAO.getIstanza();
+		listaOfferte = offertaDao.getListaOfferte();
 		try {
 			
 			
@@ -151,6 +154,7 @@ public class Catalogo {
 		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).listaChiaviOfferte();
 	
 	}
+	
 	
 	public Tratta getTrattaByValue(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaInesistenteException{
 		for (Tratta tratta : listaTratte) {
