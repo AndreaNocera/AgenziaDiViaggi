@@ -159,7 +159,7 @@ public class Catalogo {
 		throw new TrattaInesistenteException("Tratta non esistente.");
 	}
 	
-	public String getOffertePerLaTratta(Integer id){
+	public String getListaOffertePerLaTratta(Integer id){
 		String stringaOfferte = "";
 		for (Offerta offerta : listaOfferte){
 			if (offerta.getIdTratta().equals(id)){

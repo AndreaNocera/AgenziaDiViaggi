@@ -54,12 +54,12 @@ public class ControlloreGestioneOfferta extends Controllore {
 		return catalogo.getChiaviOfferte(ambiente, mezzo, partenza, arrivo, via);
 	}
 	
-	public String mostraOffertaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, TrattaInesistenteException{
+	public String mostraListaOffertaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, TrattaInesistenteException{
 		
 		//prendo l'id della tratta
 		Tratta tratta = catalogo.getTrattaByValue(ambiente, mezzo, partenza, arrivo, via);
 		//Inserisco in una stringa tutte le offerte per una tratta e la ritorno
-		return catalogo.getOffertePerLaTratta(tratta.getID());
+		return catalogo.getListaOffertePerLaTratta(tratta.getID());
 	}
 	
 	
