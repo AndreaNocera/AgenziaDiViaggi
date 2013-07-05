@@ -18,7 +18,6 @@ import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,29 +38,26 @@ public class Login extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub      
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
 		LoginBean loginBean = new LoginBean().setUsername(username).setPassword(password);
 		
 		UtenteBean utenteBean;
-		
 		try {
 			utenteBean = this.controllerLogin.login(loginBean);
 			HttpSession session = request.getSession(true);
 	        session.setAttribute("utente", utenteBean);
-	        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Home.jsp");
-            request.setAttribute("utente", utenteBean);
-            rd.forward(request, response);
+	        response.sendRedirect("Home.jsp");
+	        return;
 		} catch (UtenteInesistenteException e) {
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login.jsp");
-            request.setAttribute("status", "failed");
-            rd.forward(request, response);
-		}        
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+			response.sendRedirect("FallimentoLogin.jsp");
+			return;
+		} 
 	}
 
 }

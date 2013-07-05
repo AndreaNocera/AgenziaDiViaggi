@@ -10,30 +10,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/ResetCode")
-public class ResetCode extends HttpServlet {
+@WebServlet("/ResetPassword")
+public class ResetPassword extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private ControllerLogin controllerLogin;
        
-    public ResetCode() {
+    public ResetPassword() {
     	super();
     	this.controllerLogin = ControllerLogin.getWebInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String username = request.getParameter("username");
 		
 		try {
 			this.controllerLogin.impostaResetCode(username);
+			return;
 		} catch (UtenteInesistenteException e) {
-			e.printStackTrace();
+			return;
 		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

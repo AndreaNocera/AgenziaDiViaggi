@@ -5,6 +5,7 @@ package gestione_Catalogo.dao_new;
  * Remo Sperlongano
  * Ivan Torre
  */
+
 public class PrenotazioneDAO {
 
 }

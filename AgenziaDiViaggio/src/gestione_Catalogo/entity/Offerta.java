@@ -1,5 +1,7 @@
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.dao.OffertaDAO;
+
 /**
  * @authors 
  * Remo Sperlongano
@@ -15,6 +17,18 @@ public class Offerta {
 	
 
 	public Offerta(Integer idTratta, Data dataPartenza, Integer durata, Integer posti) {
+		this.idTratta = idTratta;
+		this.dataPartenza = dataPartenza;
+		this.dataArrivo = dataPartenza.getNuovaData(durata);
+		this.posti = posti;
+		
+		//inserisco l'offerta appena creata nel db
+		OffertaDAO dao = OffertaDAO.getIstanza();
+		this.idOfferta = dao.insertAndReturnId(idTratta, dataPartenza, dataPartenza, posti);
+	}
+	
+	public Offerta(Integer idOfferta, Integer idTratta, Data dataPartenza, Integer durata, Integer posti){
+		this.idOfferta = idOfferta;
 		this.idTratta = idTratta;
 		this.dataPartenza = dataPartenza;
 		this.dataArrivo = dataPartenza.getNuovaData(durata);
