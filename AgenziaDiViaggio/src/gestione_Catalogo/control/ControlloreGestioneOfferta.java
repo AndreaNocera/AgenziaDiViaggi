@@ -69,8 +69,10 @@ public class ControlloreGestioneOfferta extends Controllore {
 		Iterator<Data> it = s.iterator();
 		System.out.println("Numero iterator " + s.size());
 		Offerta o;
+		int i = 0;
 		while (it.hasNext()){
-			System.out.println("Sono nel while del mostraListaOffertaCatalogo");
+			i++;
+			System.out.println("Sono nel while del mostraListaOffertaCatalogo iterazione " + i);
 			Data data = it.next();
 			o = catalogo.getOffertaByData(idTratta, data);
 			//Inserisce gli elementi nella stringa da ritornare
@@ -94,7 +96,7 @@ public class ControlloreGestioneOfferta extends Controllore {
 		Integer idTratta = tratta.getID();
 		
 		if (catalogo.verificaEsistenzaOfferta(idTratta, data)){
-			throw new OffertaException("Offerta già esistente");
+			throw new OffertaException("Offerta giï¿½ esistente");
 		}
 		
 		Offerta nuovaOfferta = new Offerta(idTratta, new Data(data[0], data[1], data[2], data[3], data[4]), durata, posti);
