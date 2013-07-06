@@ -4,7 +4,7 @@
  * 
  * @package WebContent
  * 
- * @name FallimentoLogin.jsp
+ * @name FallimentoModificaUtente.jsp
  *
  * @description
  *
@@ -29,10 +29,10 @@
 	
 	<body>
 		
-		<div class = "dialogMessaggioErrore" id = "dialogMessaggioFallimentoLogin" title = "Login Errato">
+		<div class = "dialogMessaggioErrore" id = "dialogMessaggioFallimentoModificaUtente" title = "Gestione Utenti">
 		
   			<p><span class = "ui-icon ui-icon-alert" style = "float: left; margin: 0 7px 50px 0;"></span>
-    			<b>Ooops!</b> Non sei stato riconosciuto!
+    			<b>Ooops!</b> Qualcosa è andato storto durante la modifica dell'utente! Riprova più tardi.
   			</p>
   			
 		</div>

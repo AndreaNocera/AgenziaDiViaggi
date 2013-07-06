@@ -38,34 +38,36 @@
 	
 		$(function() {	
 			
-			$( "#dialogResetPassword" ).dialog({    				
-				    autoOpen: false,
-				    draggable: false,
-				    height: 200,
-				    width: 350,
-				    modal: true,
-				    show: {
-				    	effect: "blind"
+			$( "#dialogResetPassword" ).dialog({    
+				title: "Reimposta Password",
+			    autoOpen: false,
+			    modal: true,
+			    draggable: false,
+			    closeOnEscape: true,
+			    height: 200,
+			    width: 350,				    
+			    show: {
+			    	effect: "blind"
+			    },
+			    hide: {
+			    	effect: "blind"
+			    },
+			    buttons: {
+				    "Ok": function() {
+		   			    var mUsername = $( "#usernameResetPassword" ).val();
+		   			          
+		   			    $.post("http://localhost:8080/WebVoyager/ResetPassword", {username : mUsername})
+		   			    .done(function() {
+			   			    $( "#dialogMessaggioResetPasswordSuccesso" ).dialog( "open" );
+		   			    })
+		   			    .always(function() {
+			   			    $( "#dialogResetPassword" ).dialog( "close" );
+		   			    });    			          
 				    },
-				    hide: {
-				    	effect: "blind"
-				    },
-				    buttons: {
-					    "Ok": function() {
-			   			    var mUsername = $( "#usernameResetPassword" ).val();
-			   			          
-			   			    $.post("http://localhost:8080/WebVoyager/ResetPassword", {username : mUsername})
-			   			    .done(function() {
-				   			    $( "#dialogMessaggioResetPasswordSuccesso" ).dialog( "open" );
-			   			    })
-			   			    .always(function() {
-				   			    $( "#dialogResetPassword" ).dialog( "close" );
-			   			    });    			          
-					    },
-					    "Annulla": function() {
-			   			    $( this ).dialog( "close" );
-					    }
+				    "Annulla": function() {
+		   			    $( this ).dialog( "close" );
 				    }
+			    }
 			});
 			
 			$( ".buttonApriDialogResetPassword" ).click(function() {
@@ -96,7 +98,7 @@
 		
 		</div>
 		
-		<div class = "dialogForm" id = "dialogResetPassword" title = "Reimposta Password">
+		<div class = "dialogForm" id = "dialogResetPassword">
 		
   			<p>Inserisci il tuo username.</p> 
   			
