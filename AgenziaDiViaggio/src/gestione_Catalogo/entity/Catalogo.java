@@ -6,6 +6,7 @@ import gestione_Catalogo.dao.TrattaDAO;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaInesistenteException;
+import gestione_Catalogo.exception.OfferteNonPresentiException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
 import java.util.ArrayList;
@@ -38,9 +39,8 @@ public class Catalogo {
 		listaTratte = dao.getCatalogo();
 		OffertaDAO offertaDao = OffertaDAO.getIstanza();
 		listaOfferte = offertaDao.getListaOfferte();
+		
 		try {
-			
-			
 			caricaCatalogo();
 		} catch (IDEsternoElementoException e) {
 			// TODO Auto-generated catch block
@@ -126,15 +126,26 @@ public class Catalogo {
 		
 		rimuoviDaMappaOfferte(tratta, offerta);
 		
+		OffertaDAO dao = OffertaDAO.getIstanza();
+		dao.delete(offerta);
+		
 	}
 
 
 	public void caricaCatalogo() throws IDEsternoElementoException{
 		for (Tratta tratta : listaTratte){
 			aggiungiInMappaCatalogo(tratta);
+			caricaOfferte(tratta);
 		}
 	}
-
+	
+	public void caricaOfferte(Tratta tratta) throws IDEsternoElementoException{
+		for (Offerta offerta : listaOfferte){
+			if (tratta.getID().equals(offerta.getIdTratta()))
+				aggiungiInMappaOfferte(tratta, offerta);
+		}
+	}
+	
 
 	public Set<String> getChiaviAmbienti() throws MappaException {
 		Set<String> ambienti = mappaCatalogo.keySet();
@@ -161,10 +172,10 @@ public class Catalogo {
 	}
 	
 	
-	public Set<Data> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, OffertaInesistenteException {
+	public Set<Data> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, OfferteNonPresentiException {
 		Set<Data> offerte = mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).listaChiaviOfferte();
 		if (offerte.isEmpty()){
-			throw new OffertaInesistenteException("Non ci sono offerte per questo Viaggio.");
+			throw new OfferteNonPresentiException("Non ci sono offerte per questo Viaggio.");
 		} else
 			return offerte;
 	
@@ -278,8 +289,6 @@ public class Catalogo {
 		String via = tratta.getVia().getIDEsternoElemento();
 		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).rimuoviOfferta(offerta.getData());
 	}
-
-
 
 
 

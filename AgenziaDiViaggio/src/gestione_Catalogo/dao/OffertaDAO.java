@@ -244,7 +244,7 @@ public class OffertaDAO extends DAO {
 	 * CRUD - Delete
 	 * Da Invocare (probabilmente) alla rimozione di una tratta, quando non vi sono pi� Ambienti uguali
 	 */
-	public void delete(Mezzo mezzo){
+	public void delete(Offerta offerta){
 		// TODO Auto-generated method stub
 		try {
 
@@ -252,7 +252,7 @@ public class OffertaDAO extends DAO {
 
 			ps = conn.prepareStatement(deleteQuery);
 
-			ps.setInt(1, mezzo.getID());
+			ps.setInt(1, offerta.getIdOfferta());
 
 			ps.executeUpdate();
 

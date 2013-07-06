@@ -10,6 +10,7 @@ import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.OffertaInesistenteException;
+import gestione_Catalogo.exception.OfferteNonPresentiException;
 import gestione_Catalogo.exception.PrenotazioneException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
@@ -53,11 +54,11 @@ public class ControlloreGestioneOfferta extends Controllore {
 		return catalogo.getChiaviVia(ambiente, mezzo, partenza, arrivo);
 	}
 		
-	public Set<Data> mostraOffertePerLaTratta(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, OffertaInesistenteException{
+	public Set<Data> mostraOffertePerLaTratta(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, OfferteNonPresentiException, OffertaInesistenteException{
 		return catalogo.getChiaviOfferte(ambiente, mezzo, partenza, arrivo, via);
 	}
 	
-	public String mostraListaOffertaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, TrattaInesistenteException, OffertaInesistenteException{
+	public String mostraListaOffertaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, TrattaInesistenteException, OfferteNonPresentiException, OffertaInesistenteException{
 		
 
 		String stringaOfferte = "";

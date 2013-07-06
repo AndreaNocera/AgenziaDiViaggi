@@ -3,9 +3,6 @@ package gestione_Catalogo.entity;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 
 /**
  * @authors 

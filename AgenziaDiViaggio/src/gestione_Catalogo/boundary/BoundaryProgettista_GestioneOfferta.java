@@ -12,6 +12,7 @@ import gestione_Catalogo.exception.IDEsternoElementoException;
 import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.OffertaInesistenteException;
+import gestione_Catalogo.exception.OfferteNonPresentiException;
 import gestione_Catalogo.exception.PrenotazioneException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
@@ -872,19 +873,21 @@ public class BoundaryProgettista_GestioneOfferta {
 						tendinaOffertaPannello3.setSelectedIndex(0);
 						
 					}
-						
+					
+					//ImpostoareaTestoOfferta
+					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+					
 					//Imposto areatestoCatalogo
 					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
 										"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
 										"-----------\t\t----------\t\t----------\n";
-					
-					//ImpostoareaTestoOfferta
-					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
 						
 				} catch (IDEsternoElementoException e1) {
 					areaTestoPannello3.setText(e1.getMessage()+"\n");
 				} catch (TrattaInesistenteException e) {
 					areaTestoPannello3.setText(e.getMessage()+"\n");
+				} catch (OfferteNonPresentiException e) {
+					areaTestoOfferta = e.getMessage();
 				} catch (OffertaInesistenteException e) {
 					areaTestoOfferta = e.getMessage();
 				} 
@@ -1204,6 +1207,8 @@ public class BoundaryProgettista_GestioneOfferta {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 				} catch (TrattaInesistenteException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+				} catch (OfferteNonPresentiException e) {
+					areaTestoOfferta = e.getMessage();
 				} catch (OffertaInesistenteException e) {
 					areaTestoOfferta = e.getMessage();
 				}
