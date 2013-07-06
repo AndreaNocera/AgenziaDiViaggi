@@ -191,6 +191,7 @@ public class Catalogo {
 	}
 	
 	public Offerta getOffertaByData(Integer idTratta, Data dataPartenza) throws OffertaInesistenteException {
+		//VECCHIA IMPLEMENTAZIONE DI MOSTRALISTAOFFERTAINCATALOGO
 		for (Offerta offerta : listaOfferte){
 			if (offerta.getIdTratta().equals(idTratta)){
 				if (offerta.getData().equals(dataPartenza)) {
@@ -201,13 +202,18 @@ public class Catalogo {
 		throw new OffertaInesistenteException("Offerta inesistente.");
 	}
 	
+	public Offerta getOffertaFromMappa(String ambiente, String mezzo, String partenza, String arrivo, String via, Data data) throws IDEsternoElementoException, OffertaInesistenteException {
+		
+		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).getOfferta(data);
+	}
+	
 	
 	private void aggiungiInMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
 		/*
-		 * Il controllo con esistenzaElemento() qui non � pi� necessario, dal 
+		 * Il controllo con esistenzaElemento() qui non e' piu' necessario, dal 
 		 * momento che il metodo aggiungiElemento() in MappaCatalogo (a sua 
 		 * volta richiamato dal metodo aggiungiElemento() in ElementoIntermedio) 
-		 * aggiunge un elemento solo se la chiave non esiste gi�. 
+		 * aggiunge un elemento solo se la chiave non esiste gia'. 
 		 */
 		
 		Ambiente ambiente = tratta.getAmbiente();
@@ -289,6 +295,10 @@ public class Catalogo {
 		String via = tratta.getVia().getIDEsternoElemento();
 		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).rimuoviOfferta(offerta.getData());
 	}
+
+
+	
+	
 
 
 

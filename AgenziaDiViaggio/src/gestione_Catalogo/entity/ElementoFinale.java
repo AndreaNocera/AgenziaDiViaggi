@@ -41,5 +41,10 @@ public abstract class ElementoFinale extends ElementoCatalogo {
 	public void rimuoviOfferta(Data k) throws OffertaInesistenteException{
 		mappaOfferte.rimuoviOfferta(k);
 	}
+	
+
+	public Offerta getOfferta(Data k) throws OffertaInesistenteException{
+		return mappaOfferte.getOfferta(k);
+	}
 
 }

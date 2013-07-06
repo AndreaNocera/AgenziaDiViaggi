@@ -52,6 +52,10 @@ public abstract class ElementoCatalogo {
 		return null;
 	}
 	
+	public Offerta getOfferta(Data k) throws OffertaInesistenteException{
+		return null;
+	}
+	
 	public void aggiungiElemento(String key, ElementoCatalogo value){
 		
 	}
