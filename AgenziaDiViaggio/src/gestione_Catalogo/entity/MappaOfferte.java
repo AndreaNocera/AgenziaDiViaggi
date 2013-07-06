@@ -1,5 +1,7 @@
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.exception.OffertaInesistenteException;
+
 import java.util.TreeMap;
 
 /**
@@ -18,5 +20,12 @@ public class MappaOfferte extends TreeMap<Data,Offerta>{
 	public void aggiungiOfferta(Data k, Offerta o){
 		if(!containsKey(k))
 			super.put(k, o);
+	}
+	
+	public void rimuoviOfferta(Data k) throws OffertaInesistenteException{
+		if(!containsKey(k)){
+			throw new OffertaInesistenteException("Errore in rimozione. Offerta \""+k+"\" non presente.");
+		}
+		super.remove(k);
 	}
 }

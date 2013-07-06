@@ -22,7 +22,7 @@ public class OffertaInesistenteException extends Exception {
 	}
 
 	public String toString(){
-		return "Non esistono offerte per questo viaggio";
+		return "Offerta inesistente";
 	}
 
 }

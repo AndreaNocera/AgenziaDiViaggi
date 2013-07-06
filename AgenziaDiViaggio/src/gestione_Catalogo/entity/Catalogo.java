@@ -121,7 +121,7 @@ public class Catalogo {
 	}
 	
 	
-	public void rimuoviOffertaDalCatalogo(Offerta offerta, Tratta tratta) throws IDEsternoElementoException {
+	public void rimuoviOffertaDalCatalogo(Offerta offerta, Tratta tratta) throws IDEsternoElementoException, OffertaInesistenteException {
 		listaOfferte.remove(offerta);
 		
 		rimuoviDaMappaOfferte(tratta, offerta);
@@ -161,8 +161,12 @@ public class Catalogo {
 	}
 	
 	
-	public Set<Data> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException {
-		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).listaChiaviOfferte();
+	public Set<Data> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, OffertaInesistenteException {
+		Set<Data> offerte = mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).listaChiaviOfferte();
+		if (offerte.isEmpty()){
+			throw new OffertaInesistenteException("Non ci sono offerte per questo Viaggio.");
+		} else
+			return offerte;
 	
 	}
 	
@@ -175,22 +179,15 @@ public class Catalogo {
 		throw new TrattaInesistenteException("Tratta non esistente.");
 	}
 	
-	public Offerta getOffertaByData(Integer idTratta, Data dataPartenza) throws OffertaInesistenteException{
-		Offerta o = null;
+	public Offerta getOffertaByData(Integer idTratta, Data dataPartenza) throws OffertaInesistenteException {
 		for (Offerta offerta : listaOfferte){
 			if (offerta.getIdTratta().equals(idTratta)){
 				if (offerta.getData().equals(dataPartenza)) {
-						o = offerta;
+						return offerta;
 				}
 			}
 		}
-		
-		if (o.equals(null)){
-			throw new OffertaInesistenteException("Non ci sono offerte per questa Tratta");
-		} else {
-			System.out.println("Sto per ritornare " + o.getData().stampaData() + " con arrivo " + o.getDataArrivo().stampaData());
-			return o;
-		}
+		throw new OffertaInesistenteException("Offerta inesistente.");
 	}
 	
 	
@@ -234,10 +231,10 @@ public class Catalogo {
 	
 	private void rimuoviDaMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
 
-		ElementoIntermedio elementoAmbiente = mappaCatalogo.getElemento(tratta.getAmbiente().getIDEsternoElemento());
-		ElementoIntermedio elementoMezzo = elementoAmbiente.getElemento(tratta.getMezzo().getIDEsternoElemento());
-		ElementoIntermedio elementoPartenza = elementoMezzo.getElemento(tratta.getPartenza().getIDEsternoElemento());
-		ElementoIntermedio elementoArrivo = elementoPartenza.getElemento(tratta.getArrivo().getIDEsternoElemento());
+		ElementoCatalogo elementoAmbiente = mappaCatalogo.getElemento(tratta.getAmbiente().getIDEsternoElemento());
+		ElementoCatalogo elementoMezzo = elementoAmbiente.getElemento(tratta.getMezzo().getIDEsternoElemento());
+		ElementoCatalogo elementoPartenza = elementoMezzo.getElemento(tratta.getPartenza().getIDEsternoElemento());
+		ElementoCatalogo elementoArrivo = elementoPartenza.getElemento(tratta.getArrivo().getIDEsternoElemento());
 
 		// Rimuovo via dalla mappa
 		elementoArrivo.rimuoviElemento(tratta.getVia().getIDEsternoElemento());
@@ -269,17 +266,17 @@ public class Catalogo {
 		String partenza = tratta.getPartenza().getIDEsternoElemento();
 		String arrivo = tratta.getArrivo().getIDEsternoElemento();
 		String via = tratta.getVia().getIDEsternoElemento();
-		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).aggiungiOfferta(offerta.getData(), offerta);
+		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).aggiungiOfferta(offerta.getData(), offerta);
 		
 	}
 
-	private void rimuoviDaMappaOfferte(Tratta tratta, Offerta offerta) throws IDEsternoElementoException {
+	private void rimuoviDaMappaOfferte(Tratta tratta, Offerta offerta) throws IDEsternoElementoException, OffertaInesistenteException {
 		String ambiente = tratta.getAmbiente().getIDEsternoElemento();
 		String mezzo = tratta.getMezzo().getIDEsternoElemento();
 		String partenza = tratta.getPartenza().getIDEsternoElemento();
 		String arrivo = tratta.getArrivo().getIDEsternoElemento();
 		String via = tratta.getVia().getIDEsternoElemento();
-		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElementoFinale(via).rimuoviOfferta(offerta.getData());
+		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).rimuoviOfferta(offerta.getData());
 	}
 
 

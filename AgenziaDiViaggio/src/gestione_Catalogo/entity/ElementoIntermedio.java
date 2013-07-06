@@ -3,6 +3,8 @@ package gestione_Catalogo.entity;
 import gestione_Catalogo.exception.IDEsternoElementoException;
 
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -29,12 +31,8 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 
 	
 	//metodi
-	public ElementoIntermedio getElemento(String k) throws IDEsternoElementoException{
+	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
 		return mappaCatalogo.getElemento(k);
-	}
-	
-	public ElementoFinale getElementoFinale(String k) throws IDEsternoElementoException{
-		return mappaCatalogo.getElementoFinale(k);
 	}
 	
 	

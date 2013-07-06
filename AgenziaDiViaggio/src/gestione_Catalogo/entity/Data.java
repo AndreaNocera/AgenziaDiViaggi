@@ -1,6 +1,7 @@
 package gestione_Catalogo.entity;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -43,7 +44,26 @@ public class Data extends GregorianCalendar {
 		return new Timestamp(super.getTimeInMillis());
 	}
 	
+	public int getAnno(){
+		return super.get(GregorianCalendar.YEAR);
+	}
 	
+	public int getMese(){
+		return super.get(GregorianCalendar.MONTH)+1;
+	}
+	
+	public int getGiorno(){
+		return super.get(GregorianCalendar.DAY_OF_MONTH);
+	}
+	
+	public int getOra(){
+		return super.get(GregorianCalendar.HOUR_OF_DAY);
+	}
+	
+	public int getMinuto(){
+		return super.get(GregorianCalendar.MINUTE);
+	}
+		
 	
 /*	//metodi mutatori
 	public void aggiungiMinuti(int minuti){
@@ -62,7 +82,7 @@ public class Data extends GregorianCalendar {
 	
 	//altri metodi
 	public String stampaData(){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy, HH:mm");
 		return sdf.format(super.getTime());
 	}
 	
@@ -85,24 +105,14 @@ public class Data extends GregorianCalendar {
 		return nuovaData;
 	}
 	
-	public int getAnno(){
-		return super.get(GregorianCalendar.YEAR);
+	
+	public static Data parseTimestamp(String timestamp) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy, HH:mm");
+		Date d = sdf.parse(timestamp);
+		Data data = new Data();
+		data.setTime(d);
+		return data;
 	}
 	
-	public int getMese(){
-		return super.get(GregorianCalendar.MONTH)+1;
-	}
-	
-	public int getGiorno(){
-		return super.get(GregorianCalendar.DAY_OF_MONTH);
-	}
-	
-	public int getOra(){
-		return super.get(GregorianCalendar.HOUR_OF_DAY);
-	}
-	
-	public int getMinuto(){
-		return super.get(GregorianCalendar.MINUTE);
-	}
-	
+
 }

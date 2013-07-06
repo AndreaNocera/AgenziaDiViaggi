@@ -143,7 +143,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	private TendinaMezziPannello3AA ascoltatoreTendinaMezziPannello3;
 	private TendinaPartenzePannello3AA ascoltatoreTendinaPartenzePannello3;
 	private TendinaArriviPannello3AA ascoltatoreTendinaArriviPannello3;
-	private TendinaIntermediViaPannello3AA ascoltatoreTendinaViaPannello3;
+	private TendinaViaPannello3AA ascoltatoreTendinaViaPannello3;
 	private ChiudiPannello3AA ascoltatoreBottoneChiudiPannello3;
 	private RimuoviAA ascoltatoreBottoneRimuovi;
 	private SvuotaPannello3AA ascoltatoreBottoneSvuotaPannello3;
@@ -528,7 +528,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 		ascoltatoreTendinaMezziPannello3	  = new TendinaMezziPannello3AA();
 		ascoltatoreTendinaPartenzePannello3   = new TendinaPartenzePannello3AA();
 		ascoltatoreTendinaArriviPannello3     = new TendinaArriviPannello3AA();
-		ascoltatoreTendinaViaPannello3 = new TendinaIntermediViaPannello3AA();
+		ascoltatoreTendinaViaPannello3 = new TendinaViaPannello3AA();
 		ascoltatoreBottoneRimuovi			  = new RimuoviAA();
 		ascoltatoreBottoneChiudiPannello3     = new ChiudiPannello3AA();
 		ascoltatoreBottoneSvuotaPannello3 	  = new SvuotaPannello3AA();
@@ -657,14 +657,14 @@ public class BoundaryPromotore_GestioneCatalogo {
 			controllore.carica();
 		} catch (DeserializzazioneException e) {
 			JOptionPane.showMessageDialog(null, "Non e' stato ancora salvato un catalogo.  Faccio partire il thread.");
-			avviaThread();
+		*/	avviaThread();
 			b = false;
 	//	}
 		
 		if (b){
 			JOptionPane.showMessageDialog(null, "E' stato caricato il catalogo", "Catalogo Caricato", JOptionPane.INFORMATION_MESSAGE);
 		}
-		*/
+		
 	}
 	
 	private void avviaThread(){
@@ -1352,7 +1352,7 @@ public class BoundaryPromotore_GestioneCatalogo {
 	}
 	
 	
-	private class TendinaIntermediViaPannello3AA implements ActionListener{
+	private class TendinaViaPannello3AA implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {

@@ -1,5 +1,7 @@
 package gestione_Catalogo.entity;
 
+import gestione_Catalogo.exception.OffertaInesistenteException;
+
 import java.util.Set;
 
 /**
@@ -36,8 +38,8 @@ public abstract class ElementoFinale extends ElementoCatalogo {
 		mappaOfferte.aggiungiOfferta(k, o);
 	}
 	
-	public void rimuoviOfferta(Data k){
-		mappaOfferte.remove(k);
+	public void rimuoviOfferta(Data k) throws OffertaInesistenteException{
+		mappaOfferte.rimuoviOfferta(k);
 	}
 
 }

@@ -13,13 +13,13 @@ import gestione_Catalogo.exception.MappaException;
 import gestione_Catalogo.exception.OffertaException;
 import gestione_Catalogo.exception.OffertaInesistenteException;
 import gestione_Catalogo.exception.PrenotazioneException;
-import gestione_Catalogo.exception.TrattaException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -193,10 +193,11 @@ public class BoundaryProgettista_GestioneOfferta {
 		partenzaScelta = null;
 		arrivoScelto = null;
 		viaScelta = null;
+		offertaScelta = null;
 		areaTestoOfferta = null;
 		controllore = new ControlloreGestioneOfferta();
 		
-		areaTestoImp = "Offerte per il viaggo:   ";
+		areaTestoImp = "Offerte per il viaggio:   ";
 		
 		/*
 		 * 
@@ -837,18 +838,62 @@ public class BoundaryProgettista_GestioneOfferta {
 
     	}
     	
-    	
-    
-		private void controlloSintatticoDati() {
-			// TODO Auto-generated method stub
+		private void aggiornaOffertePannello3() {
+			//Svuoto tutte le tendine e l'area testo
+			tendinaOffertaPannello3.removeAllItems();
+			tendinaOffertaPannello3.setEnabled(false);
+			
+			offertaScelta = "-----";
+			
+			areaTestoPannello3.setText("");
+			areaTestoOfferta="";
+			
+			if (tendinaViaPannello3.getItemCount() != 0) {
+				try {
+					
+					if (!viaScelta.equals("-----")){
+						areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n";
+						
+						Set<Data> set = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+			
+						Iterator<Data> it = set.iterator();
+						if(set.size() > 1){
+							//inserisco l'elemento neutro
+							tendinaOffertaPannello3.addItem("-----");
+						}
+						    
+						while(it.hasNext()){
+							Data d = it.next();
+						    //inserisco l'elemento in tendina
+						    tendinaOffertaPannello3.addItem(d.stampaData());
+						}
+						    
+						tendinaOffertaPannello3.setEnabled(true);
+						tendinaOffertaPannello3.setSelectedIndex(0);
+						
+					}
+						
+					//Imposto areatestoCatalogo
+					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
+										"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
+										"-----------\t\t----------\t\t----------\n";
+					
+					//ImpostoareaTestoOfferta
+					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+						
+				} catch (IDEsternoElementoException e1) {
+					areaTestoPannello3.setText(e1.getMessage()+"\n");
+				} catch (TrattaInesistenteException e) {
+					areaTestoPannello3.setText(e.getMessage()+"\n");
+				} catch (OffertaInesistenteException e) {
+					areaTestoOfferta = e.getMessage();
+				} 
+				areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
+			} 
+			
 			
 		}
-		
-    
-    
-    
-    
-    
+    	
     
     
     
@@ -1128,28 +1173,32 @@ public class BoundaryProgettista_GestioneOfferta {
 			arrivoScelto = (String)tendinaCittaArrivoPannello2.getSelectedItem();
 			viaScelta = (String) tendinaViaPannello2.getSelectedItem();
 			
-			campoGiornoPannello2.setEditable(true);
-			tendinaMesePannello2.setEnabled(true);
-			tendinaAnnoPannello2.setEnabled(true);
-			tendinaOrePannello2.setEnabled(true);
-			tendinaMinutoPannello2.setEnabled(true);
-			campoDurataPannello2.setEditable(true);
-			campoPostiPannello2.setEditable(true);
-			
 			//Modifico la stringa da immettere nella textArea (DA SISTEMARE!!!)	
 			if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
+				
+				campoGiornoPannello2.setEditable(true);
+				tendinaMesePannello2.setEnabled(true);
+				tendinaAnnoPannello2.setEnabled(true);
+				tendinaOrePannello2.setEnabled(true);
+				tendinaMinutoPannello2.setEnabled(true);
+				campoDurataPannello2.setEditable(true);
+				campoPostiPannello2.setEditable(true);
+				
 				String via = (String) tendinaViaPannello2.getSelectedItem();
 				
 				
 				//Imposto areatestoCatalogo
-				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
-									"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
-									"-----------\t\t----------\t\t----------\n";
+				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " -> " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n";
 				
 				//ImpostoareaTestoOfferta
 				try {
 					
-						areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
+				
+					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
+					
+					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " -> " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
+							"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
+							"-----------\t\t----------\t\t----------\n";
 					
 				} catch (IDEsternoElementoException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
@@ -1175,39 +1224,44 @@ public class BoundaryProgettista_GestioneOfferta {
 			public void actionPerformed(ActionEvent e) {
 
 				if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
+					
 					String via = (String) tendinaViaPannello2.getSelectedItem();
 					
-					int giorno = Integer.parseInt(campoGiornoPannello2.getText());
-					int mese = (Integer) tendinaMesePannello2.getSelectedItem();
-					int anno = (Integer) tendinaAnnoPannello2.getSelectedItem();
-					int ora = (Integer) tendinaOrePannello2.getSelectedItem();
-					int minuto = Integer.parseInt((String) tendinaMinutoPannello2.getSelectedItem());
-					int durata = Integer.parseInt(campoDurataPannello2.getText());
-					int posti = Integer.parseInt(campoPostiPannello2.getText());
-					
-					Integer[] data = {giorno, mese, anno, ora, minuto};
-					
-					
-					controlloSintatticoDati();
-					
-					// chiedo conferma
-					int conferma = JOptionPane.showConfirmDialog(null, "Aggiungere l'offerta per il viaggio?", "Conferma Aggiunta Offerta", JOptionPane.YES_NO_OPTION);
-					if (conferma == JOptionPane.YES_OPTION){
+					try {
 						
-						//aggiungo l'offerta
-						try {
-							
+						int giorno = Integer.parseInt(campoGiornoPannello2.getText());
+						int mese = (Integer) tendinaMesePannello2.getSelectedItem();
+						int anno = (Integer) tendinaAnnoPannello2.getSelectedItem();
+						int ora = (Integer) tendinaOrePannello2.getSelectedItem();
+						int minuto = Integer.parseInt((String) tendinaMinutoPannello2.getSelectedItem());
+						int durata = Integer.parseInt(campoDurataPannello2.getText());
+						int posti = Integer.parseInt(campoPostiPannello2.getText());
+					
+						Integer[] data = {giorno, mese, anno, ora, minuto};
+					
+						// chiedo conferma
+						int conferma = JOptionPane.showConfirmDialog(null, "Aggiungere l'offerta per il viaggio?", "Conferma Aggiunta Offerta", JOptionPane.YES_NO_OPTION);
+						if (conferma == JOptionPane.YES_OPTION){
+						
+							//aggiungo l'offerta
 							controllore.aggiungiOfferta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via, data, durata, posti);
-							aggiornaTendinePannello2();   //aggiorno il pannello 2
-						} catch (TrattaInesistenteException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-						} catch (IDEsternoElementoException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-						} catch (OffertaException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "L'offerta e' stata aggiunta correttamente.", "Offerta Aggiunta", JOptionPane.INFORMATION_MESSAGE);
+							svuotaPartePannello2();
+							tendinaViaPannello2.setSelectedIndex(0);
 						}
 						
+					} catch (NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Input non valido ("+e1.getMessage()+"). Digitare caratteri numerici.", "Attenzione!", JOptionPane.WARNING_MESSAGE);
+					} catch (TrattaInesistenteException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+					} catch (IDEsternoElementoException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+					} catch (OffertaException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Attenzione!", JOptionPane.WARNING_MESSAGE);
 					}
+						
+				} else {
+					JOptionPane.showMessageDialog(null, "Nessun viaggio selezionato!");
 				}
 				
 			}
@@ -1260,9 +1314,6 @@ public class BoundaryProgettista_GestioneOfferta {
 			
 			areaTestoPannello2.setText("");
 			
-				
-		//	} else {
-		//		JOptionPane.showMessageDialog(null, "Nessun viaggio in catalogo!", "Catalogo Vuoto", JOptionPane.INFORMATION_MESSAGE);
 			}
 
 		}
@@ -1542,72 +1593,8 @@ public class BoundaryProgettista_GestioneOfferta {
 			arrivoScelto = (String)tendinaCittaArrivoPannello3.getSelectedItem();
 			viaScelta = (String) tendinaViaPannello3.getSelectedItem();
 			
-			//Svuoto tutte le tendine e l'area testo
-			tendinaOffertaPannello3.removeAllItems();
-			tendinaOffertaPannello3.setEnabled(false);
-			
-			areaTestoPannello3.setText("");
-			areaTestoOfferta="";
-			
-			
-			
-			if (tendinaViaPannello3.getItemCount() != 0) {
-				try {
-					
-					if (!viaScelta.equals("-----")){
-						areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n";
-						
-						
-						Set<Data> set = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
-						if(set.size() == 0){	
-					    	areaTestoOfferta = "Non ci sono offerte per la tratta";
-					    } else {
-					    	
-						    Iterator<Data> it = set.iterator();
-						    if(set.size() > 1){
-								//inserisco l'elemento neutro
-								tendinaOffertaPannello3.addItem("-----");
-							}
-						    
-						    while(it.hasNext()){
-						    	Data d = it.next();
-						    	//inserisco l'elemento in tendina
-						    	tendinaOffertaPannello3.addItem(d.stampaData());
-						    }
-						    
-						    tendinaOffertaPannello3.setEnabled(true);
-						    tendinaOffertaPannello3.setSelectedIndex(0);
-					    }
-						
-						
-					}
-					
-					
-					//Imposto areatestoCatalogo
-					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
-										"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
-										"-----------\t\t----------\t\t----------\n";
-					
-					//ImpostoareaTestoOfferta
-					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
-					
-					areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
-					
-						
-				
-				
-					
-				} catch (IDEsternoElementoException e1) {
-					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaInesistenteException e) {
-					areaTestoPannello3.setText(e.getMessage()+"\n");
-				} catch (OffertaInesistenteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-				
-			} 
-			
+			aggiornaOffertePannello3();
+
 		}
 		
 	}
@@ -1618,67 +1605,42 @@ public class BoundaryProgettista_GestioneOfferta {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if (tendinaViaPannello3.getItemCount() != 0 && !viaScelta.equals("-----")){
+			if (tendinaOffertaPannello3.getItemCount() != 0){
 				
-				String via = (String) tendinaViaPannello3.getSelectedItem();
-				Data dataPartenza = (Data) tendinaOffertaPannello3.getSelectedItem();
+				offertaScelta = (String) tendinaOffertaPannello3.getSelectedItem();
 				
-				// chiedo conferma
-				int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
-				if (conferma == JOptionPane.YES_OPTION){
-					
-					// rimuovo il viaggio
-					try {
-						controllore.rimuoviOfferta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via, dataPartenza);
-						JOptionPane.showMessageDialog(null, "L'offerta e' stato rimossa correttamente.", "Offerta Rimossa", JOptionPane.INFORMATION_MESSAGE);
-						aggiornaTendinePannello3();
+				if (!offertaScelta.equals("-----")){
+					int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere l'offerta per il viaggio?", "Conferma Rimozione Offerta", JOptionPane.YES_NO_OPTION);
+					if (conferma == JOptionPane.YES_OPTION){
 						
-					} catch (IDEsternoElementoException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
-					} catch (TrattaInesistenteException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-					} catch (OffertaInesistenteException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-					} catch (PrenotazioneException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
-
+						// rimuovo il viaggio
+						try {
+							controllore.rimuoviOfferta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta, offertaScelta);
+							JOptionPane.showMessageDialog(null, "L'offerta e' stata rimossa correttamente.", "Offerta Rimossa", JOptionPane.INFORMATION_MESSAGE);
+							aggiornaOffertePannello3();
+							
+						} catch (IDEsternoElementoException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
+						} catch (TrattaInesistenteException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+						} catch (OffertaInesistenteException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+						} catch (ParseException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+						} catch (PrenotazioneException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
-					
+				}  else {
+					JOptionPane.showMessageDialog(null, "Nessuna offerta selezionata!");
 				}
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "Nessuna offerta selezionata!");
 			}
 			
-		
-			/* DA IMPLEMENTARE
-			if (tendinaViaPannello3.getItemCount() != 0 && !viaScelta.equals("-----")){
-				
-				String via = (String) tendinaViaPannello3.getSelectedItem();
-				
-				// chiedo conferma
-				int conferma = JOptionPane.showConfirmDialog(null, "Rimuovere il viaggio dal catalogo?", "Conferma Rimozione Viaggio", JOptionPane.YES_NO_OPTION);
-				if (conferma == JOptionPane.YES_OPTION){
-					
-					// rimuovo il viaggio
-					try {
-						controllore.rimuoviViaggio(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
-						JOptionPane.showMessageDialog(null, "Il viaggio e' stato rimosso correttamente dal catalogo.", "Viaggio Rimosso", JOptionPane.INFORMATION_MESSAGE);
-						//aggiorno tutti i campi dopo aver rimosso il viaggio
-						aggiornaTendinePannello3();
-					} catch (IDEsternoElementoException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-					} catch (TrattaException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-					} catch (OffertaException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(), e1.toString(), JOptionPane.INFORMATION_MESSAGE);
-					}
-					
-				}
-					
-			} else {
-				JOptionPane.showMessageDialog(null, "Nessun viaggio selezionato!");
-			} */
-			
 		}
-		
+	
 	}
 	
 	private class SvuotaPannello3AA implements ActionListener{
@@ -1701,6 +1663,7 @@ public class BoundaryProgettista_GestioneOfferta {
 					partenzaScelta = null;
 					arrivoScelto = null;
 					viaScelta = null;
+					offertaScelta = null;
 
 				}
 			

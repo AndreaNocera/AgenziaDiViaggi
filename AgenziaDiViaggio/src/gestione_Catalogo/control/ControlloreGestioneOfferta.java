@@ -13,6 +13,7 @@ import gestione_Catalogo.exception.OffertaInesistenteException;
 import gestione_Catalogo.exception.PrenotazioneException;
 import gestione_Catalogo.exception.TrattaInesistenteException;
 
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -52,30 +53,26 @@ public class ControlloreGestioneOfferta extends Controllore {
 		return catalogo.getChiaviVia(ambiente, mezzo, partenza, arrivo);
 	}
 		
-	public Set<Data> mostraOffertePerLaTratta(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException{
+	public Set<Data> mostraOffertePerLaTratta(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, OffertaInesistenteException{
 		return catalogo.getChiaviOfferte(ambiente, mezzo, partenza, arrivo, via);
 	}
 	
 	public String mostraListaOffertaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, TrattaInesistenteException, OffertaInesistenteException{
 		
-		System.out.println("Sono in mostraListaOffertaCatalogo");
+
 		String stringaOfferte = "";
 		//prendo tutte le chiavi della mappaOfferta
-		Set<Data> s = mostraOffertePerLaTratta(ambiente, mezzo, partenza, arrivo , via);
+		Set<Data> s = catalogo.getChiaviOfferte(ambiente, mezzo, partenza, arrivo , via);
 		
 		//prendo l'id della tratta
 		Integer idTratta = catalogo.getTrattaByValue(ambiente, mezzo, partenza, arrivo, via).getID();
 		
 		//itero il set di Date, mi faccio dare l'offerta per quella data
 		Iterator<Data> it = s.iterator();
-		System.out.println("Numero iterator " + s.size());
-		Offerta o;
-		int i = 0;
+		
 		while (it.hasNext()){
-			i++;
-			System.out.println("Sono nel while del mostraListaOffertaCatalogo iterazione " + i);
 			Data data = it.next();
-			o = catalogo.getOffertaByData(idTratta, data);
+			Offerta o = catalogo.getOffertaByData(idTratta, data);
 			//Inserisce gli elementi nella stringa da ritornare
 			stringaOfferte += o.getData().stampaData() + "\t" + o.getDataArrivo().stampaData() + "\t" + o.getPosti() + "\n";
 		}
@@ -97,14 +94,15 @@ public class ControlloreGestioneOfferta extends Controllore {
 		Integer idTratta = tratta.getID();
 		
 		if (catalogo.verificaEsistenzaOfferta(idTratta, data)){
-			throw new OffertaException("Offerta gia' esistente");
+			throw new OffertaException("Offerta gia' esistente per il viaggio!");
 		}
-		
-		Offerta nuovaOfferta = new Offerta(idTratta, new Data(data[0], data[1], data[2], data[3], data[4]), durata, posti);
+		Data dataPartenza = new Data(data[0], data[1], data[2], data[3], data[4]);
+		Offerta nuovaOfferta = new Offerta(idTratta, dataPartenza, durata, posti);
 		catalogo.aggiungiOffertaAlCatalogo(nuovaOfferta, tratta);
+		log.aggiornaLogAggiungiOfferta(ambiente, mezzo, partenza, arrivo , via, dataPartenza, durata, posti);
 	}
 	
-	public void rimuoviOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, Data dataPartenza) throws TrattaInesistenteException, PrenotazioneException, OffertaInesistenteException, IDEsternoElementoException{
+	public void rimuoviOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, String dataPartenza) throws TrattaInesistenteException, PrenotazioneException, OffertaInesistenteException, IDEsternoElementoException, ParseException{
 		Tratta tratta = catalogo.getTrattaByValue(ambiente, mezzo, partenza, arrivo, via);
 		Integer idTratta = tratta.getID();
 		
@@ -112,8 +110,11 @@ public class ControlloreGestioneOfferta extends Controllore {
 			throw new PrenotazioneException("Ci sono prenotazioni attive! L'offerta non puo' essere rimosso.");
 		}
 		
-		Offerta offerta = catalogo.getOffertaByData(idTratta, dataPartenza);
+		Data dataOfferta = Data.parseTimestamp(dataPartenza);
+		Offerta offerta = catalogo.getOffertaByData(idTratta, dataOfferta);
+		
 		catalogo.rimuoviOffertaDalCatalogo(offerta, tratta);
+		log.aggiornaLogRimuoviOfferta(ambiente, mezzo, partenza, arrivo, via, dataPartenza);
 	}
 
 

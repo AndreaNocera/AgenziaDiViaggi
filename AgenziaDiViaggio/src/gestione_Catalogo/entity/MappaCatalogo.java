@@ -21,21 +21,14 @@ public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
 	}
 	
 	
-	public ElementoIntermedio getElemento(String k) throws IDEsternoElementoException{
+	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
 		if (!containsKey(k)){
 			throw new IDEsternoElementoException("Elemento \""+k+"\" non presente.");
 		}
-		return (ElementoIntermedio) super.get(k);
+		return super.get(k);
 	}
 	
-	public ElementoFinale getElementoFinale(String k) throws IDEsternoElementoException{
-		if (!containsKey(k)){
-			throw new IDEsternoElementoException("Elemento \""+k+"\" non presente.");
-		}
-		return (ElementoFinale) super.get(k);
 
-	}
-	
 	public void aggiungiElemento(String k, ElementoCatalogo e){
 		if(!containsKey(k))
 			super.put(k, e);

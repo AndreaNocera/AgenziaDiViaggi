@@ -1,5 +1,10 @@
 package gestione_Catalogo.entity;
 
+import java.util.Set;
+
+import gestione_Catalogo.exception.IDEsternoElementoException;
+import gestione_Catalogo.exception.OffertaInesistenteException;
+
 
 /**
  * @authors 
@@ -41,6 +46,36 @@ public abstract class ElementoCatalogo {
 	public void print() {
 		System.out.println(this.getClass().getSimpleName() + " " + this.getID().toString() + " " +  this.getIDEsternoElemento().toString());
 		
-	}
+	}
+	
+	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
+		return null;
+	}
+	
+	public void aggiungiElemento(String key, ElementoCatalogo value){
+		
+	}
+	
+	public void rimuoviElemento(String key) throws IDEsternoElementoException {
+		
+	}
+	
+	public Set<String> listaChiaviElementi(){
+		return null;
+	}
+	
+	
+	public void aggiungiOfferta(Data key, Offerta value){
+		
+	}
+		
+	public void rimuoviOfferta(Data key) throws OffertaInesistenteException{
+		
+	}
+
+	public Set<Data> listaChiaviOfferte(){
+		return null;
+	}
+	
 	
 }	
