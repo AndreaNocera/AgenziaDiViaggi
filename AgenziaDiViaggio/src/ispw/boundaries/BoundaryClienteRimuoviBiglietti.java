@@ -124,6 +124,7 @@ public class BoundaryClienteRimuoviBiglietti extends JFrame {
 		bigliettiRimossi.setLocation(600, 300);
 		bigliettiRimossi.setSize(200, 35);
 		bigliettiRimossi.setFont(new Font("Arial", 0, 18));
+		bigliettiRimossi.setEditable(false);
 
 		idbiglietto.setFont(new Font("Arial", 0, 18));
 		idbiglietto.setLocation(300, 100);
@@ -220,8 +221,10 @@ public class BoundaryClienteRimuoviBiglietti extends JFrame {
 					areaVisualizzazione.append(str + "\n");
 
 			} else if (event.getSource() == inserisciBigliettoDaRimuovere) {
-				if (!controlloreCliente.verificaId(idbiglietto.getText()))
-					areaVisualizzazione.append("Inserire i dati del traveler.");
+				if (!controlloreCliente.verificaId(idbiglietto.getText())){
+					areaVisualizzazione.setText("");
+					areaVisualizzazione.append("Inserire l'id del biglietto da rimuovere.");
+				}
 				else {
 					listaBigliettiDaRimuovere.add(idbiglietto.getText());
 					idbiglietto.setText("");

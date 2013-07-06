@@ -480,8 +480,6 @@ public class Catalogo {
 			inserimentoInMapPrenotazione(trattaRelativa, offertaRelativa,
 					prenotazione);
 		}
-		System.out.println("Caricamento iniziale della mappa completato!!");
-
 	}
 
 	/**
@@ -507,7 +505,6 @@ public class Catalogo {
 		// Inserisco il mezzo nella mappa
 		Mezzo mezzo = tratta.getMezzo();
 		if (!ambiente.getMapCatalogo().verificaEsistenza(mezzo.getValore())) {
-			System.out.println("Inserimento mezzo:" + mezzo.getValore());
 			ambiente.getMapCatalogo().insertElementoIntermedio(
 					mezzo.getValore(), mezzo);
 		}
@@ -640,10 +637,6 @@ public class Catalogo {
 				}
 			}
 		}
-
-		System.out.println("Oggetto da cancellare: ");
-		System.out.println("Id: " + via.getId() + " valore : "
-				+ via.getValore());
 
 	}
 

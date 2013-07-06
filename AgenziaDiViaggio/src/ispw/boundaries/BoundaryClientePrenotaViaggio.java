@@ -145,6 +145,7 @@ public class BoundaryClientePrenotaViaggio extends JFrame {
 		bigliettiInseriti.setLocation(600, 300);
 		bigliettiInseriti.setSize(200, 35);
 		bigliettiInseriti.setFont(new Font("Arial", 0, 18));
+		bigliettiInseriti.setEditable(false);
 
 		nome.setLocation(300, 100);
 		nome.setSize(200, 35);

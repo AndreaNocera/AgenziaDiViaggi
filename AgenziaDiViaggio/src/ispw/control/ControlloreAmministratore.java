@@ -317,11 +317,12 @@ public class ControlloreAmministratore extends Controllore {
 				// Calcola indice mezzo/ambiente e salvataggio nel Database.
 				double indiceCalcolato = calcoloIndici.computaIndiciMetodoA(
 						ambiente.getId(), mezzo.getId(), null, null);
-				Indice indice = new Indice("TuttiViaggi", ambiente.getValore(),
-						mezzo.getValore(), new Double(indiceCalcolato), data,
-						ora);
-				indice.save();
-
+				if (indiceCalcolato != 0) {
+					Indice indice = new Indice("TuttiViaggi",
+							ambiente.getValore(), mezzo.getValore(),
+							new Double(indiceCalcolato), data, ora);
+					indice.save();
+				}
 				List<Citta> listaCittaPartenza = catalogo.getCittaPartenza(
 						ambiente, mezzo);
 				for (Citta cittaPartenza : listaCittaPartenza) {
@@ -334,18 +335,24 @@ public class ControlloreAmministratore extends Controllore {
 								ambiente.getId(), mezzo.getId(),
 								cittaPartenza.getId(), cittaArrivo.getId());
 
-						indice = new Indice("TuttiViaggi", mezzo.getValore(),
-								cittaPartenza.getValore() + ","
-										+ cittaArrivo.getValore(), new Double(
-										indiceCalcolato), data, ora);
-						indice.save();
+						// Indice calcolato è 0 se non ci sono prenotazioni
+						// relative alla tratta.
+						if (indiceCalcolato != 0) {
+							Indice indice = new Indice("TuttiViaggi",
+									mezzo.getValore(),
+									cittaPartenza.getValore() + ","
+											+ cittaArrivo.getValore(),
+									new Double(indiceCalcolato), data, ora);
+							indice.save();
+						}
 					}
 				}
 			}
 		}
 	}
 
-	public void calcolaIndiciUltimoAnno() throws DataException, OraException, DAOException {
+	public void calcolaIndiciUltimoAnno() throws DataException, OraException,
+			DAOException {
 		// TODO Auto-generated method stub
 
 		// Istanza di CalcoloIndici
@@ -366,10 +373,12 @@ public class ControlloreAmministratore extends Controllore {
 				// Calcola indice mezzo/ambiente e salvataggio nel Database.
 				double indiceCalcolato = calcoloIndici.computaIndiciMetodoB(
 						ambiente.getId(), mezzo.getId(), null, null);
-				Indice indice = new Indice("UltimoAnno", ambiente.getValore(),
-						mezzo.getValore(), new Double(indiceCalcolato), data,
-						ora);
-				indice.save();
+				if (indiceCalcolato != 0) {
+					Indice indice = new Indice("UltimoAnno",
+							ambiente.getValore(), mezzo.getValore(),
+							new Double(indiceCalcolato), data, ora);
+					indice.save();
+				}
 
 				List<Citta> listaCittaPartenza = catalogo.getCittaPartenza(
 						ambiente, mezzo);
@@ -382,12 +391,14 @@ public class ControlloreAmministratore extends Controllore {
 						indiceCalcolato = calcoloIndici.computaIndiciMetodoB(
 								ambiente.getId(), mezzo.getId(),
 								cittaPartenza.getId(), cittaArrivo.getId());
-
-						indice = new Indice("UltimoAnno", mezzo.getValore(),
-								cittaPartenza.getValore() + ","
-										+ cittaArrivo.getValore(), new Double(
-										indiceCalcolato), data, ora);
-						indice.save();
+						if (indiceCalcolato != 0) {
+							Indice indice = new Indice("UltimoAnno",
+									mezzo.getValore(),
+									cittaPartenza.getValore() + ","
+											+ cittaArrivo.getValore(),
+									new Double(indiceCalcolato), data, ora);
+							indice.save();
+						}
 					}
 				}
 			}

@@ -36,6 +36,7 @@ public class AABoundaryAvvio extends JFrame {
 	public JLabel titolo = new JLabel();
 	// Bottoni/
 	public JButton login = new JButton("Login");
+	public JButton visitatore = new JButton("Visitatore");
 	public JButton cliente = new JButton("Gestione Cliente");
 	public JButton venditore = new JButton("Gestione Venditore");
 	public JButton gestoreEccezioni = new JButton("Gestione Eccezioni");
@@ -94,6 +95,7 @@ public class AABoundaryAvvio extends JFrame {
 		panelButtons.setLocation(5, altezzaTitolo);
 
 		panelButtons.add(login);
+		panelButtons.add(visitatore);
 		panelButtons.add(cliente);
 		panelButtons.add(venditore);
 		panelButtons.add(gestoreEccezioni);
@@ -102,6 +104,7 @@ public class AABoundaryAvvio extends JFrame {
 		panelButtons.add(amministratore);
 
 		login.setBounds(100, 100, 200, 60);
+		visitatore.setBounds(400, 100, 200, 60);
 		cliente.setBounds(100, 100, 200, 60);
 		cliente.setVisible(false);
 		venditore.setBounds(400, 100, 200, 60);
@@ -124,6 +127,7 @@ public class AABoundaryAvvio extends JFrame {
 
 		// Associa ascoltatori e bottoni
 		login.addActionListener(gestoreListener);
+		visitatore.addActionListener(gestoreListener);
 		cliente.addActionListener(gestoreListener);
 		venditore.addActionListener(gestoreListener);
 		gestoreEccezioni.addActionListener(gestoreListener);
@@ -146,6 +150,9 @@ public class AABoundaryAvvio extends JFrame {
 			if (e.getSource() == login) {
 				pannello.setVisible(false);
 				new BoundaryLogin(boundaryAvvio);
+			} else if (e.getSource() == visitatore) {
+				pannello.setVisible(false);
+				new BoundaryVisitatoreSceltaTratta();
 			} else if (e.getSource() == cliente) {
 				pannello.setVisible(false);
 				new BoundaryCliente();
@@ -171,6 +178,7 @@ public class AABoundaryAvvio extends JFrame {
 	public void setButtons() {
 		// Gestione dei bottoni in base al ruolo
 		login.setVisible(false);
+		visitatore.setVisible(false);
 		Session session = Session.getIstance();
 		if (session.getRuolo().equals("Amministratore")) {
 			cliente.setVisible(true);

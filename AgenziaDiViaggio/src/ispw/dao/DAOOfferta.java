@@ -51,6 +51,10 @@ public class DAOOfferta extends DAO {
 			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	private static final String deleteQuery = "DELETE FROM `offerta` WHERE `idOfferta`=?";
+	
+	private static final String updatePostiQuery = "UPDATE `offerta` " +
+			"SET `posti`=? " +
+			"WHERE `idOfferta`=?";
 
 	private static final String findQuery = "SELECT * FROM `offerta` "
 			+ "WHERE `idOfferta` = ?";
@@ -184,9 +188,6 @@ public class DAOOfferta extends DAO {
 		try {
 			conn = getConnection(usr, pass);
 			ps = conn.prepareStatement(deleteQuery);
-			System.out.println("Cancellazione dell'offerta nel db.");
-			offerta.print();
-
 			ps.setInt(1, offerta.getIdOfferta());
 			ps.executeUpdate();
 
@@ -243,6 +244,31 @@ public class DAOOfferta extends DAO {
 			listOfferte.add(offerta);
 		}
 		return listOfferte;
+	}
+
+	public void updatePosti(Offerta offerta, Integer posti) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		try {
+			conn = getConnection(usr, pass);
+			
+			ps = conn.prepareStatement(updatePostiQuery);
+			
+			ps.setInt(1, posti);
+			ps.setInt(2, offerta.getIdOfferta());
+			ps.executeUpdate();
+			
+		} catch (ConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 	}
 
 }

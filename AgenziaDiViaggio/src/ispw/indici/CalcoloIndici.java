@@ -4,6 +4,8 @@
 
 package ispw.indici;
 
+import java.util.Calendar;
+
 import ispw.indici.DAOCalcoloIndici;
 
 /*
@@ -112,7 +114,8 @@ public class CalcoloIndici {
 
 	private double computaIndiciUltimoAnno(String idAmbiente,
 			String idMezzo, String idCittaSorg, String idCittaDest) {
-		int anno = 2013; // L'anno corrente è il 2013
+		Calendar calendar = Calendar.getInstance();
+		int anno = calendar.get(Calendar.YEAR); // Setto all'anno corrente
 		return computaIndiciGerarchici(idAmbiente, idMezzo, idCittaSorg,
 				idCittaDest, anno + "");
 	}

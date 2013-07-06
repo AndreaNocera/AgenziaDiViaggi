@@ -51,7 +51,7 @@ public class Offerta {
 		this.setPosti(posti);
 		this.mapPrenotazioni = new MapPrenotazioni();
 		dataInserimentoOfferta = new Data(Data.generaGiorno(),
-				Data.generaMese());
+				Data.generaMese(), Data.generaAnno());
 	}
 
 	public Integer getIdOfferta() {
@@ -166,6 +166,12 @@ public class Offerta {
 	public static Integer getNextId() throws DAOException {
 		DAOOfferta daoOfferta = DAOOfferta.getIstance();
 		return daoOfferta.getNextId();
+	}
+
+	public void updatePosti(Integer posti) {
+		// TODO Auto-generated method stub
+		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		daoOfferta.updatePosti(this, posti);
 	}
 
 }
