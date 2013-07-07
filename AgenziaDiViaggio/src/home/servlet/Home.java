@@ -52,9 +52,10 @@ public class Home extends HttpServlet {
 			 try {
 				 ControllerAmministraUtenti controller = ControllerAmministraUtenti.getWebInstance();
 				 List<UtenteBean> utenti = controller.getUtenti();
-	             RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_AMMINISTRAZIONE_UTENTI);
-	             request.setAttribute("utenti", utenti);
-	             rd.forward(request, response);
+				 HttpSession session = request.getSession(true);
+				 session.setAttribute("utenti", utenti);
+	             RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_AMMINISTRAZIONE_UTENTI);	             
+	             rd.include(request, response);
 	             return;
 	         } catch (Exception e) {
 	             e.printStackTrace();
@@ -70,7 +71,7 @@ public class Home extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("utente", null);
                 RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_LOGIN);
-                rd.forward(request, response);
+                rd.include(request, response);
                 return;
             } catch (Exception e) {
                 e.printStackTrace();

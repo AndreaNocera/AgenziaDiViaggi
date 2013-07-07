@@ -1,16 +1,3 @@
-/**
- * @project WebVoyager
- * 
- * @package gestioneutenti.servlet
- * 
- * @name AmministrazioneUtenti.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package gestioneutenti.servlet;
 
 import java.io.IOException;
@@ -20,11 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/AmministrazioneUtenti")
-public class AmministrazioneUtenti extends HttpServlet {
+@WebServlet("/RimuoviUtente")
+public class RimuoviUtente extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
-    public AmministrazioneUtenti() {
+    public RimuoviUtente() {
         super();
     }
 

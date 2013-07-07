@@ -47,7 +47,8 @@ public class GestioneProfilo extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UtenteBean utenteBean = (UtenteBean) session.getAttribute("utente");
-		UtenteBean nUtenteBean = (UtenteBean) session.getAttribute("nUtente");
+		UtenteBean nUtenteBean = (UtenteBean) session.getAttribute("nUtente");	
+		
 		LoginBean loginBean = new LoginBean().setUsername(utenteBean.getUsername()).setPassword(utenteBean.getPassword());
 		
 		try {

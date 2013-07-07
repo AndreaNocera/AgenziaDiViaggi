@@ -42,48 +42,31 @@
 	
 	<script>
 		
-		$( document ).ready(function() {			
-			
-			var nome = $( "#nome" );
-	    	var cognome = $( "#cognome" );
-	    	var citta = $( "#citta" );
-	    	var nascita = $( "#nascita" );
-	    	var sesso = $( "#sesso" );
-	    	var sessoUomo = $( "#radioUomo" );
-	    	var sessoDonna = $( "#radioDonna" );
-	    	var mail = $( "#mail" );
-	    	var username = $( "#username" );
-	    	var ruolo = $( "#ruolo" );
-	    	var passwordCorrente = $( "#passwordCorrente" );
-	    	var passwordNuova = $( "#passwordNuova" );
-	    	var passwordNuovaConferma = $( "#passwordNuovaConferma" );	    	
-	    	
-	    	var cambiaPassword = false;	 
+		$( document ).ready(function() {
 	    	
 	    	function inizializzaCampi() {
-	    		nome.val("<%=utente.getNome()%>");
-		    	cognome.val("<%=utente.getCognome()%>");
-		    	citta.val("<%=utente.getCitta()%>");
-		    	nascita.datepicker("setDate", new Date(<%=utente.getNascita().get(Calendar.YEAR)%>,	<%=utente.getNascita().get(Calendar.MONTH)%>, <%=utente.getNascita().get(Calendar.DAY_OF_MONTH)%>));
-		    	sessoUomo.prop("checked", <%=(utente.getSesso().equals("Uomo"))%>);
-		    	sessoDonna.prop("checked", <%=(utente.getSesso().equals("Donna"))%>);
-		    	sesso.buttonset("refresh");
-		    	mail.val("<%=utente.getMail()%>");
-		    	username.val("<%=utente.getUsername()%>");
-		    	ruolo.val("<%=utente.getRuolo().asString()%>");
+	    		$( "#dialogGestioneProfilo #nome" ).val("<%=utente.getNome()%>");
+	    		$( "#dialogGestioneProfilo #cognome" ).val("<%=utente.getCognome()%>");
+	    		$( "#dialogGestioneProfilo #citta" ).val("<%=utente.getCitta()%>");
+	    		$( "#dialogGestioneProfilo #nascita" ).datepicker("setDate", new Date(<%=utente.getNascita().get(Calendar.YEAR)%>,	<%=utente.getNascita().get(Calendar.MONTH)%>, <%=utente.getNascita().get(Calendar.DAY_OF_MONTH)%>));
+	    		$( "#dialogGestioneProfilo #radioUomo" ).prop("checked", <%=(utente.getSesso().equals("Uomo"))%>);
+	    		$( "#dialogGestioneProfilo #radioDonna" ).prop("checked", <%=(utente.getSesso().equals("Donna"))%>);
+	    		$( "#dialogGestioneProfilo #sesso" ).buttonset("refresh");
+	    		$( "#dialogGestioneProfilo #mail" ).val("<%=utente.getMail()%>");
+	    		$( "#dialogGestioneProfilo #username" ).val("<%=utente.getUsername()%>");
+	    		$( "#dialogGestioneProfilo #ruolo" ).val("<%=utente.getRuolo().asString()%>");
+	    		$( "#dialogGestioneProfilo #checkCambiaPassword" ).removeAttr("checked").button("refresh");
 	    	}
 	    	
-	    	$( "#checkCambiaPassword" ).change(function(){
+	    	$( "#dialogGestioneProfilo #checkCambiaPassword" ).change(function(){
 	    	    if ($( this ).is( ":checked" )){
-	    	        mCambiaPassword = true;
-	    	        mPasswordCorrente.prop("disabled", false);
-	    	        mPasswordNuova.prop("disabled", false);
-	    	        mPasswordNuovaConferma.prop("disabled", false);
+	    	        $( "#dialogGestioneProfilo #passwordCorrente" ).prop("disabled", false);
+	    	        $( "#dialogGestioneProfilo #passwordNuova" ).prop("disabled", false);
+	    	        $( "#dialogGestioneProfilo #passwordNuovaConferma" ).prop("disabled", false);
 	    	    } else {
-	    	        mCambiaPassword = false;
-	    	        mPasswordCorrente.prop("disabled", true);
-	    	        mPasswordNuova.prop("disabled", true);
-	    	        mPasswordNuovaConferma.prop("disabled", true);
+	    	        $( "#dialogGestioneProfilo #passwordCorrente" ).prop("disabled", true);
+	    	        $( "#dialogGestioneProfilo #passwordNuova" ).prop("disabled", true);
+	    	        $( "#dialogGestioneProfilo #passwordNuovaConferma" ).prop("disabled", true);
 	    	    }
 	    	});
 			
@@ -106,6 +89,18 @@
 			    },
 			    buttons: {
 				    "Ok": function() {
+				    	/*
+				    	alert( $( "#dialogGestioneProfilo #nome" ).val() +
+				    			$( "#dialogGestioneProfilo #cognome" ).val() +
+				    			$( "#dialogGestioneProfilo #citta" ).val() + 
+				    			$( "#dialogGestioneProfilo #nascita" ).val() +
+				    			$( "#dialogGestioneProfilo #sesso" ).val() +
+				    			$( "#dialogGestioneProfilo #mail" ).val() +
+				    			$( "#dialogGestioneProfilo #username" ).val() +
+				    			$( "#dialogGestioneProfilo #ruolo" ).val() +
+				    			$( "#dialogGestioneProfilo #passwordCorrente" ).val() +
+				    			$( "#dialogGestioneProfilo #passwordNuova" ).val() +
+				    			$( "#dialogGestioneProfilo #passwordNuovaConferma" ).val());*/
 		   			          
 		   			    /*$.get("http://localhost:8080/WebVoyager/GestioneProfilo", 
 		   			    		{nome : mNome.val(), 
@@ -129,9 +124,7 @@
 		   			    $( this ).dialog( "close" );
 				    }
 			    }
-			});	
-			
-			
+			});				
 			
 			$( "#buttonGestioneProfilo" ).click(function() {
 		        $( "#dialogGestioneProfilo" ).dialog( "open" );
@@ -179,8 +172,8 @@
     				<p><input class = "text ui-widget-content ui-corner-all" id = "citta" type = "text" name = "citta" placeholder = "Città"/>
     				<input class = "datepicker text ui-widget-content ui-corner-all " id = "nascita" type = "text" name = "nascita"/></p>  
     				<div class = "radio" id = "sesso">
-    					<input type = "radio" id = "radioUomo" name = "radio"/><label for = "radioUomo">Uomo</label>
-    					<input type = "radio" id = "radioDonna" name = "radio" /><label for = "radioDonna">Donna</label>
+    					<input type = "radio" id = "radioUomo" name = "sesso"/><label for = "radioUomo">Uomo</label>
+    					<input type = "radio" id = "radioDonna" name = "sesso" /><label for = "radioDonna">Donna</label>
   					</div>  				  				
     				<p><input class = "text ui-widget-content ui-corner-all" id = "mail" type = "text" name = "mail" placeholder = "Mail"/></p>  
     				<p><input class = "text ui-widget-content ui-corner-all" id = "username" type = "text" name = "username" readonly/>    				
