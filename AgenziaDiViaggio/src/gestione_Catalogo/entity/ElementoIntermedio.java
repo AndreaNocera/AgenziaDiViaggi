@@ -48,7 +48,7 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 	
 	
 	public boolean esistenzaElemento(String k){    //se in parametro gli passo una stringa
-		return mappaCatalogo.containsKey(k);
+		return mappaCatalogo.esistenzaElemento(k);
 	}
 	
 	public boolean esistenzaElemento(ElementoCatalogo e){  //overloading, se in parametro gli passo un elemento

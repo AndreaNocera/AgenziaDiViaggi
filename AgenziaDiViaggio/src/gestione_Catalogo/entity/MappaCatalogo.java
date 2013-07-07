@@ -44,6 +44,10 @@ public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
 	}
 	
 	
+	public boolean esistenzaElemento(String k){    //se in parametro gli passo una stringa
+		return super.containsKey(k);
+	}
+	
 	public boolean esistenzaElemento(ElementoCatalogo e){  // se in parametro gli passo un elemento
 		return super.containsKey(e.getIDEsternoElemento());
 	}

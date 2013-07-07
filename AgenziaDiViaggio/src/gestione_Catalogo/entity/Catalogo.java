@@ -16,7 +16,6 @@ import java.util.Set;
  * @authors 
  * Remo Sperlongano
  * Ivan Torre
- * A
  */
 public class Catalogo {
 	
@@ -67,8 +66,22 @@ public class Catalogo {
 		}
 		return false;
 	*/
+		
 		//IMPLEMENTAZIONE ORIGINARIA CON MAPPA
-		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(cittaPartenza).getElemento(cittaArrivo).esistenzaElemento(via);
+		/*
+		 * Non va in exception: prima di prendere un elemento, verifica la sua esistenza...se c'è, lo prende, se non c'è, ritorna con false
+		 */
+		
+		if (!mappaCatalogo.esistenzaElemento(ambiente)) return false;	//Se non c'è l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
+		ElementoCatalogo amb = mappaCatalogo.getElemento(ambiente);
+		if (!amb.esistenzaElemento(mezzo)) return false;  //se nn c'è il mezzo ritorna con false, altrimenti continua
+		ElementoCatalogo mez = amb.getElemento(mezzo);
+		if (!mez.esistenzaElemento(cittaPartenza)) return false;
+		ElementoCatalogo part = mez.getElemento(cittaPartenza);
+		if (!part.esistenzaElemento(cittaArrivo)) return false;
+		
+		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio è già presente
+		return true;
 	}
 	
 	
