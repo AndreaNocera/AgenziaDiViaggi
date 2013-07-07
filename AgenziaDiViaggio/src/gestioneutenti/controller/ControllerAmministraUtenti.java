@@ -25,6 +25,7 @@ import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
 import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.exception.LoginInconsistenteException;
+import gestioneutenti.exception.UtenteEsistenteException;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.FactoryPassword;
 import gestioneutenti.model.Utente;
@@ -61,13 +62,13 @@ public class ControllerAmministraUtenti {
 		return singletonControllerAmministraUtenti;
 	}
 	
-	public void nuovo(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
+	public void nuovo(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException, UtenteEsistenteException {
 		Utente utente = new Utente().fromBean(utenteBean);
 		utenteDAO.save(utente);
 		inviaDatiUtente(utente);
 	}	
 
-	public void modifica(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
+	public void modifica(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException, UtenteInesistenteException {
 		Utente utente = new Utente().fromBean(utenteBean);
 		utenteDAO.update(utente);	
 		inviaDatiUtente(utente);
@@ -106,7 +107,7 @@ public class ControllerAmministraUtenti {
 				"\n\nEcco i tuoi dati di registrazione:\n" + 
 				"\tNome: " + utente.getDatiUtente().getNome() + "\n" +
 				"\tCognome: " + utente.getDatiUtente().getCognome() + "\n" +
-				"\tCittà: " + utente.getDatiUtente().getCitta() + "\n" +
+				"\tCittï¿½: " + utente.getDatiUtente().getCitta() + "\n" +
 				"\tNascita: " + data + "\n" +
 				"\tSesso: " + utente.getDatiUtente().getSesso() + "\n" +
 				"\tMail: " + utente.getDatiUtente().getMail() + "\n" +
@@ -117,7 +118,7 @@ public class ControllerAmministraUtenti {
 
 	private void notificaRimozione(Utente utente) {
 		String mail = utente.getDatiUtente().getMail();
-		mailer.inviaMail(mail, "Voyager", "Ciao " + utente.getLogin().getUsername() + "!\n\nQuesta email è per notificarti della tua eliminazione dal sistema Voyager.\n\nSaluti dal team di Voyager.");
+		mailer.inviaMail(mail, "Voyager", "Ciao " + utente.getLogin().getUsername() + "!\n\nQuesta email ï¿½ per notificarti della tua eliminazione dal sistema Voyager.\n\nSaluti dal team di Voyager.");
 	}
 
 }
