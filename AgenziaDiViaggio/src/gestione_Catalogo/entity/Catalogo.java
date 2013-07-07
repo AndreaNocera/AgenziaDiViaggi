@@ -79,6 +79,8 @@ public class Catalogo {
 		if (!mez.esistenzaElemento(cittaPartenza)) return false;
 		ElementoCatalogo part = mez.getElemento(cittaPartenza);
 		if (!part.esistenzaElemento(cittaArrivo)) return false;
+		ElementoCatalogo arr = part.getElemento(cittaArrivo);
+		if (!arr.esistenzaElemento(via)) return false;
 		
 		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio è già presente
 		return true;
