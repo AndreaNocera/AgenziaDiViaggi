@@ -428,7 +428,6 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		tendinaAnnoPannello2 = new JComboBox<Integer>(); //Tendina per anni
 		tendinaAnnoPannello2.setBackground(Color.WHITE);
-
 		for (int i=2013; i<2020; i++){
 			tendinaAnnoPannello2.addItem(i);
 		}
@@ -1191,7 +1190,7 @@ public class BoundaryProgettista_GestioneOfferta {
 				
 				
 				//Imposto areatestoCatalogo
-				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " -> " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n";
+				areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n";
 				
 				//ImpostoareaTestoOfferta
 				try {
@@ -1199,7 +1198,7 @@ public class BoundaryProgettista_GestioneOfferta {
 				
 					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, via);
 					
-					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " -> " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
+					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
 							"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
 							"-----------\t\t----------\t\t----------\n";
 					

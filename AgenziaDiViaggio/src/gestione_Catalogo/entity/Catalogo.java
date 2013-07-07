@@ -59,18 +59,28 @@ public class Catalogo {
 	}
 	
 	
-	public boolean verificaEsistenzaViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) {
+	public boolean verificaEsistenzaViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws IDEsternoElementoException{	
+	/*	//IMPLEMENTAZIONE CON LISTA
 		for (Tratta tratta : listaTratte){
 			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
 				return true;
 		}
 		return false;
+	*/
+		//IMPLEMENTAZIONE ORIGINARIA CON MAPPA
+		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(cittaPartenza).getElemento(cittaArrivo).esistenzaElemento(via);
 	}
 	
+	
+	//NUOVA IMPLEMENTAZIONE CON MAPPA. Verifica se esista o meno una determinata offerta.
+	public boolean verificaEsistenzaOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, Data dataPartenza) throws IDEsternoElementoException {
+		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).esistenzaOfferta(dataPartenza);
+	}
 
-	public boolean verificaEsistenzaOfferta(Integer idTratta, Integer[] data) {
+	//IMPLEMENTAZIONE CON LISTA. Verifica se esista o meno una determinata offerta.
+	public boolean verificaEsistenzaOfferta(Integer idTratta, Data dataPartenza) {
 		for (Offerta offerta : listaOfferte) {
-			if (offerta.verifyExistence(idTratta, data)){
+			if (offerta.verifyExistence(idTratta, dataPartenza)){
 				return true;
 			}
 		} return false;
@@ -78,7 +88,12 @@ public class Catalogo {
 	}
 
 	
+	//IMPLEMENTAZIONE ORIGINARIA CON MAPPA. Verifica se esistono offerte per un determinato viaggio. Un viaggio non puo' essere rimosso se esistono offerte ad esso associate.
+	public boolean verificaEsistenzaOfferte(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws IDEsternoElementoException {
+		return !mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(cittaPartenza).getElemento(cittaArrivo).getElemento(via).isEmpty();
+	}
 	
+	//IMPLEMENTAZIONE CON LISTA. Verifica se esistono offerte per un determinato viaggio. Un viaggio non puo' essere rimosso se esistono offerte ad esso associate.
 	public boolean verificaEsistenzaOfferte(Integer idTratta){
 		for (Offerta offerta : listaOfferte){
 			if(offerta.verifyExistence(idTratta))
@@ -86,6 +101,7 @@ public class Catalogo {
 		}
 		return false;
 	}
+
 	
 	public boolean verificaEsistenzaPrenotazioni(){
 		return false;
@@ -295,6 +311,10 @@ public class Catalogo {
 		String via = tratta.getVia().getIDEsternoElemento();
 		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).rimuoviOfferta(offerta.getData());
 	}
+
+
+
+
 
 
 	

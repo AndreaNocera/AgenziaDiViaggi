@@ -48,14 +48,8 @@ public abstract class ElementoCatalogo {
 		
 	}
 	
-	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
-		return null;
-	}
-	
-	public Offerta getOfferta(Data k) throws OffertaInesistenteException{
-		return null;
-	}
-	
+
+
 	public void aggiungiElemento(String key, ElementoCatalogo value){
 		
 	}
@@ -64,8 +58,16 @@ public abstract class ElementoCatalogo {
 		
 	}
 	
+	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
+		return null;
+	}
+		
 	public Set<String> listaChiaviElementi(){
 		return null;
+	}
+	
+	public boolean esistenzaElemento(String k){
+		return false;	
 	}
 	
 	
@@ -76,10 +78,21 @@ public abstract class ElementoCatalogo {
 	public void rimuoviOfferta(Data key) throws OffertaInesistenteException{
 		
 	}
+	
+	public Offerta getOfferta(Data k) throws OffertaInesistenteException{
+		return null;
+	}
 
 	public Set<Data> listaChiaviOfferte(){
 		return null;
 	}
-	
+	
+	public boolean esistenzaOfferta(Data k){
+		return false;
+	}
+	
+	public boolean isEmpty(){
+		return false;
+	}
 	
 }	

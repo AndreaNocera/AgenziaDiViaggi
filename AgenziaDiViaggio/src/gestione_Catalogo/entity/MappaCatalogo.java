@@ -21,14 +21,6 @@ public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
 	}
 	
 	
-	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
-		if (!containsKey(k)){
-			throw new IDEsternoElementoException("Elemento \""+k+"\" non presente.");
-		}
-		return super.get(k);
-	}
-	
-
 	public void aggiungiElemento(String k, ElementoCatalogo e){
 		if(!containsKey(k))
 			super.put(k, e);
@@ -43,7 +35,17 @@ public class MappaCatalogo extends TreeMap<String,ElementoCatalogo> {
 		
 	}
 	
+	
+	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
+		if (!containsKey(k)){
+			throw new IDEsternoElementoException("Elemento \""+k+"\" non presente.");
+		}
+		return super.get(k);
+	}
+	
+	
 	public boolean esistenzaElemento(ElementoCatalogo e){  // se in parametro gli passo un elemento
 		return super.containsKey(e.getIDEsternoElemento());
 	}
+	
 }

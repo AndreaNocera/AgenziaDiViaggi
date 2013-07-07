@@ -38,18 +38,17 @@ public class Offerta {
 	}
 
 
-	public boolean verifyExistence(Integer idTratta, Integer[] data){
-		//serve per verificare se l'offerta da inserire � gia presente
-		Data nuovadata = new Data(data[0],data[1],data[2],data[3],data[4]);
+	public boolean verifyExistence(Integer idTratta, Data dataPartenza){
+		//serve per verificare se l'offerta da inserire e' gia presente
 		if(this.idTratta.equals(idTratta) &&
-		   this.dataPartenza.equals(nuovadata)) return true;
+		   this.dataPartenza.equals(dataPartenza)) return true;
 		else return false;
 		
 	}
 	
 	
 	public boolean verifyExistence(Integer idTratta) {
-		//serve per verificare se nella lista delle offerte, c'� almeno un offerta per una particolare tratta
+		//serve per verificare se nella lista delle offerte, c'e' almeno un offerta per una particolare tratta
 		//evita di eliminare quella tratta
 		if (this.idTratta.equals(idTratta))
 			return true;

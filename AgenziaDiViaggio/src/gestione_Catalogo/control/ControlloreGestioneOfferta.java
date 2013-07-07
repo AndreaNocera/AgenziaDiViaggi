@@ -115,15 +115,22 @@ public class ControlloreGestioneOfferta extends Controllore {
 		
 		Tratta tratta = catalogo.getTrattaByValue(ambiente, mezzo, partenza, arrivo, via);
 		Integer idTratta = tratta.getID();
+		Data dataPartenza = new Data(data[0], data[1], data[2], data[3], data[4]);
 		
-		if (catalogo.verificaEsistenzaOfferta(idTratta, data)){
+	/*		VERIFICA ESISTENZA OFFERTE NELLA LISTA
+		if (catalogo.verificaEsistenzaOfferta(idTratta, dataPartenza)){
 			throw new OffertaException("Offerta gia' esistente per il viaggio!");
 		}
-		Data dataPartenza = new Data(data[0], data[1], data[2], data[3], data[4]);
+	*/
+		if (catalogo.verificaEsistenzaOfferta(ambiente,mezzo,partenza,arrivo,via,dataPartenza)){
+			throw new OffertaException("Offerta gia' esistente per il viaggio!");
+		}
+		
 		Offerta nuovaOfferta = new Offerta(idTratta, dataPartenza, durata, posti);
 		catalogo.aggiungiOffertaAlCatalogo(nuovaOfferta, tratta);
 		log.aggiornaLogAggiungiOfferta(ambiente, mezzo, partenza, arrivo , via, dataPartenza, durata, posti);
 	}
+	
 	
 	public void rimuoviOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, String dataPartenza) throws TrattaInesistenteException, PrenotazioneException, OffertaInesistenteException, IDEsternoElementoException, ParseException{
 		Tratta tratta = catalogo.getTrattaByValue(ambiente, mezzo, partenza, arrivo, via);

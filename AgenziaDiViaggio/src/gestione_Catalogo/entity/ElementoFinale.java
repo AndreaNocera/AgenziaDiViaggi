@@ -29,11 +29,6 @@ public abstract class ElementoFinale extends ElementoCatalogo {
 	}
 	
 
-	public Set<Data> listaChiaviOfferte() {
-		return mappaOfferte.keySet();
-	}
-
-
 	public void aggiungiOfferta(Data k, Offerta o){
 		mappaOfferte.aggiungiOfferta(k, o);
 	}
@@ -41,10 +36,23 @@ public abstract class ElementoFinale extends ElementoCatalogo {
 	public void rimuoviOfferta(Data k) throws OffertaInesistenteException{
 		mappaOfferte.rimuoviOfferta(k);
 	}
-	
 
 	public Offerta getOfferta(Data k) throws OffertaInesistenteException{
 		return mappaOfferte.getOfferta(k);
+	}
+
+
+	public Set<Data> listaChiaviOfferte() {
+		return mappaOfferte.keySet();
+	}
+	
+	
+	public boolean esistenzaOfferta(Data k){
+		return mappaOfferte.containsKey(k);
+	}
+
+	public boolean isEmpty(){
+		return mappaOfferte.isEmpty();
 	}
 
 }

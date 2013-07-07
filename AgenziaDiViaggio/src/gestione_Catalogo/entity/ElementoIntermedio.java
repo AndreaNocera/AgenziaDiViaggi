@@ -28,10 +28,6 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 
 	
 	//metodi
-	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
-		return mappaCatalogo.getElemento(k);
-	}
-	
 	
 	public void aggiungiElemento(String k, ElementoCatalogo e){
 		mappaCatalogo.aggiungiElemento(k, e);
@@ -39,6 +35,10 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 	
 	public void rimuoviElemento(String k) throws IDEsternoElementoException{
 		mappaCatalogo.rimuoviElemento(k);
+	}
+	
+	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
+		return mappaCatalogo.getElemento(k);
 	}
 	
 	
@@ -53,6 +53,10 @@ public abstract class ElementoIntermedio extends ElementoCatalogo {
 	
 	public boolean esistenzaElemento(ElementoCatalogo e){  //overloading, se in parametro gli passo un elemento
 		return mappaCatalogo.esistenzaElemento(e);
+	}
+	
+	public boolean isEmpty(){
+		return mappaCatalogo.isEmpty();
 	}
 	
 

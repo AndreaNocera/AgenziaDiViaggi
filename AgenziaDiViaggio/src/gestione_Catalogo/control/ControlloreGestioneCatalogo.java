@@ -49,8 +49,19 @@ public class ControlloreGestioneCatalogo extends ControlloreGestioneOfferta {
 
 	
 	public void rimuoviViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaInesistenteException, OffertaException, IDEsternoElementoException {
+
+		// verifico l'esistenza di offerte per il viaggio
+		if (catalogo.verificaEsistenzaOfferte(ambiente,mezzo,cittaPartenza,cittaArrivo,via)){
+			throw new OffertaException("Ci sono offerte attive! Il viaggio non puo' essere rimosso.");
+		} else { 
+			Tratta tratta = catalogo.getTrattaByValue(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
+			//rimuovo il viaggio
+			catalogo.rimuoviViaggioDalCatalogo(tratta);
+			log.aggiornaLogRimuoviViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
+		}
 		
-		Tratta tratta = catalogo.getTrattaByValue(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
+		//		VERIFICA ESISTENZA OFFERTE TRAMITE LISTA
+	/*	Tratta tratta = catalogo.getTrattaByValue(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 
 		// verifico l'esistenza di offerte per il viaggio
 		if (catalogo.verificaEsistenzaOfferte(tratta.getID())){
@@ -59,7 +70,7 @@ public class ControlloreGestioneCatalogo extends ControlloreGestioneOfferta {
 			catalogo.rimuoviViaggioDalCatalogo(tratta);
 			log.aggiornaLogRimuoviViaggio(ambiente,mezzo,cittaPartenza,cittaArrivo,via);
 		}
-		
+	*/	
 	}
 	
 
