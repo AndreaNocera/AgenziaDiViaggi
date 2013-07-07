@@ -21,7 +21,7 @@ import gestioneutenti.model.competenze.SignIn;
 
 public class Promotore extends AbstractRuolo{
 	
-	private static final long serialVersionUID = -6671536559949698603L;
+	private static final long serialVersionUID = 1L;
 
 	private static Promotore singletonPromotore = null;
 	

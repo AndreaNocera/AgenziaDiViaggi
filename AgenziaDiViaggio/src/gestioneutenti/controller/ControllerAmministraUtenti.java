@@ -25,6 +25,7 @@ import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
 import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.exception.LoginInconsistenteException;
+import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.FactoryPassword;
 import gestioneutenti.model.Utente;
 import gestioneutenti.model.bean.UtenteBean;
@@ -64,9 +65,7 @@ public class ControllerAmministraUtenti {
 		Utente utente = new Utente().fromBean(utenteBean);
 		utenteDAO.save(utente);
 		inviaDatiUtente(utente);
-	}
-	
-	
+	}	
 
 	public void modifica(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
 		Utente utente = new Utente().fromBean(utenteBean);
@@ -79,6 +78,25 @@ public class ControllerAmministraUtenti {
 		utenteDAO.delete(utente);
 		notificaRimozione(utente);
 	}	
+	
+	public UtenteBean getUtente(String username) throws UtenteInesistenteException {
+		UtenteBean utenteBean = utenteDAO.findByUsername(username);
+		return utenteBean;
+	}
+	
+
+	public void cerca(String query) {
+		//
+	}	
+
+	public List<UtenteBean> getUtenti() {
+		return utenteDAO.findAll();
+	}
+
+	public String generaPassword() {
+		this.factoryPassword = FactoryPassword.getInstance();
+		return this.factoryPassword.creaPassword();
+	}
 	
 	private void inviaDatiUtente(Utente utente) {
 		String mail = utente.getDatiUtente().getMail();
@@ -100,19 +118,6 @@ public class ControllerAmministraUtenti {
 	private void notificaRimozione(Utente utente) {
 		String mail = utente.getDatiUtente().getMail();
 		mailer.inviaMail(mail, "Voyager", "Ciao " + utente.getLogin().getUsername() + "!\n\nQuesta email è per notificarti della tua eliminazione dal sistema Voyager.\n\nSaluti dal team di Voyager.");
-	}
-
-	public void cerca(String query) {
-		//
-	}	
-
-	public List<UtenteBean> getUtenti() {
-		return utenteDAO.findAll();
-	}
-
-	public String generaPassword() {
-		this.factoryPassword = FactoryPassword.getInstance();
-		return this.factoryPassword.creaPassword();
 	}
 
 }

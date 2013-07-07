@@ -13,9 +13,11 @@
 
 package gestioneutenti.model.ruoli;
 
+import java.io.Serializable;
+
 import gestioneutenti.model.competenze.Competenza;
 
-public interface Ruolo extends Comparable<Ruolo> {
+public interface Ruolo extends Comparable<Ruolo>, Serializable {
 	
 	int NONE = -1;
 	int AMMINISTRATORE = 0;

@@ -25,7 +25,7 @@ public class LoginBean implements Serializable{
 	public LoginBean() {}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public LoginBean setUsername(String username) {
@@ -34,7 +34,7 @@ public class LoginBean implements Serializable{
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public LoginBean setPassword(String password) {

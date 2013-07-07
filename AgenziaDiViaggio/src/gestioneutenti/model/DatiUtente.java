@@ -15,12 +15,10 @@ package gestioneutenti.model;
 
 import gestioneutenti.exception.DatiUtenteInconsistentiException;
 
-import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class DatiUtente implements Serializable{
+public class DatiUtente {
 	
-	private static final long serialVersionUID = -8857720056167039993L;
 	private String nome;
 	private String cognome;
 	private String citta;

@@ -19,7 +19,7 @@ import gestioneutenti.model.competenze.SignIn;
 
 public class Visitatore extends AbstractRuolo {
 	
-	private static final long serialVersionUID = -4487122386261743738L;
+	private static final long serialVersionUID = 1L;
 
 	private static Visitatore singletonVisitatore = null;
 	

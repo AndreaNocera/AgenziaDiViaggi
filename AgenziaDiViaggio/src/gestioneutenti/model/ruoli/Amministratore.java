@@ -22,7 +22,7 @@ import gestioneutenti.model.competenze.SignIn;
 
 public class Amministratore extends AbstractRuolo {
 	
-	private static final long serialVersionUID = 8165555922442867598L;
+	private static final long serialVersionUID = 1L;
 
 	private static Amministratore singletonAmministratore = null;
 	

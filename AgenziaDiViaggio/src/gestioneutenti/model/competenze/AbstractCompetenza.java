@@ -13,11 +13,10 @@
 
 package gestioneutenti.model.competenze;
 
-import java.io.Serializable;
-
-public abstract class AbstractCompetenza implements Competenza, Serializable {
+public abstract class AbstractCompetenza implements Competenza {
 	
-	private static final long serialVersionUID = -3717447129138114959L;
+	private static final long serialVersionUID = 1L;
+	
 	private int ID;
 	private String STRING = new String();
 	private String COMPACT_STRING = new String();

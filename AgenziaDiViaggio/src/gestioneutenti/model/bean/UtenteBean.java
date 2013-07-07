@@ -44,7 +44,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public String getCognome() {
-		return cognome;
+		return this.cognome;
 	}
 
 	public UtenteBean setCognome(String cognome) {
@@ -53,7 +53,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public String getCitta() {
-		return citta;
+		return this.citta;
 	}
 
 	public UtenteBean setCitta(String citta) {
@@ -62,7 +62,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public GregorianCalendar getNascita() {
-		return nascita;
+		return this.nascita;
 	}
 
 	public UtenteBean setNascita(GregorianCalendar nascita) {
@@ -71,7 +71,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public String getSesso() {
-		return sesso;
+		return this.sesso;
 	}
 
 	public UtenteBean setSesso(String sesso) {
@@ -80,7 +80,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public String getMail() {
-		return mail;
+		return this.mail;
 	}
 
 	public UtenteBean setMail(String mail) {
@@ -89,7 +89,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public Ruolo getRuolo() {
-		return ruolo;
+		return this.ruolo;
 	}
 
 	public UtenteBean setRuolo(Ruolo ruolo) {
@@ -98,7 +98,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public UtenteBean setUsername(String username) {
@@ -107,7 +107,7 @@ public class UtenteBean implements Serializable{
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public UtenteBean setPassword(String password) {

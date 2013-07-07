@@ -15,7 +15,7 @@ package gestioneutenti.model.competenze;
 
 public class AmministrazioneUtenti extends AbstractCompetenza {
 	
-	private static final long serialVersionUID = 3368047575465983353L;
+	private static final long serialVersionUID = 1L;
 
 	private static AmministrazioneUtenti singletonAmministrazioneUtenti;
 	

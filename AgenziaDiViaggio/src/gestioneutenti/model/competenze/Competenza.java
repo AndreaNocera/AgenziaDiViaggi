@@ -13,7 +13,9 @@
 
 package gestioneutenti.model.competenze;
 
-public interface Competenza {
+import java.io.Serializable;
+
+public interface Competenza extends Serializable {
 	
 	public static final int LOGIN = 0;
 	public static final int GESTIONE_PROFILO = 1;
