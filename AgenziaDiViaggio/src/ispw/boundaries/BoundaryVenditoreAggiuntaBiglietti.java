@@ -57,7 +57,9 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 
 	// Bottone
 	private JButton inserisciBiglietto;
+	private JButton visualizzaBiglietti;
 	private JButton aggiuntaBiglietti;
+
 	public JButton back;
 
 	private GestoreButtons buttonsListener;
@@ -77,7 +79,7 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreVenditore = ControlloreVenditore.getIstance();
+		this.controlloreVenditore = ControlloreVenditore.getInstance();
 		this.boundaryVenditoreModificaPrenotazione = boundaryVenditoreModificaPrenotazione;
 
 		pannelloVenditoreAggiuntaBiglietti = new JPanel();
@@ -122,7 +124,7 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 		labelBigliettiInseriti.setLocation(600, 250);
 		labelBigliettiInseriti.setSize(200, 35);
 		labelBigliettiInseriti.setText("Biglietti inseriti:");
-		
+
 		labelListaBiglietti.setFont(new Font("Arial", 0, 18));
 		labelListaBiglietti.setLocation(100, 50);
 		labelListaBiglietti.setSize(200, 35);
@@ -148,6 +150,7 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 		bigliettiInseriti.setLocation(600, 300);
 		bigliettiInseriti.setSize(200, 35);
 		bigliettiInseriti.setFont(new Font("Arial", 0, 18));
+		bigliettiInseriti.setEditable(false);
 
 		nome.setLocation(350, 100);
 		nome.setSize(200, 35);
@@ -168,7 +171,12 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 		inserisciBiglietto.setSize(200, 50);
 		inserisciBiglietto.setFont(new Font("Arial", 0, 20));
 
-		aggiuntaBiglietti = new JButton("Prenota viaggio.");
+		visualizzaBiglietti = new JButton("Visualizza Biglietti.");
+		visualizzaBiglietti.setLocation(100, 400);
+		visualizzaBiglietti.setSize(panelTitolo.getWidth() / 4, 50);
+		visualizzaBiglietti.setFont(new Font("Arial", 0, 20));
+
+		aggiuntaBiglietti = new JButton("Aggiungi biglietto.");
 		aggiuntaBiglietti.setLocation(350, 400);
 		aggiuntaBiglietti.setSize(panelTitolo.getWidth() / 4, 50);
 		aggiuntaBiglietti.setFont(new Font("Arial", 0, 20));
@@ -194,6 +202,7 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 		panelPrenotazione.add(email);
 		panelPrenotazione.add(bigliettiInseriti);
 		panelPrenotazione.add(inserisciBiglietto);
+		panelPrenotazione.add(visualizzaBiglietti);
 		panelPrenotazione.add(aggiuntaBiglietti);
 		panelPrenotazione.add(back);
 		panelPrenotazione.add(areaVisualizzazione);
@@ -207,6 +216,7 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 		// Listener dei bottoni
 		back.addActionListener(backListener);
 		inserisciBiglietto.addActionListener(buttonsListener);
+		visualizzaBiglietti.addActionListener(buttonsListener);
 		aggiuntaBiglietti.addActionListener(buttonsListener);
 
 		// Inizializzazione dell'area visualizzazione
@@ -218,7 +228,7 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 		} catch (CatalogoException e) {
 			// TODO Auto-generated catch block
 			pannelloVenditoreAggiuntaBiglietti.setVisible(false);
-			BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+			BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
 					.setVisible(true);
 			boundaryVenditoreModificaPrenotazione.areaVisualizzazione
 					.setText("Id della prenotazione non presente.");
@@ -234,10 +244,11 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == inserisciBiglietto) {
-				if (!controlloreVenditore.verificaDatiViaggiatore(nome.getText(),
-						cognome.getText(), email.getText()))
-					areaVisualizzazione.append("Inserire l'id del biglietto da rimuovere.");
-				else {
+				if (!controlloreVenditore.verificaDatiViaggiatore(
+						nome.getText(), cognome.getText(), email.getText())) {
+					areaVisualizzazione.setText("");
+					areaVisualizzazione.append("Inserire i dati del traveler.");
+				} else {
 					listaNomi.add(nome.getText());
 					listaCognomi.add(cognome.getText());
 					listaEmail.add(email.getText());
@@ -249,6 +260,23 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 					// Incrementa il numero di biglietti inseriti
 					bigliettiInseriti.setText(bigliettiIncrementato.toString());
 				}
+			}
+
+			else if (event.getSource() == visualizzaBiglietti) {
+				try {
+					listaBiglietti = controlloreVenditore
+							.getListaBigliettiByIdPrenotazione(boundaryVenditoreModificaPrenotazione
+									.getIdPrenotazione());
+				} catch (CatalogoException e) {
+					// TODO Auto-generated catch block
+					panelPrenotazione.setVisible(false);
+					BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
+							.setVisible(true);
+				}
+				areaVisualizzazione.setText("");
+				for (String str : listaBiglietti)
+					areaVisualizzazione.append(str + "\n");
+
 			}
 
 			else if (event.getSource() == aggiuntaBiglietti) {
@@ -267,18 +295,18 @@ public class BoundaryVenditoreAggiuntaBiglietti extends JFrame {
 						bigliettiInseriti.setText("0");
 						JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
 								"Biglietti aggiunti.");
-						
-						
-						
-						//Setting dell'area visualizzazione con la lista dei biglietti
+
+						// Setting dell'area visualizzazione con la lista dei
+						// biglietti
 						try {
 							listaBiglietti = controlloreVenditore
 									.getListaBigliettiByIdPrenotazione(boundaryVenditoreModificaPrenotazione
 											.getIdPrenotazione());
 						} catch (CatalogoException e) {
 							// TODO Auto-generated catch block
-							pannelloVenditoreAggiuntaBiglietti.setVisible(false);
-							BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+							pannelloVenditoreAggiuntaBiglietti
+									.setVisible(false);
+							BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
 									.setVisible(true);
 							boundaryVenditoreModificaPrenotazione.areaVisualizzazione
 									.setText("Id della prenotazione non presente.");

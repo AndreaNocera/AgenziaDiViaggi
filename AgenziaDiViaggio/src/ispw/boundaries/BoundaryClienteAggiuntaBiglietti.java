@@ -79,7 +79,7 @@ public class BoundaryClienteAggiuntaBiglietti extends JFrame {
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreCliente = ControlloreCliente.getIstance();
+		this.controlloreCliente = ControlloreCliente.getInstance();
 		this.boundaryClienteModificaPrenotazione = boundaryClienteModificaPrenotazione;
 
 		pannelloClienteAggiuntaBiglietti = new JPanel();

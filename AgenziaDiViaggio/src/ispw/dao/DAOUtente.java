@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DAOUtente extends DAO {
 
-	private static DAOUtente istance = null;
+	private static DAOUtente instance = null;
 
 	private static final String createQuery = "CREATE TABLE IF NOT EXISTS utenti("
 			+ "username VARCHAR(20) PRIMARY KEY, "
@@ -58,17 +58,17 @@ public class DAOUtente extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOUtente getIstance() {
-		if (istance == null)
-			istance = new DAOUtente();
-		return istance;
+	public synchronized static DAOUtente getIstance() {
+		if (instance == null)
+			instance = new DAOUtente();
+		return instance;
 	}
 
-	public Utente findByNameAndPassword(String username, String password)
+	public synchronized Utente findByNameAndPassword(String username, String password)
 			throws MoreThanOneException, DAOException {
 		Utente utente;
 
@@ -105,7 +105,7 @@ public class DAOUtente extends DAO {
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		ResultSet rs;
 		Utente utente;
 		try {
@@ -169,7 +169,7 @@ public class DAOUtente extends DAO {
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException, SQLException {
+	public synchronized void delete(Object obj) throws DAOException, SQLException {
 		// TODO Auto-generated method stub
 		Utente utente;
 		try {
@@ -190,7 +190,7 @@ public class DAOUtente extends DAO {
 		}
 	}
 
-	public List<Utente> getListaUtenti() throws DAOException {
+	public synchronized List<Utente> getListaUtenti() throws DAOException {
 		// TODO Auto-generated method stub
 		List<Utente> listaUtenti = new ArrayList<Utente>();
 		try {
@@ -215,7 +215,7 @@ public class DAOUtente extends DAO {
 
 	}
 
-	public Utente readUtenteByUsername(String username) throws DAOException {
+	public synchronized Utente readUtenteByUsername(String username) throws DAOException {
 		// TODO Auto-generated method stub
 		Utente utente = null;
 		try {

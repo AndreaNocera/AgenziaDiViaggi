@@ -20,7 +20,7 @@ import java.sql.SQLException;
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class DAOMezzo extends DAO {
-	private static DAOMezzo istance = null;
+	private static DAOMezzo instance = null;
 
 	private static final String getListaMezziQuery = "SELECT * FROM `mezzi` WHERE 1";
 
@@ -66,18 +66,18 @@ public class DAOMezzo extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOMezzo getIstance() {
-		if (istance == null)
-			istance = new DAOMezzo();
-		return istance;
+	public synchronized static DAOMezzo getInstance() {
+		if (instance == null)
+			instance = new DAOMezzo();
+		return instance;
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		ResultSet rs;
 		Mezzo mezzo;
 		try {
@@ -123,7 +123,7 @@ public class DAOMezzo extends DAO {
 	}
 
 	@Override
-	public Mezzo read(Integer id) throws DAOException {
+	public synchronized Mezzo read(Integer id) throws DAOException {
 		Mezzo mezzo = new Mezzo();
 		try {
 			conn = getConnection(usr, pass);
@@ -148,7 +148,7 @@ public class DAOMezzo extends DAO {
 	}
 
 	@Override
-	public void update(Object obj) throws DAOException {
+	public synchronized void update(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Mezzo mezzo;
 		try {
@@ -173,7 +173,7 @@ public class DAOMezzo extends DAO {
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException {
+	public synchronized void delete(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Mezzo mezzo;
 		try {
@@ -194,7 +194,7 @@ public class DAOMezzo extends DAO {
 		}
 	}
 
-	public void printListaMezzi() throws DAOException {
+	public synchronized void printListaMezzi() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
 
@@ -212,7 +212,7 @@ public class DAOMezzo extends DAO {
 		}
 	}
 	
-	public Mezzo getObjectByValue(String valore) throws DAOException {
+	public synchronized Mezzo getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `mezzi` WHERE `value` = ?";
 		ResultSet rs = null;
 		Mezzo mezzo;
@@ -262,7 +262,7 @@ public class DAOMezzo extends DAO {
 	 * @param id
 	 * @return
 	 */
-	public String getValueById(Integer id) throws DAOException{
+	public synchronized String getValueById(Integer id) throws DAOException{
 		String query = "SELECT * FROM `mezzi` WHERE `id` = ?";
 		ResultSet rs = null;
 		try {
@@ -289,7 +289,7 @@ public class DAOMezzo extends DAO {
 	}
 	
 
-	public void dropTable() throws DAOException {
+	public synchronized void dropTable() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
 

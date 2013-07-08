@@ -58,13 +58,13 @@ public class Traveler {
 	}
 	
 	public void save() throws DAOException {
-		DAOTraveler daoTraveler = DAOTraveler.getIstance();
+		DAOTraveler daoTraveler = DAOTraveler.getInstance();
 		daoTraveler.insert(this);
 	}
 
 	public void delete() throws DAOException {
 		// TODO Auto-generated method stub
-		DAOTraveler daoTraveler = DAOTraveler.getIstance();
+		DAOTraveler daoTraveler = DAOTraveler.getInstance();
 		daoTraveler.delete(this);
 	}
 	
@@ -74,7 +74,7 @@ public class Traveler {
 	}
 	public static Traveler getObjectByValue(String nome, String cognome,
 			String email) throws DAOException {
-		DAOTraveler daoTraveler = DAOTraveler.getIstance();
+		DAOTraveler daoTraveler = DAOTraveler.getInstance();
 		return daoTraveler.getObjectByValue(nome, cognome, email);
 	}
 }

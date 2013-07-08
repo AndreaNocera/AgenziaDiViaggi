@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class DAOCatalogo extends DAO {
 
-	private static DAOCatalogo istance = null;
+	private static DAOCatalogo instance = null;
 
 	private static final String getCatalogoQuery = "SELECT * FROM `catalogo`";
 
@@ -69,17 +69,17 @@ public class DAOCatalogo extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOCatalogo getIstance() {
-		if (istance == null)
-			istance = new DAOCatalogo();
-		return istance;
+	public static synchronized DAOCatalogo getInstance() {
+		if (instance == null)
+			instance = new DAOCatalogo();
+		return instance;
 	}
 
-	public List<Tratta> getCatalogo() throws DAOException, DataException {
+	public synchronized List<Tratta> getCatalogo() throws DAOException, DataException {
 		List<Tratta> tratte = new ArrayList<Tratta>();
 		try {
 			conn = getConnection(usr, pass);
@@ -97,19 +97,19 @@ public class DAOCatalogo extends DAO {
 
 				tratta.setId(rs.getInt(1));
 
-				DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
+				DAOAmbiente daoAmbiente = DAOAmbiente.getInstance();
 				id = rs.getInt(2);
 				valore = daoAmbiente.getValueById(id);
 				ambiente = new Ambiente(id, valore);
 				tratta.setAmbiente(ambiente);
 
-				DAOMezzo daoMezzo = DAOMezzo.getIstance();
+				DAOMezzo daoMezzo = DAOMezzo.getInstance();
 				id = rs.getInt(3);
 				valore = daoMezzo.getValueById(id);
 				mezzo = new Mezzo(id, valore);
 				tratta.setMezzo(mezzo);
 
-				DAOCitta daoCitta = DAOCitta.getIstance();
+				DAOCitta daoCitta = DAOCitta.getInstance();
 				id = rs.getInt(4);
 				valore = daoCitta.getValueById(id);
 				cittaPartenza = new Citta(id, valore);
@@ -120,7 +120,7 @@ public class DAOCatalogo extends DAO {
 				cittaArrivo = new Citta(id, valore);
 				tratta.setCittaArrivo(cittaArrivo);
 
-				DAOVia daoVia = DAOVia.getIstance();
+				DAOVia daoVia = DAOVia.getInstance();
 				id = rs.getInt(6);
 				valore = daoVia.getValueById(id);
 				via = new Via(id, valore);
@@ -135,12 +135,13 @@ public class DAOCatalogo extends DAO {
 
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			throw new DAOException("Errore in Connection.");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in SQL.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 
 	}
@@ -169,7 +170,7 @@ public class DAOCatalogo extends DAO {
 		return null;
 	}
 
-	public Integer getNextId() throws DAOException {
+	public synchronized Integer getNextId() throws DAOException {
 		try {
 			// Situazione 1. Tabella Vuota. Id da ritornare 1.
 			conn = getConnection(usr, pass);

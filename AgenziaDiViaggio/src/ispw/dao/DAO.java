@@ -1,5 +1,6 @@
 package ispw.dao;
 
+import ispw.connection.SingletonConnection;
 import ispw.exception.ConnectionException;
 import ispw.exception.DAOException;
 import ispw.exception.DataException;
@@ -9,10 +10,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  * 
  * @author Gambella Riccardo
- *
+ * 
  */
 public abstract class DAO {
 	protected static final String driverName = "com.mysql.jdbc.Driver";
@@ -23,24 +25,19 @@ public abstract class DAO {
 
 	protected static final String usr = "root";
 	protected static final String pass = "root";
-	
+
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
 	private static ResultSet rs = null;
-	
-	protected Connection getConnection(String user, String password)
+
+	protected synchronized Connection getConnection(String user, String password)
 			throws ConnectionException {
 		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(dbName, user, password);
-		} catch (SQLException sqle) {
-			throw new ConnectionException("Errore nella connessione al DB.");
-		}
-
+		conn = SingletonConnection.getInstance().getConnection();
 		return conn;
 	}
 
-	protected  void closeResource() {
+	protected synchronized void closeResource() {
 		if (conn != null)
 			try {
 				conn.close();
@@ -63,8 +60,12 @@ public abstract class DAO {
 				e.printStackTrace();
 			}
 	}
+
 	public abstract void insert(Object obj) throws DAOException;
+
 	public abstract Object read(Integer id) throws DAOException, DataException;
+
 	public abstract void update(Object obj) throws DAOException;
+
 	public abstract void delete(Object obj) throws DAOException, SQLException;
 }

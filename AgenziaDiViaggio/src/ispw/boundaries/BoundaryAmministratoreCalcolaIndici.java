@@ -6,7 +6,9 @@ import ispw.exception.DAOException;
 import ispw.exception.DataException;
 import ispw.exception.MapException;
 import ispw.exception.OraException;
+import ispw.indici.IndiciPlot;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 /**
  * 
@@ -43,6 +46,7 @@ public class BoundaryAmministratoreCalcolaIndici extends JFrame {
 	public JButton tuttiViaggi;
 	public JButton ultimoAnno;
 	public JButton ultimaModifica;
+	public JButton plotIndici;
 
 	public JButton back;
 
@@ -55,7 +59,7 @@ public class BoundaryAmministratoreCalcolaIndici extends JFrame {
 	public BoundaryAmministratoreCalcolaIndici() {
 
 		try {
-			controlloreAmministratore = ControlloreAmministratore.getIstance();
+			controlloreAmministratore = ControlloreAmministratore.getInstance();
 		} catch (DAOException | MapException | SQLException | DataException
 				| OraException | CatalogoException e) {
 			// TODO Auto-generated catch block
@@ -99,20 +103,26 @@ public class BoundaryAmministratoreCalcolaIndici extends JFrame {
 		ultimaModifica.setLocation(100, 300);
 		ultimaModifica.setSize(400, 50);
 		ultimaModifica.setFont(new Font("Arial", 0, 20));
+		
+		plotIndici = new JButton("Plot indici.");
+		plotIndici.setLocation(100, 400);
+		plotIndici.setSize(400, 50);
+		plotIndici.setFont(new Font("Arial", 0, 20));
 
 		// Bottone back
 		back = new JButton("back");
-		back.setLocation(100, 400);
+		back.setLocation(600, 400);
 		back.setSize(panelTitolo.getWidth() / 4, 50);
 		back.setFont(new Font("Arial", 0, 20));
 
 		panelButtons.setLayout(null);
-		panelButtons.setSize(AABoundaryAvvio.Frame.getWidth(), 350);
+		panelButtons.setSize(AABoundaryAvvio.Frame.getWidth(), AABoundaryAvvio.Frame.getHeight());
 		panelButtons.setLocation(5, altezzaTitolo);
 
 		panelButtons.add(tuttiViaggi);
 		panelButtons.add(ultimoAnno);
 		panelButtons.add(ultimaModifica);
+		panelButtons.add(plotIndici);
 		panelButtons.add(back);
 
 		pannelloAmministratoreVisualizzaIndici.add(panelButtons);
@@ -125,6 +135,7 @@ public class BoundaryAmministratoreCalcolaIndici extends JFrame {
 		tuttiViaggi.addActionListener(buttonsListener);
 		ultimoAnno.addActionListener(buttonsListener);
 		ultimaModifica.addActionListener(buttonsListener);
+		plotIndici.addActionListener(buttonsListener);
 		back.addActionListener(backListener);
 	}
 
@@ -154,6 +165,25 @@ public class BoundaryAmministratoreCalcolaIndici extends JFrame {
 			} else if (event.getSource() == ultimaModifica) {
 				pannelloAmministratoreVisualizzaIndici.setVisible(false);
 				// new BoundaryAmministratoreVisualizzaIndiciUltimaModifica();
+			} else if (event.getSource() == plotIndici) {
+				/*IndiciPlot indiciPlot = IndiciPlot.getInstance();
+				
+				//Creazione del pannello da IndiciPlot
+				JPanel pannelloPlot = indiciPlot.visualizzaPlotIndici("TuttiViaggi", "Mare", "Aliscafo");
+				
+				//Crea un frame per il plot
+				JFrame framePlot = new JFrame();
+				framePlot.setTitle("Plot indici.");
+
+				Dimension dim = getToolkit().getScreenSize();
+				framePlot.setSize(dim.width, dim.height);
+				framePlot.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				
+				
+				//Aggiunta del pannello ottenuto da IndiciPlot
+				framePlot.add(pannelloPlot);
+				framePlot.setVisible(true);
+				*/
 			}
 		}
 	}

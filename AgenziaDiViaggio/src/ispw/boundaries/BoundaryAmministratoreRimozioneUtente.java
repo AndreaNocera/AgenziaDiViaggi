@@ -61,7 +61,7 @@ public class BoundaryAmministratoreRimozioneUtente extends JFrame {
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
 
-		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		this.controlloreAmministratore = ControlloreAmministratore.getInstance();
 
 		pannelloAmministratoreRimozioneUtente = new JPanel();
 

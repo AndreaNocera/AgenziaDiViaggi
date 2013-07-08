@@ -34,7 +34,7 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 	private ControlloreVenditore controlloreVenditore = null;
 	BoundaryVenditoreModificaPrenotazione boundaryVenditoreModificaPrenotazione = null;
 
-	public static JPanel pannelloVenditoreRimuoviBiglietti;
+	public static JPanel pannelloClienteRimuoviBiglietti;
 
 	// Testo di Presentazione
 	private JLabel labelBigliettiRimossi;
@@ -71,16 +71,16 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreVenditore = ControlloreVenditore.getIstance();
+		this.controlloreVenditore = ControlloreVenditore.getInstance();
 		this.boundaryVenditoreModificaPrenotazione = boundaryVenditoreModificaPrenotazione;
 
-		pannelloVenditoreRimuoviBiglietti = new JPanel();
+		pannelloClienteRimuoviBiglietti = new JPanel();
 
-		pannelloVenditoreRimuoviBiglietti.setSize(
+		pannelloClienteRimuoviBiglietti.setSize(
 				AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
-		AABoundaryAvvio.Frame.add(pannelloVenditoreRimuoviBiglietti);
-		pannelloVenditoreRimuoviBiglietti.setLayout(null);
+		AABoundaryAvvio.Frame.add(pannelloClienteRimuoviBiglietti);
+		pannelloClienteRimuoviBiglietti.setLayout(null);
 
 		panelTitolo.setLayout(null);
 		panelTitolo.setSize(AABoundaryAvvio.Frame.getWidth(), 45);
@@ -94,7 +94,7 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 		titolo.setVerticalAlignment(JLabel.CENTER);
 		titolo.setText("Inserire i biglietti da rimuovere");
 
-		pannelloVenditoreRimuoviBiglietti.add(panelTitolo);
+		pannelloClienteRimuoviBiglietti.add(panelTitolo);
 
 		labelBigliettiRimossi = new JLabel();
 		labelInserisciIdBiglietto = new JLabel();
@@ -124,6 +124,7 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 		bigliettiRimossi.setLocation(600, 300);
 		bigliettiRimossi.setSize(200, 35);
 		bigliettiRimossi.setFont(new Font("Arial", 0, 18));
+		bigliettiRimossi.setEditable(false);
 
 		idbiglietto.setFont(new Font("Arial", 0, 18));
 		idbiglietto.setLocation(300, 100);
@@ -168,7 +169,7 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 		panelPrenotazione.add(back);
 		panelPrenotazione.add(areaVisualizzazione);
 
-		pannelloVenditoreRimuoviBiglietti.add(panelPrenotazione);
+		pannelloClienteRimuoviBiglietti.add(panelPrenotazione);
 
 		// Istanziazione dei Listeners
 		buttonsListener = new GestoreButtons();
@@ -188,8 +189,8 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 							.getIdPrenotazione());
 		} catch (CatalogoException e) {
 			// TODO Auto-generated catch block
-			pannelloVenditoreRimuoviBiglietti.setVisible(false);
-			BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+			pannelloClienteRimuoviBiglietti.setVisible(false);
+			BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
 					.setVisible(true);
 			boundaryVenditoreModificaPrenotazione.areaVisualizzazione
 					.setText("Id della prenotazione non presente.");
@@ -211,8 +212,8 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 									.getIdPrenotazione());
 				} catch (CatalogoException e) {
 					// TODO Auto-generated catch block
-					pannelloVenditoreRimuoviBiglietti.setVisible(false);
-					BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+					pannelloClienteRimuoviBiglietti.setVisible(false);
+					BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
 							.setVisible(true);
 				}
 				areaVisualizzazione.setText("");
@@ -220,8 +221,10 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 					areaVisualizzazione.append(str + "\n");
 
 			} else if (event.getSource() == inserisciBigliettoDaRimuovere) {
-				if (!controlloreVenditore.verificaId(idbiglietto.getText()))
-					areaVisualizzazione.append("Inserire i dati del traveler.");
+				if (!controlloreVenditore.verificaId(idbiglietto.getText())){
+					areaVisualizzazione.setText("");
+					areaVisualizzazione.append("Inserire l'id del biglietto da rimuovere.");
+				}
 				else {
 					listaBigliettiDaRimuovere.add(idbiglietto.getText());
 					idbiglietto.setText("");
@@ -249,8 +252,8 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 							JOptionPane
 									.showMessageDialog(AABoundaryAvvio.Frame,
 											"Tutti i biglietti sono stati rimossi.\nPrenotazione cancellata.");
-							pannelloVenditoreRimuoviBiglietti.setVisible(false);
-							BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+							pannelloClienteRimuoviBiglietti.setVisible(false);
+							BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
 									.setVisible(true);
 							return;
 						}
@@ -267,8 +270,8 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 										.getIdPrenotazione());
 					} catch (CatalogoException e) {
 						// TODO Auto-generated catch block
-						pannelloVenditoreRimuoviBiglietti.setVisible(false);
-						BoundaryClienteModificaPrenotazione.pannelloModificaPrenotazione
+						pannelloClienteRimuoviBiglietti.setVisible(false);
+						BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
 								.setVisible(true);
 						boundaryVenditoreModificaPrenotazione.areaVisualizzazione
 								.setText("Id della prenotazione non presente.");
@@ -289,7 +292,7 @@ public class BoundaryVenditoreRimuoviBiglietti extends JFrame {
 
 	private class GestoreBack implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			pannelloVenditoreRimuoviBiglietti.setVisible(false);
+			pannelloClienteRimuoviBiglietti.setVisible(false);
 			BoundaryVenditoreModificaPrenotazione.pannelloVenditoreModificaPrenotazione
 					.setVisible(true);
 		}

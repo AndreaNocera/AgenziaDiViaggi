@@ -20,12 +20,12 @@ import java.sql.SQLException;
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class DAOTraveler extends DAO {
-	private static DAOTraveler istance = null;
+	private static DAOTraveler instance = null;
 
 	private static final String getTravelersQuery = "SELECT *"
 			+ "FROM `travelers`";
 
-	private static final String createQuery = "CREATE TABLE IF NOT EXISTS Travelers("
+	private static final String createQuery = "CREATE TABLE IF NOT EXISTS travelers("
 			+ "idTraveler INT(10) PRIMARY KEY, "
 			+ "nome VARCHAR(20), "
 			+ "cognome VARCHAR(20), " + "email VARCHAR(40)" + ")";
@@ -66,18 +66,18 @@ public class DAOTraveler extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOTraveler getIstance() {
-		if (istance == null)
-			istance = new DAOTraveler();
-		return istance;
+	public synchronized static DAOTraveler getInstance() {
+		if (instance == null)
+			instance = new DAOTraveler();
+		return instance;
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		Traveler traveler;
@@ -128,7 +128,7 @@ public class DAOTraveler extends DAO {
 	}
 
 	@Override
-	public void update(Object obj) throws DAOException {
+	public synchronized void update(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Traveler traveler;
 		try {
@@ -154,7 +154,7 @@ public class DAOTraveler extends DAO {
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException {
+	public synchronized void delete(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Traveler traveler;
 		try {
@@ -176,7 +176,7 @@ public class DAOTraveler extends DAO {
 	}
 
 	@Override
-	public Traveler read(Integer idTraveler) throws DAOException {
+	public synchronized Traveler read(Integer idTraveler) throws DAOException {
 		Traveler traveler = new Traveler();
 		try {
 			conn = getConnection(usr, pass);
@@ -202,7 +202,7 @@ public class DAOTraveler extends DAO {
 		}
 	}
 
-	public Traveler getObjectByValue(String nome, String cognome, String email) throws DAOException {
+	public synchronized Traveler getObjectByValue(String nome, String cognome, String email) throws DAOException {
 		String query = "SELECT * FROM `travelers` WHERE `nome` = ? AND `cognome` = ? AND `email` = ?";
 		ResultSet rs = null;
 		Traveler traveler;

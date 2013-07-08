@@ -20,7 +20,7 @@ import java.sql.SQLException;
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class DAOCitta extends DAO {
-	private static DAOCitta istance = null;
+	private static DAOCitta instance = null;
 
 	private static final String getListaCittaQuery = "SELECT * FROM `citta` WHERE 1";
 
@@ -66,18 +66,18 @@ public class DAOCitta extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOCitta getIstance() {
-		if (istance == null)
-			istance = new DAOCitta();
-		return istance;
+	public synchronized static DAOCitta getInstance() {
+		if (instance == null)
+			instance = new DAOCitta();
+		return instance;
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		ResultSet rs;
 		Citta citta;
 		try {
@@ -123,12 +123,12 @@ public class DAOCitta extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in insert SQLException.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
 	@Override
-	public Citta read(Integer id) throws DAOException {
+	public synchronized Citta read(Integer id) throws DAOException {
 		Citta citta = new Citta();
 		try {
 			conn = getConnection(usr, pass);
@@ -150,12 +150,12 @@ public class DAOCitta extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in read.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
 	@Override
-	public void update(Object obj) throws DAOException {
+	public synchronized void update(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Citta citta;
 		try {
@@ -176,13 +176,13 @@ public class DAOCitta extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in update.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException {
+	public synchronized void delete(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Citta citta;
 		try {
@@ -201,11 +201,11 @@ public class DAOCitta extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in delete.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public void printListaCitta() throws DAOException {
+	public synchronized void printListaCitta() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
 
@@ -221,11 +221,11 @@ public class DAOCitta extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in printListaCitta.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public Citta getObjectByValue(String valore) throws DAOException {
+	public synchronized Citta getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `citta` WHERE `value` = ?";
 		ResultSet rs = null;
 		Citta citta;
@@ -267,7 +267,7 @@ public class DAOCitta extends DAO {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getID.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
@@ -277,7 +277,7 @@ public class DAOCitta extends DAO {
 	 * @param id
 	 * @return
 	 */
-	public String getValueById(Integer id) throws DAOException {
+	public synchronized String getValueById(Integer id) throws DAOException {
 		String query = "SELECT * FROM `citta` WHERE `id` = ?";
 		ResultSet rs = null;
 		try {
@@ -300,12 +300,12 @@ public class DAOCitta extends DAO {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getValue.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 
 	}
 
-	public void dropTable() throws DAOException {
+	public synchronized void dropTable() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
 
@@ -317,7 +317,7 @@ public class DAOCitta extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in dropTable.");
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 }

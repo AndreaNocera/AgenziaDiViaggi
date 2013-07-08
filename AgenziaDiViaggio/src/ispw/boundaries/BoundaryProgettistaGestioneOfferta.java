@@ -70,7 +70,7 @@ public class BoundaryProgettistaGestioneOfferta extends JFrame {
 	public BoundaryProgettistaGestioneOfferta() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		this.controlloreProgettista = ControlloreProgettista.getIstance();
+		this.controlloreProgettista = ControlloreProgettista.getInstance();
 		boundaryProgettistaGestioneOfferta = this;
 
 		/*

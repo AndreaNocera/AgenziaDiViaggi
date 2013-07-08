@@ -67,7 +67,7 @@ public class BoundaryClienteOrdinaViaggi extends JFrame {
 
 	public BoundaryClienteOrdinaViaggi() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
-		this.controlloreCliente = ControlloreCliente.getIstance();
+		this.controlloreCliente = ControlloreCliente.getInstance();
 		boundaryClienteOrdinaViaggi = this;
 
 		/*

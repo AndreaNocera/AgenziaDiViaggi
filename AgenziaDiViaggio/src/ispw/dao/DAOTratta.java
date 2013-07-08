@@ -24,11 +24,11 @@ import java.sql.SQLException;
  */
 
 public class DAOTratta extends DAO {
-	private static DAOTratta istance = null;
+	private static DAOTratta instance = null;
 
 	private static final String insertQuery = "INSERT INTO `catalogo`"
-			+ "(`idTratta`, `idAmbiente`, `idMezzo`, `idCittaPartenza`, `idCittaArrivo`," +
-			" `idVia`, giornoInserimento, meseInserimento, annoInserimento) "
+			+ "(`idTratta`, `idAmbiente`, `idMezzo`, `idCittaPartenza`, `idCittaArrivo`,"
+			+ " `idVia`, giornoInserimento, meseInserimento, annoInserimento) "
 			+ "VALUES (?,?,?,?,?,?,?,?,?)";
 
 	private static final String deleteQuery = "DELETE FROM `catalogo` WHERE `idTratta`=?";
@@ -54,18 +54,18 @@ public class DAOTratta extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOTratta getIstance() {
-		if (istance == null)
-			istance = new DAOTratta();
-		return istance;
+	public static synchronized DAOTratta getInstance() {
+		if (instance == null)
+			instance = new DAOTratta();
+		return instance;
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Tratta tratta;
 		try {
@@ -93,13 +93,15 @@ public class DAOTratta extends DAO {
 		} catch (ClassCastException e) {
 			throw new DAOException("Errore in insert ClassCastException.");
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DAOException("Errore in insert SQLException.");
 		}
 
 	}
 
 	@Override
-	public Tratta read(Integer id) throws DAOException, DataException {
+	public synchronized Tratta read(Integer id) throws DAOException,
+			DataException {
 		Tratta tratta = new Tratta();
 		String valore;
 		try {
@@ -127,7 +129,7 @@ public class DAOTratta extends DAO {
 
 			valore = readValue("via", rs.getInt(6));
 			tratta.setVia(new Via(rs.getInt(6), valore));
-			
+
 			Data data = new Data(rs.getInt(7), rs.getInt(8), rs.getInt(9));
 			tratta.setDataInserimento(data);
 
@@ -147,7 +149,7 @@ public class DAOTratta extends DAO {
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException {
+	public synchronized void delete(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Tratta tratta;
 		tratta = (Tratta) obj;
@@ -171,7 +173,8 @@ public class DAOTratta extends DAO {
 
 	}
 
-	public String readValue(String table, Integer id) throws DAOException {
+	public synchronized String readValue(String table, Integer id)
+			throws DAOException {
 
 		String query = "SELECT * FROM " + table + " " + "WHERE id=?";
 		ResultSet rs = null;

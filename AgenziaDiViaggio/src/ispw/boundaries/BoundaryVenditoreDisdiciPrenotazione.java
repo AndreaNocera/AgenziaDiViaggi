@@ -31,7 +31,7 @@ public class BoundaryVenditoreDisdiciPrenotazione extends JFrame {
 
 	private ControlloreVenditore controlloreVenditore = null;
 
-	public static JPanel pannelloDisdiciPrenotazione;
+	public static JPanel pannelloVenditoreDisdiciPrenotazione;
 
 	// Testo di Presentazione
 	public JLabel labelRimozione = new JLabel();
@@ -60,14 +60,14 @@ public class BoundaryVenditoreDisdiciPrenotazione extends JFrame {
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
 
-		this.controlloreVenditore = ControlloreVenditore.getIstance();
+		this.controlloreVenditore = ControlloreVenditore.getInstance();
 
-		pannelloDisdiciPrenotazione = new JPanel();
+		pannelloVenditoreDisdiciPrenotazione = new JPanel();
 
-		pannelloDisdiciPrenotazione.setSize(AABoundaryAvvio.Frame.getWidth(),
+		pannelloVenditoreDisdiciPrenotazione.setSize(AABoundaryAvvio.Frame.getWidth(),
 				AABoundaryAvvio.Frame.getHeight());
-		AABoundaryAvvio.Frame.add(pannelloDisdiciPrenotazione);
-		pannelloDisdiciPrenotazione.setLayout(null);
+		AABoundaryAvvio.Frame.add(pannelloVenditoreDisdiciPrenotazione);
+		pannelloVenditoreDisdiciPrenotazione.setLayout(null);
 
 		panelTitolo.setLayout(null);
 		panelTitolo.setSize(AABoundaryAvvio.Frame.getWidth(), 45);
@@ -79,9 +79,9 @@ public class BoundaryVenditoreDisdiciPrenotazione extends JFrame {
 		titolo.setSize(panelTitolo.getWidth(), 35);
 		titolo.setHorizontalAlignment(JLabel.CENTER);
 		titolo.setVerticalAlignment(JLabel.CENTER);
-		titolo.setText("Gestore Venditore");
+		titolo.setText("Gestore Cliente");
 
-		pannelloDisdiciPrenotazione.add(panelTitolo);
+		pannelloVenditoreDisdiciPrenotazione.add(panelTitolo);
 
 		labelIdOfferta = new JLabel();
 
@@ -102,7 +102,7 @@ public class BoundaryVenditoreDisdiciPrenotazione extends JFrame {
 		// Setting Label
 		labelRimozione.setFont(new Font("Arial", 0, 30));
 		labelRimozione.setLocation(border, 30);
-		labelRimozione.setSize(pannelloDisdiciPrenotazione.getWidth(), 35);
+		labelRimozione.setSize(pannelloVenditoreDisdiciPrenotazione.getWidth(), 35);
 		labelRimozione.setHorizontalAlignment(JLabel.CENTER);
 		labelRimozione.setVerticalAlignment(JLabel.CENTER);
 		labelRimozione
@@ -142,7 +142,7 @@ public class BoundaryVenditoreDisdiciPrenotazione extends JFrame {
 
 		panelButtons.add(back);
 
-		pannelloDisdiciPrenotazione.add(panelButtons);
+		pannelloVenditoreDisdiciPrenotazione.add(panelButtons);
 
 		// Istanziazione dei Listeners
 		buttonsListener = new GestoreButtons();
@@ -189,7 +189,7 @@ public class BoundaryVenditoreDisdiciPrenotazione extends JFrame {
 
 	private class GestoreBack implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			pannelloDisdiciPrenotazione.setVisible(false);
+			pannelloVenditoreDisdiciPrenotazione.setVisible(false);
 			BoundaryVenditore.pannelloVenditore
 					.setVisible(true);
 		}

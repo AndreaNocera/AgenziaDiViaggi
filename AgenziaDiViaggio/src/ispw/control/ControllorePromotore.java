@@ -14,6 +14,7 @@ import ispw.exception.DataException;
 import ispw.exception.GestoreEccezioniException;
 import ispw.exception.MapException;
 import ispw.exception.OraException;
+import ispw.log.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,24 +26,24 @@ import java.util.List;
  */
 
 public class ControllorePromotore extends Controllore {
-	private static ControllorePromotore istance = null;
+	private static ControllorePromotore instance = null;
 	private static Catalogo catalogo = null;
 
 	private ControllorePromotore() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
 		super();
-		catalogo = Catalogo.getIstance();
+		catalogo = Catalogo.getInstance();
 	}
 
-	public static ControllorePromotore getIstance() throws DAOException,
+	public static ControllorePromotore getInstance() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		if (istance == null)
-			istance = new ControllorePromotore();
-		return istance;
+		if (instance == null)
+			instance = new ControllorePromotore();
+		return instance;
 	}
 
-	public Integer inserimentoCatalogo(String ambiente, String mezzo,
+	public synchronized Integer inserimentoCatalogo(String ambiente, String mezzo,
 			String cittaPartenza, String cittaArrivo, String via)
 			throws ControllerException, IOException, DAOException,
 			MapException, CatalogoException, SQLException, DataException,
@@ -63,11 +64,14 @@ public class ControllorePromotore extends Controllore {
 		tratta.setVia(Via.getObjectByValue(via));
 
 		catalogo.inserimentoInCatalogo(tratta);
+		
+		Log log = Log.getInstance();
+		log.ScriviLog("Promotore", "Aggiunta tratta " + tratta.getString());
 
 		return tratta.getId();
 	}
 
-	public void rimozioneInCatalogo(Integer idTratta)
+	public synchronized void rimozioneInCatalogo(Integer idTratta)
 			throws ControllerException, IOException, DAOException,
 			MapException, CatalogoException, SQLException, DataException,
 			OraException, GestoreEccezioniException {
@@ -89,10 +93,12 @@ public class ControllorePromotore extends Controllore {
 
 		} else {
 			catalogo.rimozioneInCatalogo(tratta);
+			Log log = Log.getInstance();
+			log.ScriviLog("Promotore", "Rimossa tratta " + tratta.getString());
 		}
 	}
 
-	public List<String> visualizzaCatalogo() throws ControllerException,
+	public synchronized List<String> visualizzaCatalogo() throws ControllerException,
 			DAOException, MapException, CatalogoException, SQLException,
 			DataException, OraException {
 		// TODO Auto-generated method stub
@@ -104,7 +110,7 @@ public class ControllorePromotore extends Controllore {
 		return listaTratte;
 	}
 
-	public boolean verificaDati(String ambiente, String mezzo,
+	public synchronized boolean verificaDati(String ambiente, String mezzo,
 			String cittaPartenza, String cittaArrivo, String via) {
 		if (ambiente.equals("") || mezzo.equals("") || cittaPartenza.equals("")
 				|| cittaArrivo.equals("") || via.equals(""))
@@ -113,7 +119,7 @@ public class ControllorePromotore extends Controllore {
 
 	}
 
-	public boolean verificaIdTratta(String idTratta) {
+	public synchronized boolean verificaIdTratta(String idTratta) {
 		// TODO Auto-generated method stub
 		if (idTratta.equals(""))
 			return false;

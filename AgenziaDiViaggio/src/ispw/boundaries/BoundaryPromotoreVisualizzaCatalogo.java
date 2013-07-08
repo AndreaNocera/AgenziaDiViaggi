@@ -55,7 +55,7 @@ public class BoundaryPromotoreVisualizzaCatalogo extends JFrame {
 			MapException, SQLException, DataException, OraException,
 			CatalogoException, ControllerException {
 
-		this.controllorePromotore = ControllorePromotore.getIstance();
+		this.controllorePromotore = ControllorePromotore.getInstance();
 
 		pannelloPromotoreVisualizzaCatalogo = new JPanel();
 

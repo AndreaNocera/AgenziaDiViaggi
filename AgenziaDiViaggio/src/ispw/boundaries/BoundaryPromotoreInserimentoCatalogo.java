@@ -72,7 +72,7 @@ public class BoundaryPromotoreInserimentoCatalogo extends JFrame {
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
 
-		this.controllorePromotore = ControllorePromotore.getIstance();
+		this.controllorePromotore = ControllorePromotore.getInstance();
 
 		pannelloPromotoreInserimentoCatalogo = new JPanel();
 

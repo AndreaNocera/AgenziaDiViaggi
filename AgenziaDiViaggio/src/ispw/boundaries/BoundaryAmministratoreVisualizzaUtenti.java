@@ -52,7 +52,7 @@ public class BoundaryAmministratoreVisualizzaUtenti extends JFrame {
 
 	public BoundaryAmministratoreVisualizzaUtenti() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException{
 
-		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		this.controlloreAmministratore = ControlloreAmministratore.getInstance();
 
 		pannelloAmministratoreVisualizzaUtenti = new JPanel();
 

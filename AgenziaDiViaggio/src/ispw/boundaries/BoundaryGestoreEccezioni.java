@@ -63,7 +63,7 @@ public class BoundaryGestoreEccezioni extends JFrame {
 
 		try {
 			this.controlloreGestoreEccezioni = ControlloreGestoreEccezioni
-					.getIstance();
+					.getInstance();
 		} catch (DAOException | MapException | SQLException | DataException
 				| OraException | CatalogoException e) {
 			// TODO Auto-generated catch block
@@ -168,7 +168,6 @@ public class BoundaryGestoreEccezioni extends JFrame {
 			if (event.getSource() == rimozioneOfferta) {
 
 				try {
-					System.out.println("Entrato in gest eccezioni");
 					if (!controlloreGestoreEccezioni.verificaDati(offerta
 							.getText())) {
 						areaVisualizzazione.setText("");

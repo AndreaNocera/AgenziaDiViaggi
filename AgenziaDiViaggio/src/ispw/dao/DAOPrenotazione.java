@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class DAOPrenotazione extends DAO{
 
-	private static DAOPrenotazione istance = null;
+	private static DAOPrenotazione instance = null;
 
 	private static final String getPrenotazioniQuery = "SELECT *"
 			+ "FROM `prenotazioni`";
@@ -65,18 +65,18 @@ public class DAOPrenotazione extends DAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOPrenotazione getIstance() {
-		if (istance == null)
-			istance = new DAOPrenotazione();
-		return istance;
+	public synchronized static DAOPrenotazione getInstance() {
+		if (instance == null)
+			instance = new DAOPrenotazione();
+		return instance;
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		Prenotazione prenotazione;
@@ -125,7 +125,7 @@ public class DAOPrenotazione extends DAO{
 	}
 
 	@Override
-	public void update(Object obj) throws DAOException {
+	public synchronized void update(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Prenotazione prenotazione;
 		try {
@@ -150,7 +150,7 @@ public class DAOPrenotazione extends DAO{
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException {
+	public synchronized void delete(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Prenotazione prenotazione;
 		try {
@@ -172,7 +172,7 @@ public class DAOPrenotazione extends DAO{
 	}
 
 	@Override
-	public Prenotazione read(Integer idPrenotazione) throws DAOException {
+	public synchronized Prenotazione read(Integer idPrenotazione) throws DAOException {
 		Prenotazione prenotazione = new Prenotazione();
 		try {
 			conn = getConnection(usr, pass);
@@ -197,7 +197,7 @@ public class DAOPrenotazione extends DAO{
 		}
 	}
 	
-	public Integer getNextId() throws DAOException {
+	public synchronized Integer getNextId() throws DAOException {
 		try {
 			// Situazione 1. Tabella Vuota. Id da ritornare 1.
 			conn = getConnection(usr, pass);
@@ -216,7 +216,7 @@ public class DAOPrenotazione extends DAO{
 		}
 	}
 
-	public List<Prenotazione> getListaPrenotazioni() throws SQLException, DataException, OraException {
+	public synchronized List<Prenotazione> getListaPrenotazioni() throws SQLException, DataException, OraException {
 		// TODO Auto-generated method stub
 		List<Prenotazione> listPrenotazioni = new ArrayList<Prenotazione>();
 

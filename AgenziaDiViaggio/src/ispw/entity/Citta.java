@@ -25,11 +25,11 @@ public class Citta extends ElementoIntermedio{
 		super(id,valore);
 	}	
 	public void save() throws DAOException{
-		DAOCitta daoCitta = DAOCitta.getIstance();
+		DAOCitta daoCitta = DAOCitta.getInstance();
 		daoCitta.insert(this);
 	}
 	public static Citta getObjectByValue(String citta) throws DAOException{
-		DAOCitta daoCitta = DAOCitta.getIstance();
+		DAOCitta daoCitta = DAOCitta.getInstance();
 		return daoCitta.getObjectByValue(citta);
 	}
 }

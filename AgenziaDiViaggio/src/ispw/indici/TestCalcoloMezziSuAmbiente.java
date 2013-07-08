@@ -17,7 +17,7 @@ import ispw.exception.OraException;
 
 public class TestCalcoloMezziSuAmbiente {
 	public static void main(String[] args) throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
-		Catalogo catalogo = Catalogo.getIstance();
+		Catalogo catalogo = Catalogo.getInstance();
 		CalcoloIndici calcoloIndici = CalcoloIndici.getIstance();
 		List<Ambiente> listaAmbienti = catalogo.getAmbienti();
 		for(Ambiente ambiente : listaAmbienti){

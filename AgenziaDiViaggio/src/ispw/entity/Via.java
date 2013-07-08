@@ -25,11 +25,11 @@ public class Via extends ElementoFinale{
 		super(id,valore);
 	}	
 	public void save() throws DAOException{
-		DAOVia daoVia = DAOVia.getIstance();
+		DAOVia daoVia = DAOVia.getInstance();
 		daoVia.insert(this);
 	}
 	public static Via getObjectByValue(String via) throws DAOException{
-		DAOVia daoVia = DAOVia.getIstance();
+		DAOVia daoVia = DAOVia.getInstance();
 		return daoVia.getObjectByValue(via);
 	}
 }

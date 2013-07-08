@@ -17,6 +17,7 @@ import ispw.exception.DataException;
 import ispw.exception.GestoreEccezioniException;
 import ispw.exception.MapException;
 import ispw.exception.OraException;
+import ispw.log.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,21 +28,21 @@ import java.util.List;
  * @author Gambella Riccardo Controllore Progettista.
  */
 public class ControlloreProgettista extends Controllore {
-	private static ControlloreProgettista istance = null;
+	private static ControlloreProgettista instance = null;
 	private static Catalogo catalogo = null;
 
 	private ControlloreProgettista() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
 		super();
-		catalogo = Catalogo.getIstance();
+		catalogo = Catalogo.getInstance();
 	}
 
-	public static ControlloreProgettista getIstance() throws DAOException,
+	public static ControlloreProgettista getInstance() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		if (istance == null)
-			istance = new ControlloreProgettista();
-		return istance;
+		if (instance == null)
+			instance = new ControlloreProgettista();
+		return instance;
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class ControlloreProgettista extends Controllore {
 	 */
 	public List<String> estrazioneAmbienti() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
-		Catalogo catalogo = Catalogo.getIstance();
+		Catalogo catalogo = Catalogo.getInstance();
 		List<Ambiente> listaAmbienti = catalogo.getAmbienti();
 		List<String> lista = new ArrayList<String>();
 		for (Ambiente ambiente : listaAmbienti)
@@ -226,6 +227,10 @@ public class ControlloreProgettista extends Controllore {
 				posti);
 
 		catalogo.inserimentoInOfferta(tratta, offerta);
+		
+		Log log = Log.getInstance();
+		log.ScriviLog("Progettista", "Aggiunta offerta " + offerta.getString());
+		
 		return offerta.getIdOfferta();
 	}
 
@@ -259,6 +264,8 @@ public class ControlloreProgettista extends Controllore {
 					"Impossibile rimuovere offerta.\nEsistono prenotazioni relative all'offerta.");
 		} else {
 			catalogo.rimozioneInOfferta(tratta, offerta);
+			Log log = Log.getInstance();
+			log.ScriviLog("Progettista", "Rimossa offerta " + offerta.getString());
 		}
 	}
 

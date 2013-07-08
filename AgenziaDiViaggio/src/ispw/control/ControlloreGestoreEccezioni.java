@@ -1,5 +1,8 @@
 package ispw.control;
 
+import ispw.MailSender.MailSender;
+import ispw.SMSSender.SMSSender;
+import ispw.entity.Biglietto;
 import ispw.entity.Catalogo;
 import ispw.entity.Offerta;
 import ispw.entity.Prenotazione;
@@ -16,26 +19,30 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
+import com.oe.sdk.exceptions.SMSCException;
+
 
 /**
  * @author Gambella Riccardo Controllore Progettista.
  */
 public class ControlloreGestoreEccezioni extends Controllore {
-	private static ControlloreGestoreEccezioni istance = null;
+	private static ControlloreGestoreEccezioni instance = null;
 	private static Catalogo catalogo = null;
 
 	private ControlloreGestoreEccezioni() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
 		super();
-		catalogo = Catalogo.getIstance();
+		catalogo = Catalogo.getInstance();
 	}
 
-	public static ControlloreGestoreEccezioni getIstance() throws DAOException,
+	public static ControlloreGestoreEccezioni getInstance() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		if (istance == null)
-			istance = new ControlloreGestoreEccezioni();
-		return istance;
+		if (instance == null)
+			instance = new ControlloreGestoreEccezioni();
+		return instance;
 	}
 
 	public void rimozioneInOfferta(Integer idOfferta)
@@ -54,13 +61,32 @@ public class ControlloreGestoreEccezioni extends Controllore {
 		} else {
 			//Rimozione delle prenotazioni
 			for(Prenotazione prenotazione : listaPrenotazioni){
-				System.out.println("Rimozione delle prenotazioni.");
 				prenotazione.delete();
 				/*
 				 * Avviso ai traveler della rimozione della prenotazione.
-				 * Problema: Bisogna spostare alla prossima offerta con data più vicina?
+				 * Problema: Bisogna spostare alla prossima offerta con data piï¿½ vicina?
 				 * Oppure basta cancellare la prenotazione e avvertire.
 				 */
+				
+				List<Biglietto> biglietti = prenotazione.getListaBiglietti();
+				
+				for(Biglietto temp : biglietti){
+					try {
+						MailSender.inviaMail(temp.getTraveler().getEmail(), "La sua prenotazione è stata cancellata!");
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						System.out.println("Mail inviata correttamente!");
+					}
+					
+					try {
+						SMSSender.inviaSMS("", "La sua prenotazione è stata cancellata!");
+					} catch (SMSCException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						System.out.println("SMS inviato correttamente!");
+					}
+				}
 			}
 			
 			//Rimozione dell'offerta

@@ -67,11 +67,11 @@ public class Utente {
 	public void setRuolo(String ruolo) {
 		this.ruolo = ruolo;
 	}
-	public void save() throws DAOException{
+	public synchronized void save() throws DAOException{
 		DAOUtente daoUtente = DAOUtente.getIstance();
 		daoUtente.insert(this);
 	}
-	public static Utente findByNameAndPassword(String username, String password) throws MoreThanOneException, DAOException{
+	public synchronized static Utente findByNameAndPassword(String username, String password) throws MoreThanOneException, DAOException{
 		DAOUtente daoUtente = DAOUtente.getIstance();
 		return daoUtente.findByNameAndPassword(username, password);
 	}
@@ -89,7 +89,7 @@ public class Utente {
 		return daoUtente.getListaUtenti();
 	}
 
-	public static Utente getUtenteByUsername(String username) throws UtenteException, DAOException {
+	public static synchronized Utente getUtenteByUsername(String username) throws UtenteException, DAOException {
 		// TODO Auto-generated method stub
 		DAOUtente daoUtente = DAOUtente.getIstance();
 		Utente utente = daoUtente.readUtenteByUsername(username);
@@ -98,7 +98,7 @@ public class Utente {
 		return utente;
 }
 
-	public void delete() throws DAOException, SQLException {
+	public synchronized void delete() throws DAOException, SQLException {
 		// TODO Auto-generated method stub
 		DAOUtente daoUtente = DAOUtente.getIstance();
 		daoUtente.delete(this);

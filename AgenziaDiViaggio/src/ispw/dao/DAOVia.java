@@ -19,7 +19,7 @@ import java.sql.SQLException;
  * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class DAOVia extends DAO{
-	private static DAOVia istance = null;
+	private static DAOVia instance = null;
 
 	private static final String getListaViaQuery = "SELECT * FROM `via` WHERE 1";
 
@@ -65,14 +65,14 @@ public class DAOVia extends DAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOVia getIstance() {
-		if (istance == null)
-			istance = new DAOVia();
-		return istance;
+	public static DAOVia getInstance() {
+		if (instance == null)
+			instance = new DAOVia();
+		return instance;
 	}
 
 	@Override

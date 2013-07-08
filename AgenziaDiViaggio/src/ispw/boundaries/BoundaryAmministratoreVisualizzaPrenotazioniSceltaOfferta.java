@@ -71,7 +71,7 @@ public class BoundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta extends
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		this.controlloreAmministratore = ControlloreAmministratore.getInstance();
 		this.boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta = boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta;
 		this.boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta = this;
 

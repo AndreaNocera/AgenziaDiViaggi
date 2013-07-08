@@ -26,7 +26,7 @@ import java.util.List;
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class DAOOfferta extends DAO {
-	private static DAOOfferta istance = null;
+	private static DAOOfferta instance = null;
 
 	private static final String getOffertaQuery = "SELECT * FROM `offerta`";
 
@@ -86,14 +86,14 @@ public class DAOOfferta extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOOfferta getIstance() {
-		if (istance == null)
-			istance = new DAOOfferta();
-		return istance;
+	public static DAOOfferta getInstance() {
+		if (instance == null)
+			instance = new DAOOfferta();
+		return instance;
 	}
 
 	@Override
