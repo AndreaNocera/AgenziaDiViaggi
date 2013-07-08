@@ -66,7 +66,7 @@ public abstract class Controllore {
 	public String mostraListaOffertaInCatalogo(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, TrattaInesistenteException, OfferteNonPresentiException, OffertaInesistenteException{
 		
 		
-		//NUOVA IMPLEMENTAZIONE, PRENDE LE OFFERTE DALLA MAPPA
+		//NUOVA IMPLEMENTAZIONE, PRENDE LE OFFERTE DALLA MAPPA :)
 		
 		String stringaOfferte = "";
 		
