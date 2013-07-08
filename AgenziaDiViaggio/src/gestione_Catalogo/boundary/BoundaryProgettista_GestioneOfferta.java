@@ -21,12 +21,15 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Set;
 
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -98,7 +101,7 @@ public class BoundaryProgettista_GestioneOfferta {
 	
 	private JLabel labelDataPannello2;
 	
-	private JTextField campoGiornoPannello2;
+	private JComboBox<Integer> tendinaGiornoPannello2;
 	private JLabel labelGiornoPannello2;
 	
 	private JLabel labelSlash1Pannello2;
@@ -139,6 +142,8 @@ public class BoundaryProgettista_GestioneOfferta {
 	private TendinaPartenzePannello2AA ascoltatoreTendinaPartenzePannello2;
 	private TendinaArriviPannello2AA ascoltatoreTendinaArriviPannello2;
 	private TendinaViaPannello2AA ascoltatoreTendinaViaPannello2;
+	private TendinaAnnoPannello2AA ascoltatoreTendinaAnnoPannello2;
+	private TendinaMesePannello2AA ascoltatoreTendinaMesePannello2;
 	private ChiudiPannello2AA ascoltatoreBottoneChiudiPannello2;
 	private AggiungiAA ascoltatoreBottoneAggiungi;
 	private SvuotaPannello2AA ascoltatoreBottoneSvuotaPannello2;
@@ -180,6 +185,7 @@ public class BoundaryProgettista_GestioneOfferta {
 	private ChiudiPannello3AA ascoltatoreBottoneChiudiPannello3;
 	private RimuoviAA ascoltatoreBottoneRimuovi;
 	private SvuotaPannello3AA ascoltatoreBottoneSvuotaPannello3;
+	
 	
 	
 	
@@ -372,22 +378,22 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		labelGiornoPannello2 = new JLabel();	//Etichetta elementi data
 		labelGiornoPannello2.setFont(new Font("Arial",0,15));
-		labelGiornoPannello2.setBounds(panel2.getWidth()/24*13+50, panel2.getHeight()/6*2-20, panel2.getWidth()/36, 20);
+		labelGiornoPannello2.setBounds(panel2.getWidth()/24*13+60, panel2.getHeight()/6*2-20, panel2.getWidth()/36, 20);
 		labelGiornoPannello2.setText("GG");
 		panel2.add(labelGiornoPannello2); 
 		
 		
-		campoGiornoPannello2 = new JTextField(panel2.getWidth()/18); //campo per il giorno
-		campoGiornoPannello2.setFont(new Font("Arial", 0, 18));
-		campoGiornoPannello2.setBounds(panel2.getWidth()/24*13+50, panel2.getHeight()/6*2, panel2.getWidth()/36, 20);
-		campoGiornoPannello2.setEditable(false);
-	    panel2.add(campoGiornoPannello2);
+		tendinaGiornoPannello2 = new JComboBox<Integer>(); //Tendina per giorno
+		tendinaGiornoPannello2.setBackground(Color.WHITE);
+		tendinaGiornoPannello2.setBounds(panel2.getWidth()/24*13+50, panel2.getHeight()/6*2, panel2.getWidth()/24, 20);
+		tendinaGiornoPannello2.setEnabled(false);
+		panel2.add(tendinaGiornoPannello2);
 	    
 	    
 	    
 	    labelSlash1Pannello2 = new JLabel();	//Etichetta elementi data
 	    labelSlash1Pannello2.setFont(new Font("Arial",0,15));
-	    labelSlash1Pannello2.setBounds(panel2.getWidth()/24*13+85, panel2.getHeight()/6*2, panel2.getWidth()/36, 20);
+	    labelSlash1Pannello2.setBounds(panel2.getWidth()/24*13+95, panel2.getHeight()/6*2, panel2.getWidth()/36, 20);
 	    labelSlash1Pannello2.setText("/");
 		panel2.add(labelSlash1Pannello2); 
 		
@@ -395,7 +401,7 @@ public class BoundaryProgettista_GestioneOfferta {
 	
 		labelMesePannello2 = new JLabel();	//Etichetta elementi data
 		labelMesePannello2.setFont(new Font("Arial",0,15));
-		labelMesePannello2.setBounds(panel2.getWidth()/24*13+105, panel2.getHeight()/6*2-20, panel2.getWidth()/36, 20);
+		labelMesePannello2.setBounds(panel2.getWidth()/24*13+115, panel2.getHeight()/6*2-20, panel2.getWidth()/36, 20);
 		labelMesePannello2.setText("MM");
 		panel2.add(labelMesePannello2); 
 		
@@ -403,24 +409,21 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		tendinaMesePannello2 = new JComboBox<Integer>(); //Tendina per mesi
 		tendinaMesePannello2.setBackground(Color.WHITE);
-		for (int i=1; i<=12; i++){
-			tendinaMesePannello2.addItem(new Integer(i));
-		}
-		tendinaMesePannello2.setBounds(panel2.getWidth()/24*13+95, panel2.getHeight()/6*2, panel2.getWidth()/24, 20);
+		tendinaMesePannello2.setBounds(panel2.getWidth()/24*13+105, panel2.getHeight()/6*2, panel2.getWidth()/24, 20);
 		tendinaMesePannello2.setEnabled(false);
 		panel2.add(tendinaMesePannello2);
 		
 		
 		labelSlash2Pannello2 = new JLabel();	//Etichetta elementi data
 		labelSlash2Pannello2.setFont(new Font("Arial",0,15));
-		labelSlash2Pannello2.setBounds(panel2.getWidth()/24*13+140, panel2.getHeight()/6*2, panel2.getWidth()/36, 20);
+		labelSlash2Pannello2.setBounds(panel2.getWidth()/24*13+150, panel2.getHeight()/6*2, panel2.getWidth()/36, 20);
 		labelSlash2Pannello2.setText("/");
 		panel2.add(labelSlash2Pannello2); 
 		
 		
 		labelAnnoPannello2 = new JLabel();	//Etichetta elementi data
 		labelAnnoPannello2.setFont(new Font("Arial",0,15));
-		labelAnnoPannello2.setBounds(panel2.getWidth()/24*13+160, panel2.getHeight()/6*2-20, panel2.getWidth()/18, 20);
+		labelAnnoPannello2.setBounds(panel2.getWidth()/24*13+170, panel2.getHeight()/6*2-20, panel2.getWidth()/18, 20);
 		labelAnnoPannello2.setText("YYYY");
 		panel2.add(labelAnnoPannello2); 
 		
@@ -428,10 +431,7 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		tendinaAnnoPannello2 = new JComboBox<Integer>(); //Tendina per anni
 		tendinaAnnoPannello2.setBackground(Color.WHITE);
-		for (int i=2013; i<2020; i++){
-			tendinaAnnoPannello2.addItem(i);
-		}
-		tendinaAnnoPannello2.setBounds(panel2.getWidth()/24*13+150, panel2.getHeight()/6*2, panel2.getWidth()/18, 20);
+		tendinaAnnoPannello2.setBounds(panel2.getWidth()/24*13+160, panel2.getHeight()/6*2, panel2.getWidth()/18, 20);
 		tendinaAnnoPannello2.setEnabled(false);
 		panel2.add(tendinaAnnoPannello2);
 		
@@ -453,9 +453,8 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		tendinaOrePannello2 = new JComboBox<Integer>(); //Tendina per ore
 		tendinaOrePannello2.setBackground(Color.WHITE);
-		
 		for (int i=0; i<24; i++){
-			tendinaOrePannello2.addItem(i);
+			tendinaOrePannello2.addItem(new Integer(i));
 		}
 		tendinaOrePannello2.setBounds(panel2.getWidth()/24*19+50, panel2.getHeight()/6*2, panel2.getWidth()/24, 20);
 		tendinaOrePannello2.setEnabled(false);
@@ -563,6 +562,12 @@ public class BoundaryProgettista_GestioneOfferta {
 		ascoltatoreTendinaViaPannello2 = new TendinaViaPannello2AA();
 		tendinaViaPannello2.addActionListener(ascoltatoreTendinaViaPannello2);
 		
+		ascoltatoreTendinaAnnoPannello2 = new TendinaAnnoPannello2AA();
+		tendinaAnnoPannello2.addActionListener(ascoltatoreTendinaAnnoPannello2);
+		
+		ascoltatoreTendinaMesePannello2 = new TendinaMesePannello2AA();
+		tendinaMesePannello2.addActionListener(ascoltatoreTendinaMesePannello2);
+		
 		ascoltatoreBottoneChiudiPannello2 = new ChiudiPannello2AA();
 		bottoneChiudiPannello2.addActionListener(ascoltatoreBottoneChiudiPannello2);
 		
@@ -571,6 +576,7 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 		ascoltatoreBottoneSvuotaPannello2 = new SvuotaPannello2AA();
 		bottoneSvuotaPannello2.addActionListener(ascoltatoreBottoneSvuotaPannello2);
+		
 		
 		
 		/*
@@ -771,6 +777,21 @@ public class BoundaryProgettista_GestioneOfferta {
     				
     			tendinaAmbientePannello2.setEnabled(true);
     			
+    			
+    			//aggiorna l'anno in base alla data attuale
+    			//imposto l'anno attuale
+				GregorianCalendar data = new GregorianCalendar();
+				
+				int anno = data.get(Calendar.YEAR);
+				
+				tendinaAnnoPannello2.removeAllItems();
+				for(int i=0; i<5; i++){
+					
+					tendinaAnnoPannello2.addItem(new Integer(anno+i));
+					
+				}
+				
+    			
     					
     		} catch (MappaException e) {
     			areaTestoPannello3.setText(e.getMessage()+"\n");
@@ -781,8 +802,21 @@ public class BoundaryProgettista_GestioneOfferta {
     	
     	private void svuotaPartePannello2(){
     		
-    		campoGiornoPannello2.setText("");
-			campoGiornoPannello2.setEditable(false);
+    		
+    		tendinaAnnoPannello2.setEnabled(false);
+    		//imposto l'anno attuale
+			GregorianCalendar data = new GregorianCalendar();
+			
+			int anno = data.get(Calendar.YEAR);
+			
+			tendinaAnnoPannello2.removeAllItems();
+			for(int i=0; i<5; i++){
+				
+				tendinaAnnoPannello2.addItem(new Integer(anno+i));
+				
+			}
+			tendinaAnnoPannello2.setSelectedItem(0);
+			
 			
 			tendinaMesePannello2.setSelectedIndex(0);
 			tendinaMesePannello2.setEnabled(false);
@@ -1178,7 +1212,7 @@ public class BoundaryProgettista_GestioneOfferta {
 			//Modifico la stringa da immettere nella textArea (DA SISTEMARE!!!)	
 			if (tendinaViaPannello2.getItemCount() != 0 && !viaScelta.equals("-----")){
 				
-				campoGiornoPannello2.setEditable(true);
+				tendinaGiornoPannello2.setEnabled(true);
 				tendinaMesePannello2.setEnabled(true);
 				tendinaAnnoPannello2.setEnabled(true);
 				tendinaOrePannello2.setEnabled(true);
@@ -1222,8 +1256,100 @@ public class BoundaryProgettista_GestioneOfferta {
 		
 	}
 	
+	private class TendinaAnnoPannello2AA implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			
+			if (tendinaAnnoPannello2.getItemCount() != 0) {
+				int anno = (int) tendinaAnnoPannello2.getSelectedItem();
+				
+				GregorianCalendar data = new GregorianCalendar();
+				int annoAttuale = data.get(Calendar.YEAR);
+				
+				if (anno == annoAttuale){
+					
+					//aumento la data attuale di una settimana
+					data.add(Calendar.MINUTE, 10080);
+					
+					int mese = (data.get(Calendar.MONTH))+1;
+					
+					tendinaMesePannello2.removeAllItems();
+					
+					for (int i = mese; i<13; i++){
+						tendinaMesePannello2.addItem(new Integer(i));
+					}
+					
+				} else {
+					tendinaMesePannello2.removeAllItems();
+					for (int i=1; i<13; i++){
+						tendinaMesePannello2.addItem(new Integer(i));
+					}
+				}
+			}
+			
+			
+			
+		}
+		
+	}
+	
+	
+	private class TendinaMesePannello2AA implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int anno = (int) tendinaAnnoPannello2.getSelectedItem();
+			
+			if (tendinaMesePannello2.getItemCount() != 0){
+				
+				
+				int mese = (int) tendinaMesePannello2.getSelectedItem();
+				
+				if (mese == 11 || mese == 4 || mese == 6 || mese == 9){
+					tendinaGiornoPannello2.removeAllItems();
+					
+					for (int i=1; i<31; i++){
+						tendinaGiornoPannello2.addItem(new Integer(i));
+					}
+				}
+				
+				if (mese == 2){
+					if (anno % 4 == 0){ // è bisestile
+						
+						tendinaGiornoPannello2.removeAllItems();
+						
+						for (int i=1; i<30; i++){
+							tendinaGiornoPannello2.addItem(new Integer(i));
+						}
+					} else {
+						tendinaGiornoPannello2.removeAllItems();
+						
+						for (int i=1; i<29; i++){
+							tendinaGiornoPannello2.addItem(new Integer(i));
+						}
+					}
+				}
+				
+				if (mese == 1 || mese == 3 || mese==5 || mese==7 || mese==8 || mese==10 || mese==12){
+					tendinaGiornoPannello2.removeAllItems();
+					
+					for (int i=1; i<32; i++){
+						tendinaGiornoPannello2.addItem(new Integer(i));
+					}
+				}
+				
+			}
+			
+			
+			
+		}
+		
+	}
+	
 		private class AggiungiAA implements ActionListener{
 
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -1233,7 +1359,7 @@ public class BoundaryProgettista_GestioneOfferta {
 					
 					try {
 						
-						int giorno = Integer.parseInt(campoGiornoPannello2.getText());
+						int giorno = (Integer) tendinaGiornoPannello2.getSelectedItem();
 						int mese = (Integer) tendinaMesePannello2.getSelectedItem();
 						int anno = (Integer) tendinaAnnoPannello2.getSelectedItem();
 						int ora = (Integer) tendinaOrePannello2.getSelectedItem();
@@ -1295,8 +1421,19 @@ public class BoundaryProgettista_GestioneOfferta {
 
 				}
 				
-			campoGiornoPannello2.setText("");
-			campoGiornoPannello2.setEditable(false);
+	    		//imposto l'anno attuale
+				GregorianCalendar data = new GregorianCalendar();
+				
+				int anno = data.get(Calendar.YEAR);
+				
+				tendinaAnnoPannello2.removeAllItems();
+				for(int i=0; i<5; i++){
+					
+					tendinaAnnoPannello2.addItem(new Integer(anno+i));
+					
+				}
+				tendinaAnnoPannello2.setSelectedItem(0);
+				tendinaAnnoPannello2.setEnabled(false);
 			
 			tendinaMesePannello2.setSelectedIndex(0);
 			tendinaMesePannello2.setEnabled(false);
@@ -1349,8 +1486,19 @@ public class BoundaryProgettista_GestioneOfferta {
 			arrivoScelto = null;
 			viaScelta = null;
 			
-			campoGiornoPannello2.setText("");
-			campoGiornoPannello2.setEditable(false);
+    		//imposto l'anno attuale
+			GregorianCalendar data = new GregorianCalendar();
+			
+			int anno = data.get(Calendar.YEAR);
+			
+			tendinaAnnoPannello2.removeAllItems();
+			for(int i=0; i<5; i++){
+				
+				tendinaAnnoPannello2.addItem(new Integer(anno+i));
+				
+			}
+			tendinaAnnoPannello2.setSelectedItem(0);
+			tendinaAnnoPannello2.setEnabled(false);
 			
 			tendinaMesePannello2.setSelectedIndex(0);
 			tendinaMesePannello2.setEnabled(false);
