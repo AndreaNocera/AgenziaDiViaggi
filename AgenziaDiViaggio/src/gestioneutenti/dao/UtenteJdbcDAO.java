@@ -36,7 +36,6 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	private static UtenteJdbcDAO singletonUtenteDAO = null; 
 	
 	private static ConnectionManager connectionManager = null;
-	//private Connection connection = null;
 	
 	private UtenteJdbcDAO() {}
 	
@@ -126,6 +125,26 @@ public class UtenteJdbcDAO implements UtenteDAO{
 	@Override
 	public synchronized boolean delete(Utente utente) {
 		String SQL_DELETE = "DELETE FROM `utenti` WHERE `username` = \"" + utente.getLogin().getUsername() + "\"";
+		
+		Connection connection = connectionManager.getConnection();
+		Statement statement = null;
+		
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate(SQL_DELETE);
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+			return false;
+		} finally {
+			connectionManager.close(connection, statement);
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public boolean deleteByKey(String username) {
+		String SQL_DELETE = "DELETE FROM `utenti` WHERE `username` = \"" + username + "\"";
 		
 		Connection connection = connectionManager.getConnection();
 		Statement statement = null;
@@ -299,5 +318,7 @@ public class UtenteJdbcDAO implements UtenteDAO{
 			connectionManager.close(connection, statement, result);
 		}
 	}
+
+	
 
 }

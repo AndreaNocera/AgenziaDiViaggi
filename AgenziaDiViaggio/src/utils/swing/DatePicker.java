@@ -56,7 +56,7 @@ public class DatePicker extends JPanel{
 	
 	public GregorianCalendar getDateAsGregorianCalendar() {
 		int day = comboDay.getSelectedIndex() + 1;
-		int month = comboMonth.getSelectedIndex() + 1;
+		int month = comboMonth.getSelectedIndex();
 		int year = CURRENT_YEAR - comboYear.getSelectedIndex();
 		
 		return new GregorianCalendar(year, month, day);		
@@ -64,7 +64,7 @@ public class DatePicker extends JPanel{
 		
 	public void setDateAsGregorianCalendar(GregorianCalendar date) {
 		comboDay.setSelectedItem(date.get(Calendar.DAY_OF_MONTH));
-		comboMonth.setSelectedItem(date.get(Calendar.MONTH));
+		comboMonth.setSelectedItem(date.get(Calendar.MONTH) + 1);
 		comboYear.setSelectedItem(date.get(Calendar.YEAR));
 	}
 	

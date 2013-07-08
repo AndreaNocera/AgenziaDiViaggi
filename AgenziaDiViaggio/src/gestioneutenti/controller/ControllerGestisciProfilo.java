@@ -17,11 +17,8 @@ import gestioneutenti.dao.UtenteDAO;
 import gestioneutenti.dao.UtenteJdbcDAO;
 import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.PasswordNonCoincidentiException;
 import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.Login;
 import gestioneutenti.model.Utente;
-import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 
 public class ControllerGestisciProfilo {
@@ -54,29 +51,10 @@ public class ControllerGestisciProfilo {
 	public UtenteBean findByUsername(String username) throws UtenteInesistenteException {
 		return utenteDAO.findByUsername(username);
 	}
-
-	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean) throws UtenteInesistenteException, LoginInconsistenteException, DatiUtenteInconsistentiException {
-		Login login = new Login().fromBean(loginBean);
-		Utente nUtente = new Utente().fromBean(nUtenteBean);
-		if (utenteDAO.verifyLogin(login)) {
-			utenteDAO.update(nUtente);
-		}
-	}
 	
-	public void aggiornaProfilo(LoginBean loginBean, UtenteBean nUtenteBean, String confermaNuovaPassword) throws UtenteInesistenteException, PasswordNonCoincidentiException, LoginInconsistenteException, DatiUtenteInconsistentiException {
-		Login login = new Login().fromBean(loginBean);
-		Utente nUtente = new Utente().fromBean(nUtenteBean);
-		if (utenteDAO.verifyLogin(login) && matchPassword(nUtente.getLogin().getPassword(), confermaNuovaPassword)) {
-			utenteDAO.update(nUtente);
-		}				
-	}
-	
-	public boolean matchPassword(String password1, String password2) throws PasswordNonCoincidentiException {
-		if (password1.equals(password2)) {
-			return true;
-		} else {
-			throw new PasswordNonCoincidentiException();
-		}
+	public void aggiornaProfilo(UtenteBean utenteBean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
+		Utente utente = new Utente().fromBean(utenteBean);
+		utenteDAO.update(utente);
 	}
 
 }

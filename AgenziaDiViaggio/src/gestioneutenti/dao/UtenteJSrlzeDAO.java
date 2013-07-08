@@ -40,7 +40,7 @@ public class UtenteJSrlzeDAO implements UtenteDAO {
 
 
 	@Override
-	public synchronized boolean save(Utente utente) throws UtenteEsistenteException{	
+	public synchronized boolean save(Utente utente){	
 		
 		List<UtenteBean> lista= null;
 		boolean salvataggioEffettuato = false;
@@ -57,29 +57,40 @@ public class UtenteJSrlzeDAO implements UtenteDAO {
 				salvataggioEffettuato=serializationManager.serializza_utenti((ArrayList<UtenteBean>) lista);
 			}catch (IOException e) {e.printStackTrace();}
 			
-		}else throw new UtenteEsistenteException("L'username '"+utente.getLogin().getUsername()+"' è gia stato usato");
+		} else
+			try {
+				throw new UtenteEsistenteException("L'username '"+utente.getLogin().getUsername()+"' è gia stato usato");
+			} catch (UtenteEsistenteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		return salvataggioEffettuato;
 	}
 
 	@Override
-	public synchronized boolean update(Utente utente) throws UtenteInesistenteException{
+	public synchronized boolean update(Utente utente){
 		
 		ArrayList<UtenteBean> lista= null;
 		boolean aggionamentoEffettuato=false;
 
-		if(findByUsername(utente.getLogin().getUsername())!=null){ 
-			
-			delete(utente);
-			UtenteBean ub = toUtente(utente);
-			try {
-				lista=(ArrayList<UtenteBean>) findAll();
-				lista.add(ub);
-				aggionamentoEffettuato=serializationManager.serializza_utenti(lista);
-			} catch (IOException e) {e.printStackTrace();}
-			
+		try {
+			if(findByUsername(utente.getLogin().getUsername())!=null){ 
+				
+				delete(utente);
+				UtenteBean ub = toUtente(utente);
+				try {
+					lista=(ArrayList<UtenteBean>) findAll();
+					lista.add(ub);
+					aggionamentoEffettuato=serializationManager.serializza_utenti(lista);
+				} catch (IOException e) {e.printStackTrace();}
+				
+			}
+			else throw new UtenteInesistenteException();
+		} catch (UtenteInesistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else throw new UtenteInesistenteException();
 
 		return aggionamentoEffettuato;
 	}
@@ -170,5 +181,11 @@ public class UtenteJSrlzeDAO implements UtenteDAO {
 		ub.setNascita(utente.getDatiUtente().getNascita());
 		ub.setRuolo(utente.getRuolo()); 
 		return ub;
+	}
+
+	@Override
+	public boolean deleteByKey(String username) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -87,7 +87,7 @@ public class DialogNuovoUtente extends JDialog{
 		this.labelNascita = new JLabel("Data di nascita");
 		this.labelSesso = new JLabel("Sesso");
 		this.labelMail = new JLabel("Mail");
-		this.labelRuolo = new JLabel("RuoloOld");		
+		this.labelRuolo = new JLabel("Ruolo");		
 		this.labelUsername = new JLabel("Username");
 		this.labelPassword = new JLabel("Password");
 		this.textfieldNome = new JTextField("", 20);

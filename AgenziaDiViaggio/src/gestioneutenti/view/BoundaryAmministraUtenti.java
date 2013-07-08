@@ -193,6 +193,7 @@ public class BoundaryAmministraUtenti extends JPanel{
 	
 	private void nuovo(UtenteBean utenteBean) {
 		try {
+			System.out.println(utenteBean.getNome() + utenteBean.getSesso());
 			this.controllerAmministraUtenti.nuovo(utenteBean);
 		} catch (DatiUtenteInconsistentiException | LoginInconsistenteException e) {
 			e.printStackTrace();

@@ -64,7 +64,7 @@ public class Utente implements Comparable<Utente> {
 	}	
 	
 	public Utente fromBean(UtenteBean bean) throws DatiUtenteInconsistentiException, LoginInconsistenteException {
-		DatiUtente bDati = new DatiUtente(bean.getNome(), bean.getCognome(),  bean.getMail(),  bean.getCitta(),  bean.getNascita(), bean.getSesso());
+		DatiUtente bDati = new DatiUtente(bean.getNome(), bean.getCognome(), bean.getMail(), bean.getCitta(), bean.getNascita(), bean.getSesso());
 		Ruolo bRuolo = bean.getRuolo();
 		Login bLogin = new Login(bean.getUsername(), bean.getPassword());
 		return new Utente(bDati, bRuolo, bLogin);	

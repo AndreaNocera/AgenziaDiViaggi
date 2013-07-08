@@ -16,9 +16,7 @@ package gestioneutenti.view;
 import gestioneutenti.controller.ControllerGestisciProfilo;
 import gestioneutenti.exception.DatiUtenteInconsistentiException;
 import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.PasswordNonCoincidentiException;
 import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -54,7 +52,9 @@ public class BoundaryGestisciProfilo extends JPanel{
 	private JLabel labelMail;
 	private JLabel labelRuolo;
 	private JLabel labelUsername;
-	private JLabel labelPassword;
+	private JLabel labelPasswordVecchia;
+	private JLabel labelPasswordNuova;
+	private JLabel labelPasswordNuovaConferma;
 	private JTextField textfieldNome;
 	private JTextField textfieldCognome;
 	private JTextField textfieldCitta;
@@ -64,7 +64,9 @@ public class BoundaryGestisciProfilo extends JPanel{
 	private JLabel labelContenutoRuolo;
 	private JLabel labelContenutoUsername;
 	private JCheckBox checkboxCambiaPassword;
-	private JPasswordField passwordfieldPassword;
+	private JPasswordField passwordfieldPasswordVecchia;
+	private JPasswordField passwordfieldPasswordNuova;
+	private JPasswordField passwordfieldPasswordNuovaConferma;
 	private JButton buttonOk;
 	private JButton buttonAnnulla;
 	
@@ -90,8 +92,7 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.comboSesso.setSelectedItem(this.utenteBean.getSesso());
 		this.textfieldMail.setText(this.utenteBean.getMail());
 		this.labelContenutoRuolo.setText(this.utenteBean.getRuolo().asString());
-		this.labelContenutoUsername.setText(this.utenteBean.getUsername());	
-		this.passwordfieldPassword.setText(this.utenteBean.getPassword());
+		this.labelContenutoUsername.setText(this.utenteBean.getUsername());
 	}
 	
 	private void buildDialog() {
@@ -117,7 +118,9 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.labelMail = new JLabel("Mail");
 		this.labelRuolo = new JLabel("Ruolo");		
 		this.labelUsername = new JLabel("Username");
-		this.labelPassword = new JLabel("Nuova Password");
+		this.labelPasswordVecchia = new JLabel("Password Corrente");
+		this.labelPasswordNuova = new JLabel("Nuova Password");
+		this.labelPasswordNuovaConferma = new JLabel("Conferma Password");
 		this.textfieldNome = new JTextField("", 20);
 		this.textfieldCognome = new JTextField("", 20);
 		this.textfieldCitta = new JTextField("", 20);
@@ -129,8 +132,12 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.labelContenutoUsername = new JLabel("");
 		this.checkboxCambiaPassword = new JCheckBox("Cambia password", false);
 		this.checkboxCambiaPassword.addActionListener(new CambiaPasswordListener());
-		this.passwordfieldPassword = new JPasswordField("", 20);
-		this.passwordfieldPassword.setEditable(false);
+		this.passwordfieldPasswordVecchia = new JPasswordField("", 20);
+		this.passwordfieldPasswordVecchia.setEditable(false);
+		this.passwordfieldPasswordNuova = new JPasswordField("", 20);
+		this.passwordfieldPasswordNuova.setEditable(false);
+		this.passwordfieldPasswordNuovaConferma = new JPasswordField("", 20);
+		this.passwordfieldPasswordNuovaConferma.setEditable(false);
 		
 		this.panelMain.add(this.labelNome, new GBCHelper(0, 0).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(15, 15, 10, 15));
 		this.panelMain.add(this.labelCognome, new GBCHelper(0, 1).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
@@ -140,7 +147,9 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.panelMain.add(this.labelMail, new GBCHelper(0, 5).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.labelRuolo, new GBCHelper(0, 6).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.labelUsername, new GBCHelper(0, 7).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.labelPassword, new GBCHelper(0, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
+		this.panelMain.add(this.labelPasswordVecchia, new GBCHelper(0, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
+		this.panelMain.add(this.labelPasswordNuova, new GBCHelper(0, 10).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
+		this.panelMain.add(this.labelPasswordNuovaConferma, new GBCHelper(0, 11).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
 		
 		this.panelMain.add(this.textfieldNome, new GBCHelper(1, 0).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(15, 15, 10, 15));
 		this.panelMain.add(this.textfieldCognome, new GBCHelper(1, 1).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
@@ -151,8 +160,10 @@ public class BoundaryGestisciProfilo extends JPanel{
 		this.panelMain.add(this.labelContenutoRuolo, new GBCHelper(1, 6).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.labelContenutoUsername, new GBCHelper(1, 7).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
 		this.panelMain.add(this.checkboxCambiaPassword, new GBCHelper(1, 8).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
-		this.panelMain.add(this.passwordfieldPassword, new GBCHelper(1, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
-		
+		this.panelMain.add(this.passwordfieldPasswordVecchia, new GBCHelper(1, 9).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
+		this.panelMain.add(this.passwordfieldPasswordNuova, new GBCHelper(1, 10).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 10, 15));
+		this.panelMain.add(this.passwordfieldPasswordNuovaConferma, new GBCHelper(1, 11).setWeight(100, 0).setFill(GridBagConstraints.NONE).setAnchor(GridBagConstraints.WEST).setInsets(5, 15, 15, 15));
+
 		//Panel Button
 		this.panelBottoni = new JPanel();
 		this.panelBottoni.setLayout(new GridLayout(1, 2, 5, 5));
@@ -202,12 +213,15 @@ public class BoundaryGestisciProfilo extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (checkboxCambiaPassword.isSelected()) {
-				passwordfieldPassword.setEditable(true);
+				passwordfieldPasswordVecchia.setEditable(true);
+				passwordfieldPasswordNuova.setEditable(true);
+				passwordfieldPasswordNuovaConferma.setEditable(true);
 				setHasModifiedPassword(true);				
 				
 			} else {
-				passwordfieldPassword.setText(utenteBean.getPassword());
-				passwordfieldPassword.setEditable(false);
+				passwordfieldPasswordVecchia.setEditable(false);
+				passwordfieldPasswordNuova.setEditable(false);
+				passwordfieldPasswordNuovaConferma.setEditable(false);
 				setHasModifiedPassword(false);
 			}			
 		}		
@@ -240,34 +254,41 @@ public class BoundaryGestisciProfilo extends JPanel{
 		nUtenteBean.setMail(this.textfieldMail.getText().toString());
 		nUtenteBean.setUsername(this.utenteBean.getUsername());
 		nUtenteBean.setRuolo(this.utenteBean.getRuolo());
-		nUtenteBean.setPassword(String.valueOf(this.passwordfieldPassword.getPassword()));
 		
-		try {
-			String password = JOptionPane.showInputDialog(this, "Inserisci la password", "Gestione Profilo", JOptionPane.OK_CANCEL_OPTION);
-			LoginBean loginBean = new LoginBean().setUsername(this.utenteBean.getUsername()).setPassword(password);
-
-			if (hasModifiedPassword()) {
-				String confermaNuovaPassword = JOptionPane.showInputDialog(null, "Conferma la nuova password", "Gestione Profilo", JOptionPane.OK_CANCEL_OPTION);
-				nUtenteBean.setPassword(String.valueOf(this.passwordfieldPassword.getPassword()));
-				this.controllerGestisciProfilo.aggiornaProfilo(loginBean, nUtenteBean, confermaNuovaPassword);
+		if (hasModifiedPassword()) {
+			if (controllaPasswordVecchia() && controllaPasswordNuova()) {
+				nUtenteBean.setPassword(String.valueOf(this.passwordfieldPasswordNuova.getPassword()));
 			} else {
-				this.controllerGestisciProfilo.aggiornaProfilo(loginBean, nUtenteBean);
+				return;
 			}
-			
-			this.utenteBean = nUtenteBean;
+		} else {
+			nUtenteBean.setPassword(this.utenteBean.getPassword());
+		}		
 
-		} catch (PasswordNonCoincidentiException exc) {
-			JOptionPane.showMessageDialog(getParent(), "Oops! Password non confermata!", "Warning", JOptionPane.WARNING_MESSAGE);
-		} catch (UtenteInesistenteException e) {
-			JOptionPane.showMessageDialog(getParent(), "Oops! Login errato!", "Warning", JOptionPane.WARNING_MESSAGE);
-		} catch (LoginInconsistenteException e) {
-			// TODO Auto-generated catch block
+		try {
+			this.controllerGestisciProfilo.aggiornaProfilo(nUtenteBean);
+			JOptionPane.showMessageDialog(getParent(), "Hey! Il tuo profilo è stato correttamente aggiornato!", "Gestione Profilo", JOptionPane.INFORMATION_MESSAGE);		
+		} catch (DatiUtenteInconsistentiException | LoginInconsistenteException e) {
+			JOptionPane.showMessageDialog(getParent(), "Oops! Qualcosa è andato storto durante l'aggiornamento del profilo! Riprova più tardi.", "Gestione Profilo", JOptionPane.ERROR_MESSAGE);		
 			e.printStackTrace();
-		} catch (DatiUtenteInconsistentiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		}		
+	}
+	
+	private boolean controllaPasswordVecchia() {
+		boolean bool = (this.utenteBean.getPassword().equals(String.valueOf(this.passwordfieldPasswordVecchia.getPassword())));
 		
+		if (!bool) JOptionPane.showMessageDialog(getParent(), "Oops! Password corrente errata!", "Gestione Profilo", JOptionPane.ERROR_MESSAGE);		
+
+		
+		return bool;
+	}
+	
+	private boolean controllaPasswordNuova() {
+		boolean bool = (String.valueOf(this.passwordfieldPasswordNuova.getPassword()).equals(String.valueOf(this.passwordfieldPasswordNuovaConferma.getPassword())));
+		
+		if (!bool) JOptionPane.showMessageDialog(getParent(), "Oops! Le password inserite non coincidono!", "Gestione Profilo", JOptionPane.ERROR_MESSAGE);
+		
+		return bool;
 	}
 	
 	public boolean hasModifiedPassword() {
