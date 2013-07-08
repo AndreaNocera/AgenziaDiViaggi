@@ -883,49 +883,55 @@ public class BoundaryProgettista_GestioneOfferta {
 			areaTestoOfferta="";
 			
 			if (tendinaViaPannello3.getItemCount() != 0) {
-				try {
+				
 					
 					if (!viaScelta.equals("-----")){
-						areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n";
 						
-						Set<Data> set = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+						try {
+							areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n";
+						
+							Set<Data> set = controllore.mostraOffertePerLaTratta(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
 			
-						Iterator<Data> it = set.iterator();
-						if(set.size() > 1){
-							//inserisco l'elemento neutro
-							tendinaOffertaPannello3.addItem("-----");
-						}
+							Iterator<Data> it = set.iterator();
+							if(set.size() > 1){
+								//inserisco l'elemento neutro
+								tendinaOffertaPannello3.addItem("-----");
+							}
 						    
-						while(it.hasNext()){
-							Data d = it.next();
-						    //inserisco l'elemento in tendina
-						    tendinaOffertaPannello3.addItem(d.stampaData());
-						}
+							while(it.hasNext()){
+								Data d = it.next();
+								//inserisco l'elemento in tendina
+								tendinaOffertaPannello3.addItem(d.stampaData());
+							}
 						    
-						tendinaOffertaPannello3.setEnabled(true);
-						tendinaOffertaPannello3.setSelectedIndex(0);
+							tendinaOffertaPannello3.setEnabled(true);
+							tendinaOffertaPannello3.setSelectedIndex(0);
+						
+							//ImpostoareaTestoOfferta
+							areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
+						
+							//Imposto areatestoCatalogo
+							areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
+											"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
+											"-----------\t\t----------\t\t----------\n";
+						
+						
+						} catch (IDEsternoElementoException e1) {
+							areaTestoPannello3.setText(e1.getMessage()+"\n");
+						} catch (TrattaInesistenteException e) {
+							areaTestoPannello3.setText(e.getMessage()+"\n");
+						} catch (OfferteNonPresentiException e) {
+							areaTestoOfferta = e.getMessage();
+						} catch (OffertaInesistenteException e) {
+							areaTestoOfferta = e.getMessage();
+						} 
+						areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);	
 						
 					}
 					
-					//ImpostoareaTestoOfferta
-					areaTestoOfferta = controllore.mostraListaOffertaInCatalogo(ambienteScelto, mezzoScelto, partenzaScelta, arrivoScelto, viaScelta);
-					
-					//Imposto areatestoCatalogo
-					areaTestoCatalogo = ambienteScelto + " " + mezzoScelto + " " + partenzaScelta + " : " + arrivoScelto + " -> " + viaScelta + "\n\n"  +
-										"ORA PARTENZA\tORA ARRIVO\t\tPOSTI\n" +
-										"-----------\t\t----------\t\t----------\n";
-						
-				} catch (IDEsternoElementoException e1) {
-					areaTestoPannello3.setText(e1.getMessage()+"\n");
-				} catch (TrattaInesistenteException e) {
-					areaTestoPannello3.setText(e.getMessage()+"\n");
-				} catch (OfferteNonPresentiException e) {
-					areaTestoOfferta = e.getMessage();
-				} catch (OffertaInesistenteException e) {
-					areaTestoOfferta = e.getMessage();
-				} 
-				areaTestoPannello3.setText(areaTestoImp + areaTestoCatalogo + areaTestoOfferta);
+	
 			} 
+					
 			
 			
 		}

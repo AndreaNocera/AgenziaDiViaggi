@@ -244,3 +244,16 @@ Data di Partenza: 01/01/2013, 02:00
 Data di Arrivo: 01/01/2013, 02:01
 Posti disponibili: 1
 
+[08/07/2013, 16:21:17] RIMOSSA OFFERTA: 
+Viaggio Via Aria: Boing  ->  Napoli : Cagliari  ->  (Diretto)
+Data di Partenza: 01/01/2013, 00:00
+
+[08/07/2013, 16:22:32] AGGIUNTO VIAGGIO Via Aria:
+Boing  ->  Napoli : Cagliari  ->  Roma
+
+[08/07/2013, 16:30:22] AGGIUNTA NUOVA OFFERTA: 
+Viaggio Via Aria: Boing  ->  Napoli : Cagliari  ->  (Diretto)
+Data di Partenza: 04/08/2013, 03:00
+Data di Arrivo: 04/08/2013, 03:54
+Posti disponibili: 32
+
