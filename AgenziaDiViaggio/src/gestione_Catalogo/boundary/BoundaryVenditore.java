@@ -1,7 +1,5 @@
-/**
- * 
- */
 package gestione_Catalogo.boundary;
+
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,12 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * @authors
+ * @authors 
  * Remo Sperlongano
  * Ivan Torre
  */
-public class BoundaryProgettista {
-	
+public class BoundaryVenditore {
 	
 	//campi istanza pannelli
 	private JPanel superPanel; //Pannello principale
@@ -38,12 +35,12 @@ public class BoundaryProgettista {
 		
 	//Elementi pannelloBottoni
 		
-	private static JButton bottoneGestioneOfferta;
+	private static JButton bottoneGestionePrenotazione;
 		
-	private GestioneOffertaAA ascoltatoreGestioneOfferta;
+	private GestionePrenotazioneAA ascoltatoreGestionePrenotazione;
 	    
 	    
-	public BoundaryProgettista(){
+	public BoundaryVenditore(){
 		
 		/*
 		 * definisco il SuperPannello
@@ -75,7 +72,7 @@ public class BoundaryProgettista {
 		labelTitolo.setSize(panelTitolo.getWidth(), panelTitolo.getHeight());
 		labelTitolo.setHorizontalAlignment(JLabel.CENTER);
 		labelTitolo.setVerticalAlignment(JLabel.CENTER);
-		labelTitolo.setText("PROGETTISTA");
+		labelTitolo.setText("VENDITORE");
 		panelTitolo.add(labelTitolo);			//aggiungo titolo al pannello1
 		
 		
@@ -112,15 +109,15 @@ public class BoundaryProgettista {
 		superPanel.add(panelBottoni);
 		
 		
-		bottoneGestioneOfferta = new JButton("GESTIONE OFFERTA");
-		bottoneGestioneOfferta.setBackground(Color.ORANGE);
-		bottoneGestioneOfferta.setBounds(panelBottoni.getWidth()/5*2, panelBottoni.getHeight()/4, panelBottoni.getWidth()/5, panelBottoni.getHeight()/2);
-		panelBottoni.add(bottoneGestioneOfferta);
+		bottoneGestionePrenotazione = new JButton("GESTIONE PRENOTAZIONE");
+		bottoneGestionePrenotazione.setBackground(Color.ORANGE);
+		bottoneGestionePrenotazione.setBounds(panelBottoni.getWidth()/5*2, panelBottoni.getHeight()/4, panelBottoni.getWidth()/5, panelBottoni.getHeight()/2);
+		panelBottoni.add(bottoneGestionePrenotazione);
 		
 		
 		//Ascoltatori per secondo pannello
-		ascoltatoreGestioneOfferta = new GestioneOffertaAA();
-		bottoneGestioneOfferta.addActionListener(ascoltatoreGestioneOfferta);
+		ascoltatoreGestionePrenotazione = new GestionePrenotazioneAA();
+		bottoneGestionePrenotazione.addActionListener(ascoltatoreGestionePrenotazione);
 		
 		
 		/*
@@ -143,7 +140,7 @@ public class BoundaryProgettista {
 	
 		public static void riattivaBottoni(){
 			//Riattivo tutti i bottoni di questo Pannello
-			bottoneGestioneOfferta.setEnabled(true); 
+			bottoneGestionePrenotazione.setEnabled(true); 
 		}
 	    
 	    
@@ -198,7 +195,7 @@ public class BoundaryProgettista {
 		 * Classi Ascoltatori per bottoni pannelloBottoni
 		 */
 		
-		private class GestioneOffertaAA implements ActionListener{
+		private class GestionePrenotazioneAA implements ActionListener{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -206,10 +203,10 @@ public class BoundaryProgettista {
 				panelTitolo.setVisible(true);
 				panelBottoni.setVisible(false);
 				panelBottoni.setVisible(true);
-				new BoundaryProgettista_GestioneOfferta(panelNext);  //Passo il resto del Pannello
+				new BoundaryVenditore_GestionePrenotazione(panelNext);  //Passo il resto del Pannello
 				
 				//Disattivo tutti i bottoni di questo Pannello
-				bottoneGestioneOfferta.setEnabled(false); 
+				bottoneGestionePrenotazione.setEnabled(false); 
 			}
 			
 		}

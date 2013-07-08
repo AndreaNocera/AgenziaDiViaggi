@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gestione_Catalogo.control;
 
 import gestione_Catalogo.entity.Data;
@@ -18,19 +15,16 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * @authors
+ * @authors 
  * Remo Sperlongano
  * Ivan Torre
  */
-public class ControlloreGestioneOfferta extends Controllore {
+public class ControlloreGestionePrenotazione extends Controllore{
 	
-	
-	
-	
-	public ControlloreGestioneOfferta(){
+	//costruttore
+	public ControlloreGestionePrenotazione(){
 		super();
 	}
-	
 	
 	
 	public void aggiungiOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, Integer[] data, int durata, int posti) throws TrattaInesistenteException, IDEsternoElementoException, OffertaException{
@@ -70,5 +64,5 @@ public class ControlloreGestioneOfferta extends Controllore {
 	}
 
 
+	
 }
-
