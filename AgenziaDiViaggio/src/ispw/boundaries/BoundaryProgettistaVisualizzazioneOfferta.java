@@ -55,7 +55,7 @@ public class BoundaryProgettistaVisualizzazioneOfferta extends JFrame {
 			BoundaryProgettistaGestioneOfferta boundaryProgettistaGestioneOfferta)
 			throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
 
-		this.controlloreProgettista = ControlloreProgettista.getIstance();
+		this.controlloreProgettista = ControlloreProgettista.getInstance();
 		this.boundaryProgettistaGestioneOfferta = boundaryProgettistaGestioneOfferta;
 
 		pannelloProgettistaVisualizzaOfferta = new JPanel();

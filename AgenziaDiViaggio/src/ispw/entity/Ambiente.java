@@ -25,7 +25,7 @@ public class Ambiente extends ElementoIntermedio{
 		super(id,valore);
 	}	
 	public void save() throws DAOException{
-		DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
+		DAOAmbiente daoAmbiente = DAOAmbiente.getInstance();
 		daoAmbiente.insert(this);
 	}
 	public void print() {
@@ -33,7 +33,7 @@ public class Ambiente extends ElementoIntermedio{
 		System.out.println(this.getId() + " " + this.getValore());
 	}
 	public static Ambiente getObjectByValue(String ambiente) throws DAOException{
-		DAOAmbiente daoAmbiente = DAOAmbiente.getIstance();
+		DAOAmbiente daoAmbiente = DAOAmbiente.getInstance();
 		return daoAmbiente.getObjectByValue(ambiente);
 	}
 }

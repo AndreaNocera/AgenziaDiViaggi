@@ -23,7 +23,7 @@ import java.sql.SQLException;
 
 public class DAOAmbiente extends DAO {
 
-	private static DAOAmbiente istance = null;
+	private static DAOAmbiente instance = null;
 
 	private static final String getListaAmbientiQuery = "SELECT * FROM `ambienti` WHERE 1";
 
@@ -72,18 +72,18 @@ public class DAOAmbiente extends DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 	}
 
-	public static DAOAmbiente getIstance() {
-		if (istance == null)
-			istance = new DAOAmbiente();
-		return istance;
+	public synchronized static DAOAmbiente getInstance() {
+		if (instance == null)
+			instance = new DAOAmbiente();
+		return instance;
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		Ambiente ambiente;
@@ -126,13 +126,13 @@ public class DAOAmbiente extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in insert SQLException.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 
 	}
 
 	@Override
-	public Ambiente read(Integer id) throws DAOException {
+	public synchronized Ambiente read(Integer id) throws DAOException {
 		Ambiente ambiente = new Ambiente();
 		try {
 			conn = getConnection(usr, pass);
@@ -154,12 +154,12 @@ public class DAOAmbiente extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in read.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 	}
 
 	@Override
-	public void update(Object obj) throws DAOException {
+	public synchronized void update(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Ambiente ambiente;
 		try {
@@ -180,13 +180,13 @@ public class DAOAmbiente extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in update.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException {
+	public synchronized void delete(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Ambiente ambiente;
 		try {
@@ -205,11 +205,11 @@ public class DAOAmbiente extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in delete.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 	}
 
-	public void printListaAmbienti() throws DAOException {
+	public synchronized void printListaAmbienti() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
 
@@ -225,11 +225,11 @@ public class DAOAmbiente extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in printListaAmbienti.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 	}
 	
-	public Ambiente getObjectByValue(String valore) throws DAOException {
+	public synchronized Ambiente getObjectByValue(String valore) throws DAOException {
 		String query = "SELECT * FROM `ambienti` WHERE `value` = ?";
 		Ambiente ambiente;
 		ResultSet rs = null;
@@ -272,7 +272,7 @@ public class DAOAmbiente extends DAO {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getIDByValue in SQL.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 	}
 	
@@ -281,7 +281,7 @@ public class DAOAmbiente extends DAO {
 	 * @param id
 	 * @return
 	 */
-	public String getValueById(Integer id) throws DAOException{
+	public synchronized String getValueById(Integer id) throws DAOException{
 		String query = "SELECT * FROM `ambienti` WHERE `id` = ?";
 		try {
 			//Situazione 2. Elemento presente
@@ -303,12 +303,12 @@ public class DAOAmbiente extends DAO {
 			// TODO Auto-generated catch block
 			throw new DAOException("Errore in getValue.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 		
 	}
 
-	public void dropTable() throws DAOException {
+	public synchronized void dropTable() throws DAOException {
 		try {
 			conn = getConnection(usr, pass);
 
@@ -320,7 +320,7 @@ public class DAOAmbiente extends DAO {
 		} catch (SQLException e) {
 			throw new DAOException("Errore in dropTable.");
 		} finally {
-			closeResource();
+			/*closeResource*/;
 		}
 	}
 

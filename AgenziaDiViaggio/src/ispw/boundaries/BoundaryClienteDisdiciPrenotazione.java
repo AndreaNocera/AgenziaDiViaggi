@@ -60,7 +60,7 @@ public class BoundaryClienteDisdiciPrenotazione extends JFrame {
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
 
-		this.controlloreCliente = ControlloreCliente.getIstance();
+		this.controlloreCliente = ControlloreCliente.getInstance();
 
 		pannelloDisdiciPrenotazione = new JPanel();
 

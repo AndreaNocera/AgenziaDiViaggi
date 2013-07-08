@@ -106,19 +106,19 @@ public class Prenotazione {
 	}
 	
 	public void save() throws DAOException {
-		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getIstance();
+		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getInstance();
 		daoPrenotazione.insert(this);
 	}
 
 	public void delete() throws DAOException {
 		// TODO Auto-generated method stub
 		//Cancellazione dei biglietti associati alla prenotazione
-		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+		DAOBiglietto daoBiglietto = DAOBiglietto.getInstance();
 		List<Biglietto> listaBiglietti = daoBiglietto.getListaBigliettiByIdPrenotazione(this.idPrenotazione);
 		for(Biglietto biglietto : listaBiglietti){
 			biglietto.delete();
 		}
-		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getIstance();
+		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getInstance();
 		daoPrenotazione.delete(this);
 	}
 	public void print() {
@@ -142,7 +142,7 @@ public class Prenotazione {
 	}
 	
 	public static Integer getNextId() throws DAOException{
-		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getIstance();
+		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getInstance();
 		return daoPrenotazione.getNextId();
 	}
 

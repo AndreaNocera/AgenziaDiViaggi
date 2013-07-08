@@ -153,24 +153,24 @@ public class Offerta {
 	 * @throws DAOException
 	 */
 	public void save() throws DAOException {
-		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
 		daoOfferta.insert(this);
 	}
 
 	public void delete() throws DAOException {
 		// TODO Auto-generated method stub
-		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
 		daoOfferta.delete(this);
 	}
 
 	public static Integer getNextId() throws DAOException {
-		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
 		return daoOfferta.getNextId();
 	}
 
 	public void updatePosti(Integer posti) {
 		// TODO Auto-generated method stub
-		DAOOfferta daoOfferta = DAOOfferta.getIstance();
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
 		daoOfferta.updatePosti(this, posti);
 	}
 

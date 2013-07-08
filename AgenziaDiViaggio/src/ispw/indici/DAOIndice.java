@@ -120,7 +120,7 @@ public class DAOIndice extends DAO {
 				Indice indice = new Indice(rs.getString(1), rs.getString(2),
 						rs.getString(3), rs.getDouble(4), new Data(rs.getInt(5),
 								rs.getInt(6), rs.getInt(7)), new Ora(
-								rs.getInt(6), rs.getInt(7)));
+								rs.getInt(8), rs.getInt(9)));
 				listaIndici.add(indice);
 			}
 		} catch (ClassCastException e) {

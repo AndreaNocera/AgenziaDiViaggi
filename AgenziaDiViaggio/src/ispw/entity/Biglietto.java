@@ -52,14 +52,14 @@ public class Biglietto {
 	public void setTraveler(Traveler traveler) {
 		this.traveler = traveler;
 	}
-	public void save() throws DAOException {
-		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+	public synchronized void save() throws DAOException {
+		DAOBiglietto daoBiglietto = DAOBiglietto.getInstance();
 		daoBiglietto.insert(this);
 	}
 
-	public void delete() throws DAOException {
+	public synchronized void delete() throws DAOException {
 		// TODO Auto-generated method stub
-		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+		DAOBiglietto daoBiglietto = DAOBiglietto.getInstance();
 		daoBiglietto.delete(this);
 	}
 	
@@ -69,13 +69,13 @@ public class Biglietto {
 	public void print(){
 		System.out.println(idBiglietto + " " + idPrenotazione + " " + traveler.getString());
 	}
-	public static Integer getNextId() throws DAOException {
-		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+	public synchronized static Integer getNextId() throws DAOException {
+		DAOBiglietto daoBiglietto = DAOBiglietto.getInstance();
 		return daoBiglietto.getNextId();
 	}
-	public static Biglietto getObjectById(Integer idBiglietto) throws DAOException {
+	public synchronized static Biglietto getObjectById(Integer idBiglietto) throws DAOException {
 		// TODO Auto-generated method stub
-		DAOBiglietto daoBiglietto = DAOBiglietto.getIstance();
+		DAOBiglietto daoBiglietto = DAOBiglietto.getInstance();
 		return daoBiglietto.read(idBiglietto);
 	}
 	@Override

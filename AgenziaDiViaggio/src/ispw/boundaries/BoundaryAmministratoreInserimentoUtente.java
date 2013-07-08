@@ -71,7 +71,7 @@ public class BoundaryAmministratoreInserimentoUtente extends JFrame {
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
 
-		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		this.controlloreAmministratore = ControlloreAmministratore.getInstance();
 
 		pannelloInserimentoUtente = new JPanel();
 

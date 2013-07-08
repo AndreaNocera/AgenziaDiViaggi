@@ -68,7 +68,7 @@ public class BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta extends JF
 	public BoundaryAmministratoreVisualizzaPrenotazioniSceltaTratta() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		this.controlloreAmministratore = ControlloreAmministratore.getInstance();
 		boundaryAmministratoreSceltaTratta = this;
 
 		/*

@@ -18,6 +18,7 @@ import ispw.exception.OraException;
 import ispw.exception.UtenteException;
 import ispw.indici.CalcoloIndici;
 import ispw.indici.Indice;
+import ispw.log.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,22 +30,22 @@ import java.util.List;
  */
 
 public class ControlloreAmministratore extends Controllore {
-	private static ControlloreAmministratore istance = null;
+	private static ControlloreAmministratore instance = null;
 	private static Catalogo catalogo = null;
 
-	public ControlloreAmministratore() throws DAOException, MapException,
+	private ControlloreAmministratore() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
 		super();
-		catalogo = Catalogo.getIstance();
+		catalogo = Catalogo.getInstance();
 
 	}
 
-	public static ControlloreAmministratore getIstance() throws DAOException,
+	public synchronized static ControlloreAmministratore getInstance() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		if (istance == null)
-			istance = new ControlloreAmministratore();
-		return istance;
+		if (instance == null)
+			instance = new ControlloreAmministratore();
+		return instance;
 	}
 
 	/**
@@ -58,9 +59,9 @@ public class ControlloreAmministratore extends Controllore {
 	 * @throws DataException
 	 * @throws SQLException
 	 */
-	public List<String> estrazioneAmbienti() throws DAOException, MapException,
+	public synchronized List<String> estrazioneAmbienti() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
-		Catalogo catalogo = Catalogo.getIstance();
+		Catalogo catalogo = Catalogo.getInstance();
 		List<Ambiente> listaAmbienti = catalogo.getAmbienti();
 		List<String> lista = new ArrayList<String>();
 		for (Ambiente ambiente : listaAmbienti)
@@ -80,7 +81,7 @@ public class ControlloreAmministratore extends Controllore {
 	 * @throws DataException
 	 * @throws SQLException
 	 */
-	public List<String> estrazioneMezzi(String ambiente) throws DAOException,
+	public synchronized List<String> estrazioneMezzi(String ambiente) throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
 		List<Mezzo> listaMezzi = catalogo.getMezzi(Ambiente
@@ -103,7 +104,7 @@ public class ControlloreAmministratore extends Controllore {
 	 * @throws DataException
 	 * @throws SQLException
 	 */
-	public List<String> estrazioneCittaPartenza(String ambiente, String mezzo)
+	public synchronized List<String> estrazioneCittaPartenza(String ambiente, String mezzo)
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 		List<Citta> listaCittaPartenza = catalogo.getCittaPartenza(
@@ -129,7 +130,7 @@ public class ControlloreAmministratore extends Controllore {
 	 * @throws DataException
 	 * @throws SQLException
 	 */
-	public List<String> estrazioneCittaArrivo(String ambiente, String mezzo,
+	public synchronized List<String> estrazioneCittaArrivo(String ambiente, String mezzo,
 			String cittaPartenza) throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
 		List<Citta> listaCittaArrivo = catalogo.getCittaArrivo(
@@ -157,7 +158,7 @@ public class ControlloreAmministratore extends Controllore {
 	 * @throws DataException
 	 * @throws SQLException
 	 */
-	public List<String> estrazioneVia(String ambiente, String mezzo,
+	public synchronized List<String> estrazioneVia(String ambiente, String mezzo,
 			String cittaPartenza, String cittaArrivo) throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
@@ -195,7 +196,7 @@ public class ControlloreAmministratore extends Controllore {
 	 * @throws DataException
 	 * @throws SQLException
 	 */
-	public List<String> visualizzaOfferta(List<String> listaCatalogo)
+	public synchronized List<String> visualizzaOfferta(List<String> listaCatalogo)
 			throws DAOException {
 		// TODO Auto-generated method stub
 
@@ -212,7 +213,7 @@ public class ControlloreAmministratore extends Controllore {
 
 	}
 
-	public List<String> visualizzaOffertaByData(List<String> listaCatalogo,
+	public synchronized List<String> visualizzaOffertaByData(List<String> listaCatalogo,
 			Integer giorno, Integer mese, Integer anno) throws DAOException {
 		List<Offerta> listaOfferta = catalogo.getListaOfferte(
 				Ambiente.getObjectByValue(listaCatalogo.get(0)),
@@ -229,7 +230,7 @@ public class ControlloreAmministratore extends Controllore {
 		return lista;
 	}
 
-	public List<String> visualizzaPrenotazioni(List<String> listaCatalogo,
+	public synchronized List<String> visualizzaPrenotazioni(List<String> listaCatalogo,
 			Integer idOfferta) {
 		List<Prenotazione> listaPrenotazioni = catalogo.getListaPrenotazioni(
 				listaCatalogo.get(0), listaCatalogo.get(1),
@@ -242,21 +243,21 @@ public class ControlloreAmministratore extends Controllore {
 		return prenotazioni;
 	}
 
-	public boolean verificaId(String offertaInserita) {
+	public synchronized boolean verificaId(String offertaInserita) {
 		// TODO Auto-generated method stub
 		if (offertaInserita.equals(""))
 			return false;
 		return true;
 	}
 
-	public boolean verificaDatiViaggiatore(String nome, String cognome,
+	public synchronized boolean verificaDatiViaggiatore(String nome, String cognome,
 			String email) {
 		if (nome.equals("") || cognome.equals("") || email.equals(""))
 			return false;
 		return true;
 	}
 
-	public boolean verificaDatiUtente(String username, String password,
+	public synchronized boolean verificaDatiUtente(String username, String password,
 			String nome, String cognome, String ruolo) {
 		// TODO Auto-generated method stub
 		if (username.equals("") || password.equals("") || nome.equals("")
@@ -265,13 +266,15 @@ public class ControlloreAmministratore extends Controllore {
 		return true;
 	}
 
-	public void inserimentoUtente(String username, String password,
+	public synchronized void inserimentoUtente(String username, String password,
 			String nome, String cognome, String ruolo) throws DAOException {
 		Utente utente = new Utente(username, password, nome, cognome, ruolo);
 		utente.save();
+		Log log = Log.getInstance();
+		log.ScriviLog("Amministratore", "Aggiunto utente " + username);
 	}
 
-	public List<String> visualizzaUtenti() throws DAOException {
+	public synchronized List<String> visualizzaUtenti() throws DAOException {
 		// TODO Auto-generated method stub
 		List<String> lista = new ArrayList<String>();
 		List<Utente> listaUtenti = Utente.getListaUtenti();
@@ -281,21 +284,23 @@ public class ControlloreAmministratore extends Controllore {
 		return lista;
 	}
 
-	public boolean verificaUsernameUtente(String username) {
+	public synchronized boolean verificaUsernameUtente(String username) {
 		// TODO Auto-generated method stub
 		if (username.equals(""))
 			return false;
 		return true;
 	}
 
-	public void rimozioneUtente(String username) throws DAOException,
+	public synchronized void rimozioneUtente(String username) throws DAOException,
 			SQLException, UtenteException {
 		// TODO Auto-generated method stub
 		Utente utente = Utente.getUtenteByUsername(username);
 		utente.delete();
+		Log log = Log.getInstance();
+		log.ScriviLog("Amministratore", "Rimosso utente " + username);
 	}
 
-	public void calcolaIndiciTuttiViaggi() throws DataException, OraException,
+	public synchronized void calcolaIndiciTuttiViaggi() throws DataException, OraException,
 			DAOException {
 		// TODO Auto-generated method stub
 
@@ -351,7 +356,7 @@ public class ControlloreAmministratore extends Controllore {
 		}
 	}
 
-	public void calcolaIndiciUltimoAnno() throws DataException, OraException,
+	public synchronized void calcolaIndiciUltimoAnno() throws DataException, OraException,
 			DAOException {
 		// TODO Auto-generated method stub
 

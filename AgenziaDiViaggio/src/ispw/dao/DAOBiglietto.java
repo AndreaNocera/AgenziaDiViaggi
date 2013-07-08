@@ -24,7 +24,7 @@ import ispw.exception.DAOException;
  */
 public class DAOBiglietto extends DAO{
 
-	private static DAOBiglietto istance = null;
+	private static DAOBiglietto instance = null;
 
 	private static final String getBigliettiQuery = "SELECT *"
 			+ "FROM `biglietti`";
@@ -74,18 +74,18 @@ public class DAOBiglietto extends DAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}
 	}
 
-	public static DAOBiglietto getIstance() {
-		if (istance == null)
-			istance = new DAOBiglietto();
-		return istance;
+	public synchronized static DAOBiglietto getInstance() {
+		if (instance == null)
+			instance = new DAOBiglietto();
+		return instance;
 	}
 
 	@Override
-	public void insert(Object obj) throws DAOException {
+	public synchronized void insert(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		Biglietto biglietto;
@@ -134,7 +134,7 @@ public class DAOBiglietto extends DAO{
 	}
 
 	@Override
-	public void update(Object obj) throws DAOException {
+	public synchronized void update(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Biglietto biglietto;
 		try {
@@ -159,7 +159,7 @@ public class DAOBiglietto extends DAO{
 	}
 
 	@Override
-	public void delete(Object obj) throws DAOException {
+	public synchronized void delete(Object obj) throws DAOException {
 		// TODO Auto-generated method stub
 		Biglietto biglietto;
 		try {
@@ -181,9 +181,9 @@ public class DAOBiglietto extends DAO{
 	}
 
 	@Override
-	public Biglietto read(Integer idBiglietto) throws DAOException {
+	public synchronized Biglietto read(Integer idBiglietto) throws DAOException {
 		Biglietto biglietto = new Biglietto();
-		DAOTraveler daoTraveler = DAOTraveler.getIstance();
+		DAOTraveler daoTraveler = DAOTraveler.getInstance();
 		try {
 			conn = getConnection(usr, pass);
 
@@ -207,7 +207,7 @@ public class DAOBiglietto extends DAO{
 		}
 	}
 	
-	public Integer getNextId() throws DAOException {
+	public synchronized Integer getNextId() throws DAOException {
 		try {
 			// Situazione 1. Tabella Vuota. Id da ritornare 1.
 			conn = getConnection(usr, pass);
@@ -226,10 +226,10 @@ public class DAOBiglietto extends DAO{
 		}
 	}
 
-	public List<Biglietto> getListaBigliettiByIdPrenotazione(Integer idPrenotazione) throws DAOException {
+	public synchronized List<Biglietto> getListaBigliettiByIdPrenotazione(Integer idPrenotazione) throws DAOException {
 		// TODO Auto-generated method stub
 		List<Biglietto> listaBiglietti = new ArrayList<Biglietto>();
-		DAOTraveler daoTraveler = DAOTraveler.getIstance();
+		DAOTraveler daoTraveler = DAOTraveler.getInstance();
 		try {
 			conn = getConnection(usr, pass);
 			ps = conn.prepareStatement(getListaBigliettiByIdPrenotazione);

@@ -70,7 +70,7 @@ public class BoundaryVenditoreVisualizzaOfferta extends JFrame {
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreVenditore = ControlloreVenditore.getIstance();
+		this.controlloreVenditore = ControlloreVenditore.getInstance();
 		this.boundaryVenditoreOrdinaViaggi = boundaryVenditoreOrdinaViaggi;
 		this.boundaryVenditoreVisualizzaOfferta = this;
 

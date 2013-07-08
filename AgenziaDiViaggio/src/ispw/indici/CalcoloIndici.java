@@ -16,54 +16,50 @@ import ispw.indici.DAOCalcoloIndici;
  */
 
 public class CalcoloIndici {
-	
+
 	private static CalcoloIndici instance;
-	
+
 	private CalcoloIndici() {
 	}
-	
-	public static CalcoloIndici getIstance(){
-		if(instance == null)
+
+	public static CalcoloIndici getIstance() {
+		if (instance == null)
 			instance = new CalcoloIndici();
 		return instance;
 	}
 
-	public double computaIndiciMetodoA(Integer idAmbiente,
-			Integer idMezzo, Integer idCittaPartenza, Integer idCittaArrivo) {
-		
+	public double computaIndiciMetodoA(Integer idAmbiente, Integer idMezzo,
+			Integer idCittaPartenza, Integer idCittaArrivo) {
+
 		// Calcolo Tratta/Mezzo
-		if(idCittaPartenza == null){
-			return computaIndiciSuTuttiIViaggi(idAmbiente.toString(), idMezzo.toString(), null, null);
+		if (idCittaPartenza == null) {
+			return computaIndiciSuTuttiIViaggi(idAmbiente.toString(),
+					idMezzo.toString(), null, null);
 		}
-		//Calcolo Mezzo/Ambiente
+		// Calcolo Mezzo/Ambiente
 		return computaIndiciSuTuttiIViaggi(idAmbiente.toString(),
 				idMezzo.toString(), idCittaPartenza.toString(),
 				idCittaArrivo.toString());
 	}
 
-		
-	public double computaIndiciMetodoB(Integer idAmbiente,
-			Integer idMezzo, Integer idCittaPartenza, Integer idCittaArrivo) {
+	public double computaIndiciMetodoB(Integer idAmbiente, Integer idMezzo,
+			Integer idCittaPartenza, Integer idCittaArrivo) {
 		// Calcolo Tratta/Mezzo
-		if(idCittaPartenza == null){
-			return computaIndiciUltimoAnno(idAmbiente.toString(), idMezzo.toString(), null, null);
+		if (idCittaPartenza == null) {
+			return computaIndiciUltimoAnno(idAmbiente.toString(),
+					idMezzo.toString(), null, null);
 		}
-		return computaIndiciUltimoAnno(idAmbiente.toString(), idMezzo.toString(), idCittaPartenza.toString(),
+		return computaIndiciUltimoAnno(idAmbiente.toString(),
+				idMezzo.toString(), idCittaPartenza.toString(),
 				idCittaArrivo.toString());
-	}
-
-	public double computaIndiciMetodoC(String idAmbiente,
-			String idMezzo, String idCittaSorg, String idCittaDest, String anno) {
-		return computaIndiciUltimaModifica(idAmbiente, idMezzo, idCittaSorg,
-				idCittaDest, anno);
 	}
 
 	/*
 	 * Computa gli indici in maniera gerarchica, tenendo conto delle
 	 * classi/superclassi.
 	 */
-	private double computaIndiciGerarchici(String idAmbiente,
-			String idMezzo, String idCittaSorg, String idCittaDest, String anno) {
+	private double computaIndiciGerarchici(String idAmbiente, String idMezzo,
+			String idCittaSorg, String idCittaDest, String anno) {
 		DAOCalcoloIndici dao = DAOCalcoloIndici.getInstance();
 
 		int numeratore;
@@ -99,9 +95,9 @@ public class CalcoloIndici {
 					anno);
 			denominatore = dao.getCountBiglietti(null, null, null, null, anno);
 		}
-		
-		//Se non ci sono prenotazioni relative alla classe selezionata.
-		if(denominatore == 0)
+
+		// Se non ci sono prenotazioni relative alla classe selezionata.
+		if (denominatore == 0)
 			return 0;
 		return (double) numeratore / (double) denominatore;
 	}
@@ -112,17 +108,18 @@ public class CalcoloIndici {
 				idCittaDest, null);
 	}
 
-	private double computaIndiciUltimoAnno(String idAmbiente,
-			String idMezzo, String idCittaSorg, String idCittaDest) {
+	private double computaIndiciUltimoAnno(String idAmbiente, String idMezzo,
+			String idCittaSorg, String idCittaDest) {
 		Calendar calendar = Calendar.getInstance();
 		int anno = calendar.get(Calendar.YEAR); // Setto all'anno corrente
 		return computaIndiciGerarchici(idAmbiente, idMezzo, idCittaSorg,
 				idCittaDest, anno + "");
 	}
 
-	private double computaIndiciUltimaModifica(String idAmbiente,
-			String idMezzo, String idCittaSorg, String idCittaDest, String anno) {
-		return computaIndiciGerarchici(idAmbiente, idMezzo, idCittaSorg,
-				idCittaDest, anno);
-	}
 }
+
+
+
+
+
+

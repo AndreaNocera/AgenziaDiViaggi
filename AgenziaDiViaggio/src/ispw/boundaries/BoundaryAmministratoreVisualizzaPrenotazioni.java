@@ -60,7 +60,7 @@ public class BoundaryAmministratoreVisualizzaPrenotazioni extends JFrame {
 
 		this.boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta = boundaryAmministatoreVisualizzaPrenotazioniSceltaTratta;
 		this.boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta = boundaryAmministratoreVisualizzaPrenotazioniSceltaOfferta;
-		this.controlloreAmministratore = ControlloreAmministratore.getIstance();
+		this.controlloreAmministratore = ControlloreAmministratore.getInstance();
 
 		pannelloAmministratoreVisualizzaPrenotazioni = new JPanel();
 

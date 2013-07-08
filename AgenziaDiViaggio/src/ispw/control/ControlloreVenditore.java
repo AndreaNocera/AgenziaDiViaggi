@@ -16,6 +16,7 @@ import ispw.exception.DataException;
 import ispw.exception.MapException;
 import ispw.exception.OraException;
 import ispw.exception.PostiException;
+import ispw.log.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,22 +27,22 @@ import java.util.List;
  */
 
 public class ControlloreVenditore extends Controllore {
-	private static ControlloreVenditore istance = null;
+	private static ControlloreVenditore instance = null;
 	private static Catalogo catalogo = null;
 
 	private ControlloreVenditore() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
 		super();
-		catalogo = Catalogo.getIstance();
+		catalogo = Catalogo.getInstance();
 
 	}
 
-	public static ControlloreVenditore getIstance() throws DAOException,
+	public static ControlloreVenditore getInstance() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		if (istance == null)
-			istance = new ControlloreVenditore();
-		return istance;
+		if (instance == null)
+			instance = new ControlloreVenditore();
+		return instance;
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class ControlloreVenditore extends Controllore {
 	 */
 	public List<String> estrazioneAmbienti() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
-		Catalogo catalogo = Catalogo.getIstance();
+		Catalogo catalogo = Catalogo.getInstance();
 		List<Ambiente> listaAmbienti = catalogo.getAmbienti();
 		List<String> lista = new ArrayList<String>();
 		for (Ambiente ambiente : listaAmbienti)
@@ -224,8 +225,14 @@ public class ControlloreVenditore extends Controllore {
 					idOfferta, acquirente, listaBiglietti);
 			// Inserimento della prenotazione nel catalogo
 			catalogo.inserimentoInPrenotazione(tratta, offerta, prenotazione);
-			// Decremento del numero dei posti nell'offerta
+			// Decremento del numero dei posti nell'offerta Locale
 			offerta.setPosti(offerta.getPosti() - numPostiPrenotati);
+			// Update dei posti sul database
+			offerta.updatePosti(offerta.getPosti());
+			
+			Log log = Log.getInstance();
+			log.ScriviLog("Venditore", "Aggiunta prenotazione " + prenotazione.getString());
+			
 			return prenotazione.getIdPrenotazione();
 		}
 
@@ -251,6 +258,11 @@ public class ControlloreVenditore extends Controllore {
 		// Incremento dei posti liberati nell'offerta
 		offerta.setPosti(offerta.getPosti()
 				+ prenotazione.getListaBiglietti().size());
+		// Update dei posti sul database
+		offerta.updatePosti(offerta.getPosti());
+		
+		Log log = Log.getInstance();
+		log.ScriviLog("Venditore", "Rimossa prenotazione " + prenotazione.getString());
 	}
 
 	/**
@@ -269,6 +281,7 @@ public class ControlloreVenditore extends Controllore {
 		// TODO Auto-generated method stub
 		Prenotazione prenotazione = catalogo
 				.getPrenotazioneById(idPrenotazione);
+		Integer numeroPosti = listaNomi.size();
 		while (!listaNomi.isEmpty()) {
 			Traveler traveler = Traveler.getObjectByValue(listaNomi.remove(0),
 					listaCognomi.remove(0), listaEmail.remove(0));
@@ -279,6 +292,15 @@ public class ControlloreVenditore extends Controllore {
 			// Save del biglietto
 			biglietto.save();
 		}
+		// Update dei posti nell'offerta
+		Offerta offerta = catalogo.getOffertaById(prenotazione.getIdOfferta());
+		// Incremento dei posti liberati nell'offerta
+		offerta.setPosti(offerta.getPosti() - numeroPosti);
+		// Update dei posti sul database
+		offerta.updatePosti(offerta.getPosti());
+		
+		Log log = Log.getInstance();
+		log.ScriviLog("Venditore", "Biglietti aggiunti alla prenotazione " + prenotazione.getString());
 	}
 
 	/**
@@ -296,6 +318,7 @@ public class ControlloreVenditore extends Controllore {
 		// TODO Auto-generated method stub
 		Prenotazione prenotazione = catalogo
 				.getPrenotazioneById(idPrenotazione);
+		Integer numeroPosti = listaBigliettiDaRimuovere.size();
 		while (!listaBigliettiDaRimuovere.isEmpty()) {
 			Integer idBiglietto = new Integer(
 					listaBigliettiDaRimuovere.remove(0));
@@ -305,22 +328,28 @@ public class ControlloreVenditore extends Controllore {
 			// database.
 			biglietto.print();
 			prenotazione.removeBiglietto(biglietto);
-			/*
-			 * Problema: Dopo la rimozione del biglietto la prenotazione rimane
-			 * la stessa. Vedere bene la removeBiglietto
-			 */
 			biglietto.delete();
 		}
 
+		// Update dei posti nell'offerta
+		Offerta offerta = catalogo.getOffertaById(prenotazione.getIdOfferta());
+		// Incremento dei posti liberati nell'offerta
+		offerta.setPosti(offerta.getPosti() + numeroPosti);
+		// Update dei posti sul database
+		offerta.updatePosti(offerta.getPosti());
+
 		// Cancello la prenotazione se non ho più biglietti associati.
 		if (prenotazione.getListaBiglietti().isEmpty()) {
-			Offerta offerta = catalogo.getOffertaById(prenotazione
-					.getIdOfferta());
 			Tratta tratta = catalogo.getTrattaById(offerta.getIdTratta());
 			catalogo.rimozioneInPrenotazione(tratta, offerta, prenotazione);
 			prenotazione.delete();
+			Log log = Log.getInstance();
+			log.ScriviLog("Venditore", "Rimossa prenotazione " + prenotazione.getString());
 			return true;
 		}
+		Log log = Log.getInstance();
+		log.ScriviLog("Venditore", "Rimossi biglietti da prenotazione " + prenotazione.getString());
+		
 		return false;
 	}
 

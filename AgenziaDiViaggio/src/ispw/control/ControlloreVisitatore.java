@@ -20,21 +20,21 @@ import java.util.List;
  * @author Gambella Riccardo Controllore Visitatore.
  */
 public class ControlloreVisitatore extends Controllore {
-	private static ControlloreVisitatore istance = null;
+	private static ControlloreVisitatore instance = null;
 	private static Catalogo catalogo = null;
 
 	private ControlloreVisitatore() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
 		super();
-		catalogo = Catalogo.getIstance();
+		catalogo = Catalogo.getInstance();
 	}
 
 	public static ControlloreVisitatore getIstance() throws DAOException,
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
-		if (istance == null)
-			istance = new ControlloreVisitatore();
-		return istance;
+		if (instance == null)
+			instance = new ControlloreVisitatore();
+		return instance;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ControlloreVisitatore extends Controllore {
 	 */
 	public List<String> estrazioneAmbienti() throws DAOException, MapException,
 			SQLException, DataException, OraException, CatalogoException {
-		Catalogo catalogo = Catalogo.getIstance();
+		Catalogo catalogo = Catalogo.getInstance();
 		List<Ambiente> listaAmbienti = catalogo.getAmbienti();
 		List<String> lista = new ArrayList<String>();
 		for (Ambiente ambiente : listaAmbienti)
@@ -224,25 +224,6 @@ public class ControlloreVisitatore extends Controllore {
 		return lista;
 	}
 
-	public boolean verificaDati(String giorno, String mese, String oraPartenza,
-			String minutiPartenza, String oraArrivo, String minutiArrivo,
-			String posti) {
-		if (giorno.equals("--") || mese.equals("--")
-				|| oraPartenza.equals("--") || minutiPartenza.equals("--")
-				|| oraArrivo.equals("--") || minutiArrivo.equals("--")
-				|| posti.equals(""))
-			return false;
-		return true;
-
-	}
-
-	public boolean verificaDati(String offerta) {
-		// TODO Auto-generated method stub
-		if (offerta.equals(""))
-			return false;
-		return true;
-	}
-	
 	public boolean verificaData(String giorno, String mese) {
 		// TODO Auto-generated method stub
 		if (giorno.equals("") || mese.equals(""))

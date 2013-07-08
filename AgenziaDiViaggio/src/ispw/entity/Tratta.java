@@ -97,14 +97,14 @@ public class Tratta {
 		this.via = via;
 	}
 
-	public void save() throws DAOException {
-		DAOTratta daoTratta = DAOTratta.getIstance();
+	public synchronized void save() throws DAOException {
+		DAOTratta daoTratta = DAOTratta.getInstance();
 		daoTratta.insert(this);
 	}
 
-	public void delete() throws DAOException {
+	public synchronized void delete() throws DAOException {
 		// TODO Auto-generated method stub
-		DAOTratta daoTratta = DAOTratta.getIstance();
+		DAOTratta daoTratta = DAOTratta.getInstance();
 		daoTratta.delete(this);
 	}
 
@@ -121,7 +121,7 @@ public class Tratta {
 				+ cittaArrivo.getValore() + " " + via.getValore() + " " + dataInserimentoTratta.getString() + ".");
 	}
 
-	public boolean contains(Ambiente ambiente, Mezzo mezzo,
+	public synchronized boolean contains(Ambiente ambiente, Mezzo mezzo,
 			Citta cittaPartenza, Citta cittaArrivo, Via via) {
 		// TODO Auto-generated method stub
 		if (this.ambiente.equals(ambiente) && this.mezzo.equals(mezzo)

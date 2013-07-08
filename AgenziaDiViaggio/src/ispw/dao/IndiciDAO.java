@@ -45,7 +45,7 @@ public class IndiciDAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			closeResource();
+			/*closeResource()*/;
 		}		
 	}
 	
@@ -134,7 +134,7 @@ public class IndiciDAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			closeResource();
+			/*closeResource()*/;
 		}
 		
 		return (int)risultato_count;

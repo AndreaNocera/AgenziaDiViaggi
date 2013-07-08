@@ -70,7 +70,7 @@ public class BoundaryClienteVisualizzaOfferta extends JFrame {
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreCliente = ControlloreCliente.getIstance();
+		this.controlloreCliente = ControlloreCliente.getInstance();
 		this.boundaryClienteOrdinaViaggi = boundaryClienteOrdinaViaggi;
 		this.boundaryClienteVisualizzaOfferta = this;
 

@@ -25,11 +25,11 @@ public class Mezzo extends ElementoIntermedio{
 		super(id,valore);
 	}	
 	public void save() throws DAOException{
-		DAOMezzo daoMezzo = DAOMezzo.getIstance();
+		DAOMezzo daoMezzo = DAOMezzo.getInstance();
 		daoMezzo.insert(this);
 	}
 	public static Mezzo getObjectByValue(String mezzo) throws DAOException{
-		DAOMezzo daoMezzo = DAOMezzo.getIstance();
+		DAOMezzo daoMezzo = DAOMezzo.getInstance();
 		return daoMezzo.getObjectByValue(mezzo);
 	}
 	

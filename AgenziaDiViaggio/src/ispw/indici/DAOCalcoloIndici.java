@@ -1,6 +1,7 @@
-/**
+/*
  * 
- * @author Luca Paoli e Jessica Lucia e Gambella Riccardo
+ * Autori: Luca Paoli e Jessica Lucia
+ * Revisione: Riccardo Gambella, Jessica Lucia e Luca Paoli
  * 
  */
 
@@ -27,8 +28,6 @@ public class DAOCalcoloIndici {
 	/* Costanti per l'accesso al DB MySql */
 	private static final String usr = "root";
 	private static final String pass = "root";
-
-	// private static final String queryOfferta = "";
 
 	/*
 	 * Variabili per la gestione della connessione e dei risultati delle query
@@ -301,17 +300,38 @@ public class DAOCalcoloIndici {
 	public int getCountBiglietti(String idAmbiente, String idMezzo,
 			String idCittaSorg, String idCittaDest, String anno) {
 
+		/*Flag che indica se occorre conteggiare anche la tratta inversa o meno*/
+		boolean flag_tratta = (idCittaDest != null && idCittaSorg != null) ? true : false;
+		
 		int risultato = 0;
+		int risultato_parziale = 0;
+		
 		List<Integer> listaOfferte = getIdOffertabyCatalogo(idAmbiente,
 				idMezzo, idCittaSorg, idCittaDest,anno);
+		
 		for (Integer temp : listaOfferte) {
-			int risultato_parziale = getCountBigliettifromOfferta(temp);
+			risultato_parziale = getCountBigliettifromOfferta(temp);
 
 			if (risultato_parziale < 0)
 				throw new IllegalArgumentException(
 						"Nel conteggio dei biglietti e' apparso un numero negativo!");
 
 			risultato += risultato_parziale;
+		}
+		
+		if(flag_tratta){
+			List<Integer> listaOfferteInverse = getIdOffertabyCatalogo(idAmbiente,
+					idMezzo, idCittaDest, idCittaSorg, anno);
+			
+			for(Integer temp : listaOfferteInverse){
+				risultato_parziale = getCountBigliettifromOfferta(temp);
+				
+				if (risultato_parziale < 0)
+					throw new IllegalArgumentException(
+							"Nel conteggio dei biglietti e' apparso un numero negativo!");
+	
+				risultato += risultato_parziale;
+			}
 		}
 
 		return risultato;

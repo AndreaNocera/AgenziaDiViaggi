@@ -79,7 +79,7 @@ public class BoundaryVenditorePrenotaViaggio extends JFrame {
 			throws DAOException, MapException, SQLException, DataException,
 			OraException, CatalogoException {
 
-		this.controlloreVenditore = ControlloreVenditore.getIstance();
+		this.controlloreVenditore = ControlloreVenditore.getInstance();
 		this.boundaryVenditoreOrdinaViaggi = boundaryVenditoreOrdinaViaggi;
 		this.boundaryVenditoreVisualizzaOfferta = boundaryVenditoreVisualizzaOfferta;
 
@@ -112,6 +112,7 @@ public class BoundaryVenditorePrenotaViaggio extends JFrame {
 		nome = new JTextField("", 20);
 		cognome = new JTextField("", 20);
 		email = new JTextField("", 20);
+		bigliettiInseriti.setEditable(false);
 
 		// Setting area
 		areaVisualizzazione = new JTextArea();
@@ -237,7 +238,7 @@ public class BoundaryVenditorePrenotaViaggio extends JFrame {
 							.prelevaComboBoxCatalogo();
 					Integer idOfferta = boundaryVenditoreVisualizzaOfferta
 							.getIdOfferta();
-					// L'acquirente è lo username dell'utente. Può essere
+					// L'acquirente ï¿½ lo username dell'utente. Puï¿½ essere
 					// estratto dalle sue informazioni.
 					Session session = Session.getIstance();
 					String acquirente = session.getUsername();

@@ -1,6 +1,7 @@
 package ispw.boundaries;
 
 import ispw.entity.Session;
+import ispw.test.TestThread;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -53,6 +54,9 @@ public class AABoundaryAvvio extends JFrame {
 	private AABoundaryAvvio boundaryAvvio;
 
 	public AABoundaryAvvio() {
+		
+		//Test sui thread
+		new TestThread();
 
 		boundaryAvvio = this;
 

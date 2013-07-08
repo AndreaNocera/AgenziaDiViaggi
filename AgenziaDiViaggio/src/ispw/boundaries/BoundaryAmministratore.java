@@ -5,16 +5,20 @@ import ispw.exception.DAOException;
 import ispw.exception.DataException;
 import ispw.exception.MapException;
 import ispw.exception.OraException;
+import ispw.log.Log;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 /**
  * 
@@ -40,6 +44,7 @@ public class BoundaryAmministratore extends JFrame {
 	public JButton visualizzaPrenotazioni;
 	public JButton gestioneUtenti;
 	public JButton calcolaIndici;
+	public JButton stampaLog;
 	
 	public JButton back;
 
@@ -87,10 +92,15 @@ public class BoundaryAmministratore extends JFrame {
 		calcolaIndici.setLocation(100, 300);
 		calcolaIndici.setSize(300, 50);
 		calcolaIndici.setFont(new Font("Arial", 0, 20));
+		
+		stampaLog = new JButton("Stampa log");
+		stampaLog.setLocation(100, 400);
+		stampaLog.setSize(300, 50);
+		stampaLog.setFont(new Font("Arial", 0, 20));
 
 		// Bottone back
 		back = new JButton("back");
-		back.setLocation(100, 400);
+		back.setLocation(500, 400);
 		back.setSize(panelTitolo.getWidth() / 4, 50);
 		back.setFont(new Font("Arial", 0, 20));
 
@@ -101,6 +111,7 @@ public class BoundaryAmministratore extends JFrame {
 		panelButtons.add(visualizzaPrenotazioni);
 		panelButtons.add(gestioneUtenti);
 		panelButtons.add(calcolaIndici);
+		panelButtons.add(stampaLog);
 		panelButtons.add(back);
 
 		pannelloAmministratore.add(panelButtons);
@@ -113,6 +124,7 @@ public class BoundaryAmministratore extends JFrame {
 		visualizzaPrenotazioni.addActionListener(buttonsListener);
 		gestioneUtenti.addActionListener(buttonsListener);
 		calcolaIndici.addActionListener(buttonsListener);
+		stampaLog.addActionListener(buttonsListener);
 		back.addActionListener(backListener);
 	}
 
@@ -141,6 +153,16 @@ public class BoundaryAmministratore extends JFrame {
 			else if(event.getSource() == calcolaIndici){
 				pannelloAmministratore.setVisible(false);
 				new BoundaryAmministratoreCalcolaIndici();
+			}
+			else if(event.getSource() == stampaLog){
+				Log log = Log.getInstance();
+				List<String> listaLog = log.CaricaLogLista();
+				System.out.println("Log.");
+				for(String temp : listaLog){
+					System.out.println(temp);
+				}
+				JOptionPane.showMessageDialog(AABoundaryAvvio.Frame,
+						"Log stampato su console.");
 			}
 		}
 	}

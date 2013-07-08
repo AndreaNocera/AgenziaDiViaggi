@@ -7,6 +7,8 @@ import ispw.exception.DataException;
 import ispw.exception.MapException;
 
 import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * <!-- begin-UML-doc --> <!-- end-UML-doc -->
@@ -16,7 +18,6 @@ import java.util.TreeMap;
  *            "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class MapOfferta extends TreeMap<Integer, Offerta> {
-
 	/**
 	 * <!-- begin-UML-doc --> <!-- end-UML-doc -->
 	 * 
@@ -27,8 +28,13 @@ public class MapOfferta extends TreeMap<Integer, Offerta> {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3072123529185663177L;
-
+	private static final long serialVersionUID = 3957741829514129408L;
+	private final Lock lock;
+	
+	public MapOfferta(){
+		lock = new ReentrantLock();
+	}
+	
 	/**
 	 * Inserisce la chiave istanziando un Offerta.
 	 * @throws DataException 
@@ -36,7 +42,9 @@ public class MapOfferta extends TreeMap<Integer, Offerta> {
 	public void insertRecord(Integer key) throws DataException {
 		// TODO Auto-generated method stub
 		if (!containsKey(key)) {
+			lock.lock();
 			super.put(key, new Offerta());
+			lock.unlock();
 		}
 	}
 
@@ -46,7 +54,9 @@ public class MapOfferta extends TreeMap<Integer, Offerta> {
 	public void insertRecord(Integer key, Offerta offerta) {
 		// TODO Auto-generated method stub
 		if (!containsKey(key)) {
+			lock.lock();
 			super.put(key, offerta);
+			lock.unlock();
 		}
 	}
 
@@ -59,8 +69,9 @@ public class MapOfferta extends TreeMap<Integer, Offerta> {
 		if (!containsKey(key)) {
 			throw new MapException("Errore in rimozione. Chiave non presente.");
 		}
+		lock.lock();
 		super.remove(key);
-
+		lock.unlock();
 	}
 
 }

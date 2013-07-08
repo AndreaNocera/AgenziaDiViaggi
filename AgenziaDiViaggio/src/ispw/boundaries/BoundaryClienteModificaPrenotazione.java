@@ -60,7 +60,7 @@ public class BoundaryClienteModificaPrenotazione extends JFrame {
 			MapException, SQLException, DataException, OraException,
 			CatalogoException {
 
-		this.controlloreCliente = ControlloreCliente.getIstance();
+		this.controlloreCliente = ControlloreCliente.getInstance();
 		this.boundaryClienteModificaPrenotazione = this;
 		pannelloModificaPrenotazione = new JPanel();
 
