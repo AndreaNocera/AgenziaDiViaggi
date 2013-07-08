@@ -19,8 +19,6 @@ import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.LoginBean;
 import gestioneutenti.model.bean.UtenteBean;
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,9 +53,7 @@ public class Login extends HttpServlet {
 			utenteBean = this.controllerLogin.login(loginBean);
 			HttpSession session = request.getSession(true);
 	        session.setAttribute("utente", utenteBean);
-	        RequestDispatcher rd = getServletContext().getRequestDispatcher("/Home.jsp");
-            rd.include(request, response);
-	        //response.sendRedirect("Home.jsp");
+            response.sendRedirect("Home.jsp");
 	        return;
 		} catch (UtenteInesistenteException | LoginInconsistenteException e) {
 			response.sendRedirect("FallimentoLogin.jsp");

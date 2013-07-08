@@ -16,12 +16,8 @@ package home.servlet;
 import gestioneutenti.controller.ControllerAmministraUtenti;
 import gestioneutenti.model.bean.UtenteBean;
 import gestioneutenti.model.competenze.Competenza;
-import home.exception.HomeException;
-
 import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,9 +29,6 @@ import javax.servlet.http.HttpSession;
 public class Home extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	
-	private static final String JSP_AMMINISTRAZIONE_UTENTI = "/AmministraUtenti.jsp";
-	private static final String JSP_LOGIN = "/Login.jsp";
 
     public Home() {
         super();
@@ -54,8 +47,7 @@ public class Home extends HttpServlet {
 				 List<UtenteBean> utenti = controller.getUtenti();
 				 HttpSession session = request.getSession(true);
 				 session.setAttribute("utenti", utenti);
-	             RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_AMMINISTRAZIONE_UTENTI);	             
-	             rd.include(request, response);
+				 response.sendRedirect("AmministraUtenti.jsp");
 	             return;
 	         } catch (Exception e) {
 	             e.printStackTrace();
@@ -70,18 +62,13 @@ public class Home extends HttpServlet {
 			try {
 				HttpSession session = request.getSession();
 				session.setAttribute("utente", null);
-                RequestDispatcher rd = getServletContext().getRequestDispatcher(JSP_LOGIN);
-                rd.include(request, response);
+                response.sendRedirect("Login.jsp");
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
             }
 		default:
-			try {
-				throw new HomeException();
-			} catch (HomeException exc) {
-				exc.printStackTrace();
-			}
+			return;
 		}
 		
 	}

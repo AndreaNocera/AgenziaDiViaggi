@@ -3,10 +3,7 @@ package gestioneutenti.servlet;
 import gestioneutenti.controller.ControllerAmministraUtenti;
 import gestioneutenti.exception.UtenteInesistenteException;
 import gestioneutenti.model.bean.UtenteBean;
-
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,8 +37,6 @@ public class GetUtente extends HttpServlet {
 			System.err.println("servlet: nome utentebean selezionato" + utenteBean.getNome());			
 			HttpSession session = request.getSession(true);
 	        session.setAttribute("utenteSelezionato", utenteBean);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/AmministraUtenti.jsp");
-            rd.include(request, response);
 	        return;
 		} catch (UtenteInesistenteException e) {
 			response.sendRedirect("FallimentoLogin.jsp");

@@ -4,7 +4,11 @@ $(function() {
 	
 	$( "button" ).button();	
 	
+	$( ".checkbox" ).button();
+	
 	$( ".radio" ).buttonset();
+	
+	$( ".selectable" ).selectable();
 	
 	$( ".datepicker" ).datepicker( {
 		show: {
@@ -13,7 +17,7 @@ $(function() {
 		hide: {
 			effect: "blind"
 		}
-	});
+	});	
 	
 	$( ".buttonOk" ).button({
 		icons: { primary: "ui-icon-check" }
@@ -87,6 +91,26 @@ $(function() {
 			}
 		}
 	}); 
+	
+	$( ".dialogMessaggioReload" ).dialog({
+		autoOpen: false,
+		draggable: false,
+		modal: true,
+		show: {
+			effect: "blind"
+		},
+		hide: {
+			effect: "blind"
+		},
+		buttons: {
+			Ok: function() {
+				$( this ).dialog( "close" );
+				setTimeout(function() {
+					location.reload();
+				}, 2000);
+			}
+		}
+	});
 	
 	$( ".dialogMessaggioErrore" ).dialog({
 		autoOpen: true,
