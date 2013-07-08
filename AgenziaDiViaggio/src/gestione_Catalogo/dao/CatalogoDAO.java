@@ -33,23 +33,23 @@ public class CatalogoDAO extends DAO {
 
 	private static CatalogoDAO istanza = null;
 
-	private static final String getCatalogoQuery = "SELECT * FROM CATALOGO";
+	private static final String getCatalogoQuery = "SELECT * FROM catalogo";
 
 	private static final String createQuery = 
-			"CREATE TABLE IF NOT EXISTS CATALOGO(" +
+			"CREATE TABLE IF NOT EXISTS catalogo(" +
 					"ID INTEGER PRIMARY KEY, " +
-					"AMBIENTE INTEGER, " +
-					"MEZZO INTEGER, " +
-					"CITTAPARTENZA INTEGER, " +
-					"CITTAARRIVO INTEGER, " +
-					"VIA INTEGER, " +
-					"INFO VARCHAR(100), " +
-					"DATA DATETIME, " +
-					"FOREIGN KEY (AMBIENTE) REFERENCES AMBIENTE (ID), "   +
-					"FOREIGN KEY (MEZZO) REFERENCES MEZZO (ID), " +
-					"FOREIGN KEY (CITTAPARTENZA) REFERENCES CITTA (ID), " +
-					"FOREIGN KEY (CITTAARRIVO) REFERENCES CITTA (ID), " +
-					"FOREIGN KEY (VIA) REFERENCES VIA (ID) " +
+					"ambiente INTEGER, " +
+					"mezzo INTEGER, " +
+					"cittapartenza INTEGER, " +
+					"cittaarrivo INTEGER, " +
+					"via INTEGER, " +
+					"info VARCHAR(100), " +
+					"data DATETIME, " +
+					"FOREIGN KEY (ambiente) REFERENCES ambiente (ID), "   +
+					"FOREIGN KEY (mezzo) REFERENCES mezzo (ID), " +
+					"FOREIGN KEY (cittapartenza) REFERENCES citta (ID), " +
+					"FOREIGN KEY (cittaarrivo) REFERENCES citta (ID), " +
+					"FOREIGN KEY (via) REFERENCES via (ID) " +
 					")";
 
 /*	SPOSTATE IN TRATTA DAO
@@ -68,7 +68,7 @@ public class CatalogoDAO extends DAO {
 			"WHERE ID=?";    */
 
 	private static final String dropQuery = 
-			"DROP TABLE CATALOGO IF EXISTS";     
+			"DROP TABLE catalogo IF EXISTS";     
 
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
@@ -77,18 +77,11 @@ public class CatalogoDAO extends DAO {
 	
 	private CatalogoDAO() {
 		try {
-			Class.forName(driverName);
-
-			conn = getConnection(usr, pass);
-
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(createQuery);
 
 			ps.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			closeResource();
@@ -106,7 +99,7 @@ public class CatalogoDAO extends DAO {
 	 * Viene letto tutta la tabella catalogo, e per ogni riga vengono lette tutti gli elementi e creati i corrispettivi oggetti
 	 * la riga non contiene il nome dei vari elementi, ma solo il loro id!!!
 	 * Per questo viene invocato il rispettivo DAO per ottenere dall'id il valore giusto
-	 * Infine verrà creato l'oggetto usando il giusto controllore (per capirci, quello che non invoca il DAO per salvare da db)
+	 * Infine verrï¿½ creato l'oggetto usando il giusto controllore (per capirci, quello che non invoca il DAO per salvare da db)
 	 * Creati tutti gli oggetti per un riga, lo aggiunge ad un arrayList.
 	 * Terminato il resultSet, ritorna l'Arraylist
 	 */
@@ -114,7 +107,7 @@ public class CatalogoDAO extends DAO {
 	public ArrayList<Tratta> getCatalogo(){
 		ArrayList<Tratta> tratte = new ArrayList<Tratta>();
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(getCatalogoQuery);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -129,15 +122,16 @@ public class CatalogoDAO extends DAO {
 				
 				IDEsternoElemento valore;
 				Integer id;
-
+				
 				//prendo l'id
 				Integer idTratta = rs.getInt(1);
-
+				System.out.println("idTratta" + idTratta.toString());
 				//creo oggetto ambiente
 				AmbienteDAO daoAmbiente = AmbienteDAO.getIstanza();
 				id = rs.getInt(2);
+				System.out.println("id " + id.toString());
 				valore = daoAmbiente.readOnlyValue(id);
-				
+				System.out.println(valore.toString());
 				Class<?> c = Class.forName("gestione_Catalogo.entity."+valore);   // per classi in un package, va messo il nome del package!!!"
 				
 				//preparo i parametri

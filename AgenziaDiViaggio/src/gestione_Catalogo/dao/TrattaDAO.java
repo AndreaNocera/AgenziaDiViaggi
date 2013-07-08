@@ -23,37 +23,38 @@ public class TrattaDAO extends DAO {
 	private static TrattaDAO istanza = null;
 	
 	private static final String createQuery = 
-			"CREATE TABLE IF NOT EXISTS CATALOGO(" +
-					"ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
-					"AMBIENTE INTEGER, " +
-					"MEZZO INTEGER, " +
-					"CITTAPARTENZA INTEGER, " +
-					"CITTAARRIVO INTEGER, " +
-					"VIA INTEGER, " +
-					"INFO VARCHAR(100), " +
-					"DATA DATETIME, " +
-					"FOREIGN KEY (AMBIENTE) REFERENCES AMBIENTE (ID), "   +
-					"FOREIGN KEY (MEZZO) REFERENCES MEZZO (ID), " +
-					"FOREIGN KEY (CITTAPARTENZA) REFERENCES CITTA (ID), " +
-					"FOREIGN KEY (CITTAARRIVO) REFERENCES CITTA (ID), " +
-					"FOREIGN KEY (VIA) REFERENCES VIA (ID) " +
-					")";
+		"CREATE TABLE IF NOT EXISTS catalogo(" +
+				"ID INTEGER PRIMARY KEY, " +
+				"ambiente INTEGER, " +
+				"mezzo INTEGER, " +
+				"cittapartenza INTEGER, " +
+				"cittaarrivo INTEGER, " +
+				"via INTEGER, " +
+				"info VARCHAR(100), " +
+				"data DATETIME, " +
+				"FOREIGN KEY (ambiente) REFERENCES ambiente (ID), "   +
+				"FOREIGN KEY (mezzo) REFERENCES mezzo (ID), " +
+				"FOREIGN KEY (cittapartenza) REFERENCES citta (ID), " +
+				"FOREIGN KEY (cittaarrivo) REFERENCES citta (ID), " +
+				"FOREIGN KEY (via) REFERENCES via (ID) " +
+				")";
+
 
 	private static final String insertQuery = 
-			"INSERT INTO CATALOGO " +
+			"INSERT INTO catalogo " +
 			"VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String updateQuery = 
-			"UPDATE CATALOGO SET " +
-			"ID=?, AMBIENTE=?, MEZZO=?, CITTAPARTENZA=?, CITTAARRIVO=?, VIA=?, INFO=?, DATA=? " +
+			"UPDATE catalogo SET " +
+			"ID=?, ambiente=?, mezzo=?, cittapartenza=?, cittarrivo=?, via=?, info=?, data=? " +
 			"WHERE ID=?";
 	private static final String deleteQuery = 
 			"DELETE FROM " +
-			"CATALOGO WHERE ID=?";
+			"catalogo WHERE ID=?";
 	private static final String findQuery = 
-			"SELECT * FROM CATALOGO " +
+			"SELECT * FROM catalogo " +
 			"WHERE ID=?";  
 	
-	private static final String getCatalogoQuery = "SELECT * FROM CATALOGO";
+	private static final String getCatalogoQuery = "SELECT * FROM catalogo";
 
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
@@ -68,16 +69,9 @@ public class TrattaDAO extends DAO {
 	 */
 	private TrattaDAO() {
 		try {
-			Class.forName(driverName);
-
-			conn = getConnection(usr, pass);
-
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(createQuery);
-
 			ps.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,7 +96,7 @@ public class TrattaDAO extends DAO {
 		// TODO Auto-generated method stub
 		try {
 
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 
 			ps = conn.prepareStatement(insertQuery);
 
@@ -137,7 +131,7 @@ public class TrattaDAO extends DAO {
 		;
 		String valore;
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 
 			ps = conn.prepareStatement(findQuery);
 
@@ -240,7 +234,7 @@ public class TrattaDAO extends DAO {
 	public void delete(Tratta tratta){
 		
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(deleteQuery);
 			System.out.println("Cancellazione della tratta nel db.");
 			
@@ -262,7 +256,7 @@ public class TrattaDAO extends DAO {
 		String query = "SELECT * FROM " + table + " " + "WHERE id=?";
 		ResultSet rs = null;
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(query);
 
 			ps.setInt(1, id);
@@ -287,7 +281,7 @@ public class TrattaDAO extends DAO {
 	public Integer getNextId(){
 		try {
 			// Situazione 1. Tabella Vuota. Id da ritornare 1.
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(getCatalogoQuery);
 			rs = ps.executeQuery();
 			if (!rs.next())

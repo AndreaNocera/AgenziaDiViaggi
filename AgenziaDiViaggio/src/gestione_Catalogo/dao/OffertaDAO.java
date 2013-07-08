@@ -26,39 +26,39 @@ import java.util.ArrayList;
 public class OffertaDAO extends DAO {
 	private static OffertaDAO istanza = null;
 
-	private static final String getListaOfferteQuery = "SELECT * FROM OFFERTA WHERE 1";
+	private static final String getListaOfferteQuery = "SELECT * FROM offerta WHERE 1";
 
 	private static final String createQuery = 
-			"CREATE TABLE IF NOT EXISTS OFFERTA(" +
+			"CREATE TABLE IF NOT EXISTS offerta(" +
 					"ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
-					"IDTRATTA INTEGER, " +
-					"DATAPARTENZA DATETIME, " +
-					"DATAARRIVO DATETIME, " +
-					"POSTI INTEGER, " +
-					"FOREIGN KEY (IDTRATTA) REFERENCES CATALOGO (ID) "   +
+					"idtratta INTEGER, " +
+					"datapartenza DATETIME, " +
+					"dataarrivo DATETIME, " +
+					"posti INTEGER, " +
+					"FOREIGN KEY (idtratta) REFERENCES catalogo (ID) "   +
 					")";
 
 	private static final String insertQuery = 
-			"INSERT INTO OFFERTA " +
+			"INSERT INTO offerta " +
 			"VALUES(?, ?, ?, ?, ?)";
 	
 	private static final String insertByValueQuery = 
-		"INSERT INTO OFFERTA(IDTRATTA,DATAPARTENZA,DATAARRIVO,POSTI) " +
+		"INSERT INTO offerta(idtratta,datapartenza,dataarrivo,posti) " +
 		"VALUES(?, ?, ?, ?)";
 	
 	private static final String updateQuery = 
-			"UPDATE OFFERTA SET " +
-			"IDTRATTA=?, DATAPARTENZA=?, DATAARRIVO=?, POSTI=? " +
+			"UPDATE offerta SET " +
+			"idtratta=?, datapartenza=?, dataarrivo=?, posti=? " +
 			"WHERE ID=? LIMIT 1";
 	private static final String deleteQuery = 
-			"DELETE FROM " +
-			"OFFERTA WHERE ID=? LIMIT 1";
+			"DELETE FROM offerta " +
+			"WHERE ID=? LIMIT 1";
 	private static final String findQuery = 
-			"SELECT * FROM OFFERTA " +
+			"SELECT * FROM offerta " +
 			"WHERE ID=? LIMIT 1";
 
 	private static final String findByValueQuery =
-			"SELECT * FROM OFFERTA " + 
+			"SELECT * FROM offerta " + 
 			"WHERE IDTRATTA=? AND DATAPARTENZA=? LIMIT 1";
 
 	private static final String dropQuery = "DROP TABLE OFFERTA IF EXISTS";
@@ -69,18 +69,12 @@ public class OffertaDAO extends DAO {
 
 	private OffertaDAO() {
 		try {
-			Class.forName(driverName);
-
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 
 			ps = conn.prepareStatement(createQuery);
 
 			ps.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			closeResource();
@@ -102,7 +96,7 @@ public class OffertaDAO extends DAO {
 	public Integer insertAndReturnId(Integer idTratta, Data dataPartenza, Data dataArrivo, Integer posti) {
 		ResultSet rs;
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(findByValueQuery);
 			ps.setInt(1, idTratta);
 			ps.setTimestamp(2, dataPartenza.getDataForDB());
@@ -159,7 +153,7 @@ public class OffertaDAO extends DAO {
 	public IDEsternoElemento readOnlyValue(Integer id) {
 		String s;
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(findQuery);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
@@ -181,7 +175,7 @@ public class OffertaDAO extends DAO {
 	public ArrayList<Offerta> getListaOfferte(){
 		ArrayList<Offerta> listaOfferte = new ArrayList<Offerta>();
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 			ps = conn.prepareStatement(getListaOfferteQuery);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -221,7 +215,7 @@ public class OffertaDAO extends DAO {
 	public void update(Mezzo mezzo){
 		// TODO Auto-generated method stub
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 
 			ps = conn.prepareStatement(updateQuery);
 
@@ -248,7 +242,7 @@ public class OffertaDAO extends DAO {
 		// TODO Auto-generated method stub
 		try {
 
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 
 			ps = conn.prepareStatement(deleteQuery);
 
@@ -269,7 +263,7 @@ public class OffertaDAO extends DAO {
 	
 	public void dropTable() {
 		try {
-			conn = getConnection(usr, pass);
+			conn = Persistenza.getConnection();
 
 			ps = conn.prepareStatement(dropQuery);
 

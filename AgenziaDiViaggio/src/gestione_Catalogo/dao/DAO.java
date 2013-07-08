@@ -17,52 +17,35 @@ import java.sql.SQLException;
  * Ivan Torre
  */
 public abstract class DAO {
-	protected static final String driverName = "com.mysql.jdbc.Driver";
-	protected static final String connectionURL = "jdbc:mysql:";
-	protected static final String URL = connectionURL + "//" + "localhost:3306"
-			+ "/";
-	protected static final String dbName = URL + "voyager";
-
-	protected static final String usr = "voyager";
-	protected static final String pass = "voyager";
 	
 	private static Connection conn = null;
 	private static PreparedStatement ps = null;
 	private static ResultSet rs = null;
 	
-	protected Connection getConnection(String user, String password)
-			{
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(dbName, user, password);
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-
+	protected Connection getConnection(String user, String password) {
+		Connection conn = Persistenza.getConnection();
 		return conn;
 	}
 
 	protected  void closeResource() {
-		if (conn != null)
+		if (rs != null)
 			try {
-				conn.close();
+				rs.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		if (ps != null)
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		if (rs != null)
+		if (conn != null)
 			try {
-				rs.close();
+				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 	}
 }

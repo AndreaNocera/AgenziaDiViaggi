@@ -4,6 +4,7 @@
  */
 package gestione_Catalogo.dao_new;
 
+import gestione_Catalogo.dao.Persistenza;
 import gestione_Catalogo.entity.ElementoCatalogo;
 import gestione_Catalogo.entity.IDEsternoElemento;
 //import java.lang.reflect.Constructor;
