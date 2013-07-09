@@ -778,9 +778,11 @@ public class BoundaryProgettista_GestioneOfferta {
     			tendinaAmbientePannello2.setEnabled(true);
     			
     			
-    			//aggiorna l'anno in base alla data attuale
-    			//imposto l'anno attuale
+    			//aggiorna l'anno in base alla data attuale + 1 settimana
+    			//imposto l'anno attuale 
 				GregorianCalendar data = new GregorianCalendar();
+				//aumento la data attuale di una settimana
+				data.add(Calendar.MINUTE, 10080);
 				
 				int anno = data.get(Calendar.YEAR);
 				
@@ -806,6 +808,8 @@ public class BoundaryProgettista_GestioneOfferta {
     		tendinaAnnoPannello2.setEnabled(false);
     		//imposto l'anno attuale
 			GregorianCalendar data = new GregorianCalendar();
+			//aumento la data attuale di una settimana
+			data.add(Calendar.MINUTE, 10080);
 			
 			int anno = data.get(Calendar.YEAR);
 			
@@ -815,8 +819,8 @@ public class BoundaryProgettista_GestioneOfferta {
 				tendinaAnnoPannello2.addItem(new Integer(anno+i));
 				
 			}
-			tendinaAnnoPannello2.setSelectedItem(0);
-			
+			tendinaGiornoPannello2.setSelectedItem(0);
+			tendinaGiornoPannello2.setEnabled(false);
 			
 			tendinaMesePannello2.setSelectedIndex(0);
 			tendinaMesePannello2.setEnabled(false);
@@ -1271,12 +1275,11 @@ public class BoundaryProgettista_GestioneOfferta {
 				int anno = (int) tendinaAnnoPannello2.getSelectedItem();
 				
 				GregorianCalendar data = new GregorianCalendar();
+				//aumento la data attuale di una settimana
+				data.add(Calendar.MINUTE, 10080);
 				int annoAttuale = data.get(Calendar.YEAR);
 				
 				if (anno == annoAttuale){
-					
-					//aumento la data attuale di una settimana
-					data.add(Calendar.MINUTE, 10080);
 					
 					int mese = (data.get(Calendar.MONTH))+1;
 					
@@ -1305,6 +1308,16 @@ public class BoundaryProgettista_GestioneOfferta {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			//prendo la data attuale e l'aumento di una settimana:
+			GregorianCalendar data = new GregorianCalendar();
+			//aumento la data attuale di una settimana
+			data.add(Calendar.MINUTE, 10080);
+			
+			int annoAttuale = data.get(Calendar.YEAR);
+			int meseAttuale = (data.get(Calendar.MONTH))+1;
+			
+			
 			int anno = (int) tendinaAnnoPannello2.getSelectedItem();
 			
 			if (tendinaMesePannello2.getItemCount() != 0){
@@ -1312,38 +1325,80 @@ public class BoundaryProgettista_GestioneOfferta {
 				
 				int mese = (int) tendinaMesePannello2.getSelectedItem();
 				
-				if (mese == 11 || mese == 4 || mese == 6 || mese == 9){
-					tendinaGiornoPannello2.removeAllItems();
+				if (annoAttuale == anno && meseAttuale == mese){
+					//nel caso in cui siamo al mese e anno attuale
+					int giornoAttuale = data.get(Calendar.DAY_OF_MONTH);
 					
-					for (int i=1; i<31; i++){
-						tendinaGiornoPannello2.addItem(new Integer(i));
-					}
-				}
-				
-				if (mese == 2){
-					if (anno % 4 == 0){ // è bisestile
-						
+					if (mese == 11 || mese == 4 || mese == 6 || mese == 9){
 						tendinaGiornoPannello2.removeAllItems();
 						
-						for (int i=1; i<30; i++){
-							tendinaGiornoPannello2.addItem(new Integer(i));
-						}
-					} else {
-						tendinaGiornoPannello2.removeAllItems();
-						
-						for (int i=1; i<29; i++){
+						for (int i=giornoAttuale; i<31; i++){
 							tendinaGiornoPannello2.addItem(new Integer(i));
 						}
 					}
-				}
-				
-				if (mese == 1 || mese == 3 || mese==5 || mese==7 || mese==8 || mese==10 || mese==12){
-					tendinaGiornoPannello2.removeAllItems();
 					
-					for (int i=1; i<32; i++){
-						tendinaGiornoPannello2.addItem(new Integer(i));
+					if (mese == 2){
+						if (anno % 4 == 0){ // è bisestile
+							
+							tendinaGiornoPannello2.removeAllItems();
+							
+							for (int i=giornoAttuale; i<30; i++){
+								tendinaGiornoPannello2.addItem(new Integer(i));
+							}
+						} else {
+							tendinaGiornoPannello2.removeAllItems();
+							
+							for (int i=giornoAttuale; i<29; i++){
+								tendinaGiornoPannello2.addItem(new Integer(i));
+							}
+						}
+					}
+					
+					if (mese == 1 || mese == 3 || mese==5 || mese==7 || mese==8 || mese==10 || mese==12){
+						tendinaGiornoPannello2.removeAllItems();
+						
+						for (int i=giornoAttuale; i<32; i++){
+							tendinaGiornoPannello2.addItem(new Integer(i));
+						}
+					}
+				} else {
+					//In questo caso non siamo nell'anno o nel mese attuale
+					
+					if (mese == 11 || mese == 4 || mese == 6 || mese == 9){
+						tendinaGiornoPannello2.removeAllItems();
+						
+						for (int i=1; i<31; i++){
+							tendinaGiornoPannello2.addItem(new Integer(i));
+						}
+					}
+					
+					if (mese == 2){
+						if (anno % 4 == 0){ // è bisestile
+							
+							tendinaGiornoPannello2.removeAllItems();
+							
+							for (int i=1; i<30; i++){
+								tendinaGiornoPannello2.addItem(new Integer(i));
+							}
+						} else {
+							tendinaGiornoPannello2.removeAllItems();
+							
+							for (int i=1; i<29; i++){
+								tendinaGiornoPannello2.addItem(new Integer(i));
+							}
+						}
+					}
+					
+					if (mese == 1 || mese == 3 || mese==5 || mese==7 || mese==8 || mese==10 || mese==12){
+						tendinaGiornoPannello2.removeAllItems();
+						
+						for (int i=1; i<32; i++){
+							tendinaGiornoPannello2.addItem(new Integer(i));
+						}
 					}
 				}
+				
+				
 				
 			}
 			
@@ -1427,8 +1482,10 @@ public class BoundaryProgettista_GestioneOfferta {
 
 				}
 				
-	    		//imposto l'anno attuale
+	    		//imposto l'anno attuale + 1 settimana
 				GregorianCalendar data = new GregorianCalendar();
+				//aumento la data attuale di una settimana
+				data.add(Calendar.MINUTE, 10080);
 				
 				int anno = data.get(Calendar.YEAR);
 				
@@ -1438,8 +1495,9 @@ public class BoundaryProgettista_GestioneOfferta {
 					tendinaAnnoPannello2.addItem(new Integer(anno+i));
 					
 				}
-				tendinaAnnoPannello2.setSelectedItem(0);
-				tendinaAnnoPannello2.setEnabled(false);
+				
+			tendinaGiornoPannello2.setSelectedItem(0);
+			tendinaGiornoPannello2.setEnabled(false);
 			
 			tendinaMesePannello2.setSelectedIndex(0);
 			tendinaMesePannello2.setEnabled(false);
@@ -1492,8 +1550,10 @@ public class BoundaryProgettista_GestioneOfferta {
 			arrivoScelto = null;
 			viaScelta = null;
 			
-    		//imposto l'anno attuale
+    		//imposto l'anno attuale + 1 settimana
 			GregorianCalendar data = new GregorianCalendar();
+			//aumento la data attuale di una settimana
+			data.add(Calendar.MINUTE, 10080);
 			
 			int anno = data.get(Calendar.YEAR);
 			
@@ -1503,6 +1563,10 @@ public class BoundaryProgettista_GestioneOfferta {
 				tendinaAnnoPannello2.addItem(new Integer(anno+i));
 				
 			}
+			
+			tendinaGiornoPannello2.setSelectedItem(0);
+			tendinaGiornoPannello2.setEnabled(false);
+			
 			tendinaAnnoPannello2.setSelectedItem(0);
 			tendinaAnnoPannello2.setEnabled(false);
 			

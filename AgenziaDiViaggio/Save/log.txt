@@ -257,3 +257,29 @@ Data di Partenza: 04/08/2013, 03:00
 Data di Arrivo: 04/08/2013, 03:54
 Posti disponibili: 32
 
+[09/07/2013, 12:24:19] AGGIUNTA NUOVA OFFERTA: 
+Viaggio Via Terra: Bus  ->  Napoli : Isernia  ->  (Diretto)
+Data di Partenza: 06/09/2013, 18:05
+Data di Arrivo: 06/09/2013, 22:15
+Posti disponibili: 200
+
+[09/07/2013, 12:25:41] AGGIUNTA NUOVA OFFERTA: 
+Viaggio Via Aria: Boing  ->  Napoli : Isernia  ->  (Diretto)
+Data di Partenza: 16/07/2013, 00:00
+Data di Arrivo: 16/07/2013, 02:24
+Posti disponibili: 144
+
+[09/07/2013, 12:26:08] RIMOSSA OFFERTA: 
+Viaggio Via Aria: Boing  ->  Napoli : Isernia  ->  (Diretto)
+Data di Partenza: 16/07/2013, 00:00
+
+[09/07/2013, 12:26:27] AGGIUNTA NUOVA OFFERTA: 
+Viaggio Via Terra: Bus  ->  Napoli : Cagliari  ->  (Diretto)
+Data di Partenza: 16/07/2013, 00:00
+Data di Arrivo: 16/07/2013, 02:35
+Posti disponibili: 155
+
+[09/07/2013, 12:26:36] RIMOSSA OFFERTA: 
+Viaggio Via Terra: Bus  ->  Napoli : Cagliari  ->  (Diretto)
+Data di Partenza: 16/07/2013, 00:00
+
