@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import utils.swing.DateUtils;
+import utils.DateUtils;
 
 @WebServlet("/NuovoUtente")
 public class NuovoUtente extends HttpServlet {
@@ -26,7 +26,7 @@ public class NuovoUtente extends HttpServlet {
        
     public NuovoUtente() {
         super();
-        this.controllerAmministraUtenti = ControllerAmministraUtenti.getWebInstance();
+        this.controllerAmministraUtenti = ControllerAmministraUtenti.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

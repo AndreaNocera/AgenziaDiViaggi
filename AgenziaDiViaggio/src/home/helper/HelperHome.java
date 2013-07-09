@@ -58,8 +58,7 @@ public class HelperHome {
 		
 		Competenza[] competenze = ruolo.getCompetenze();
 		for (Competenza c : competenze) {
-			html += "<p><button class = \"buttonCompetenza buttonIconLabelExtraLarge\" id = \"button" + c.asCompactString() + "\" name = \"competenza\" value = \"" + c.getId() + "\" type = \"submit\">" + c.asString() + "</button></p>";
-		}
+			html += "<p><button class = \"buttonCompetenza buttonIconLabelExtraLarge\" id = \"button" + c.asCompactString() + "\" name = \"competenza\" value = \"" + c.getId() + "\" type = \"button\">" + c.asString() + "</button></p>";		}
 		
 		return html;
 	}

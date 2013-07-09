@@ -21,7 +21,7 @@ public class RimuoviUtente extends HttpServlet {
        
     public RimuoviUtente() {
         super();
-        this.controllerAmministraUtenti = ControllerAmministraUtenti.getWebInstance();
+        this.controllerAmministraUtenti = ControllerAmministraUtenti.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

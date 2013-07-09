@@ -27,7 +27,7 @@ public class AmministraUtenti extends HttpServlet {
        
     public AmministraUtenti() {
         super();
-        this.controllerAmministraUtenti = ControllerAmministraUtenti.getWebInstance();
+        this.controllerAmministraUtenti = ControllerAmministraUtenti.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

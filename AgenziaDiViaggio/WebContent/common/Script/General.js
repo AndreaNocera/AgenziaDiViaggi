@@ -1,3 +1,17 @@
+/**
+ * @project WebVoyager
+ * 
+ * @package WebContent/common/Script
+ * 
+ * @name General.js
+ *
+ * @description
+ *
+ * @author Giacomo Marciani
+ * 
+ */
+
+
 $(function() {
 
 	$( document ).tooltip();

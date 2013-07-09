@@ -1,5 +1,5 @@
 
-package utils.swing;
+package utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

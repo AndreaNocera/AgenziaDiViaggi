@@ -35,7 +35,7 @@ public class Login extends HttpServlet {
 
     public Login() {
     	super();
-        this.controllerLogin = ControllerLogin.getWebInstance();
+        this.controllerLogin = ControllerLogin.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,20 +43,23 @@ public class Login extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
 		LoginBean loginBean = new LoginBean().setUsername(username).setPassword(password);
 		
-		UtenteBean utenteBean;
 		try {
-			utenteBean = this.controllerLogin.login(loginBean);
+			UtenteBean utenteBean = this.controllerLogin.login(loginBean);
 			HttpSession session = request.getSession(true);
 	        session.setAttribute("utente", utenteBean);
-            response.sendRedirect("Home.jsp");
+            //response.sendRedirect("Home.jsp");
 	        return;
 		} catch (UtenteInesistenteException | LoginInconsistenteException e) {
-			response.sendRedirect("FallimentoLogin.jsp");
+			HttpSession session = request.getSession(true);
+	        session.setAttribute("utente", null);
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+	        //response.sendRedirect("FallimentoLogin.jsp");
 			return;
 		} 
 	}

@@ -8,21 +8,18 @@
  *
  * @description
  *
- * @author Giacomo Marciani (TEAM 9)
+ * @author Giacomo Marciani
  * 
  */
  -->
 
 <%@ page language = "java" contentType = "text/html; charset=ISO-8859-1" pageEncoding = "ISO-8859-1"%>
 
-<%@ include file = "common/Head.jsp" %>
 <%@ page import = "home.helper.HelperHome" %>
 <%@ page import = "gestioneutenti.model.bean.UtenteBean" %>
-<%@ page import = "java.util.Calendar" %>
-<%@ page import = "java.util.GregorianCalendar" %>
-<%@ page import = "gestioneutenti.model.bean.UtenteBean" %>
 <%@ page import = "gestioneutenti.model.ruoli.Ruolo" %>
-<%@ page import = "utils.swing.DateUtils" %>
+<%@ page import = "gestioneutenti.model.ruoli.AbstractRuolo" %>
+<%@ page import = "utils.DateUtils" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -31,51 +28,181 @@
 	<head>
 	
 		<meta http-equiv = "Content-Type" content = "text/html; charset=ISO-8859-1">
+				
+		<title>Voyager</title>	
 		
-		<link href = "common/css/Home.css" type = "text/css" rel = "stylesheet">
+		<link href = "common/img/favicon.ico" type = "image/x-icon" rel = "icon"/>
+		<link href = "common/img/favicon.ico" type = "image/x-icon" rel = "shortcut icon"/>	
+			
+		<script src = "common/Script/jquery-ui/js/jquery-1.9.1.js" type = "text/javascript"></script>
+		<script src = "common/Script/jquery-ui/js/jquery-ui-1.10.3.custom.js" type = "text/javascript"></script>
+		<link  href = "common/Script/jquery-ui/css/ui-lightness/jquery-ui-1.10.3.custom.css" type = "text/css" rel = "stylesheet">	
 		
+		<script src = "common/Script/General.js" type = "text/javascript"></script>
+		
+		<link href = "common/css/General.css" type = "text/css" rel = "stylesheet">			
+		  		
+	</head>		
+	
+	<body>
+	
 		<jsp:useBean id = "utente" class = "gestioneutenti.model.bean.UtenteBean" scope = "session"></jsp:useBean>	
-		
+	
 		<%
 			HelperHome helper = HelperHome.getInstance();
 		%>
-  		
-	</head>
 	
-	<script>
+		<%=
+			helper.getLogo()
+		%>				
 		
-			$(function() {	
+		<div class = "panelMain" id = "panelHome" align = "center">
+		
+			<p class = "title" id = "titleHome">HOME</p>
+			
+			<%= 
+				helper.getWelcome(utente.getNome()) 
+			%>			
+			
+			<%=
+				helper.getHomePanel(utente.getRuolo())
+			%>
+			
+		</div>	
+		
+		<div class = "dialogForm" id = "dialogGestioneProfilo" align = "center">
+			
+			<p class = "avviso" id = "avviso"></p>
+		
+  			<form>
+  			
+  				<fieldset>    				
+    				
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "nome" type = "text" name = "nome" placeholder = "Nome"/>
+    				<input class = "text ui-widget-content ui-corner-all" id = "cognome" type = "text" name = "cognome" placeholder = "Cognome"/></p>
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "citta" type = "text" name = "citta" placeholder = "Città"/>
+    				<input class = "datepicker text ui-widget-content ui-corner-all " id = "nascita" type = "text" name = "nascita"/></p>  
+    				<div class = "radio" id = "sesso">
+    					<input type = "radio" id = "uomo" name = "sesso" value = "Uomo"/><label for = "uomo">Uomo</label>
+    					<input type = "radio" id = "donna" name = "sesso" value = "Donna"/><label for = "donna">Donna</label>
+  					</div>  				  				
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "mail" type = "text" name = "mail" placeholder = "Mail"/>  
+    				<input class = "text ui-widget-content ui-corner-all" id = "username" type = "text" name = "username" placeholder = "Username" readonly/>    				
+    				<input class = "text ui-widget-content ui-corner-all" id = "ruolo" type = "text" name = "ruolo" placeholder = "Ruolo" readonly/>
+    				<p><input class = "checkbox" id = "cambiaPassword" type = "checkbox"/><label for = "cambiaPassword">Cambia Password</label></p> 
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "password" type = "password" name = "password" placeholder = "Password" readonly/></p>
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "passwordNuova" type = "password" name = "passwordNuova" placeholder = "Nuova Password" readonly/></p>
+    				<p><input class = "text ui-widget-content ui-corner-all" id = "passwordNuovaConferma" type = "password" name = "passwordNuovaConferma" placeholder = "Conferma Password" readonly/></p>
+  				
+  				</fieldset>
+  				
+  			</form>
+  			
+		</div>
+		
+		<div class = "dialogMessaggioReload" id = "dialogMessaggioGestioneProfiloSuccesso" title = "Gestione Profilo">
+  			<p>
+  				<span class = "ui-icon ui-icon-circle-check" style = "float: left; margin: 0 7px 50px 0;"></span>
+    			Il <b>tuo profilo</b> è stato correttamente aggiornato!
+  			</p>
+		</div>	
+		
+		<div class = "dialogMessaggio" id = "dialogMessaggioGestioneCatalogoFallimento" title = "Gestione Catalogo">
+  			<p>
+  				<span class = "ui-icon ui-icon-alert" style = "float: left; margin: 0 7px 50px 0;"></span>
+    			La <b>Gestione del Catalogo</b> è una funzionalità Voyager non ancora implementata!
+  			</p>
+  			<p>Riprova al secondo appello!</p>
+		</div>	
+		
+		<div class = "dialogMessaggio" id = "dialogMessaggioGestioneOffertaFallimento" title = "Gestione Offerta">
+  			<p>
+  				<span class = "ui-icon ui-icon-alert" style = "float: left; margin: 0 7px 50px 0;"></span>
+    			La <b>Gestione dell'Offerta</b> è una funzionalità Voyager non ancora implementata! 
+  			</p>
+  			<p>Riprova al secondo appello!</p>
+		</div>		
+		
+		<script>
+		
+			function animazioneApertura() {
+				
+				var panelLogo = $( "#panelLogo" );
+				var panelHome = $( "#panelHome" );
+				
+				panelLogo.hide();
+				panelHome.hide();
+				
+				panelLogo.show( "drop", {direction : "up", easing: "easeOutBounce", duration: 1500}, function() {
+					panelHome.show( "drop", {direction : "left", easing: "swing"} );
+				});	
+				
+			}
+			
+			function animazioneChiusura() {
+				
+				var panelLogo = $( "#panelLogo" );
+				var panelHome = $( "#panelHome" );
+				
+				panelHome.hide( "drop", {direction : "left", easing: "swing"}, function() {
+					panelLogo.hide( "drop", {direction : "up", easing: "easeOutBounce", duration: 1500});
+				});
+				
+			}
+		
+			$(window).load(function() {
+				
+				animazioneApertura();
+				
+			});
+			
+			function goTo(address) {
+				
+				var panelLogo = $( "#panelLogo" );
+				var panelHome = $( "#panelHome" );
+				
+				panelHome.hide( "drop", {direction : "left", easing: "swing"}, function() {
+					panelLogo.hide( "drop", {direction : "up", easing: "easeOutBounce", duration: 1500}, function() {
+						window.location = address;
+					});
+				});
+				
+			}
+		
+			$(function() {					
 				
 				var nome = $( "#dialogGestioneProfilo #nome" );
 		    	var cognome = $( "#dialogGestioneProfilo #cognome" );
 		    	var citta = $( "#dialogGestioneProfilo #citta" );
 		    	var nascita = $( "#dialogGestioneProfilo #nascita" );
 		    	var sesso = $( "#dialogGestioneProfilo #sesso" );
+		    	var uomo = $( "#dialogGestioneProfilo #sesso #uomo" );
+		    	var donna = $( "#dialogGestioneProfilo #sesso #donna" );
 		    	var mail = $( "#dialogGestioneProfilo #mail" );
 		    	var username = $( "#dialogGestioneProfilo #username" );
-		    	var ruolo = $( "#dialogGestioneProfilo #ruolo" );
 		    	var cambiaPassword = $( "#dialogGestioneProfilo #cambiaPassword" );
-		    	var passwordVecchia = $( "#dialogGestioneProfilo #passwordVecchia" );
+		    	var password = $( "#dialogGestioneProfilo #password" );
 		    	var passwordNuova = $( "#dialogGestioneProfilo #passwordNuova" );
-		    	var passwordNuovaConferma = $( "#dialogGestioneProfilo #passwordVecchia" );
+		    	var passwordNuovaConferma = $( "#dialogGestioneProfilo #passwordNuovaConferma" );
 		    	
 		    	var avviso = $( "#dialogGestioneProfilo #avviso" );
 		    	
 		    	var campi = $( [] )
-		    	.add(nome).add(cognome).add(citta).add(nascita).add(mail).add(username).add(password);
+		    	.add(nome).add(cognome).add(citta).add(nascita).add(mail).add(password).add(passwordNuova).add(passwordNuovaConferma);
 		    	
-		    	function inizializzaCampi() {
-		    		$( "#dialogGestioneProfilo #nome" ).val("<%=utente.getNome()%>");
-		    		$( "#dialogGestioneProfilo #cognome" ).val("<%=utente.getCognome()%>");
-		    		$( "#dialogGestioneProfilo #citta" ).val("<%=utente.getCitta()%>");
-		    		$( "#dialogGestioneProfilo #nascita" ).datepicker("setDate", new Date(<%=utente.getNascita().get(Calendar.YEAR)%>,	<%=utente.getNascita().get(Calendar.MONTH)%>, <%=utente.getNascita().get(Calendar.DAY_OF_MONTH)%>));
-		    		$( "#dialogGestioneProfilo #radioUomo" ).prop("checked", <%=(utente.getSesso().equals("Uomo"))%>);
-		    		$( "#dialogGestioneProfilo #radioDonna" ).prop("checked", <%=(utente.getSesso().equals("Donna"))%>);
-		    		$( "#dialogGestioneProfilo #sesso" ).buttonset("refresh");
-		    		$( "#dialogGestioneProfilo #mail" ).val("<%=utente.getMail()%>");
-		    		$( "#dialogGestioneProfilo #username" ).val("<%=utente.getUsername()%>");
-		    		$( "#dialogGestioneProfilo #ruolo" ).val("<%=utente.getRuolo().asString()%>");
-		    		$( "#dialogGestioneProfilo #checkCambiaPassword" ).removeAttr("checked").button("refresh");
+		    	function inizializzaCampi() {	
+		    		nome.val("<%=utente.getNome()%>");
+		    		cognome.val("<%=utente.getCognome()%>");
+		    		citta.val("<%=utente.getCitta()%>");
+		    		nascita.val("<%=DateUtils.getStringFromGregorianCalendar(utente.getNascita())%>");
+		    		uomo.prop("checked", <%=(utente.getSesso().equals("Uomo")) ? true : false%>);
+		    		donna.prop("checked", <%=(utente.getSesso().equals("Donna")) ? true : false%>);
+		    		sesso.buttonset( "refresh" );
+		    		mail.val("<%=utente.getMail()%>");
+		    		ruolo.val("<%=utente.getRuolo().asString()%>");
+		    		username.val("<%=utente.getUsername()%>");
+		    		cambiaPassword.prop("checked", false);
+		    		cambiaPassword.button( "refresh" );
 		    		
 		    		campi.removeClass( "ui-state-error" );
 			    	avviso.text( "" ).removeClass( "ui-state-highlight" );
@@ -118,7 +245,7 @@
 		    	
 		    	function controllaPassword(target) {
 		    		if ( target.val() != "<%=utente.getPassword()%>" ) {
-		    			target1.addClass( "ui-state-error" );
+		    			target.addClass( "ui-state-error" );
 		    			aggiornaAvviso( "La password inserita non è corretta.");
 	    	        	return false;
 		    		} else {
@@ -126,30 +253,38 @@
 		    		}
 		    	}
 		    	
-		    	$( "#dialogGestioneProfilo #checkCambiaPassword" ).change(function(){
+		    	cambiaPassword.change(function(){
 		    	    if ($( this ).is( ":checked" )){
-		    	        $( "#dialogGestioneProfilo #passwordCorrente" ).prop("disabled", false);
-		    	        $( "#dialogGestioneProfilo #passwordNuova" ).prop("disabled", false);
-		    	        $( "#dialogGestioneProfilo #passwordNuovaConferma" ).prop("disabled", false);
+		    	        password.prop("readonly", false);
+		    	        passwordNuova.prop("readonly", false);
+		    	        passwordNuovaConferma.prop("readonly", false);
 		    	    } else {
-		    	        $( "#dialogGestioneProfilo #passwordCorrente" ).prop("disabled", true);
-		    	        $( "#dialogGestioneProfilo #passwordNuova" ).prop("disabled", true);
-		    	        $( "#dialogGestioneProfilo #passwordNuovaConferma" ).prop("disabled", true);
+		    	    	password.prop("readonly", true);
+		    	    	passwordNuova.prop("readonly", true);
+		    	    	passwordNuovaConferma.prop("readonly", true);
 		    	    }
 		    	});
 		    	
 		    	function aggiornaProfilo() {
+		    		
+		    		var mPassword = null;
+		    		
+		    		if (cambiaPassword.is( ":checked" )) {
+		    			mPassword = passwordNuova.val();
+		    		} else {
+		    			mPassword = "<%=utente.getPassword()%>";
+		    		}
 		    		
 		    		$.post("http://localhost:8080/WebVoyager/GestioneProfilo", {
 		    			nome : nome.val(),
 		    			cognome : cognome.val(),
 		    			citta : citta.val(),
 		    			nascita : nascita.val(),
-		    			sesso : $( "#sesso :radio:checked" ).attr("value"),
+		    			sesso : $( "#dialogGestioneProfilo #sesso :radio:checked" ).attr("value"),
 		    			mail : mail.val(),
 		    			ruolo : "<%=utente.getRuolo().getId()%>",
 		    			username : "<%=utente.getUsername()%>",
-		    			password : passwordNuova.val()});
+		    			password : mPassword});
 		    	}
 				
 				$( "#dialogGestioneProfilo" ).dialog({   
@@ -157,10 +292,12 @@
 					modal: true,
 				    autoOpen: false,			    
 				    draggable: false,
+				    resizable: false,
 				    closeOnEscape: true,
 				    height: 515,
 				    width: 515,	
 				    open: function() {
+				    	$( this ).load()
 				    	inizializzaCampi();
 				    },
 				    show: {
@@ -185,12 +322,15 @@
 					    	campiValidi = campiValidi && controllaLunghezzaCampo(citta, "città", 1, 20 ) /*&& controllaEspressioneRegolare(citta, "città", regexpGenerale)*/;
 					    	//campiValidi = campiValidi && controllaLunghezzaCampo($( "#dialogNuovoUtente #nascita", "nascita", 1, 20 )) && controllaEspressioneRegolare("#dialogNuovoUtente #nascita", "nascita", regexpData);
 					    	campiValidi = campiValidi && controllaLunghezzaCampo( mail, "mail", 6, 80 ) /*&& controllaEspressioneRegolare("#dialogNuovoUtente #mail", "mail", regexpMail)*/;
-					    	campiValidi = campiValidi && controllaLunghezzaCampo(username, "username", 5, 20 ) /*&& controllaEspressioneRegolare(username, "username", regexpGenerale)*/;
-					    	campiValidi = campiValidi && controllaPassword(passwordVecchia);
-					    	campiValidi = campiValidi && controllaConfermaPassword(passwordNuova, passwordNuovaConferma);
-					    	campiValidi = campiValidi && controllaLunghezzaCampo(passwordNuova, "password", 5, 20 ) /*&& controllaEspressioneRegolare(password, "password", regexpGenerale)*/;
+					    	
+					    	if (cambiaPassword.is( ":checked" )) {
+					    		campiValidi = campiValidi && controllaPassword(password);
+						    	campiValidi = campiValidi && controllaConfermaPassword(passwordNuova, passwordNuovaConferma);
+						    	campiValidi = campiValidi && controllaLunghezzaCampo(passwordNuova, "password", 5, 20 ) /*&& controllaEspressioneRegolare(password, "password", regexpGenerale)*/;
+					    	}					    	
 
 					    	if(campiValidi) {
+					    		alert(nome.val()+cognome.val()+citta.val()+nascita.val()+mail.val()+username.val());
 					    		aggiornaProfilo();	
 					    		$( "#dialogMessaggioGestioneProfiloSuccesso" ).dialog( "open" );
 					    		$( this ).dialog( "close" );
@@ -202,74 +342,35 @@
 				    }
 				});
 				
+				$( "#buttonAmministrazioneUtenti" ).click(function() {
+			        goTo("http://localhost:8080/WebVoyager/AmministraUtenti.jsp");
+			        return false;
+			    });
+				
+				$( "#buttonGestioneCatalogo" ).click(function() {
+			        $( "#dialogMessaggioGestioneCatalogoFallimento" ).dialog( "open" );
+			        return false;
+			    });
+				
+				$( "#buttonGestioneOfferta" ).click(function() {
+			        $( "#dialogMessaggioGestioneOffertaFallimento" ).dialog( "open" );
+			        return false;
+			    });
+				
 				$( "#buttonGestioneProfilo" ).click(function() {
 			        $( "#dialogGestioneProfilo" ).dialog( "open" );
 			        return false;
 			    });
 				
+				$( "#buttonLogout" ).click(function() {
+					$.post("http://localhost:8080/WebVoyager/Logout");
+					goTo("http://localhost:8080/WebVoyager");
+					return false;
+				});
+				
 			});		
   			
   		</script>
-	
-	<body>
-	
-		<%=
-			helper.getLogo()
-		%>				
-		
-		<div class = "panelMain" id = "panelCompetenze" align = "center">
-		
-			<p class = "title" id = "titleHome">HOME</p>
-			
-			<%= 
-				helper.getWelcome(utente.getNome()) 
-			%>			
-			
-			<form name = "formCompetenze" action = "Home" method = "POST">
-			
-				<%=
-					helper.getHomePanel(utente.getRuolo())
-				%>
-				
-			</form>
-			
-		</div>	
-		
-		<div class = "dialogForm" id = "dialogGestioneProfilo"  align = "center">
-			
-			<p class = "datiValidi"></p>
-		
-  			<form>
-  				<fieldset>    				
-    				
-    				<p><input class = "text ui-widget-content ui-corner-all" id = "nome" type = "text" name = "nome" placeholder = "Nome"/>
-    				<input class = "text ui-widget-content ui-corner-all" id = "cognome" type = "text" name = "cognome" placeholder = "Cognome"/></p>
-    				<p><input class = "text ui-widget-content ui-corner-all" id = "citta" type = "text" name = "citta" placeholder = "Città"/>
-    				<input class = "datepicker text ui-widget-content ui-corner-all " id = "nascita" type = "text" name = "nascita"/></p>  
-    				<div class = "radio" id = "sesso">
-    					<input type = "radio" id = "uomo" name = "sesso" value = "Uomo"/><label for = "uomo">Uomo</label>
-    					<input type = "radio" id = "donna" name = "sesso" value = "Donna"/><label for = "donna">Donna</label>
-  					</div>  				  				
-    				<p><input class = "text ui-widget-content ui-corner-all" id = "mail" type = "text" name = "mail" placeholder = "Mail"/>  
-    				<input class = "text ui-widget-content ui-corner-all" id = "username" type = "text" name = "username" placeholder = "Username" disabled/>    				
-    				<input class = "text ui-widget-content ui-corner-all" id = "ruolo" type = "text" name = "ruolo" placeholder = "Ruolo" disabled/>
-    				<p><input class = "checkbox" id = "checkCambiaPassword" type = "checkbox" /><label for = "checkCambiaPassword">Cambia Password</label></p> 
-    				<p><input class = "text ui-widget-content ui-corner-all" id = "passwordCorrente" type = "password" name = "passwordCorrente" placeholder = "Password Corrente" disabled = "true"/></p>
-    				<p><input class = "text ui-widget-content ui-corner-all" id = "passwordNuova" type = "password" name = "passwordNuova" placeholder = "Nuova Password" disabled = "true"/></p>
-    				<p><input class = "text ui-widget-content ui-corner-all" id = "passwordNuovaConferma" type = "password" name = "passwordNuovaConferma" placeholder = "Conferma Password" disabled = "true"/></p>
-  				
-  				</fieldset>
-  				
-  			</form>
-  			
-		</div>
-		
-		<div class = "dialogMessaggio" id = "dialogMessaggioGestioneProfiloSuccesso" title = "Gestione Profilo">
-  			<p>
-  				<span class = "ui-icon ui-icon-circle-check" style = "float: left; margin: 0 7px 50px 0;"></span>
-    			Il <b>tuo profilo</b> è stato correttamente aggiornato!
-  			</p>
-		</div>	
 	
 	</body>
 	

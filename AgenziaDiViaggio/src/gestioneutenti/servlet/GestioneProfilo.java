@@ -26,7 +26,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import utils.swing.DateUtils;
+
+import utils.DateUtils;
 
 @WebServlet("/GestioneProfilo")
 public class GestioneProfilo extends HttpServlet {
@@ -37,7 +38,7 @@ public class GestioneProfilo extends HttpServlet {
 
     public GestioneProfilo() {
         super();
-        this.controllerGestisciProfilo = ControllerGestisciProfilo.getWebInstance();
+        this.controllerGestisciProfilo = ControllerGestisciProfilo.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,6 +55,8 @@ public class GestioneProfilo extends HttpServlet {
 		int ruolo = (int) Integer.parseInt(request.getParameter("ruolo"));
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
+		System.err.println("servlet GESTIONE PROFILO: " + nome + cognome + citta + nascita + sesso + mail + ruolo + username + password);
 		
 		UtenteBean nUtenteBean = new UtenteBean()
 		.setNome(nome)

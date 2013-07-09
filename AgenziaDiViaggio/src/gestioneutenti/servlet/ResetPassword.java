@@ -21,7 +21,7 @@ public class ResetPassword extends HttpServlet {
        
     public ResetPassword() {
     	super();
-    	this.controllerLogin = ControllerLogin.getWebInstance();
+    	this.controllerLogin = ControllerLogin.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
