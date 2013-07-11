@@ -4,21 +4,25 @@
 /**
  * @project WebVoyager
  * 
- * @package WebContent/css
+ * @package WebContent/common/css
  * 
- * @name Main.css
+ * @name Voyager.css
  *
  * @description
  *
- * @author Giacomo Marciani (TEAM 9)
+ * @author Giacomo Marciani
  * 
  */
  -->
 
-body{
+body {
 	background: #fbfbfb;
-	font: 62.5% "Trebuchet MS", sans-serif;
+	font: 62.5% "Trebuchet MS";
 	margin: 50px;
+}
+
+.popup {
+	display: none;
 }
 
 .panelLogo {
@@ -32,6 +36,19 @@ body{
 	margin-top: 25px;
 	margin-left: 450px;
 	margin-right: 450px;				
+}
+
+.panelLogoLogin {
+	margin-top: 150px;
+}
+		
+.panelMainLogin {
+	background: #ffffff;
+	border-radius: 10px;
+	padding: 25px;
+	margin-top: 25px;
+	margin-left: 500px;
+	margin-right: 500px;		
 }
 
 .panelAmministrazioneUtenti {

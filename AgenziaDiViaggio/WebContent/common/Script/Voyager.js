@@ -3,14 +3,13 @@
  * 
  * @package WebContent/common/Script
  * 
- * @name General.js
+ * @name Voyager.js
  *
  * @description
  *
  * @author Giacomo Marciani
  * 
  */
-
 
 $(function() {
 
@@ -31,22 +30,10 @@ $(function() {
 		hide: {
 			effect: "blind"
 		}
-	});	
-	
-	$( ".buttonOk" ).button({
-		icons: { primary: "ui-icon-check" }
 	});
 	
-	$( ".buttonCancel" ).button({
-		icons: { primary: "ui-icon-close" }
-	});
-	
-	$( ".buttonLock" ).button({
+	$( ".buttonLogin" ).button({
 		icons: { primary: "ui-icon-locked" }
-	});
-	
-	$( ".buttonUnlock" ).button({
-		icons: { primary: "ui-icon-unlocked" }
 	});
 	
 	$( ".buttonOption" ).button({
@@ -85,14 +72,19 @@ $(function() {
 		icons: { primary: "ui-icon-trash" }
 	});
 	
-	$( ".buttonSearch" ).button({
-		icons: { primary: "ui-icon-search" }
+	$( ".dialog" ).keypress(function(event) {				
+		if(event.keyCode == '13'){	
+			event.preventDefault();
+		}
 	});
 	
 	$( ".dialogMessaggio" ).dialog({
 		autoOpen: false,
 		draggable: false,
+		resizable: false,
 		modal: true,
+		height: "200",
+	    width: "250",
 		show: {
 			effect: "blind"
 		},
@@ -109,7 +101,10 @@ $(function() {
 	$( ".dialogMessaggioReload" ).dialog({
 		autoOpen: false,
 		draggable: false,
+		resizable: false,
 		modal: true,
+		height: "200",
+	    width: "250",
 		show: {
 			effect: "blind"
 		},
@@ -121,26 +116,7 @@ $(function() {
 				$( this ).dialog( "close" );
 				setTimeout(function() {
 					location.reload();
-				}, 2000);
-			}
-		}
-	});
-	
-	$( ".dialogMessaggioErrore" ).dialog({
-		autoOpen: true,
-		draggable: false,
-		modal: true,
-		show: {
-			effect: "shake"
-		},
-		hide: {
-			effect: "blind"
-		},
-		buttons: {
-			Ok: function() {
-				$( this ).hide();
-				parent.history.back();
-		        return false;
+				}, 1250);
 			}
 		}
 	});
