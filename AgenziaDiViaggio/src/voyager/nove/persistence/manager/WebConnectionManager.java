@@ -11,7 +11,7 @@
  * 
  */
 
-package voyager.nove.persistence;
+package voyager.nove.persistence.manager;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

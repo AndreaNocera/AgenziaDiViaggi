@@ -15,9 +15,9 @@ package voyager.nove.view.utils;
 
 import java.util.List;
 
-import gestioneutenti.model.bean.UtenteBean;
-
 import javax.swing.*;
+
+import voyager.nove.model.bean.UtenteBean;
 
 public class TabellaUtenti extends JTable{
 	

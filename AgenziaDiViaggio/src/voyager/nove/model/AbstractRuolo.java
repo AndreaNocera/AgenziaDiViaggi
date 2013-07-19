@@ -13,8 +13,6 @@
 
 package voyager.nove.model;
 
-import gestioneutenti.model.competenze.Competenza;
-
 public abstract class AbstractRuolo implements Ruolo{
 	
 	private static final long serialVersionUID = 1L;

@@ -13,8 +13,8 @@
 
 package voyager.nove.model;
 
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.model.bean.LoginBean;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.model.bean.LoginBean;
 
 public class Login {
 	

@@ -10,9 +10,7 @@
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
-package voyager.nove.persistence;
-
-import gestioneutenti.model.bean.UtenteBean;
+package voyager.nove.persistence.manager;
 
 import java.io.EOFException;
 import java.io.File;
@@ -23,7 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-
+import voyager.nove.model.bean.UtenteBean;
 
 public class SerializationManager {
 

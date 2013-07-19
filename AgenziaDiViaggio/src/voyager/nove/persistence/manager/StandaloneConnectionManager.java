@@ -11,7 +11,7 @@
  * 
  */
 
-package voyager.nove.persistence;
+package voyager.nove.persistence.manager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

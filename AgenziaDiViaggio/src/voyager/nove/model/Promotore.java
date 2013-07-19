@@ -13,12 +13,6 @@
 
 package voyager.nove.model;
 
-import gestioneutenti.model.competenze.Competenza;
-import gestioneutenti.model.competenze.GestioneCatalogo;
-import gestioneutenti.model.competenze.GestioneOfferta;
-import gestioneutenti.model.competenze.GestioneProfilo;
-import gestioneutenti.model.competenze.SignIn;
-
 public class Promotore extends AbstractRuolo{
 	
 	private static final long serialVersionUID = 1L;

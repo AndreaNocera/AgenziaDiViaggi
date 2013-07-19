@@ -13,7 +13,7 @@
 
 package voyager.nove.exception;
 
-import gestioneutenti.model.Login;
+import voyager.nove.model.Login;
 
 public class LoginInconsistenteException extends Exception {
 	

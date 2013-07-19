@@ -13,9 +13,9 @@
 
 package voyager.nove.model;
 
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-
 import java.util.GregorianCalendar;
+
+import voyager.nove.exception.DatiUtenteInconsistentiException;
 
 public class DatiUtente {
 	

@@ -13,10 +13,10 @@
 
 package voyager.nove.model.bean;
 
-import gestioneutenti.model.ruoli.Ruolo;
-
 import java.io.Serializable;
 import java.util.GregorianCalendar;
+
+import voyager.nove.model.Ruolo;
 
 public class UtenteBean implements Serializable{
 

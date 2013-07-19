@@ -11,14 +11,14 @@
  * 
  */
 
-package voyager.nove.model.dao;
+package voyager.nove.persistence.dao;
 
 import java.util.List;
 
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.Login;
-import gestioneutenti.model.Utente;
-import gestioneutenti.model.bean.UtenteBean;
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.model.Login;
+import voyager.nove.model.Utente;
+import voyager.nove.model.bean.UtenteBean;
 
 public interface UtenteDAO {
 	

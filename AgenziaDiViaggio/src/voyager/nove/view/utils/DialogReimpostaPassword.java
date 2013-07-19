@@ -13,18 +13,17 @@
 
 package voyager.nove.view.utils;
 
-import gestioneutenti.controller.ControllerLogin;
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.UtenteInesistenteException;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import utils.swing.GBCHelper;
-import utils.swing.ScreenUtils;
+import voyager.nove.controller.ControllerLogin;
+import voyager.nove.exception.DatiUtenteInconsistentiException;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.utils.swing.GBCHelper;
+import voyager.nove.utils.swing.ScreenUtils;
 
 public class DialogReimpostaPassword extends JDialog{
 	

@@ -13,13 +13,6 @@
 
 package voyager.nove.view;
 
-import gestioneutenti.controller.ControllerAmministraUtenti;
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.view.utils.DialogModificaUtente;
-import gestioneutenti.view.utils.TabellaUtenti;
-import gestioneutenti.view.utils.DialogNuovoUtente;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +23,14 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import utils.swing.GBCHelper;
+import voyager.nove.controller.ControllerAmministraUtenti;
+import voyager.nove.exception.DatiUtenteInconsistentiException;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.utils.swing.GBCHelper;
+import voyager.nove.view.utils.DialogModificaUtente;
+import voyager.nove.view.utils.DialogNuovoUtente;
+import voyager.nove.view.utils.TabellaUtenti;
 
 public class BoundaryAmministraUtenti extends JPanel{
 	

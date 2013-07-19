@@ -22,14 +22,14 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.model.competenze.Competenza;
-import home.controller.ControllerHome;
 import javax.swing.*;
 
-import utils.swing.FrameClosingListener;
-import utils.swing.GBCHelper;
+import voyager.nove.controller.ControllerHome;
+import voyager.nove.model.Competenza;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.utils.swing.FrameClosingListener;
+import voyager.nove.utils.swing.GBCHelper;
+
 
 public class BoundaryHome extends JFrame{
 	

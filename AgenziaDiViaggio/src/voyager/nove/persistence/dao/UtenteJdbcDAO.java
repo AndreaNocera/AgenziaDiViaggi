@@ -11,7 +11,7 @@
  * 
  */
 
-package voyager.nove.model.dao;
+package voyager.nove.persistence.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,14 +22,15 @@ import java.util.Calendar;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import gestioneutenti.db.ConnectionManager;
-import gestioneutenti.db.StandaloneConnectionManager;
-import gestioneutenti.db.WebConnectionManager;
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.Login;
-import gestioneutenti.model.Utente;
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.model.ruoli.FactoryRuoli;
+
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.model.FactoryRuoli;
+import voyager.nove.model.Login;
+import voyager.nove.model.Utente;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.persistence.manager.ConnectionManager;
+import voyager.nove.persistence.manager.StandaloneConnectionManager;
+import voyager.nove.persistence.manager.WebConnectionManager;
 
 public class UtenteJdbcDAO implements UtenteDAO{
 	

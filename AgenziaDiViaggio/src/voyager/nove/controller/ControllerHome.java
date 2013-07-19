@@ -15,11 +15,11 @@ package voyager.nove.controller;
 
 import javax.swing.JPanel;
 
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.model.competenze.Competenza;
-import gestioneutenti.view.BoundaryAmministraUtenti;
-import gestioneutenti.view.BoundaryGestisciProfilo;
-import gestioneutenti.view.BoundaryLogin;
+import voyager.nove.model.Competenza;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.view.BoundaryAmministraUtenti;
+import voyager.nove.view.BoundaryGestisciProfilo;
+import voyager.nove.view.BoundaryLogin;
 
 public class ControllerHome {
 	

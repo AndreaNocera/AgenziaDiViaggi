@@ -13,15 +13,16 @@
 
 package voyager.nove.view.utils;
 
-import utils.swing.DatePicker;
-import utils.swing.GBCHelper;
-import gestioneutenti.controller.ControllerAmministraUtenti;
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.model.ruoli.FactoryRuoli;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+
+import voyager.nove.controller.ControllerAmministraUtenti;
+import voyager.nove.model.FactoryRuoli;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.utils.swing.DatePicker;
+import voyager.nove.utils.swing.GBCHelper;
 
 public class DialogModificaUtente extends JDialog{
 	

@@ -17,18 +17,17 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import utils.mailer.Mailer;
-import utils.mailer.StandaloneMailer;
-import utils.mailer.WebMailer;
-
-import gestioneutenti.dao.UtenteDAO;
-import gestioneutenti.dao.UtenteJdbcDAO;
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.FactoryPassword;
-import gestioneutenti.model.Utente;
-import gestioneutenti.model.bean.UtenteBean;
+import voyager.nove.exception.DatiUtenteInconsistentiException;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.model.FactoryPassword;
+import voyager.nove.model.Utente;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.persistence.dao.UtenteDAO;
+import voyager.nove.persistence.dao.UtenteJdbcDAO;
+import voyager.nove.utils.mailer.Mailer;
+import voyager.nove.utils.mailer.StandaloneMailer;
+import voyager.nove.utils.mailer.WebMailer;
 
 public class ControllerAmministraUtenti {
 	

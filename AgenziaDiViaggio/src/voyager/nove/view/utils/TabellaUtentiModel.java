@@ -17,9 +17,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import gestioneutenti.model.bean.UtenteBean;
-
 import javax.swing.table.AbstractTableModel;
+
+import voyager.nove.model.bean.UtenteBean;
 
 public class TabellaUtentiModel extends AbstractTableModel{
 	

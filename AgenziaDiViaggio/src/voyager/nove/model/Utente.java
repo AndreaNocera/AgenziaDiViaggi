@@ -13,10 +13,9 @@
 
 package voyager.nove.model;
 
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.model.ruoli.Ruolo;
+import voyager.nove.exception.DatiUtenteInconsistentiException;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.model.bean.UtenteBean;
 
 public class Utente implements Comparable<Utente> {
 	

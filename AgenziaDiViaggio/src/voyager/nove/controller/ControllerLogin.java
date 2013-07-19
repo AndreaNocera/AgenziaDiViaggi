@@ -15,19 +15,22 @@ package voyager.nove.controller;
 
 import javax.swing.JFrame;
 
-import utils.mailer.Mailer;
-import utils.mailer.StandaloneMailer;
-import utils.mailer.WebMailer;
-import gestioneutenti.dao.UtenteDAO;
-import gestioneutenti.dao.UtenteJdbcDAO;
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.*;
-import gestioneutenti.model.bean.LoginBean;
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.view.utils.DialogReimpostaPassword;
-import home.view.BoundaryHome;
+import voyager.nove.exception.DatiUtenteInconsistentiException;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.model.FactoryResetCode;
+import voyager.nove.model.Login;
+import voyager.nove.model.ResetCode;
+import voyager.nove.model.Utente;
+import voyager.nove.model.bean.LoginBean;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.persistence.dao.UtenteDAO;
+import voyager.nove.persistence.dao.UtenteJdbcDAO;
+import voyager.nove.utils.mailer.Mailer;
+import voyager.nove.utils.mailer.StandaloneMailer;
+import voyager.nove.utils.mailer.WebMailer;
+import voyager.nove.view.BoundaryHome;
+import voyager.nove.view.utils.DialogReimpostaPassword;
 
 public class ControllerLogin {
 		

@@ -15,8 +15,6 @@ package voyager.nove.model;
 
 import java.io.Serializable;
 
-import gestioneutenti.model.competenze.Competenza;
-
 public interface Ruolo extends Comparable<Ruolo>, Serializable {
 	
 	int NONE = -1;

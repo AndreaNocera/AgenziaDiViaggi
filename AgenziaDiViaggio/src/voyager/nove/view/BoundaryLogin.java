@@ -13,21 +13,21 @@
 
 package voyager.nove.view;
 
-import gestioneutenti.controller.ControllerLogin;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.bean.LoginBean;
-import gestioneutenti.model.bean.UtenteBean;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
-import utils.swing.FrameClosingListener;
-import utils.swing.GBCHelper;
-import utils.swing.ScreenUtils;
+
+import voyager.nove.controller.ControllerLogin;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.model.bean.LoginBean;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.utils.swing.FrameClosingListener;
+import voyager.nove.utils.swing.GBCHelper;
+import voyager.nove.utils.swing.ScreenUtils;
 
 public class BoundaryLogin extends JFrame{
 	

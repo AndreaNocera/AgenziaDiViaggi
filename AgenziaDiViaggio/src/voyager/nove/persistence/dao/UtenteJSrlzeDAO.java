@@ -10,18 +10,19 @@
  * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
  * 
  */
-package voyager.nove.model.dao;
 
+package voyager.nove.persistence.dao;
 
-import gestioneutenti.exception.UtenteEsistenteException;
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.Login;
-import gestioneutenti.model.Utente;
-import gestioneutenti.model.bean.UtenteBean;
-import gestioneutenti.srlize.SerializationManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import voyager.nove.exception.UtenteEsistenteException;
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.model.Login;
+import voyager.nove.model.Utente;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.persistence.manager.SerializationManager;
 
 public class UtenteJSrlzeDAO implements UtenteDAO {
 

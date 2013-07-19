@@ -13,8 +13,6 @@
 
 package voyager.nove.model;
 
-import gestioneutenti.model.ruoli.FactoryRuoli;
-
 public final class FactoryUtenti {
 	
 	private static FactoryUtenti singletonFactoryUtenti = null;

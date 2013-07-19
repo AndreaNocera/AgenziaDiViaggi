@@ -13,13 +13,13 @@
 
 package voyager.nove.controller;
 
-import gestioneutenti.dao.UtenteDAO;
-import gestioneutenti.dao.UtenteJdbcDAO;
-import gestioneutenti.exception.DatiUtenteInconsistentiException;
-import gestioneutenti.exception.LoginInconsistenteException;
-import gestioneutenti.exception.UtenteInesistenteException;
-import gestioneutenti.model.Utente;
-import gestioneutenti.model.bean.UtenteBean;
+import voyager.nove.exception.DatiUtenteInconsistentiException;
+import voyager.nove.exception.LoginInconsistenteException;
+import voyager.nove.exception.UtenteInesistenteException;
+import voyager.nove.model.Utente;
+import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.persistence.dao.UtenteDAO;
+import voyager.nove.persistence.dao.UtenteJdbcDAO;
 
 public class ControllerGestisciProfilo {
 	
