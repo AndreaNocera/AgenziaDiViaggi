@@ -19,7 +19,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.model.utente.bean.UtenteBean;
 
 public class TabellaUtentiModel extends AbstractTableModel{
 	

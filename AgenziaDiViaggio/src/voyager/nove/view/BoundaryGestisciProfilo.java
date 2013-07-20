@@ -21,11 +21,11 @@ import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import voyager.nove.controller.ControllerGestisciProfilo;
+import voyager.nove.control.ControllerGestioneProfilo;
 import voyager.nove.exception.DatiUtenteInconsistentiException;
 import voyager.nove.exception.LoginInconsistenteException;
 import voyager.nove.exception.UtenteInesistenteException;
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.model.utente.bean.UtenteBean;
 import voyager.nove.utils.swing.DatePicker;
 import voyager.nove.utils.swing.GBCHelper;
 
@@ -74,10 +74,10 @@ public class BoundaryGestisciProfilo extends JPanel{
 	
 	private boolean passwordModificata;
 	
-	private ControllerGestisciProfilo controllerGestisciProfilo;
+	private ControllerGestioneProfilo controllerGestisciProfilo;
 		
 	public BoundaryGestisciProfilo(UtenteBean utenteBean) {
-		this.controllerGestisciProfilo = ControllerGestisciProfilo.getInstance();
+		this.controllerGestisciProfilo = ControllerGestioneProfilo.getInstance();
 		this.utenteBean = utenteBean;
 		this.panelMe = this;
 		this.passwordModificata = false;

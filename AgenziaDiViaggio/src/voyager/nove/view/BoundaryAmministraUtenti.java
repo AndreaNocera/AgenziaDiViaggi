@@ -23,10 +23,10 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import voyager.nove.controller.ControllerAmministraUtenti;
+import voyager.nove.control.ControllerGestioneUtenti;
 import voyager.nove.exception.DatiUtenteInconsistentiException;
 import voyager.nove.exception.LoginInconsistenteException;
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.model.utente.bean.UtenteBean;
 import voyager.nove.utils.swing.GBCHelper;
 import voyager.nove.view.utils.DialogModificaUtente;
 import voyager.nove.view.utils.DialogNuovoUtente;
@@ -53,10 +53,10 @@ public class BoundaryAmministraUtenti extends JPanel{
 	private JButton buttonRimuovi;
 	private TabellaUtenti tabellaUtenti;
 	
-	private ControllerAmministraUtenti controllerAmministraUtenti;
+	private ControllerGestioneUtenti controllerAmministraUtenti;
 	
 	public BoundaryAmministraUtenti() {
-		this.controllerAmministraUtenti = ControllerAmministraUtenti.getInstance();
+		this.controllerAmministraUtenti = ControllerGestioneUtenti.getInstance();
 		this.panelMe = this;
 		buildFrame();					
 	}	

@@ -1,16 +1,3 @@
-/**
- * @project WebVoyager
- * 
- * @package utils.swing
- * 
- * @name DatePicker.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package voyager.nove.utils.swing;
 
 import java.awt.event.ActionListener;
@@ -19,6 +6,16 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
+/**
+ * @name DatePicker
+ *
+ * @project Voyager
+ *
+ * @package voyager.nove.utils.swing
+ *
+ * @author Giacomo Marciani
+ *
+ */
 public class DatePicker extends JPanel{
 	
 	private static final long serialVersionUID = 1L;

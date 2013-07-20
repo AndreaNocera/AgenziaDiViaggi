@@ -1,24 +1,11 @@
-/**
- * @project WebVoyager
- * 
- * @package gestioneutenti.dao
- * 
- * @name UtenteDAO.java
- *
- * @description
- *
- * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
- * 
- */
-
 package voyager.nove.persistence.dao;
 
 import java.util.List;
 
 import voyager.nove.exception.UtenteInesistenteException;
-import voyager.nove.model.Login;
-import voyager.nove.model.Utente;
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.model.utente.Login;
+import voyager.nove.model.utente.Utente;
+import voyager.nove.model.utente.bean.UtenteBean;
 
 public interface UtenteDAO {
 	

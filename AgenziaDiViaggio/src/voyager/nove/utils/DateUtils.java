@@ -1,9 +1,18 @@
-
 package voyager.nove.utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/**
+ * @name DateUtils
+ *
+ * @project Voyager
+ *
+ * @package voyager.nove.utils
+ *
+ * @author Giacomo Marciani
+ *
+ */
 public class DateUtils {
 
 	public DateUtils() {}

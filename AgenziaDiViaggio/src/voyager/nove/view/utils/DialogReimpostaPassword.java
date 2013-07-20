@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import voyager.nove.controller.ControllerLogin;
+import voyager.nove.control.ControllerLogin;
 import voyager.nove.exception.DatiUtenteInconsistentiException;
 import voyager.nove.exception.LoginInconsistenteException;
 import voyager.nove.exception.UtenteInesistenteException;
@@ -54,7 +54,7 @@ public class DialogReimpostaPassword extends JDialog{
 		this.setResizable(false);
 		this.setLayout(new GridBagLayout());
 		
-		//Panel SignIn
+		//Panel Login
 		this.panelReimpostaPassword = new JPanel();
 		this.panelReimpostaPassword.setLayout(new GridBagLayout());
 		this.labelUsername = new JLabel("Username");

@@ -13,7 +13,7 @@
 
 package voyager.nove.exception;
 
-import voyager.nove.model.Login;
+import voyager.nove.model.utente.Login;
 
 public class LoginErratoException extends Exception {
 
@@ -22,7 +22,7 @@ public class LoginErratoException extends Exception {
 	public LoginErratoException() {}
 
 	public LoginErratoException(Login login) {
-		super("SignIn errato : " + login.getUsername() + " " + login.getPassword());
+		super("Login errato : " + login.getUsername() + " " + login.getPassword());
 	}
 
 }

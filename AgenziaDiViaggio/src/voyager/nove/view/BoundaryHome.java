@@ -24,13 +24,22 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import javax.swing.*;
 
-import voyager.nove.controller.ControllerHome;
-import voyager.nove.model.Competenza;
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.control.ControllerHome;
+import voyager.nove.model.utente.bean.UtenteBean;
+import voyager.nove.model.utente.competenze.Competenza;
 import voyager.nove.utils.swing.FrameClosingListener;
 import voyager.nove.utils.swing.GBCHelper;
 
-
+/**
+ * @Class BoundaryHome
+ *
+ * @Project Voyager
+ *
+ * @Package voyager.nove.view
+ *
+ * @Author Giacomo Marciani
+ *
+ */
 public class BoundaryHome extends JFrame{
 	
 	private static final long serialVersionUID = 1L;

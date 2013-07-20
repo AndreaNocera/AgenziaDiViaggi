@@ -1,18 +1,15 @@
-/**
- * @project WebVoyager
- * 
- * @package utils.mailer
- * 
- * @name Mailer.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package voyager.nove.utils.mailer;
 
+/**
+ * @name Mailer
+ *
+ * @project Voyager
+ *
+ * @package voyager.nove.utils.mailer
+ *
+ * @author Giacomo Marciani
+ *
+ */
 public interface Mailer {
 	
 	static final String MAIL = "giacomo.marciani.voyager@gmail.com";

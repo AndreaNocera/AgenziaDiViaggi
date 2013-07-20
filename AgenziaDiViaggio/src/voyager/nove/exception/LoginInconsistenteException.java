@@ -13,7 +13,7 @@
 
 package voyager.nove.exception;
 
-import voyager.nove.model.Login;
+import voyager.nove.model.utente.Login;
 
 public class LoginInconsistenteException extends Exception {
 	
@@ -22,7 +22,7 @@ public class LoginInconsistenteException extends Exception {
 	public LoginInconsistenteException() {}
 
 	public LoginInconsistenteException(Login login) {
-		super("SignIn inconsistente : " + login.getUsername() + " " + login.getPassword());
+		super("Login inconsistente : " + login.getUsername() + " " + login.getPassword());
 	}
 
 }

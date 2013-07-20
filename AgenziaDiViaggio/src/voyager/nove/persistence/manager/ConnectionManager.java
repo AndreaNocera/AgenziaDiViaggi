@@ -1,16 +1,3 @@
-/**
- * @project WebVoyager
- * 
- * @package gestioneutenti.db
- * 
- * @name ConnectionManager.java
- *
- * @description
- *
- * @author TEAM 9: Giacomo Marciani, Jesus Cevallos, Ilyas Aboki, Ludovic William
- * 
- */
-
 package voyager.nove.persistence.manager;
 
 import java.sql.Connection;

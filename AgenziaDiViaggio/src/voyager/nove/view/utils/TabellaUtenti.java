@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.swing.*;
 
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.model.utente.bean.UtenteBean;
 
 public class TabellaUtenti extends JTable{
 	

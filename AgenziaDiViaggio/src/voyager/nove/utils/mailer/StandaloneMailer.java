@@ -1,18 +1,15 @@
-/**
- * @project WebVoyager
- * 
- * @package utils.mailer
- * 
- * @name StandaloneMailer.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package voyager.nove.utils.mailer;
 
+/**
+ * @name StandaloneMailer
+ *
+ * @project Voyager
+ *
+ * @package voyager.nove.utils.mailer
+ *
+ * @author Giacomo Marciani
+ *
+ */
 public final class StandaloneMailer extends AbstractMailer {
 	
 	private static StandaloneMailer singletonMailer = null;

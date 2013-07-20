@@ -18,9 +18,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import voyager.nove.controller.ControllerAmministraUtenti;
-import voyager.nove.model.FactoryRuoli;
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.control.ControllerGestioneUtenti;
+import voyager.nove.model.utente.bean.UtenteBean;
+import voyager.nove.model.utente.ruolo.FactoryRuoli;
 import voyager.nove.utils.swing.DatePicker;
 import voyager.nove.utils.swing.GBCHelper;
 
@@ -62,11 +62,11 @@ public class DialogNuovoUtente extends JDialog{
 	
 	private UtenteBean utenteBean;
 	
-	private ControllerAmministraUtenti controllerAmministraUtenti;
+	private ControllerGestioneUtenti controllerAmministraUtenti;
 	
 	public DialogNuovoUtente(JFrame ownerFrame) {
 		super(ownerFrame, "Nuovo Utente", true);
-		this.controllerAmministraUtenti = ControllerAmministraUtenti.getInstance();
+		this.controllerAmministraUtenti = ControllerGestioneUtenti.getInstance();
 		this.utenteBean = new UtenteBean();
 		setDatiValidi(false);
 		buildDialog();		

@@ -21,7 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import voyager.nove.model.bean.UtenteBean;
+import voyager.nove.model.utente.bean.UtenteBean;
 
 public class SerializationManager {
 

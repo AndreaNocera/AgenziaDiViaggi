@@ -1,16 +1,3 @@
-/**
- * @project WebVoyager
- * 
- * @package utils.swing
- * 
- * @name FrameClosingListener.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package voyager.nove.utils.swing;
 
 import java.awt.event.WindowAdapter;
@@ -19,6 +6,16 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 	
+/**
+ * @name FrameClosingListener
+ *
+ * @project Voyager
+ *
+ * @package voyager.nove.utils.swing
+ *
+ * @author Giacomo Marciani
+ *
+ */
 public class FrameClosingListener extends WindowAdapter {
 	
 	JFrame parent;

@@ -1,0 +1,2 @@
+ * [20/6/2013 18:25:46] Aministratore --> Aggiunto utente;
+ * [20/6/2013 18:25:46] Cliente --> Prenotato un viaggio;

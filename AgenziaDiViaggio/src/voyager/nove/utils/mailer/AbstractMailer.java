@@ -1,16 +1,3 @@
-/**
- * @project WebVoyager
- * 
- * @package utils.mailer
- * 
- * @name AbstractMailer.java
- *
- * @description
- *
- * @author Giacomo Marciani (TEAM 9)
- * 
- */
-
 package voyager.nove.utils.mailer;
 
 import java.util.Properties;
@@ -22,6 +9,16 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * @name AbstractMailer
+ *
+ * @project Voyager
+ *
+ * @package voyager.nove.utils.mailer
+ *
+ * @author Giacomo Marciani
+ *
+ */
 public abstract class AbstractMailer implements Mailer {	
 	
 	protected Session session;
