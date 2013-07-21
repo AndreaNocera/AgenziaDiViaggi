@@ -1,103 +1,124 @@
 package voyager.nove.model.viaggio;
 
-import voyager.nove.model.viaggio.basic.Data;
-import voyager.nove.model.viaggio.basic.Info;
-import voyager.nove.persistence.dao.TrattaDAO;
+import voyager.nove.exception.DAOException;
+import voyager.nove.exception.DataException;
+import voyager.nove.persistence.dao.DAOTratta;
 
 public class Tratta {
-
-	private Integer ID;
-	
+	private Integer id;
 	private Ambiente ambiente;
 	private Mezzo mezzo;
-	private Citta partenza;
-	private Citta arrivo;
+	private Citta cittaPartenza;
+	private Citta cittaArrivo;
 	private Via via;
-	
-	private Info info;
-	
-	private Data dataInserimento;
-	
-	
-	public Tratta(Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via, Info info){
-		
-		TrattaDAO dao = TrattaDAO.getIstanza();
-		ID = dao.getNextId();
+	private Data dataInserimentoTratta;
+
+	public Tratta() throws DataException {
+		ambiente = new Ambiente();
+		mezzo = new Mezzo();
+		cittaPartenza = new Citta();
+		cittaArrivo = new Citta();
+		via = new Via();
+		dataInserimentoTratta = new Data(Data.generaGiorno(),Data.generaMese());
+	}
+
+	public Tratta(Integer id, Ambiente ambiente, Mezzo mezzo,
+			Citta cittaPartenza, Citta cittaArrivo, Via via) throws DataException {
+		this.id = id;
 		this.ambiente = ambiente;
 		this.mezzo = mezzo;
-		this.partenza = partenza;
-		this.arrivo = arrivo;
+		this.cittaPartenza = cittaPartenza;
+		this.cittaArrivo = cittaArrivo;
 		this.via = via;
-		this.info = info;
-		dataInserimento = new Data();
-		
-		this.info.updateInfo("--- Inserito il " + dataInserimento.stampaData());
-		
-		dao.insert(this);
-		
+		dataInserimentoTratta = new Data(Data.generaGiorno(),Data.generaMese());
 	}
 
-	
-	public Tratta(Integer ID, Ambiente ambiente, Mezzo mezzo, Citta partenza, Citta arrivo, Via via, Info info, Data dataInserimento){
-		
-		this.ID = ID;
-		this.ambiente = ambiente;
-		this.mezzo = mezzo;
-		this.partenza = partenza;
-		this.arrivo = arrivo;
-		this.via = via;
-		this.info = info;
-		
-		this.dataInserimento = dataInserimento;
-
-	}
-	
-	public Integer getID() {
-		return ID;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setID(Integer iD) {
-		ID = iD;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Ambiente getAmbiente() {
 		return ambiente;
 	}
 
+	public void setAmbiente(Ambiente ambiente) {
+		this.ambiente = ambiente;
+	}
+
 	public Mezzo getMezzo() {
 		return mezzo;
 	}
 
-	public Citta getPartenza() {
-		return partenza;
+	public void setMezzo(Mezzo mezzo) {
+		this.mezzo = mezzo;
 	}
 
-	public Citta getArrivo() {
-		return arrivo;
+	public Citta getCittaPartenza() {
+		return cittaPartenza;
+	}
+
+	public void setCittaPartenza(Citta cittaPartenza) {
+		this.cittaPartenza = cittaPartenza;
+	}
+
+	public Citta getCittaArrivo() {
+		return cittaArrivo;
+	}
+
+	public void setCittaArrivo(Citta cittaArrivo) {
+		this.cittaArrivo = cittaArrivo;
+	}
+	public Data getDataInserimento(){
+		return this.dataInserimentoTratta;
+	}
+	public void setDataInserimento(Data data){
+		this.dataInserimentoTratta = data;
 	}
 
 	public Via getVia() {
 		return via;
 	}
 
-	public String getInfo() {
-		return info.toString();
+	public void setVia(Via via) {
+		this.via = via;
 	}
 
-	public void setInfo(Info info) {
-		this.info = info;
+	public synchronized void save() throws DAOException {
+		DAOTratta daoTratta = DAOTratta.getInstance();
+		daoTratta.insert(this);
 	}
 
-	public Data getDataInserimento() {
-		return dataInserimento;
-	}	
-	
-	public boolean verifyExistence(String ambiente, String mezzo, String partenza, String arrivo, String via) {
-		if (this.ambiente.getIDEsternoElemento().equals(ambiente) && this.mezzo.getIDEsternoElemento().equals(mezzo)
-				&& this.partenza.getIDEsternoElemento().equals(partenza) && this.arrivo.getIDEsternoElemento().equals(arrivo) 
-				&& this.via.getIDEsternoElemento().equals(via))
+	public synchronized void delete() throws DAOException {
+		// TODO Auto-generated method stub
+		DAOTratta daoTratta = DAOTratta.getInstance();
+		daoTratta.delete(this);
+	}
+
+	public String getString() {
+		return (id + " " + ambiente.getValore() + " " + mezzo.getValore() + " "
+				+ cittaPartenza.getValore() + " " + cittaArrivo.getValore()
+				+ " " + via.getValore() + " " + dataInserimentoTratta.getString() + ".");
+
+	}
+
+	public void printTratta() {
+		System.out.println(id + " " + ambiente.getValore() + " "
+				+ mezzo.getValore() + " " + cittaPartenza.getValore() + " "
+				+ cittaArrivo.getValore() + " " + via.getValore() + " " + dataInserimentoTratta.getString() + ".");
+	}
+
+	public synchronized boolean contains(Ambiente ambiente, Mezzo mezzo,
+			Citta cittaPartenza, Citta cittaArrivo, Via via) {
+		// TODO Auto-generated method stub
+		if (this.ambiente.equals(ambiente) && this.mezzo.equals(mezzo)
+				&& this.cittaPartenza.equals(cittaPartenza)
+				&& this.cittaArrivo.equals(cittaArrivo) && this.via.equals(via))
 			return true;
 		return false;
 	}
-	
+
 }

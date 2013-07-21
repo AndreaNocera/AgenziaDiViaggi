@@ -1,22 +1,26 @@
 package voyager.nove.model.viaggio;
 
-import voyager.nove.model.viaggio.basic.IDEsternoElemento;
-import voyager.nove.persistence.dao.ViaDAO;
+import voyager.nove.exception.DAOException;
+import voyager.nove.persistence.dao.DAOVia;
 
-public class Via extends ElementoFinale  {
+public class Via extends ElementoFinale{
 	
-	final public static String DIRETTO = "(Diretto)";
-	
-	public Via(IDEsternoElemento idEsternoElemento){
-		super(idEsternoElemento);
-		
-		ViaDAO dao = ViaDAO.getIstanza();
-		Integer id = dao.insertAndReturnId(idEsternoElemento);
-		setID(id);
+	public Via(){
+		super();
 	}
 	
-	public Via(Integer ID, IDEsternoElemento idEsternoElemento){
-		super(ID, idEsternoElemento);
+	public Via(Integer id, String valore){
+		super(id,valore);
+	}	
+	
+	public void save() throws DAOException{
+		DAOVia daoVia = DAOVia.getInstance();
+		daoVia.insert(this);
 	}
-
+	
+	public static Via getObjectByValue(String via) throws DAOException{
+		DAOVia daoVia = DAOVia.getInstance();
+		return daoVia.getObjectByValue(via);
+	}
+	
 }

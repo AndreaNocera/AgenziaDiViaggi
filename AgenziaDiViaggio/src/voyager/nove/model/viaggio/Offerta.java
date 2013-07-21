@@ -1,79 +1,155 @@
 package voyager.nove.model.viaggio;
 
-import voyager.nove.model.viaggio.basic.Data;
-import voyager.nove.persistence.dao.OffertaDAO;
+import voyager.nove.exception.DAOException;
+import voyager.nove.exception.DataException;
+import voyager.nove.persistence.dao.DAOOfferta;
 
-/**
- * @authors 
- * Remo Sperlongano
- * Ivan Torre
- */
 public class Offerta {
-	
+
 	private Integer idOfferta;
 	private Integer idTratta;
-	private Data dataPartenza;
-	private Data dataArrivo;
+	private Data data;
+	private Ora oraPartenza;
+	private Ora oraArrivo;
 	private Integer posti;
-	
+	private MapPrenotazioni mapPrenotazioni;
+	private Data dataInserimentoOfferta;
 
-	public Offerta(Integer idTratta, Data dataPartenza, Integer durata, Integer posti) {
-		this.idTratta = idTratta;
-		this.dataPartenza = dataPartenza;
-		this.dataArrivo = dataPartenza.getNuovaData(durata);
-		this.posti = posti;
-		
-		//inserisco l'offerta appena creata nel db
-		OffertaDAO dao = OffertaDAO.getIstanza();
-		this.idOfferta = dao.insertAndReturnId(idTratta, dataPartenza, dataPartenza, posti);
+	public Offerta() throws DataException {
+		setIdOfferta(0);
+		setData(null);
+		setOraPartenza(null);
+		setOraArrivo(null);
+		setPosti(0);
+		mapPrenotazioni = new MapPrenotazioni();
+		dataInserimentoOfferta = new Data(Data.generaGiorno(),
+				Data.generaMese());
 	}
-	
-	
-	
-	public Offerta(Integer idOfferta, Integer idTratta, Data dataPartenza, Data dataArrivo, Integer posti){
+
+	public Offerta(Integer idOfferta, Integer idTratta, Data data, Ora oraPartenza, Ora oraArrivo,
+			Integer posti) throws DataException {
+		this.setIdOfferta(idOfferta);
+		this.setIdTratta(idTratta);
+		this.setData(data);
+		this.setOraPartenza(oraPartenza);
+		this.setOraArrivo(oraArrivo);
+		this.setPosti(posti);
+		this.mapPrenotazioni = new MapPrenotazioni();
+		dataInserimentoOfferta = new Data(Data.generaGiorno(),
+				Data.generaMese(), Data.generaAnno());
+	}
+
+	public Integer getIdOfferta() {
+		return idOfferta;
+	}
+
+	public void setIdOfferta(Integer idOfferta) {
 		this.idOfferta = idOfferta;
+	}
+
+	public Integer getIdTratta() {
+		return idTratta;
+	}
+
+	public void setIdTratta(Integer idTratta) {
 		this.idTratta = idTratta;
-		this.dataPartenza = dataPartenza;
-		this.dataArrivo = dataArrivo;
+	}
+
+	public Data getData() {
+		return data;
+	}
+
+	public void setData(Data data) {
+		this.data = data;
+	}
+
+	public Ora getOraPartenza() {
+		return oraPartenza;
+	}
+
+	public void setOraPartenza(Ora ora) {
+		this.oraPartenza = ora;
+	}
+
+	public Ora getOraArrivo() {
+		return oraArrivo;
+	}
+	
+	public void setOraArrivo(Ora ora) {
+		this.oraArrivo = ora;
+	}
+
+	public Integer getPosti() {
+		return posti;
+	}
+
+	public void setPosti(Integer posti) {
 		this.posti = posti;
 	}
 
-
-	public boolean verifyExistence(Integer idTratta, Data dataPartenza){
-		//serve per verificare se l'offerta da inserire e' gia presente
-		if(this.idTratta.equals(idTratta) &&
-		   this.dataPartenza.equals(dataPartenza)) return true;
-		else return false;
-		
+	public Data getDataInserimento() {
+		return this.dataInserimentoOfferta;
 	}
-	
-	
-	public boolean verifyExistence(Integer idTratta) {
-		//serve per verificare se nella lista delle offerte, c'e' almeno un offerta per una particolare tratta
-		//evita di eliminare quella tratta
-		if (this.idTratta.equals(idTratta))
+
+	public void setDataInserimento(Data data) {
+		this.dataInserimentoOfferta = data;
+	}
+
+	public MapPrenotazioni getMapPrenotazioni() {
+		return mapPrenotazioni;
+	}
+
+	public void setMapPrenotazioni(MapPrenotazioni mapPrenotazioni) {
+		this.mapPrenotazioni = mapPrenotazioni;
+	}
+
+	public String getString() {
+		return idOfferta + " " + data.getString() + " "
+				+ oraPartenza.getString() + " " + oraArrivo.getString() + " "
+				+ posti + " " + dataInserimentoOfferta.getString();
+	}
+
+	public boolean contains(Integer idTratta, Integer giorno, Integer mese,
+			Integer anno, Integer oraPartenza, Integer minutiPartenza,
+			Integer oraArrivo, Integer minutiArrivo, Integer posti) {
+		// TODO Auto-generated method stub
+		if (this.idTratta.equals(idTratta)
+				&& this.data.contains(giorno, mese, anno)
+				&& this.oraPartenza.contains(oraPartenza, minutiPartenza)
+				&& this.oraArrivo.contains(oraArrivo, minutiArrivo)
+				&& this.posti.equals(posti))
 			return true;
 		return false;
 	}
 
-	public Integer getIdOfferta(){
-		return idOfferta;
+	public void print() {
+		System.out.print(idOfferta + " ");
+		data.print();
+		oraPartenza.print();
+		oraArrivo.print();
+		System.out.print(posti + " ");
+		dataInserimentoOfferta.print();
+		System.out.println();
 	}
-	
-	public Data getData(){
-		return dataPartenza;
+
+	public void save() throws DAOException {
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
+		daoOfferta.insert(this);
 	}
-	
-	public Data getDataArrivo(){
-		return dataArrivo;
+
+	public void delete() throws DAOException {
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
+		daoOfferta.delete(this);
 	}
-	
-	public Integer getIdTratta(){
-		return idTratta;
+
+	public static Integer getNextId() throws DAOException {
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
+		return daoOfferta.getNextId();
 	}
-	
-	public Integer getPosti(){
-		return posti;
+
+	public void updatePosti(Integer posti) {
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
+		daoOfferta.updatePosti(this, posti);
 	}
-	
+
 }

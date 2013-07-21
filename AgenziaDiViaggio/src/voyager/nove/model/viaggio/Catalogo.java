@@ -1,343 +1,632 @@
 package voyager.nove.model.viaggio;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Collections;
+import java.util.List;
 
-import voyager.nove.exception.IDEsternoElementoException;
-import voyager.nove.exception.MappaException;
-import voyager.nove.exception.OffertaInesistenteException;
-import voyager.nove.exception.OfferteNonPresentiException;
-import voyager.nove.exception.TrattaInesistenteException;
-import voyager.nove.model.viaggio.basic.Data;
-import voyager.nove.model.viaggio.map.MappaCatalogo;
-import voyager.nove.persistence.dao.CatalogoDAO;
-import voyager.nove.persistence.dao.OffertaDAO;
-import voyager.nove.persistence.dao.TrattaDAO;
+import voyager.nove.exception.CatalogoException;
+import voyager.nove.exception.DAOException;
+import voyager.nove.exception.DataException;
+import voyager.nove.exception.MapException;
+import voyager.nove.exception.OraException;
+import voyager.nove.persistence.dao.DAOBiglietto;
+import voyager.nove.persistence.dao.DAOCatalogo;
+import voyager.nove.persistence.dao.DAOOfferta;
+import voyager.nove.persistence.dao.DAOPrenotazione;
 
-/**
- * @authors 
- * Remo Sperlongano
- * Ivan Torre
- */
 public class Catalogo {
 	
-	//attributi di classe
-	private static Catalogo istanza;
-	
-	//attributi di istanza
-	private ArrayList<Tratta> listaTratte;
-	private ArrayList<Offerta> listaOfferte;
-	private ArrayList<Prenotazione> listaPrenotazioni;
-	
-	private MappaCatalogo mappaCatalogo;
-	
-	//costruttore
-	private Catalogo() {
-		listaTratte = new ArrayList<Tratta>();
-		listaOfferte = new ArrayList<Offerta>();
-		mappaCatalogo = new MappaCatalogo(); //istanziato il catalogo, creo subito una mappa per gli ambienti
-		CatalogoDAO dao = CatalogoDAO.getIstanza();
-		listaTratte = dao.getCatalogo();
-		OffertaDAO offertaDao = OffertaDAO.getIstanza();
-		listaOfferte = offertaDao.getListaOfferte();
+	private static Catalogo catalogo;
+	private static DAOCatalogo daoCatalogo;
+	private List<Tratta> tratte;
+	private List<Offerta> offerte;
+	private List<Prenotazione> prenotazioni;
+	private static MapCatalogo<ElementoCatalogo> mapCatalogo;
+
+	private Catalogo() throws DAOException, MapException, SQLException, DataException, OraException, CatalogoException {
 		
-		try {
-			caricaCatalogo();
-		} catch (IDEsternoElementoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		daoCatalogo = DAOCatalogo.getInstance();
+		tratte = Collections.synchronizedList(daoCatalogo.getCatalogo());
+		createMap();
+	}
+
+	public static synchronized Catalogo getInstance() throws DAOException, MapException,
+			SQLException, DataException, OraException, CatalogoException {
+		if (catalogo == null)
+			catalogo = new Catalogo();
+		return catalogo;
+	}
+	
+	public synchronized void inserimentoInCatalogo(Tratta tratta) throws MapException, DAOException {
+		tratte.add(tratta);
+		tratta.save();
+		inserimentoInMapTratte(tratta);
+	}
+
+	public synchronized void rimozioneInCatalogo(Tratta tratta) throws CatalogoException, DAOException, MapException {
+		tratte.remove(tratta);
+		tratta.delete();
+		deleteInMapTratte(tratta);
+	}
+	
+	public List<Tratta> visualizzaCatalogo() throws CatalogoException {
+		return tratte;
+	}
+
+	public void printListaOfferte() {
+		synchronized(offerte){
+			for (Offerta offerta : offerte)
+				offerta.print();
 		}
-		
-	}
-	
-	
-	// metodi
-	public static Catalogo getIstanza(){
-		if (istanza == null){
-			istanza = new Catalogo();
-		}
-		return istanza;
-	}
-	
-	
-	public boolean verificaEsistenzaViaggio(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws IDEsternoElementoException{	
-	/*	//IMPLEMENTAZIONE CON LISTA
-		for (Tratta tratta : listaTratte){
-			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
-				return true;
-		}
-		return false;
-	*/
-		
-		//IMPLEMENTAZIONE ORIGINARIA CON MAPPA
-		/*
-		 * Non va in exception: prima di prendere un elemento, verifica la sua esistenza...se c'è, lo prende, se non c'è, ritorna con false
-		 */
-		
-		if (!mappaCatalogo.esistenzaElemento(ambiente)) return false;	//Se non c'è l'elemento ambiente nella prima mappa torna subito con false, altrimenti continua
-		ElementoCatalogo amb = mappaCatalogo.getElemento(ambiente);
-		if (!amb.esistenzaElemento(mezzo)) return false;  //se nn c'è il mezzo ritorna con false, altrimenti continua
-		ElementoCatalogo mez = amb.getElemento(mezzo);
-		if (!mez.esistenzaElemento(cittaPartenza)) return false;
-		ElementoCatalogo part = mez.getElemento(cittaPartenza);
-		if (!part.esistenzaElemento(cittaArrivo)) return false;
-		ElementoCatalogo arr = part.getElemento(cittaArrivo);
-		if (!arr.esistenzaElemento(via)) return false;
-		
-		// Se tutti i controlli hanno dato esisto negativo, allora il viaggio è già presente
-		return true;
-	}
-	
-	
-	//NUOVA IMPLEMENTAZIONE CON MAPPA. Verifica se esista o meno una determinata offerta.
-	public boolean verificaEsistenzaOfferta(String ambiente, String mezzo, String partenza, String arrivo, String via, Data dataPartenza) throws IDEsternoElementoException {
-		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).esistenzaOfferta(dataPartenza);
 	}
 
-	//IMPLEMENTAZIONE CON LISTA. Verifica se esista o meno una determinata offerta.
-	public boolean verificaEsistenzaOfferta(Integer idTratta, Data dataPartenza) {
-		for (Offerta offerta : listaOfferte) {
-			if (offerta.verifyExistence(idTratta, dataPartenza)){
-				return true;
-			}
-		} return false;
-		
-	}
-
-	
-	//IMPLEMENTAZIONE ORIGINARIA CON MAPPA. Verifica se esistono offerte per un determinato viaggio. Un viaggio non puo' essere rimosso se esistono offerte ad esso associate.
-	public boolean verificaEsistenzaOfferte(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws IDEsternoElementoException {
-		return !mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(cittaPartenza).getElemento(cittaArrivo).getElemento(via).isEmpty();
-	}
-	
-	//IMPLEMENTAZIONE CON LISTA. Verifica se esistono offerte per un determinato viaggio. Un viaggio non puo' essere rimosso se esistono offerte ad esso associate.
-	public boolean verificaEsistenzaOfferte(Integer idTratta){
-		for (Offerta offerta : listaOfferte){
-			if(offerta.verifyExistence(idTratta))
-				return true;
-		}
-		return false;
-	}
-
-	
-	public boolean verificaEsistenzaPrenotazioni(){
-		return false;
-		
-	}
-	
-	
-	public void aggiungiViaggioAlCatalogo(Tratta tratta) throws IDEsternoElementoException{
-		
-		listaTratte.add(tratta);
-		
-		aggiungiInMappaCatalogo(tratta);
-		
-	}
-	
-
-	public void rimuoviViaggioDalCatalogo(Tratta tratta) throws IDEsternoElementoException{
-		
-		listaTratte.remove(tratta);
-		
-		rimuoviDaMappaCatalogo(tratta);
-		
-		TrattaDAO dao = TrattaDAO.getIstanza();
-		dao.delete(tratta);
-		
-	}
-	
-	
-	public void aggiungiOffertaAlCatalogo(Offerta offerta, Tratta tratta) throws IDEsternoElementoException{
-		listaOfferte.add(offerta);
-		
-		aggiungiInMappaOfferte(tratta, offerta);
-	}
-	
-	
-	public void rimuoviOffertaDalCatalogo(Offerta offerta, Tratta tratta) throws IDEsternoElementoException, OffertaInesistenteException {
-		listaOfferte.remove(offerta);
-		
-		rimuoviDaMappaOfferte(tratta, offerta);
-		
-		OffertaDAO dao = OffertaDAO.getIstanza();
-		dao.delete(offerta);
-		
-	}
-
-
-	public void caricaCatalogo() throws IDEsternoElementoException{
-		for (Tratta tratta : listaTratte){
-			aggiungiInMappaCatalogo(tratta);
-			caricaOfferte(tratta);
+	public void printListaPrenotazioni() {
+		synchronized (prenotazioni) {
+			for (Prenotazione prenotazione : prenotazioni)
+				prenotazione.print();
 		}
 	}
 	
-	public void caricaOfferte(Tratta tratta) throws IDEsternoElementoException{
-		for (Offerta offerta : listaOfferte){
-			if (tratta.getID().equals(offerta.getIdTratta()))
-				aggiungiInMappaOfferte(tratta, offerta);
-		}
+	public synchronized static Integer getNextIdTratta() throws DAOException {
+		return daoCatalogo.getNextId();
 	}
-	
 
-	public Set<String> getChiaviAmbienti() throws MappaException {
-		Set<String> ambienti = mappaCatalogo.keySet();
-		if (ambienti.isEmpty())
-			throw new MappaException("Non sono presenti Viaggi nel Catalogo.");
-		else
-			return ambienti;
-	}
-	
-	public Set<String> getChiaviMezzi(String ambiente) throws IDEsternoElementoException {
-		return mappaCatalogo.getElemento(ambiente).listaChiaviElementi();	
-	}
-	
-	public Set<String> getChiaviCittaDiPartenza(String ambiente, String mezzo) throws IDEsternoElementoException {
-		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).listaChiaviElementi(); 
-	}
-	
-	public Set<String> getChiaviCittaDiArrivo(String ambiente, String mezzo, String partenza) throws IDEsternoElementoException {
-		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).listaChiaviElementi();
-	}
-	
-	public Set<String> getChiaviVia(String ambiente, String mezzo, String partenza, String arrivo) throws IDEsternoElementoException{
-		return  mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).listaChiaviElementi();
-	}
-	
-	
-	public Set<Data> getChiaviOfferte(String ambiente, String mezzo, String partenza, String arrivo, String via) throws IDEsternoElementoException, OfferteNonPresentiException {
-		Set<Data> offerte = mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).listaChiaviOfferte();
-		if (offerte.isEmpty()){
-			throw new OfferteNonPresentiException("Non ci sono offerte per questo Viaggio.");
-		} else
-			return offerte;
-	
-	}
-	
-	
-	public Tratta getTrattaByValue(String ambiente, String mezzo, String cittaPartenza, String cittaArrivo, String via) throws TrattaInesistenteException{
-		for (Tratta tratta : listaTratte) {
-			if (tratta.verifyExistence(ambiente, mezzo, cittaPartenza, cittaArrivo, via))
+	public synchronized Tratta getTrattaById(Integer idTratta) throws CatalogoException {
+		for (Tratta tratta : tratte) {
+			if (tratta.getId().equals(idTratta))
 				return tratta;
 		}
-		throw new TrattaInesistenteException("Tratta non esistente.");
+		// Se la tratta non c'è errore nell'utilizzo
+		throw new CatalogoException("Errore in getTrattaById!!");
 	}
-	
-	public Offerta getOffertaByData(Integer idTratta, Data dataPartenza) throws OffertaInesistenteException {
-		//VECCHIA IMPLEMENTAZIONE DI MOSTRALISTAOFFERTAINCATALOGO
-		for (Offerta offerta : listaOfferte){
-			if (offerta.getIdTratta().equals(idTratta)){
-				if (offerta.getData().equals(dataPartenza)) {
-						return offerta;
+
+	public synchronized Tratta getTrattaByValue(Ambiente ambiente, Mezzo mezzo,
+			Citta cittaPartenza, Citta cittaArrivo, Via via)
+			throws CatalogoException {
+		for (Tratta tratta : tratte) {
+			if (tratta.contains(ambiente, mezzo, cittaPartenza, cittaArrivo,
+					via))
+				return tratta;
+		}
+		// Se la tratta non c'è errore nell'utilizzo
+		throw new CatalogoException("Errore in getTrattaByValue!!");
+	}
+
+	public synchronized Offerta getOffertaById(Integer idOfferta) throws CatalogoException {
+		for (Offerta offerta : offerte) {
+			if (offerta.getIdOfferta().equals(idOfferta))
+				return offerta;
+		}
+		// Se l'offerta non c'è errore nell'utilizzo
+		throw new CatalogoException("Errore in getOffertaById!!");
+	}
+
+	public synchronized Prenotazione getPrenotazioneById(Integer idPrenotazione)
+			throws CatalogoException {
+		for (Prenotazione prenotazione : prenotazioni) {
+			if (prenotazione.getIdPrenotazione().equals(idPrenotazione))
+				return prenotazione;
+		}
+		// Se l'offerta non c'ï¿½ errore nell'utilizzo
+		throw new CatalogoException("Errore in getPrenotazioneById!!");
+	}
+
+	public synchronized Offerta getOffertaByValue(Integer idTratta, Integer giorno,
+			Integer mese, Integer anno, Integer oraPartenza,
+			Integer minutiPartenza, Integer oraArrivo, Integer minutiArrivo,
+			Integer posti) throws CatalogoException {
+		// TODO Auto-generated method stub
+		for (Offerta offerta : offerte) {
+			if (offerta.contains(idTratta, giorno, mese, anno, oraPartenza,
+					minutiPartenza, oraArrivo, minutiArrivo, posti))
+				return offerta;
+		}
+		// Se la tratta non c'ï¿½ errore nell'utilizzo
+		throw new CatalogoException("Errore in getOffertaByValue!!");
+	}
+
+	/**
+	 * Get degli ambienti dalla mappa.
+	 * 
+	 * @return
+	 */
+	public synchronized List<Ambiente> getAmbienti() {
+		// TODO Auto-generated method stub
+		List<Ambiente> listAmbienti = new ArrayList<Ambiente>();
+		for (String key : mapCatalogo.keySet()) {
+			listAmbienti.add((Ambiente) mapCatalogo.get(key));
+		}
+		return listAmbienti;
+	}
+
+	/**
+	 * Get dei mezzi dalla mappa.
+	 * 
+	 * @param ambienteSelezionato
+	 * @return
+	 */
+	public synchronized List<Mezzo> getMezzi(Ambiente ambiente) {
+		// TODO Auto-generated method stub
+		String ambienteSelezionato = ambiente.getValore();
+		List<Mezzo> listaMezzi = new ArrayList<Mezzo>();
+		MapCatalogo<ElementoCatalogo> mapAmbiente = ((Ambiente) mapCatalogo
+				.get(ambienteSelezionato)).getMapCatalogo();
+
+		for (String key : mapAmbiente.keySet()) {
+			listaMezzi.add((Mezzo) mapAmbiente.get(key));
+		}
+		return listaMezzi;
+	}
+
+	/**
+	 * Get delle citta di partenza dalla mappa.
+	 * 
+	 * @param ambienteselezionato
+	 * @param mezzoselezionato
+	 * @return
+	 */
+	public synchronized List<Citta> getCittaPartenza(Ambiente ambiente, Mezzo mezzo) {
+		// TODO Auto-generated method stub
+		String ambienteSelezionato = ambiente.getValore();
+		String mezzoSelezionato = mezzo.getValore();
+		List<Citta> listaCittaPartenza = new ArrayList<Citta>();
+		MapCatalogo<ElementoCatalogo> mapAmbiente = ((Ambiente) mapCatalogo
+				.get(ambienteSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapMezzo = ((Mezzo) mapAmbiente
+				.get(mezzoSelezionato)).getMapCatalogo();
+		for (String key : mapMezzo.keySet()) {
+			listaCittaPartenza.add((Citta) mapMezzo.get(key));
+		}
+		return listaCittaPartenza;
+	}
+
+	/**
+	 * Get delle citta di arrivo della mappa
+	 * 
+	 * @param ambiente
+	 * @param mezzo
+	 * @param cittaPartenza
+	 * @return
+	 */
+	public synchronized List<Citta> getCittaArrivo(Ambiente ambiente, Mezzo mezzo,
+			Citta cittaPartenza) {
+		// TODO Auto-generated method stub
+		String ambienteSelezionato = ambiente.getValore();
+		String mezzoSelezionato = mezzo.getValore();
+		String cittaPartenzaSelezionata = cittaPartenza.getValore();
+		List<Citta> listaCittaArrivo = new ArrayList<Citta>();
+		MapCatalogo<ElementoCatalogo> mapAmbiente = ((Ambiente) mapCatalogo
+				.get(ambienteSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapMezzo = ((Mezzo) mapAmbiente
+				.get(mezzoSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaPartenza = ((Citta) mapMezzo
+				.get(cittaPartenzaSelezionata)).getMapCatalogo();
+		for (String key : mapCittaPartenza.keySet()) {
+			listaCittaArrivo.add((Citta) mapCittaPartenza.get(key));
+		}
+		return listaCittaArrivo;
+	}
+
+	/**
+	 * Get delle vie della mappa.
+	 * 
+	 * @param ambiente
+	 * @param mezzo
+	 * @param cittaPartenza
+	 * @param cittaArrivo
+	 * @return
+	 */
+	public synchronized List<Via> getVia(Ambiente ambiente, Mezzo mezzo,
+			Citta cittaPartenza, Citta cittaArrivo) {
+		// TODO Auto-generated method stub
+		String ambienteSelezionato = ambiente.getValore();
+		String mezzoSelezionato = mezzo.getValore();
+		String cittaPartenzaSelezionata = cittaPartenza.getValore();
+		String cittaArrivoSelezionata = cittaArrivo.getValore();
+
+		List<Via> listaVia = new ArrayList<Via>();
+		MapCatalogo<ElementoCatalogo> mapAmbiente = ((Ambiente) mapCatalogo
+				.get(ambienteSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapMezzo = ((Mezzo) mapAmbiente
+				.get(mezzoSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaPartenza = ((Citta) mapMezzo
+				.get(cittaPartenzaSelezionata)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaArrivo = ((Citta) mapCittaPartenza
+				.get(cittaArrivoSelezionata)).getMapCatalogo();
+		for (String key : mapCittaArrivo.keySet()) {
+			listaVia.add((Via) mapCittaArrivo.get(key));
+		}
+		return listaVia;
+	}
+
+	/**
+	 * Get delle offerte dalla mappa.
+	 * 
+	 * @param ambiente
+	 * @param mezzo
+	 * @param cittaPartenza
+	 * @param cittaArrivo
+	 * @param via
+	 * @return
+	 */
+	public synchronized List<Offerta> getListaOfferte(Ambiente ambiente, Mezzo mezzo,
+			Citta cittaPartenza, Citta cittaArrivo, Via via) {
+		// TODO Auto-generated method stub
+		String ambienteSelezionato = ambiente.getValore();
+		String mezzoSelezionato = mezzo.getValore();
+		String cittaPartenzaSelezionata = cittaPartenza.getValore();
+		String cittaArrivoSelezionata = cittaArrivo.getValore();
+		String viaSelezionata = via.getValore();
+		List<Offerta> listaOfferta = new ArrayList<Offerta>();
+		MapCatalogo<ElementoCatalogo> mapMezzo = ((Ambiente) mapCatalogo
+				.get(ambienteSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaPartenza = ((Mezzo) mapMezzo
+				.get(mezzoSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaArrivo = ((Citta) mapCittaPartenza
+				.get(cittaPartenzaSelezionata)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapVia = ((Citta) mapCittaArrivo
+				.get(cittaArrivoSelezionata)).getMapCatalogo();
+		MapOfferta mapOfferta = ((Via) mapVia.get(viaSelezionata))
+				.getMapOfferta();
+		for (Integer key : mapOfferta.keySet()) {
+			listaOfferta.add(mapOfferta.get(key));
+		}
+		return listaOfferta;
+	}
+
+	public synchronized List<Prenotazione> getListaPrenotazioni(String ambienteSelezionato,
+			String mezzoSelezionato, String cittaPartenzaSelezionata,
+			String cittaArrivoSelezionata, String viaSelezionata,
+			Integer idOfferta) {
+		// TODO Auto-generated method stub
+		List<Prenotazione> listaPrenotazioni = new ArrayList<Prenotazione>();
+		MapCatalogo<ElementoCatalogo> mapMezzo = ((Ambiente) mapCatalogo
+				.get(ambienteSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaPartenza = ((Mezzo) mapMezzo
+				.get(mezzoSelezionato)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapCittaArrivo = ((Citta) mapCittaPartenza
+				.get(cittaPartenzaSelezionata)).getMapCatalogo();
+		MapCatalogo<ElementoCatalogo> mapVia = ((Citta) mapCittaArrivo
+				.get(cittaArrivoSelezionata)).getMapCatalogo();
+		MapOfferta mapOfferta = ((Via) mapVia.get(viaSelezionata))
+				.getMapOfferta();
+		Offerta offerta = mapOfferta.get(idOfferta);
+		MapPrenotazioni mapPrenotazioni = offerta.getMapPrenotazioni();
+
+		for (Integer key : mapPrenotazioni.keySet()) {
+			listaPrenotazioni.add(mapPrenotazioni.get(key));
+		}
+		return listaPrenotazioni;
+	}
+
+	public synchronized List<Prenotazione> getListaPrenotazioniByidOfferta(Integer idOfferta) {
+		List<Prenotazione> listaPrenotazioni = new ArrayList<Prenotazione>();
+		for (Prenotazione prenotazione : prenotazioni) {
+			if (prenotazione.getIdOfferta().equals(idOfferta))
+				listaPrenotazioni.add(prenotazione);
+		}
+		return listaPrenotazioni;
+	}
+
+	/**
+	 * Metodo di inserimento di un elemento nell'offerta.
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @throws DAOException
+	 */
+	public synchronized void inserimentoInOfferta(Tratta tratta, Offerta offerta)
+			throws DAOException {
+		// TODO Auto-generated method stub
+
+		offerte.add(offerta);
+		// Salvataggio dell'offerta sul database.
+		offerta.save();
+		// Salvataggio dell'offerta nella mappa
+		inserimentoInMapOfferta(tratta, offerta);
+	}
+
+	/**
+	 * Metodo di rimozione di un elemento dall'offerta
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @throws DAOException
+	 */
+	public synchronized void rimozioneInOfferta(Tratta tratta, Offerta offerta)
+			throws DAOException {
+		// TODO Auto-generated method stub
+
+		offerte.remove(offerta);
+		// Rimozione dell'offerta sul database
+		offerta.delete();
+		// Rimozione dell'offerta dalla mappa
+		deleteInMapOfferta(tratta, offerta);
+
+	}
+
+	/**
+	 * Metodo di inserimento di un elemento nelle prenotazioni
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @param prenotazione
+	 * @throws DAOException
+	 */
+	public synchronized void inserimentoInPrenotazione(Tratta tratta, Offerta offerta,
+			Prenotazione prenotazione) throws DAOException {
+		// TODO Auto-generated method stub
+
+		// Inserimento della prenotazione nella lista locale
+		prenotazioni.add(prenotazione);
+		// Inserimento prenotazione sul database
+		prenotazione.save();
+		// Inserimento della prenotazione nella mappa
+		inserimentoInMapPrenotazione(tratta, offerta, prenotazione);
+	}
+
+	/**
+	 * Metodo di rimozione di un elemento dalle prenotazioni
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @param prenotazione
+	 * @throws DAOException
+	 * @throws MapException
+	 */
+	public synchronized void rimozioneInPrenotazione(Tratta tratta, Offerta offerta,
+			Prenotazione prenotazione) throws DAOException, MapException {
+		// Rimozione della prenotazione dalla lista locale
+		prenotazioni.remove(prenotazione);
+		// Rimozione della prenotazione dal database
+		prenotazione.delete();
+		// Rimozione della prenotazione dalla mappa
+		deleteInMapPrenotazione(tratta, offerta, prenotazione);
+	}
+
+	/**
+	 * Metodo di creazione della mappa associata al catalogo.
+	 * 
+	 * @throws MapException
+	 * @throws OraException
+	 * @throws DataException
+	 * @throws SQLException
+	 * @throws CatalogoException
+	 * @throws DAOException
+	 */
+	private synchronized void createMap() throws MapException, SQLException, DataException,
+			OraException, CatalogoException, DAOException {
+
+		mapCatalogo = new MapCatalogo<ElementoCatalogo>();
+
+		// Caricamento delle tratte nella mappa
+		for (Tratta tratta : tratte)
+			inserimentoInMapTratte(tratta);
+
+		// Caricamento delle offerte nella mappa
+		DAOOfferta daoOfferta = DAOOfferta.getInstance();
+		offerte = Collections.synchronizedList(daoOfferta.getListaOfferta());
+		for (Offerta offerta : offerte) {
+			inserimentoInMapOfferta(getTrattaById(offerta.getIdTratta()),
+					offerta);
+		}
+
+		// Caricamento delle prenotazioni nella mappa
+		DAOPrenotazione daoPrenotazione = DAOPrenotazione.getInstance();
+		prenotazioni = Collections.synchronizedList(daoPrenotazione.getListaPrenotazioni());
+		for (Prenotazione prenotazione : prenotazioni) {
+			Offerta offertaRelativa = getOffertaById(prenotazione
+					.getIdOfferta());
+			Tratta trattaRelativa = getTrattaById(offertaRelativa.getIdTratta());
+			// Caricamento dei biglietti relativi alla prenotazione
+			DAOBiglietto daoBiglietto = DAOBiglietto.getInstance();
+			List<Biglietto> listaBiglietti = daoBiglietto
+					.getListaBigliettiByIdPrenotazione(prenotazione
+							.getIdPrenotazione());
+			prenotazione.setListaBiglietti(listaBiglietti);
+			inserimentoInMapPrenotazione(trattaRelativa, offertaRelativa,
+					prenotazione);
+		}
+	}
+
+	/**
+	 * Inserimento di un elemento nella mappa.
+	 * 
+	 * @param tratta
+	 * @throws MapException
+	 */
+	public synchronized void inserimentoInMapTratte(Tratta tratta) throws MapException {
+		// Data la tratta la voglio inserire nel Catalogo.
+
+		// Inserisco l'ambiente nella mappa
+		Ambiente ambiente = tratta.getAmbiente();
+		if (!mapCatalogo.verificaEsistenza(ambiente.getValore())) {
+			mapCatalogo
+					.insertElementoIntermedio(ambiente.getValore(), ambiente);
+		}
+		// Estrai l'oggetto inserito nella mappa. Potrebbe non essere quello di
+		// prima se giï¿½ presente.
+		ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(ambiente
+				.getValore());
+
+		// Inserisco il mezzo nella mappa
+		Mezzo mezzo = tratta.getMezzo();
+		if (!ambiente.getMapCatalogo().verificaEsistenza(mezzo.getValore())) {
+			ambiente.getMapCatalogo().insertElementoIntermedio(
+					mezzo.getValore(), mezzo);
+		}
+		// Estrai l'oggetto inserito nella mappa. Potrebbe non essere quello di
+		// prima se giï¿½ presente.
+		mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				mezzo.getValore());
+
+		// Inserisco la citta di partenza nella mappa
+		Citta cittaPartenza = tratta.getCittaPartenza();
+		if (!mezzo.getMapCatalogo()
+				.verificaEsistenza(cittaPartenza.getValore())) {
+			mezzo.getMapCatalogo().insertElementoIntermedio(
+					cittaPartenza.getValore(), cittaPartenza);
+		}
+		// Estrai l'oggetto inserito nella mappa. Potrebbe non essere quello di
+		// prima se giï¿½ presente.
+		cittaPartenza = (Citta) mezzo.getMapCatalogo().getElementoIntermedio(
+				cittaPartenza.getValore());
+
+		// Inserisco la citta di arrivo nella mappa
+		Citta cittaArrivo = tratta.getCittaArrivo();
+		if (!cittaPartenza.getMapCatalogo().verificaEsistenza(
+				cittaArrivo.getValore())) {
+			cittaPartenza.getMapCatalogo().insertElementoIntermedio(
+					cittaArrivo.getValore(), cittaArrivo);
+		}
+
+		// Estrai l'oggetto inserito nella mappa. Potrebbe non essere quello di
+		// prima se giï¿½ presente.
+		cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(cittaArrivo.getValore());
+
+		// Inserisco la via nella mappa
+		Via via = tratta.getVia();
+		if (!cittaArrivo.getMapCatalogo().verificaEsistenza(via.getValore())) {
+			cittaArrivo.getMapCatalogo().insertElementoFinale(via.getValore(),
+					via);
+		}
+
+	}
+
+	/**
+	 * Inserimento di un offerta della mappa
+	 * 
+	 * @param trattaById
+	 * @param offerta
+	 */
+	public synchronized void inserimentoInMapOfferta(Tratta tratta, Offerta offerta) {
+		// TODO Auto-generated method stub
+		// Estrazione mapAmbiente l'ambiente nella mappa
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		MapOfferta mapOfferta = via.getMapOfferta();
+		// Inserimento dell'offerta nella tratta associata
+		mapOfferta.insertRecord(offerta.getIdOfferta(), offerta);
+
+	}
+
+	/**
+	 * Inserimento di una prenotazione nella mappa
+	 * 
+	 * @param tratta
+	 * @param offerta
+	 * @param prenotazione
+	 */
+	public synchronized void inserimentoInMapPrenotazione(Tratta tratta,
+			Offerta offertaSelezionata, Prenotazione prenotazione) {
+		// TODO Auto-generated method stub
+		// Estrazione degli elementi dalla mappa.
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		Offerta offerta = (via.getMapOfferta()).get(offertaSelezionata
+				.getIdOfferta());
+		MapPrenotazioni mapPrenotazioni = offerta.getMapPrenotazioni();
+
+		// Inserimento della prenotazione nella mappa
+		mapPrenotazioni.insertRecord(prenotazione.getIdPrenotazione(),
+				prenotazione);
+	}
+
+	/**
+	 * Rimozione di un elemento dalla mappa.
+	 * 
+	 * @param tratta
+	 * @throws MapException
+	 */
+	public synchronized void deleteInMapTratte(Tratta tratta) throws MapException {
+		// TODO Auto-generated method stub
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+
+		// Rimozione della via. Tratta cancellata.
+		cittaArrivo.getMapCatalogo().removeRecord(via.getValore());
+		// Cancellazione a cascata.
+		if (cittaArrivo.getMapCatalogo().isEmpty()) {
+			cittaPartenza.getMapCatalogo()
+					.removeRecord(cittaArrivo.getValore());
+			if (cittaPartenza.getMapCatalogo().isEmpty()) {
+				mezzo.getMapCatalogo().removeRecord(cittaPartenza.getValore());
+				if (mezzo.getMapCatalogo().isEmpty()) {
+					ambiente.getMapCatalogo().removeRecord(mezzo.getValore());
+					if (ambiente.getMapCatalogo().isEmpty()) {
+						mapCatalogo.removeRecord(ambiente.getValore());
+					}
 				}
 			}
 		}
-		throw new OffertaInesistenteException("Offerta inesistente.");
-	}
-	
-	public Offerta getOffertaFromMappa(String ambiente, String mezzo, String partenza, String arrivo, String via, Data data) throws IDEsternoElementoException, OffertaInesistenteException {
-		
-		return mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).getOfferta(data);
-	}
-	
-	
-	private void aggiungiInMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
-		/*
-		 * Il controllo con esistenzaElemento() qui non e' piu' necessario, dal 
-		 * momento che il metodo aggiungiElemento() in MappaCatalogo (a sua 
-		 * volta richiamato dal metodo aggiungiElemento() in ElementoIntermedio) 
-		 * aggiunge un elemento solo se la chiave non esiste gia'. 
-		 */
-		
-		Ambiente ambiente = tratta.getAmbiente();
-		Mezzo mezzo = tratta.getMezzo();
-		Citta partenza = tratta.getPartenza();
-		Citta arrivo = tratta.getArrivo();
-		Via via = tratta.getVia();
-		
-		/*
-		 * Bisogna sempre verificare, prima di aggiungere un elemento alla tabella, se questo elemento e' gia' presente!
-		 */
-		
-		// Aggiungo l'ambiente in mappaCatalogo
-		mappaCatalogo.aggiungiElemento(ambiente.getIDEsternoElemento(), ambiente);
-		
-		// Aggiungo il mezzo nella mappa dell'ambiente prima aggiunto
-		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).aggiungiElemento(mezzo.getIDEsternoElemento(), mezzo);
-				
-		// Aggiungo cittaPartenza nella mappa del mezzo prima aggiunto
-		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).aggiungiElemento(partenza.getIDEsternoElemento(), partenza);
-		
-		// Aggiungo stazioneArrivo nella mappa della cittaPartenza prima aggiunta
-		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).getElemento(partenza.getIDEsternoElemento()).aggiungiElemento(arrivo.getIDEsternoElemento(), arrivo);
-				
-		// Aggiungo via nella mappa delle citta' di Arrivo
-		mappaCatalogo.getElemento(ambiente.getIDEsternoElemento()).getElemento(mezzo.getIDEsternoElemento()).getElemento(partenza.getIDEsternoElemento()).getElemento(arrivo.getIDEsternoElemento()).aggiungiElemento(via.getIDEsternoElemento(), via);
 
-		//System.out.println("Viaggio Aggiunto");
-		
-	}
-	
-	
-	private void rimuoviDaMappaCatalogo(Tratta tratta) throws IDEsternoElementoException {
-
-		ElementoCatalogo elementoAmbiente = mappaCatalogo.getElemento(tratta.getAmbiente().getIDEsternoElemento());
-		ElementoCatalogo elementoMezzo = elementoAmbiente.getElemento(tratta.getMezzo().getIDEsternoElemento());
-		ElementoCatalogo elementoPartenza = elementoMezzo.getElemento(tratta.getPartenza().getIDEsternoElemento());
-		ElementoCatalogo elementoArrivo = elementoPartenza.getElemento(tratta.getArrivo().getIDEsternoElemento());
-
-		// Rimuovo via dalla mappa
-		elementoArrivo.rimuoviElemento(tratta.getVia().getIDEsternoElemento());
-
-		// Se la mappa della citta' di arrivo non ha elementi, rimuovo la citta' di arrivo;
-		if (elementoArrivo.listaChiaviElementi().isEmpty())
-			elementoPartenza.rimuoviElemento(tratta.getArrivo().getIDEsternoElemento());
-		
-		// Se la mappa della citta' di partenza non ha elementi, rimuovo la citta' di partenza
-		if (elementoPartenza.listaChiaviElementi().isEmpty())
-			elementoMezzo.rimuoviElemento(tratta.getPartenza().getIDEsternoElemento());
-		
-		// Se la mappa del mezzo non ha elementi, rimuovo il mezzo
-		if (elementoMezzo.listaChiaviElementi().isEmpty())
-			elementoAmbiente.rimuoviElemento(tratta.getMezzo().getIDEsternoElemento());
-		
-		// Se la mappa dell'ambiente non ha elementi, rimuovo l'ambiente
-		if (elementoAmbiente.listaChiaviElementi().isEmpty())
-			mappaCatalogo.rimuoviElemento(tratta.getAmbiente().getIDEsternoElemento());
-
-		//System.out.println("Viaggio Rimosso");
-		
 	}
 
+	private synchronized void deleteInMapOfferta(Tratta tratta, Offerta offerta) {
+		// TODO Auto-generated method stub
+		// Estrazione mappe
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		MapOfferta mapOfferta = via.getMapOfferta();
+		// Inserimento dell'offerta nella tratta associata
+		mapOfferta.remove(offerta.getIdOfferta());
 
-	private void aggiungiInMappaOfferte(Tratta tratta, Offerta offerta) throws IDEsternoElementoException {
-		String ambiente = tratta.getAmbiente().getIDEsternoElemento();
-		String mezzo = tratta.getMezzo().getIDEsternoElemento();
-		String partenza = tratta.getPartenza().getIDEsternoElemento();
-		String arrivo = tratta.getArrivo().getIDEsternoElemento();
-		String via = tratta.getVia().getIDEsternoElemento();
-		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).aggiungiOfferta(offerta.getData(), offerta);
-		
 	}
 
-	private void rimuoviDaMappaOfferte(Tratta tratta, Offerta offerta) throws IDEsternoElementoException, OffertaInesistenteException {
-		String ambiente = tratta.getAmbiente().getIDEsternoElemento();
-		String mezzo = tratta.getMezzo().getIDEsternoElemento();
-		String partenza = tratta.getPartenza().getIDEsternoElemento();
-		String arrivo = tratta.getArrivo().getIDEsternoElemento();
-		String via = tratta.getVia().getIDEsternoElemento();
-		mappaCatalogo.getElemento(ambiente).getElemento(mezzo).getElemento(partenza).getElemento(arrivo).getElemento(via).rimuoviOfferta(offerta.getData());
+	private synchronized void deleteInMapPrenotazione(Tratta tratta,
+			Offerta offertaSelezionata, Prenotazione prenotazione)
+			throws MapException {
+		// TODO Auto-generated method stub
+		Ambiente ambiente = (Ambiente) mapCatalogo.getElementoIntermedio(tratta
+				.getAmbiente().getValore());
+		Mezzo mezzo = (Mezzo) ambiente.getMapCatalogo().getElementoIntermedio(
+				tratta.getMezzo().getValore());
+		Citta cittaPartenza = (Citta) mezzo.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaPartenza().getValore());
+		Citta cittaArrivo = (Citta) cittaPartenza.getMapCatalogo()
+				.getElementoIntermedio(tratta.getCittaArrivo().getValore());
+		Via via = (Via) cittaArrivo.getMapCatalogo().getElementoFinale(
+				tratta.getVia().getValore());
+		Offerta offerta = (via.getMapOfferta()).get(offertaSelezionata
+				.getIdOfferta());
+		MapPrenotazioni mapPrenotazioni = offerta.getMapPrenotazioni();
+
+		// Rimozione della prenotazione dalla mappa
+		mapPrenotazioni.removeRecord(prenotazione.getIdPrenotazione());
+
 	}
-
-
-
-
-
-
-	
-	
-
-
-
 }
-

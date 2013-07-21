@@ -1,49 +1,25 @@
 package voyager.nove.model.viaggio;
-
-import java.util.Set;
-
-import voyager.nove.exception.OffertaInesistenteException;
-import voyager.nove.model.viaggio.basic.Data;
-import voyager.nove.model.viaggio.basic.IDEsternoElemento;
-import voyager.nove.model.viaggio.map.MappaOfferte;
-import voyager.nove.model.viaggio.map.MappaOfferteComparator;
-
-public abstract class ElementoFinale extends ElementoCatalogo {
-
-	private MappaOfferte mappaOfferte;	
-	
-	public ElementoFinale(IDEsternoElemento idEsternoElemento) {
-		super(idEsternoElemento);
-		mappaOfferte = new MappaOfferte(new MappaOfferteComparator());
+/**
+ * 
+ * @author Gambella Riccardo
+ *
+ */
+public class ElementoFinale extends ElementoCatalogo{
+	private MapOfferta mapOfferta;
+	public ElementoFinale() {
+		// TODO Auto-generated constructor stub
+		super();
+		setMapOfferta(new MapOfferta());
 	}
-
-	public ElementoFinale(Integer ID, IDEsternoElemento idEsternoElemento) {
-		super(ID, idEsternoElemento);
-		mappaOfferte = new MappaOfferte(new MappaOfferteComparator());
-	}	
-
-	public void aggiungiOfferta(Data k, Offerta o){
-		mappaOfferte.aggiungiOfferta(k, o);
+	public ElementoFinale(Integer id, String valore) {
+		// TODO Auto-generated constructor stub
+		super(id,valore);
+		setMapOfferta(new MapOfferta());
 	}
-	
-	public void rimuoviOfferta(Data k) throws OffertaInesistenteException{
-		mappaOfferte.rimuoviOfferta(k);
+	public MapOfferta getMapOfferta() {
+		return mapOfferta;
 	}
-
-	public Offerta getOfferta(Data k) throws OffertaInesistenteException{
-		return mappaOfferte.getOfferta(k);
+	public void setMapOfferta(MapOfferta mapOfferta) {
+		this.mapOfferta = mapOfferta;
 	}
-
-	public Set<Data> listaChiaviOfferte() {
-		return mappaOfferte.keySet();
-	}	
-	
-	public boolean esistenzaOfferta(Data k){
-		return mappaOfferte.containsKey(k);
-	}
-
-	public boolean isEmpty(){
-		return mappaOfferte.isEmpty();
-	}
-
 }

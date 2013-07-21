@@ -1,5 +1,6 @@
 package voyager.nove.log;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,6 +28,12 @@ public class Log {
 	}
 	
 	public synchronized void scrivi(int tipoEvento, String soggetto, String oggetto){
+		
+		File dir = new File(LOG_DIR);
+		
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
 		
 		String pathLogFile = getLogFile(tipoEvento);
 		
@@ -136,6 +143,11 @@ public class Log {
 		header.append("] ");
 		
 		return header.toString();
+	}
+	
+	public static void main(String[] args){
+		Log log = Log.getInstance();
+		log.scrivi(Evento.GESTIONE_UTENTI, "Aministratore", "Aggiunto utente");
 	}
 	
 }

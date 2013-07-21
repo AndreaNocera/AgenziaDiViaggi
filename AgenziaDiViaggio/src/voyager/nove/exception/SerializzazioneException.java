@@ -1,22 +1,17 @@
-/*
- * Autori:
- * Remo Sperlongano
- * Ivan Torre
- */
-
-
 package voyager.nove.exception;
 
-public class SerializzazioneException extends Exception {
-	
-	private static final long	serialVersionUID	= 1L;
+public class SerializzazioneException extends Exception
+{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7439767609536558190L;
 
-	public SerializzazioneException(){
-		
-	}
+	public SerializzazioneException()
+	{}
 	
-	public SerializzazioneException(String m){
+	public SerializzazioneException(String m)
+	{
 		super(m);
 	}
-	
 }

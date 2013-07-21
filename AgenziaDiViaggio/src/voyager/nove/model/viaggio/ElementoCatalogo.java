@@ -1,84 +1,39 @@
 package voyager.nove.model.viaggio;
 
-import java.util.Set;
-
-import voyager.nove.exception.IDEsternoElementoException;
-import voyager.nove.exception.OffertaInesistenteException;
-import voyager.nove.model.viaggio.basic.Data;
-import voyager.nove.model.viaggio.basic.IDEsternoElemento;
-
-public abstract class ElementoCatalogo {
+public class ElementoCatalogo {
+	/** 
+	 * <!-- begin-UML-doc -->
+	 * <!-- end-UML-doc -->
+	 * @author Gambella Riccardo
+	 * @generated "UML a Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 */
 	
-	private Integer ID;
-	private IDEsternoElemento idEsternoElemento;
-	
-	public ElementoCatalogo (IDEsternoElemento idEsternoElemento){
-		this.idEsternoElemento = idEsternoElemento;	
+	private Integer id;
+	private String valore;
+	public ElementoCatalogo(){
+		id = 0;
+		valore = "";
 	}
-	
-	public ElementoCatalogo(Integer ID, IDEsternoElemento idEsternoElemento){
-		this.ID = ID;
-		this.idEsternoElemento = idEsternoElemento;
-	}	
-	
-	public Integer getID() {
-		return ID;
+	public ElementoCatalogo(Integer id, String valore){
+		this.id = id;
+		this.valore = valore;
 	}
-
-	public void setID(Integer iD) {
-		this.ID = iD;
+	public Integer getId() {
+		return id;
 	}
-
-	public String getIDEsternoElemento() {
-		return idEsternoElemento.toString();
-	}	
-	
-	public void print() {
-		System.out.println(this.getClass().getSimpleName() + " " + this.getID().toString() + " " +  this.getIDEsternoElemento().toString());
+	public void setId(Integer id) {
+		this.id = id;
 	}
-
-	public void aggiungiElemento(String key, ElementoCatalogo value){
-		
+	public String getValore() {
+		return valore;
+	}
+	public void setValore(String valore) {
+		this.valore = valore;
 	}
 	
-	public void rimuoviElemento(String key) throws IDEsternoElementoException {
-		
-	}
-	
-	public ElementoCatalogo getElemento(String k) throws IDEsternoElementoException{
-		return null;
-	}
-		
-	public Set<String> listaChiaviElementi(){
-		return null;
-	}
-	
-	public boolean esistenzaElemento(String k){
-		return false;	
-	}	
-	
-	public void aggiungiOfferta(Data key, Offerta value){
-		
-	}
-		
-	public void rimuoviOfferta(Data key) throws OffertaInesistenteException{
-		
-	}
-	
-	public Offerta getOfferta(Data k) throws OffertaInesistenteException{
-		return null;
-	}
-
-	public Set<Data> listaChiaviOfferte(){
-		return null;
-	}
-	
-	public boolean esistenzaOfferta(Data k){
+	public boolean equals(ElementoCatalogo elementoCatalogo){
+		if((this.id).equals(elementoCatalogo.getId()))
+				return true;
 		return false;
 	}
-	
-	public boolean isEmpty(){
-		return false;
-	}
-	
-}	
+}

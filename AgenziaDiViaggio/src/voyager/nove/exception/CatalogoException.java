@@ -1,17 +1,17 @@
 package voyager.nove.exception;
 
-public class PrenotazioneException extends Exception{
+public class CatalogoException extends Exception{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6018097198605476847L;
 
-	public PrenotazioneException(){
+	public CatalogoException(){
 		super();
 	}
 	
-	public PrenotazioneException(String messaggio){
+	public CatalogoException(String messaggio){
 		super(messaggio);
 	}
 }
