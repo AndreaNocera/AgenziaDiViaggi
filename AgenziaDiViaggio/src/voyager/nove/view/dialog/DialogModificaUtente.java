@@ -11,7 +11,7 @@
  * 
  */
 
-package voyager.nove.view.utils;
+package voyager.nove.view.dialog;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package voyager.nove.view;
+package voyager.nove.view.dialog;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

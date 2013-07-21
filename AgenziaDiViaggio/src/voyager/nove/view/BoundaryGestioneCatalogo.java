@@ -18,6 +18,9 @@ import javax.swing.SwingUtilities;
 
 import utils.swing.ButtonGroupHelper;
 import utils.swing.GBCHelper;
+import voyager.nove.view.dialog.DialogAggiungiViaggio;
+import voyager.nove.view.dialog.DialogEliminaViaggio;
+import voyager.nove.view.dialog.DialogVisualizzaCatalogo;
 
 /**  
  *  

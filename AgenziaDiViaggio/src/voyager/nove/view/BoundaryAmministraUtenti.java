@@ -28,8 +28,8 @@ import voyager.nove.exception.DatiUtenteInconsistentiException;
 import voyager.nove.exception.LoginInconsistenteException;
 import voyager.nove.model.utente.bean.UtenteBean;
 import voyager.nove.utils.swing.GBCHelper;
-import voyager.nove.view.utils.DialogModificaUtente;
-import voyager.nove.view.utils.DialogNuovoUtente;
+import voyager.nove.view.dialog.DialogModificaUtente;
+import voyager.nove.view.dialog.DialogNuovoUtente;
 import voyager.nove.view.utils.TabellaUtenti;
 
 public class BoundaryAmministraUtenti extends JPanel{

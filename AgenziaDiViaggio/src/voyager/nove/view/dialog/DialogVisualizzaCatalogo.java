@@ -1,7 +1,7 @@
 /**
  * Integrazione modello R. Gambella
  */
-package voyager.nove.view;
+package voyager.nove.view.dialog;
 
 import voyager.nove.control.ControllorePromotore;
 import voyager.nove.exception.CatalogoException;

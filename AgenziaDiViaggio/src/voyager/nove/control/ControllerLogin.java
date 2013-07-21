@@ -29,7 +29,7 @@ import voyager.nove.persistence.dao.UtenteJDBCDAO;
 import voyager.nove.utils.mailer.Mailer;
 import voyager.nove.utils.mailer.StandaloneMailer;
 import voyager.nove.view.BoundaryHome;
-import voyager.nove.view.utils.DialogReimpostaPassword;
+import voyager.nove.view.dialog.DialogReimpostaPassword;
 
 public class ControllerLogin {
 		
