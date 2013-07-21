@@ -16,7 +16,7 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 
 
-public class RadioGroupHelper {
+public class ButtonGroupHelper {
 	private ButtonGroup bg;
 
 	
@@ -45,7 +45,7 @@ public class RadioGroupHelper {
         }
     }
     
-    public RadioGroupHelper(ButtonGroup newbuttongroup){
+    public ButtonGroupHelper(ButtonGroup newbuttongroup){
         this.bg = newbuttongroup;
        }
     
